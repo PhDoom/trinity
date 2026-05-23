@@ -2,7 +2,7 @@
   "id": "trinity",
   "title": "Trinity Continuum",
   "description": "The Trinity Continuum system for FoundryVTT.",
-  "version": "0.4.1",
+  "version": "0.4.0",
   "compatibility": {
     "minimum": "12",
     "verified": "13",
