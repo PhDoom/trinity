@@ -10,9 +10,12 @@
   },
   "templateVersion": 2,
   "author": "Scott Martin, update by John Pingo",
-  "esmodules": ["module/trinity.js"],
-  "styles": ["css/trinity.css"],
-  "scripts": [],
+  "esmodules": [
+    "module/trinity.js"
+  ],
+  "styles": [
+    "css/trinity.css"
+  ],
   "packs": [
     {
       "name": "basic-npc-setup",
@@ -38,8 +41,6 @@
   ],
   "gridDistance": 5,
   "gridUnits": "ft",
-  "primaryTokenAttribute": null,
-  "secondaryTokenAttribute": null,
   "url": "https://github.com/PhDoom/trinity/",
   "manifest": "https://raw.githubusercontent.com/PhDoom/trinity/master/system.json",
   "download": "https://github.com/PhDoom/trinity/archive/refs/heads/master.zip",
