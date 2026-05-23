@@ -1,5 +1,5 @@
 {
-  "name": "trinity",
+  "id": "trinity",
   "title": "Trinity Continuum",
   "description": "The Trinity Continuum system for FoundryVTT.",
   "version": "0.4.1",
@@ -9,7 +9,7 @@
     "maximum": "14"
   },
   "templateVersion": 2,
-  "author": "Scott Martin",
+  "author": "Scott Martin, update by John Pingo",
   "esmodules": ["module/trinity.js"],
   "styles": ["css/trinity.css"],
   "scripts": [],
