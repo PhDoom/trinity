@@ -1,22 +1,14 @@
 /**
- * Extend the basic ActorSheet with some very simple modifications
+ * Extend the basic ActorSheet with modifications for V13 compatibility
  * @extends {ActorSheet}
  */
-
-//trinity roll 1
-// import { TrinityRoll } from "/systems/trinity/module/trinity-roll.js";
-
-// trinity roll 2
-import { trinityRoll } from "/systems/trinity/module/trinity-roll.js";
-
-
 export class TrinityActorSheet extends ActorSheet {
 
   /** @override */
   static get defaultOptions() {
     return mergeObject(super.defaultOptions, {
       classes: ["trinity", "sheet", "actor"],
-      template: "systems/trinity/templates/actor/trinity-actor-sheet.html",
+      template: "systems/trinity/templates/actor/actor-sheet.html",
       width: 600,
       height: 600,
       tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "description" }]
@@ -26,148 +18,61 @@ export class TrinityActorSheet extends ActorSheet {
   /* -------------------------------------------- */
 
   /** @override */
-  get template() {
-    const path = "systems/trinity/templates/actor";
-    // Return a single sheet for all item types.
-    // return `${path}/item-sheet.html`;
+  async getData() {
+    // Retrieve base data from the parent class
+    const context = super.getData();
 
-    // Alternatively, you could use the following return statement to do a
-    // unique item sheet by type, like `weapon-sheet.html`.
+    // V13 Migration: Use the 'system' property instead of 'data.data'
+    const actorData = context.actor.system;
+    
+    // Pass the system data directly to the template context
+    context.system = actorData;
+    context.flags = context.actor.flags;
+    context.config = CONFIG.TRINITY;
 
-    if (this.actor.data.type == 'TrinityCharacter') {
-      return `${path}/trinity-actor-sheet.html`;
-    }
-    if (this.actor.data.type == 'character') {
-      return `${path}/actor-sheet.html`;
-    }
-  }
-
-  /** @override */
-  getData() {
-    const data = super.getData();
-    data.dtypes = ["String", "Number", "Boolean"];
-//    for (let attr of Object.values(data.data.attributes)) {
-//      attr.isCheckbox = attr.dtype === "Boolean";
-//    }
-
-    // Prepare items.
-    if (this.actor.data.type == 'TrinityCharacter') {
-      this._prepareTrinityCharacterItems(data);
-    }
-    if (this.actor.data.type == 'Character') {
-      this._prepareCharacterItems(data);
+    // Prepare character items (gear, talents, etc.)
+    if (this.actor.type === 'character' || this.actor.type === 'npc') {
+      this._prepareItems(context);
     }
 
-// Test section - can I add more data here for other stuff?
-// No
-//    if (typeof rollparts !== 'undefined'){
-//      data.rollParts = rollparts;
-//    }
+    // Add roll data for formula resolution
+    context.rollData = context.actor.getRollData();
 
-    return data;
-  }
-
-
-  /**
-   * Organize and classify Items for TrinityCharacter sheets.
-   *
-   * @param {Object} actorData The actor to prepare.
-   *
-   * @return {undefined}
-   */
-  _prepareTrinityCharacterItems(sheetData) {
-    const actorData = sheetData.actor;
-
-    // Initialize containers.
-    const gear = [];
-    const skills = [];
-    const complications = [];
-    const paths = [];
-    const edges = [];
-
-    // Iterate through items, allocating to containers
-    // let totalWeight = 0;
-    for (let i of sheetData.items) {
-      let item = i.data;
-      i.img = i.img || DEFAULT_TOKEN;
-      // Append to gear.
-      if (i.type === 'item') {
-        gear.push(i);
-      }
-      // Append to edges.
-      else if (i.type === 'edge') {
-        edges.push(i);
-      }
-      else if (i.type === 'skill') {
-        skills.push(i);
-      }
-      else if (i.type === 'complication') {
-        complications.push(i);
-      }
-      else if (i.type === 'path') {
-        paths.push(i);
-      }
-    }
-
-    // Assign and return
-    actorData.gear = gear;
-    actorData.edges = edges;
-    actorData.skills = skills;
-    actorData.complications = complications;
-    actorData.paths = paths;
+    return context;
   }
 
   /**
    * Organize and classify Items for Character sheets.
-   *
-   * @param {Object} actorData The actor to prepare.
-   *
-   * @return {undefined}
+   * @param {Object} context The context object to mutate.
    */
-  _prepareCharacterItems(sheetData) {
-    const actorData = sheetData.actor;
-
-    // Initialize containers.
+  _prepareItems(context) {
+    // Initialize item containers
     const gear = [];
-    const edges = [];
-    const spells = {
-      0: [],
-      1: [],
-      2: [],
-      3: [],
-      4: [],
-      5: [],
-      6: [],
-      7: [],
-      8: [],
-      9: []
-    };
+    const weapons = [];
+    const armor = [];
+    const talents = [];
+    const stunts = [];
 
-    // Iterate through items, allocating to containers
-    // let totalWeight = 0;
-    for (let i of sheetData.items) {
-      let item = i.data;
+    // Iterate through all items owned by the actor
+    for (let i of context.items) {
+      // Access the item's system data (V13 standard)
+      const itemSystem = i.system;
       i.img = i.img || DEFAULT_TOKEN;
-      // Append to gear.
-      if (i.type === 'item') {
-        gear.push(i);
-      }
-      // Append to edges.
-      else if (i.type === 'edge') {
-        edges.push(i);
-      }
-      // Append to spells.
-      else if (i.type === 'spell') {
-        if (i.data.spellLevel != undefined) {
-          spells[i.data.spellLevel].push(i);
-        }
-      }
+
+      // Assign to specific lists based on item type
+      if (i.type === 'item') gear.push(i);
+      else if (i.type === 'weapon') weapons.push(i);
+      else if (i.type === 'armor') armor.push(i);
+      else if (i.type === 'talent') talents.push(i);
+      else if (i.type === 'stunt') stunts.push(i);
     }
 
-    // Assign and return
-    actorData.gear = gear;
-    actorData.edges = edges;
-    actorData.spells = spells;
+    // Assign categorized items back to the context for Handlebars to see
+    context.gear = gear;
+    context.weapons = weapons;
+    context.armor = armor;
+    context.talents = talents;
+    context.stunts = stunts;
   }
 
   /* -------------------------------------------- */
@@ -176,141 +81,62 @@ export class TrinityActorSheet extends ActorSheet {
   activateListeners(html) {
     super.activateListeners(html);
 
-    // Everything below here is only needed if the sheet is editable
+    // Editable-only listeners
     if (!this.options.editable) return;
 
-    // Add Inventory Item
+    // Item Creation
     html.find('.item-create').click(this._onItemCreate.bind(this));
 
-    // Update Inventory Item
+    // Item Editing
     html.find('.item-edit').click(ev => {
       const li = $(ev.currentTarget).parents(".item");
       const item = this.actor.items.get(li.data("itemId"));
       item.sheet.render(true);
     });
 
-    // Delete Inventory Item
+    // Item Deletion
     html.find('.item-delete').click(ev => {
       const li = $(ev.currentTarget).parents(".item");
-      this.actor.deleteOwnedItem(li.data("itemId"));
-      li.slideUp(200, () => this.render(false));
+      const itemId = li.data("itemId");
+      this.actor.deleteEmbeddedDocuments("Item", [itemId]);
     });
 
-    // Rollable abilities.
+    // Handle Rolls
     html.find('.rollable').click(this._onRoll.bind(this));
-
-    // Drag events for macros.
-    // if (this.actor.owner) {
-    if (this.actor.isOwner) {
-      let handler = ev => this._onDragStart(ev);
-      html.find('li.item').each((i, li) => {
-        if (li.classList.contains("inventory-header")) return;
-        li.setAttribute("draggable", true);
-        li.addEventListener("dragstart", handler, false);
-      });
-    }
   }
 
   /**
-   * Handle creating a new Owned Item for the actor using initial data defined in the HTML dataset
-   * @param {Event} event   The originating click event
+   * Handle creating a new Owned Item for the actor
    * @private
    */
-  _onItemCreate(event) {
+  async _onItemCreate(event) {
     event.preventDefault();
     const header = event.currentTarget;
-    // Get the type of item to create.
     const type = header.dataset.type;
-    // Grab any data associated with this control.
-    const data = duplicate(header.dataset);
-    // Initialize a default name.
-    const name = `New ${type.capitalize()}`;
-    // Prepare the item object.
     const itemData = {
-      name: name,
+      name: `New ${type.capitalize()}`,
       type: type,
-      data: data
+      system: {} // Initialize with empty system data
     };
-    // Remove the type from the dataset since it's in the itemData.type prop.
-    delete itemData.data["type"];
-
-    // Finally, create the item!
-    return this.actor.createOwnedItem(itemData);
+    return await this.actor.createEmbeddedDocuments("Item", [itemData]);
   }
 
-  /** -- Original-ish code
+  /**
    * Handle clickable rolls.
-   * @param {Event} event   The originating click event
    * @private
-   *
+   */
   _onRoll(event) {
     event.preventDefault();
     const element = event.currentTarget;
     const dataset = element.dataset;
-    console.log("Debug to figure out click to roll");
-    console.log(dataset);
 
     if (dataset.roll) {
-      let roll = new Roll(dataset.roll, this.actor.data.data);
+      let roll = new Roll(dataset.roll, this.actor.getRollData());
       let label = dataset.label ? `Rolling ${dataset.label}` : '';
-      roll.roll().toMessage({
+      roll.toMessage({
         speaker: ChatMessage.getSpeaker({ actor: this.actor }),
         flavor: label
       });
     }
   }
-
-*/
-
-// Code somewhat taken from PF2e, update in progress, replacing _onRoll above.
-// TrinityRoll.tRoll
-
-
-_onRoll(event) {
-  event.preventDefault();
-//  const element = event.currentTarget;
-//  const dataset = element.dataset;
-//  console.log("Debug to figure out click to roll");
-//  console.log(event);
-//  console.log(element);
-//  console.log(dataset);
-
-// trinity-roll
-//  TrinityRoll.tRoll(event, this.actor);
-
-// trinity-roll2
-//  trinityRoll(event, this.actor);
-  trinityRoll(this.actor, null, event);
-
-}
-
-
-
-/*
-
-
-
-
-
-  _onRoll(event: JQuery.Event, skillName: string) {
-      const skl = this.data.data.skills[skillName];
-      const rank = CONFIG.PF2E.proficiencyLevels[skl.rank];
-      const parts = ['@mod', '@itemBonus'];
-      const flavor = `${rank} ${CONFIG.PF2E.skills[skillName]} Skill Check`;
-
-      // Call the roll helper utility
-      DicePF2e.d20Roll({
-          event,
-          parts,
-          data: {
-              mod: skl.value - skl.item,
-              itemBonus: skl.item,
-          },
-          title: flavor,
-          speaker: ChatMessage.getSpeaker({ actor: this }),
-      });
-  }
-//End copied code
-*/
-
 }
