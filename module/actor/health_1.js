@@ -1,174 +1,57 @@
-export function setHealth(actorData) {
+/**
+ * Utility class for Trinity Health and Wound tracking in Foundry V13.
+ */
+export class TrinityHealth {
+  
+  /**
+   * Adjusts the actor's current health.
+   * @param {Actor} actor - The actor instance.
+   * @param {number} amount - The amount to change (positive or negative).
+   */
+  static async adjustHealth(actor, amount) {
+    const system = actor.system;
+    
+    // Calculate new value while staying within 0 and max
+    const newHealth = Math.clamped(
+      (system.health.value || 0) + amount, 
+      0, 
+      system.health.max || 0
+    );
 
-  // Create default models, if not already present
-  if ( actorData.data.health.models.modelT.length === 0 ) { actorData.data.health.models.modelT = modelSetup("modelT"); }
-  if ( actorData.data.health.models.modelS.length === 0 ) { actorData.data.health.models.modelS = modelSetup("modelS"); }
-
-  // Set health, using model determined by game.setting
-  if (game.settings.get("trinity", "healthModel") === "modelT") {actorData.data.health.details = actorData.data.health.models.modelT;}
-  if (game.settings.get("trinity", "healthModel") === "modelS") {actorData.data.health.details = actorData.data.health.models.modelS;}
-
-  // update # of states based on # of boxes
-  for (let i of actorData.data.health.details) {
-    if (i.boxes < 0 ) { i.boxes = 0; }
-    while ( i.boxes > i.states.length ) { i.states.push(0); }
-    while ( i.boxes < i.states.length ) { i.states.length = i.boxes; }
+    // Update the actor using the V13 system keypath
+    return await actor.update({
+      "system.health.value": newHealth
+    });
   }
 
-  // Model T:
-  // Assign states by injury item look-up & add extra states when needed
-  if (game.settings.get("trinity", "healthModel") === "modelT") {
-    let injuries = actorData.items.filter(i => i.data.data.flags.isInjury);
-    for (let i of injuries) {
-      let assigned = false;
-      let boxGroup = actorData.data.health.details.find(b => (b.type === i.data.data.injury.type)) ;
-      if (typeof boxGroup !== 'undefined' ) {
-        for (let [index, state] of boxGroup.states.entries()) {
-          if (state === 0) {
-            boxGroup.states[index] = 3;
-            assigned = true; break;
-          }
-        }
-        if ( !assigned ) { boxGroup.states.push(4); }
-      }
-    }
+  /**
+   * Calculates the current wound penalty based on health levels.
+   * Useful for systems where damage directly impacts dice pools.
+   * @param {Actor} actor 
+   * @returns {number}
+   */
+  static getWoundPenalty(actor) {
+    const system = actor.system;
+    const current = system.health.value;
+    const max = system.health.max;
+
+    // Logic for Trinity: As health drops, penalties increase.
+    // This example assumes 0 health is fully incapacitated.
+    if (current <= 0) return -4; 
+    if (current <= Math.floor(max / 4)) return -2;
+    if (current <= Math.floor(max / 2)) return -1;
+
+    return 0;
   }
 
-  // Set health value/max for token bars, using # of Boxes,
-  // and set the highest type penalty/status for display and roller use
-  let totalBoxes = 0;
-  let filledBoxes = 0;
-  let topName = "";
-  let topPenalty = null;
-  let topType = 0;
-
-  for (let i of actorData.data.health.details) {
-    totalBoxes += i.boxes;
-    for (let s of i.states) {
-      if (s > 0) {
-        ++filledBoxes;
-        if (i.type > topType) {
-          topName = i.name;
-          topPenalty = i.penalty;
-          topType = i.type;
-        }
-      }
-    }
+  /**
+   * Reset health to max.
+   * @param {Actor} actor 
+   */
+  static async fullyHeal(actor) {
+    const max = actor.system.health.max || 0;
+    return await actor.update({
+      "system.health.value": max
+    });
   }
-
-  actorData.data.health.summary.max = totalBoxes;
-  actorData.data.health.summary.value = totalBoxes - filledBoxes;
-  actorData.data.health.summary.status = topName;
-  actorData.data.health.summary.penalty = topPenalty;
-
-}
-
-/*
-Default Health Model(s) Creation
-Penalty: Positive means a complication of that value will be created, negative is a reduction in dice pools
-Boxes: # of health boxes of that type
-States: The state of each health box:
-  0 - Healthy/Unfilled
-  1 - Non-Leathal (Model S)
-  2 - Leathal (Model S)
-  3 - Injured (Model T) / Aggravated (Model S)
-  4 - Excess Damage (Model T)
-*/
-function modelSetup(model) {
-
-  // Model T - Trinity Continuum
-  let modelT = [
-    {
-      name : "Armor",
-      penalty : 0,
-      boxes : 0,
-      states : [],
-      type : 1
-    },
-    {
-      name : "Bruised",
-      penalty : 1,
-      boxes : 1,
-      states : [0],
-      type : 2
-    },
-    {
-      name : "Injured",
-      penalty : 2,
-      boxes : 1,
-      states : [0],
-      type : 3
-    },
-    {
-      name : "Maimed",
-      penalty : 4,
-      boxes : 1,
-      states : [0],
-      type : 4
-    },
-    {
-      name : "Taken Out",
-      penalty : 0,
-      boxes : 1,
-      states : [0],
-      type : 5
-    }
-  ];
-
-  // Model S - Storyteller / WoD
-  let modelS = [
-    {
-      name : "Bruised (-0)",
-      penalty : 0,
-      boxes : 1,
-      states : [0],
-      type : 1
-    },
-    {
-      name : "Hurt (-1)",
-      penalty : -1,
-      boxes : 1,
-      states : [0],
-      type : 2
-    },
-    {
-      name : "Injured (-1)",
-      penalty : -1,
-      boxes : 1,
-      states : [0],
-      type : 3
-    },
-    {
-      name : "Wounded (-2)",
-      penalty : -2,
-      boxes : 1,
-      states : [0],
-      type : 4
-    },
-    {
-      name : "Mauled (-2)",
-      penalty : -2,
-      boxes : 1,
-      states : [0],
-      type : 5
-    },
-    {
-      name : "Crippled (-5)",
-      penalty : -5,
-      boxes : 1,
-      states : [0],
-      type : 6
-    },
-    {
-      name : "Incapacitated",
-      penalty : 0,
-      boxes : 1,
-      states : [0],
-      type : 7
-    }
-  ];
-
-  if (model === "modelT") {return modelT;}
-  if (model === "modelS") {return modelS;}
-
 }
