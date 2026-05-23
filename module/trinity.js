@@ -5,6 +5,8 @@ import { TrinityItem } from "./item/trinity-item.js";
 import { TrinityItemSheet } from "./item/trinity-item-sheet.js";
 import { TrinityCombat } from "./combat/trinity-combat.js";
 import { registerSettings } from "./core/game-settings.js";
+import { registerHandlebarHelpers } from "./core/handlebar-helpers.js";
+import { registerHooks } from "./core/hooks.js";
 
 /* -------------------------------------------- */
 /*  Foundry VTT Initialization                  */
@@ -14,27 +16,28 @@ Hooks.once('init', async function() {
 
   console.log('Trinity | Initializing Trinity Continuum System');
 
-  // Register custom system settings
+  // 1. Register Core Logic & Listeners
   registerSettings();
+  registerHandlebarHelpers();
+  registerHooks(); // <--- Connects the hooks.js file we just updated
 
-  /**
-   * Set dynamic CONFIG values for V13
-   */
+  // 2. Map Custom Classes to CONFIG (V13 Requirement)
   CONFIG.Actor.documentClass = TrinityActor;
   CONFIG.Item.documentClass = TrinityItem;
   CONFIG.Combat.documentClass = TrinityCombat;
 
-  // Register sheet application classes
+  // 3. Register Sheet Application Classes
   Actors.unregisterSheet("core", ActorSheet);
   Actors.registerSheet("trinity", TrinityActorSheet, { makeDefault: true });
 
   Items.unregisterSheet("core", ItemSheet);
   Items.registerSheet("trinity", TrinityItemSheet, { makeDefault: true });
 
-  // Pre-load HTML templates for faster rendering
+  // 4. Pre-load HTML Templates
   return loadTemplates([
     "systems/trinity/templates/actor/actor-sheet.html",
-    "systems/trinity/templates/item/item-sheet.html"
+    "systems/trinity/templates/item/item-sheet.html",
+    "systems/trinity/templates/combat/focus-dialog.html"
   ]);
 });
 
@@ -43,32 +46,25 @@ Hooks.once('init', async function() {
 /* -------------------------------------------- */
 
 Hooks.once("ready", async function() {
-  // Logic that requires the game to be fully loaded (e.g., checking world versions)
-  console.log("Trinity | System Ready");
+  console.log("Trinity | System Ready for Action");
 });
 
 /* -------------------------------------------- */
 /*  Hotbar Macros                               */
 /* -------------------------------------------- */
 
-/**
- * Create a Macro from an Item drop.
- * Get an existing item macro if one exists, otherwise create a new one.
- * 
- * @param {Object} data     The dropped data
- * @param {number} slot     The hotbar slot to use
- * @returns {Promise}
- */
 Hooks.on("hotbarDrop", (bar, data, slot) => createTrinityMacro(data, slot));
 
 async function createTrinityMacro(data, slot) {
   if (data.type !== "Item") return;
-  if (!("data" in data)) return ui.notifications.warn("You can only create macros for owned Items");
-  const item = data.data;
+  const item = data.uuid ? await fromUuid(data.uuid) : data.data;
 
-  // Create the macro command
+  // V13 Migration: Use the safer fromUuid lookup for macro items
+  if (!item) return ui.notifications.warn("Could not find the selected Item.");
+
   const command = `game.trinity.rollItemMacro("${item.name}");`;
   let macro = game.macros.find(m => (m.name === item.name) && (m.command === command));
+  
   if (!macro) {
     macro = await Macro.create({
       name: item.name,
