@@ -1,6 +1,6 @@
 {
   "name": "trinity",
-  "version": "0.0.1",
+  "version": "0.4.1",
   "description": "CSS compiler for the Trinity system",
   "scripts": {
     "build": "gulp",
@@ -15,9 +15,10 @@
   "license": "MIT",
   "private": true,
   "dependencies": {
-    "gulp": "^4.0.2",
-    "gulp-autoprefixer": "^7.0.1",
-    "gulp-sass": "^4.1.0",
-    "gulp-sourcemaps": "^2.6.5"
+    "gulp": "^5.0.0",
+    "gulp-autoprefixer": "^9.0.0",
+    "gulp-sass": "^5.1.0",
+    "gulp-sourcemaps": "^3.0.0",
+    "sass": "^1.77.0"
   }
 }
