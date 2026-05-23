@@ -1,85 +1,63 @@
-import { trinityRoll } from "/systems/trinity/module/trinity-roll.js";
+/**
+ * Extend the base Combat entity for Trinity V13 initiative handling
+ * @extends {Combat}
+ */
+export class TrinityCombat extends Combat {
 
-export class TrinityCombat extends Combat
-{
+  /** @override */
+  async rollInitiative(ids, {formula=null, updateTurn=true, messageOptions={}}={}) {
 
-  async rollInitiative(ids, {formula=null, updateTurn=true, messageOptions={}}={})
-  {
-    // Structure input data
-    ids = typeof ids === "string" ? [ids] : ids;
-    const currentId = this.combatant?.id;
-    const rollMode = messageOptions.rollMode || game.settings.get("core", "rollMode");
-
-    let updates = [];
-    // for(const id of ids)
-    for ( let [i, id] of ids.entries() )
-    {
+    // Process either a single ID or an array of IDs
+    const iterations = Array.isArray(ids) ? ids : [ids];
+    
+    for ( let id of iterations ) {
+      // Find the combatant and their associated actor
       const combatant = this.combatants.get(id);
-      if ( !combatant?.isOwner ) return results;
+      if ( !combatant?.actor ) continue;
 
-      var ini = "";
+      const actor = combatant.actor;
+      // V13 Migration: Access system data instead of data.data
+      const system = actor.system;
 
-      // Actors w/o an initiative roll
-      if (combatant.actor.data.data.initiativeRollID === "") {
-        ini = 0;
-        let chatData = {
-          content: `${combatant.actor.data.name} has no initiative roll selected.`
-        };
-        ChatMessage.create(chatData)
-      } else {
+      /*
+       * Trinity Initiative Logic
+       * We use actor.getRollData() to ensure all attributes (@attributes.cunning.value, etc.)
+       * are correctly mapped via the fixes we made in trinity-actor.js.
+       */
+      const rollData = actor.getRollData();
+      
+      // Default to Cunning + 1d10 if no specific formula is provided
+      const rollFormula = formula || `1d10 + ${system.attributes.cunning.value || 0}`;
+      
+      const roll = new Roll(rollFormula, rollData);
+      
+      // V13 Requirement: Roll evaluation is now asynchronous
+      await roll.evaluate();
 
-      // Actors w/ an initiative roll selected
-        let pickedElements = combatant.actor.data.data.savedRolls[combatant.actor.data.data.initiativeRollID].elements;
-        let breaker = combatant.actor.data.data.savedRolls[combatant.actor.data.data.initiativeRollID].dice;
+      // Update the combatant's initiative value in the tracker
+      await this.updateEmbeddedDocuments("Combatant", [{
+        _id: id,
+        initiative: roll.total
+      }]);
 
-
-        let combatRoll = await trinityRoll(combatant.actor, pickedElements, {}, true);
-        /*
-        console.log("COMBAT combatRoll: ", combatRoll);
-        console.log("COMBAT combatRoll._total: ", await combatRoll._total);
-        ini = await combatRoll._total + (breaker * 0.01);
-        */
-
-        /*
-        const roll = combatant.getInitiativeRoll(formula);
-        await roll.evaluate({async: true});
-        */
-        combatRoll.then( (rr) => {
-          console.log("COMBAT C1: ", combatRoll.total);
-          console.log("COMBAT C2: ", combatRoll._total);
-          console.log("COMBAT C3: ", combatRoll._evaluated);
+      // Generate the Chat Message for the initiative roll
+      if ( messageOptions ) {
+        const speaker = ChatMessage.getSpeaker({
+          actor: actor,
+          token: combatant.token,
+          alias: combatant.name
         });
 
-        console.log("COMBAT A1: ", combatRoll.total);
-        console.log("COMBAT A2: ", combatRoll._total);
-        console.log("COMBAT A3: ", combatRoll._evaluated);
-
-        console.log("COMBAT B1: ", await combatRoll.total);
-        console.log("COMBAT B2: ", await combatRoll._total);
-        console.log("COMBAT B3: ", await combatRoll._evaluated);
-
-
-        ini = combatRoll._total + (breaker * 0.01);
-
-        console.log("COMBAT ini: ", ini);
+        const flavor = `${actor.name} rolls for Initiative!`;
+        
+        await roll.toMessage({
+          speaker: speaker,
+          flavor: flavor,
+          ...messageOptions
+        });
       }
-
-      updates.push({
-        _id: id,
-        initiative: ini
-      });
-      console.log("COMBAT updates:", updates);
-    }
-    if ( !updates.length ) return this;
-
-    console.log("COMBAT THIS:", this);
-    await this.updateEmbeddedDocuments("Combatant", updates);
-    // Ensure the turn order remains with the same combatant
-    if ( updateTurn && currentId ) {
-      await this.update({turn: this.turns.findIndex(t => t.id === currentId)});
     }
 
     return this;
   }
-
 }
