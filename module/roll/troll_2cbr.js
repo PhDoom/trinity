@@ -1,41 +1,48 @@
-export class TRoll {
+/**
+ * Foundry VTT v13 Compatible Roll Handler for Trinity/CBR
+ * Refactored to handle asynchronous Roll.evaluate()
+ */
 
-  constructor(rollTitle, formula) {
-    // (private) the resulting Roll() object from Foundry
-    this._roll = null;
+export async function rollTrinityCBR(numDice, difficulty = 0, flavor = "") {
+  // 1. Construct the formula
+  // Assuming the system uses a d10 pool where 7+ is a success and 10s explode/double
+  // (Adjust formula specifics below if your custom logic differs)
+  let formula = `${numDice}d10cs>=7`;
+  
+  // 2. Create the Roll instance
+  let roll = new Roll(formula);
 
-    // (private) a stack of mods to apply to the roll
-    this.mods = [];
+  // 3. MANDATORY V13 CHANGE: Evaluate the roll asynchronously
+  // Previous versions allowed synchronous evaluation; V13 will throw errors.
+  await roll.evaluate();
 
-    // a name for the roll, used in the UI
-    this.rollTitle = rollTitle || this.template;
+  // 4. Custom Success Logic
+  // Foundry v13 stores results in DiceTerm.results
+  let successes = roll.dice[0].results.reduce((count, r) => {
+    if (r.result >= 7) count++;
+    if (r.result === 10) count++; // Example: 10s count as two successes
+    return count;
+  }, 0);
 
-    // this assumes exactly 1 term, "XdY", which is passed to Foundry's Roll()
-    // any +A or -B terms are converted to mods
-    this.formula = this._processFormula(formula);
+  let finalResult = successes - difficulty;
+  let resultText = finalResult >= 0 ? "Success" : "Failure";
 
-    // the values of each face after a roll
-    this.faces = [];
+  // 5. Build the Chat Message
+  // Using the v13 compliant Roll.toMessage or ChatMessage.create
+  const chatData = {
+    user: game.user.id,
+    speaker: ChatMessage.getSpeaker(),
+    flavor: `${flavor} (Diff: ${difficulty})`,
+    content: `
+      <div class="trinity-roll">
+        <div class="roll-result ${resultText.toLowerCase()}">
+          <strong>${resultText}</strong> (${finalResult} Net Successes)
+        </div>
+      </div>
+    `,
+    type: CONST.CHAT_MESSAGE_TYPES.ROLL,
+    rolls: [roll] // Attach the roll object for the 3D dice and tooltips
+  };
 
-    // the result of the roll before applying mods or critical conditions
-    this.initialRoll = 0;
-
-    // skip rolling a critical die, such as with death saves
-    this.calculateCritical = true;
-    
-    // if a critical die was rolled, this is the stored result
-    this.criticalRoll = 0;
-
-    // the complete result of the roll after applying everything
-    this.resultTotal = 0;
-
-    // path to the right dialog box to pop up before rolling
-    this.rollPrompt = "systems/cyberpunk-red-core/templates/dialog/rolls/cpr-verify-roll-base-prompt.hbs";
-
-    // path to the roll card template for chat
-    this.rollCard = "systems/cyberpunk-red-core/templates/chat/cpr-base-rollcard.hbs";
-    LOGGER.log(`Created roll object`);
-  }
-
-
+  return ChatMessage.create(chatData);
 }
