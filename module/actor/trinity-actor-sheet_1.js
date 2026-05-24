@@ -1,142 +1,178 @@
 /**
- * Extend the basic ActorSheet with modifications for V13 compatibility
- * @extends {ActorSheet}
+ * Trinity Continuum Actor Sheet (Variant 1)
+ * Updated for Foundry V13 Compatibility & Modern Data Schema
  */
+
 export class TrinityActorSheet extends ActorSheet {
 
   /** @override */
   static get defaultOptions() {
-    return mergeObject(super.defaultOptions, {
-      classes: ["trinity", "sheet", "actor"],
-      template: "systems/trinity/templates/actor/actor-sheet.html",
-      width: 600,
-      height: 600,
-      tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "description" }]
+    return foundry.utils.mergeObject(super.defaultOptions, {
+      classes: ["trinity", "sheet", "actor", "v1"],
+      width: 820,
+      height: 850,
+      tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "character" }]
     });
   }
 
-  /* -------------------------------------------- */
+  /** @override */
+  get template() {
+    // Dynamically route to the _1.html templates we just updated
+    if (this.actor.type === "npc") {
+      return "systems/trinity/templates/actor/trinity-actor-sheet-npc_1.html";
+    }
+    return "systems/trinity/templates/actor/trinity-actor-sheet_1.html";
+  }
 
   /** @override */
-  async getData() {
-    // Retrieve base data from the parent class
-    const context = super.getData();
+  async getData(options) {
+    // V13: Asynchronous data preparation is mandatory
+    const context = await super.getData(options);
 
-    // V13 Migration: Use the 'system' property instead of 'data.data'
-    const actorData = context.actor.system;
-    
-    // Pass the system data directly to the template context
-    context.system = actorData;
-    context.flags = context.actor.flags;
-    context.config = CONFIG.TRINITY;
+    // Establish the V13 'system' shortcut for Handlebars
+    const actorData = context.actor;
+    context.system = actorData.system;
+    context.flags = actorData.flags;
 
-    // Prepare character items (gear, talents, etc.)
-    if (this.actor.type === 'character' || this.actor.type === 'npc') {
+    // V13: Asynchronous ProseMirror text enrichment
+    context.enrichedBiography = await TextEditor.enrichHTML(context.system.biography || "", {
+      async: true,
+      secrets: this.actor.isOwner,
+      relativeTo: this.actor
+    });
+
+    context.enrichedNotes = await TextEditor.enrichHTML(context.system.gmNotes || "", {
+      async: true,
+      secrets: this.actor.isOwner,
+      relativeTo: this.actor
+    });
+
+    // Prepare character-specific item sorting
+    if (actorData.type === 'character' || actorData.type === 'npc') {
       this._prepareItems(context);
     }
-
-    // Add roll data for formula resolution
-    context.rollData = context.actor.getRollData();
 
     return context;
   }
 
   /**
-   * Organize and classify Items for Character sheets.
-   * @param {Object} context The context object to mutate.
+   * Sort items into their proper categories for the Items & Powers tab
+   * @param {Object} context The actor context object
    */
   _prepareItems(context) {
-    // Initialize item containers
     const gear = [];
     const weapons = [];
     const armor = [];
-    const talents = [];
-    const stunts = [];
+    const edges = [];
+    const paths = [];
+    const powers = [];
 
-    // Iterate through all items owned by the actor
+    // V13: Iterate over the flat context.items array
     for (let i of context.items) {
-      // Access the item's system data (V13 standard)
-      const itemSystem = i.system;
-      i.img = i.img || DEFAULT_TOKEN;
-
-      // Assign to specific lists based on item type
-      if (i.type === 'item') gear.push(i);
+      i.img = i.img || DEFAULT_TOKEN; 
+      
+      if (i.type === 'gear' || i.type === 'item') gear.push(i);
       else if (i.type === 'weapon') weapons.push(i);
       else if (i.type === 'armor') armor.push(i);
-      else if (i.type === 'talent') talents.push(i);
-      else if (i.type === 'stunt') stunts.push(i);
+      else if (i.type === 'edge') edges.push(i);
+      else if (i.type === 'path') paths.push(i);
+      else if (i.type === 'power' || i.type === 'action') powers.push(i);
     }
 
-    // Assign categorized items back to the context for Handlebars to see
+    // Assign back to context so the partials (like all-items.html) can render them
     context.gear = gear;
     context.weapons = weapons;
     context.armor = armor;
-    context.talents = talents;
-    context.stunts = stunts;
+    context.edges = edges;
+    context.paths = paths;
+    context.powers = powers;
   }
-
-  /* -------------------------------------------- */
 
   /** @override */
   activateListeners(html) {
     super.activateListeners(html);
 
-    // Editable-only listeners
-    if (!this.options.editable) return;
+    if (!this.isEditable) return;
 
-    // Item Creation
+    // ---------------------------------------------------------
+    // Document Management (V13 API)
+    // ---------------------------------------------------------
+
+    // Add Item
     html.find('.item-create').click(this._onItemCreate.bind(this));
 
-    // Item Editing
+    // Edit Item
     html.find('.item-edit').click(ev => {
       const li = $(ev.currentTarget).parents(".item");
       const item = this.actor.items.get(li.data("itemId"));
-      item.sheet.render(true);
+      if (item) item.sheet.render(true);
     });
 
-    // Item Deletion
+    // Delete Item
     html.find('.item-delete').click(ev => {
       const li = $(ev.currentTarget).parents(".item");
-      const itemId = li.data("itemId");
-      this.actor.deleteEmbeddedDocuments("Item", [itemId]);
+      // V13 MUST use deleteEmbeddedDocuments
+      this.actor.deleteEmbeddedDocuments("Item", [li.data("itemId")]);
+      li.slideUp(200, () => this.render(false));
     });
 
-    // Handle Rolls
+    // ---------------------------------------------------------
+    // Roll Triggers
+    // ---------------------------------------------------------
+
+    // Attributes, Skills, and Rollable Labels
     html.find('.rollable').click(this._onRoll.bind(this));
+    
+    // Powers and Items
+    html.find('.roll-power').click(this._onItemRoll.bind(this));
   }
 
   /**
-   * Handle creating a new Owned Item for the actor
-   * @private
+   * Create new embedded items
    */
   async _onItemCreate(event) {
     event.preventDefault();
     const header = event.currentTarget;
     const type = header.dataset.type;
-    const itemData = {
-      name: `New ${type.capitalize()}`,
-      type: type,
-      system: {} // Initialize with empty system data
-    };
-    return await this.actor.createEmbeddedDocuments("Item", [itemData]);
+    const data = foundry.utils.duplicate(header.dataset);
+    const name = `New ${type.capitalize()}`;
+    const itemData = { name: name, type: type, system: data };
+    
+    delete itemData.system["type"];
+    
+    return await Item.create(itemData, { parent: this.actor });
   }
 
   /**
-   * Handle clickable rolls.
-   * @private
+   * Handle attribute/skill rolls via the dynamically imported prompt
    */
-  _onRoll(event) {
+  async _onRoll(event) {
     event.preventDefault();
     const element = event.currentTarget;
     const dataset = element.dataset;
 
-    if (dataset.roll) {
-      let roll = new Roll(dataset.roll, this.actor.getRollData());
-      let label = dataset.label ? `Rolling ${dataset.label}` : '';
-      roll.toMessage({
-        speaker: ChatMessage.getSpeaker({ actor: this.actor }),
-        flavor: label
-      });
+    const { TrinityRollPrompt } = await import("../dice/trinity-roll-prompt.js");
+
+    if (dataset.attribute) {
+      const val = this.actor.system.attributes[dataset.attribute]?.value || 0;
+      const config = await TrinityRollPrompt.confirmRoll(this.actor, { name: dataset.attribute });
+      await TrinityRollPrompt.executeRoll(this.actor, val, config);
+    }
+  }
+
+  /**
+   * Handle item/power rolls via the dynamically imported prompt
+   */
+  async _onItemRoll(event) {
+    event.preventDefault();
+    const li = $(event.currentTarget).parents(".item");
+    const item = this.actor.items.get(li.data("itemId"));
+    
+    if (item) {
+      const { TrinityRollPrompt3 } = await import("../dice/trinity-roll-prompt3.js");
+      const pool = item.system.dicePool || 0;
+      const config = await TrinityRollPrompt3.confirmRoll(this.actor, { pool: pool, name: item.name });
+      await TrinityRollPrompt3.executeRoll(this.actor, config);
     }
   }
 }
