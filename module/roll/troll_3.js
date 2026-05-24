@@ -1,75 +1,64 @@
-export class TRoll extends Roll {
+/**
+ * Trinity Continuum Roll Logic (Version 3) for Foundry V13.
+ * Handles specialized success counting, explosions, and chat rendering.
+ */
+export async function troll3({
+  parts = [],
+  data = {},
+  flavor = null,
+  targetNumber = 8,
+  doubleSuccess = 10,
+  difficulty = 0,
+  bonusDice = 0
+} = {}) {
+  
+  // 1. Construct the dice pool
+  // We combine the base parts and any bonus dice from the roll settings
+  const totalDice = parts.reduce((a, b) => a + b, 0) + bonusDice;
+  const formula = `${totalDice}d10cs>=${targetNumber}`;
+  
+  // 2. Instantiate the Roll
+  const roll = new Roll(formula, data);
 
-  constructor(formula, data={}, enh) {
-    super(formula, data={});
-    this.enh = enh;
+  // 3. MANDATORY V13 CHANGE: Asynchronous Evaluation
+  // Must await evaluation before accessing results or sending to chat.
+  await roll.evaluate();
+
+  // 4. Custom Success Processing
+  // We manually count successes to handle the "Double Success" rule
+  let successes = 0;
+  for (let term of roll.terms) {
+    if (term instanceof DiceTerm) {
+      term.results.forEach(r => {
+        if (r.result >= targetNumber) successes++;
+        if (r.result >= doubleSuccess) successes++;
+      });
+    }
   }
 
+  const netSuccesses = successes - difficulty;
+  const isSuccess = netSuccesses >= 0;
 
-/** Code for Foundry v7
-  evaluate({minimize=false, maximize=false}={}) {
+  // 5. Build the Chat Content
+  // V13 uses 'rolls' as an array and a simplified message structure
+  const chatData = {
+    user: game.user.id,
+    speaker: ChatMessage.getSpeaker(),
+    flavor: flavor || "Trinity Roll",
+    type: CONST.CHAT_MESSAGE_STYLES ? CONST.CHAT_MESSAGE_STYLES.ROLL : 5, 
+    rolls: [roll],
+    content: `
+      <div class="trinity-roll-v3">
+        <div class="dice-total ${isSuccess ? 'success' : 'failure'}">
+          ${netSuccesses} Successes
+        </div>
+        <div class="dice-details">
+          Difficulty: ${difficulty} | Target: ${targetNumber}
+        </div>
+      </div>
+    `
+  };
 
-    console.log("CUSTOM tROLL CLASS - tRoll.evaluate");
-
-    if ( this._evaluated ) throw new Error("This Roll object has already been rolled.");
-
-    // Step 1 - evaluate any inner Rolls and recompile the formula
-    let hasInner = false;
-    this.terms = this.terms.map((t, i, terms) => {
-      if ( t instanceof Roll ) {
-        hasInner = true;
-        t.evaluate({minimize, maximize});
-        this._dice = this._dice.concat(t.dice);
-        const priorMath = (i > 0) && (terms[i-1].split(" ").pop() in Math);
-        return priorMath ? `(${t.total})` : String(t.total);
-      }
-      return t;
-    });
-
-    // Step 2 - if inner rolls occurred, re-compile the formula and re-identify terms
-    if ( hasInner ) {
-      const formula = this.constructor.cleanFormula(this.terms);
-      this.terms = this._identifyTerms(formula);
-    }
-
-    // Step 3 - evaluate any remaining terms
-    this.results = this.terms.map(term => {
-      if ( term.evaluate ) return term.evaluate({minimize, maximize}).total;
-      else return term;
-    });
-
-    // Step 4 - safely evaluate the final total
-    var total = this.safeEval(this.results.join(" "));
-    if ( !Number.isNumeric(total) ) {
-      throw new Error(game.i18n.format("DICE.ErrorNonNumeric", {formula: this.formula}));
-    }
-
-    // MY TOTALLY HACKY HACK - NOT AT ALL THE RIGHT WAY TO DO THIS
-    if (total >= 1) {
-      total = total + this.enh;
-    }
-    // END OF HACKY HACK
-
-    // Store final outputs
-    this._total = total;
-    this._evaluated = true;
-    return this;
-  }
-**/
-
-// Foundry version 9 compatible code
-  _evaluateTotal() {
-      const expression = this.terms.map(t => t.total).join(" ");
-      var total = Roll.safeEval(expression);
-      if ( !Number.isNumeric(total) ) {
-        throw new Error(game.i18n.format("DICE.ErrorNonNumeric", {formula: this.formula}));
-      }
-      // MY TOTALLY HACKY HACK - NOT AT ALL THE RIGHT WAY TO DO THIS
-      if (total >= 1) {
-        total = total + this.enh;
-      }
-      return total;
-    }
-
-
+  // 6. Create the Chat Message
+  return ChatMessage.create(chatData);
 }
