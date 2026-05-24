@@ -1,76 +1,60 @@
-{{log "roll-dialog.html logging, this:" this}}
-<form class="{{cssClass}}">
-  <div id="overlay" class="overlay">
-    <div class="flex-parent-center-column">
-      <div class="nav flex-child flex-parent-wide">
-        <i class="xx-large fas fa-arrow-alt-circle-left back flex-valign"></i>
-        <div class="flex-child-full flex-valign back">Back to Roll Options</div>
-      </div>
-      <div class="flex-child-full">
-        ITEMS GO HERE
-        {{#each this.itemList as |item key|}}
-          <div class="boxed" id="{{item.id}}">
-            <span class="icons"> {{{toDots item.data.data.value}}} </span>
-            <span class=""> {{item.name}} </span> <br>
-            <span class="small-note"> {{item.id}} Misc - Replace by type {{attribute.approach}} - {{attribute.arena}} </span>
-          </div>
-        {{/each}}
-      </div>
+{{!-- Trinity Roll Dialog - Foundry V13 Compliant --}}
+<form class="trinity-dialog roll-dialog flexcol" autocomplete="off">
+  
+  {{!-- Pool Header --}}
+  <header class="dialog-header border-bottom mb-2 flexrow flex-between">
+    <h3 class="m-0">Build Dice Pool</h3>
+    <div class="base-pool-display font-weight-bold text-blue">
+      Base Pool: {{basePool}} Dice
+    </div>
+  </header>
+
+  {{!-- Difficulty & Complications Section --}}
+  <div class="form-group-row flexrow mb-2">
+    <div class="form-group flexcol flex-center px-1">
+      <label class="font-weight-bold small-label">Difficulty</label>
+      <input type="number" name="difficulty" value="{{difficulty}}" data-dtype="Number" class="text-center w-50"/>
+    </div>
+    
+    <div class="form-group flexcol flex-center px-1">
+      <label class="font-weight-bold small-label">Complications</label>
+      <input type="number" name="complications" value="0" data-dtype="Number" class="text-center w-50"/>
+    </div>
+
+    <div class="form-group flexcol flex-center px-1">
+      <label class="font-weight-bold small-label">Enhancement</label>
+      <input type="number" name="enhancement" value="{{enhancement}}" data-dtype="Number" class="text-center w-50"/>
     </div>
   </div>
-  <section class="sheet-body">
-    <div class="">
-      <div class="top-section">
-        <div class="grid grid-2col">
-          <button type="button" id="attributes" class="selector">Attributes <i class="fas fa-dice"></i></button>
-          <button type="button" id="skills" class="selector">Skills <i class="fas fa-dice"></i></button>
-          <button type="button" id="quantum" class="selector">Quantum <i class="fas fa-dice"></i></button>
-          <button type="button" id="powers" class="selector">Powers <i class="fas fa-dice"></i></button>
-        </div>
-      </div>
-      <div class="middle-section">
-        <div class="min-height">
-          Selected Die Pool Area
-        </div>
-        {{!-- Roll button --}}
-        <button type="button" id="roll" class="roll-button">Roll Xd+Ye</button>
-        <div class="min-height bottom">
-          Selected Enhancement Area
-        </div>
-      </div>
-      <div class="bottom-section">
-        <div class="grid grid-2col">
-          <button type="button" id="enhancements" class="grid-span2col selector">Enhancements <i class="fas fa-hashtag"></i></button>
-          <button type="button" id="showOptions" class="showOptions">Options <i class="fas fa-cog"></i></button>
-          <button type="button" id="save" class="">Save <i class="fas fa-save"></i></button>
-        </div>
-        <div class="grid grid-4col center-text options" id="options" style="display:none;">
-          <div class="">
-            <label class="small-note" for="succ" id="succ-label">
-              Success
-            </label><br>
-            <input class="narrow-input" type="number" id="succ" name="rollData.settings.succ" value="{{rollData.settings.succ}}" data-dtype="Number"/>
-          </div>
-          <div class="">
-            <label class="small-note" for="expl" id="expl-label">
-              Explode
-            </label><br>
-            <input class="narrow-input" type="number" id="expl" name="rollData.settings.expl" value="{{rollData.settings.expl}}" data-dtype="Number"/>
-          </div>
-          <div class="">
-            <label class="center-text small-note" for="nsca" id="nsca-label">
-              N. Scale
-            </label><br>
-            <input class="narrow-input" type="number" id="nsca" name="rollData.settings.nsca" value="{{rollData.settings.nsca}}" data-dtype="Number"/>
-          </div>
-          <div class="">
-            <label class="center-text small-note" for="dsca" id="dsca-label">
-              D. Scale
-            </label><br>
-            <input class="narrow-input" type="number" id="dsca" name="rollData.settings.dsca" value="{{rollData.settings.dsca}}" data-dtype="Number"/>
-          </div>
-        </div>
-      </div>
+
+  {{!-- Toggleable Modifiers --}}
+  <div class="modifiers-section border-top pt-2">
+    <h4 class="section-title small-label mb-1">Options & Modifiers</h4>
+    
+    <div class="form-group flexrow flex-between p-1">
+      <label class="small">Inspiration Spend (Add 2 Dice)</label>
+      {{!-- V13 Path: system.inspiration.value --}}
+      <input type="checkbox" name="spendInspiration" {{#if (lt system.inspiration.value 1)}}disabled title="Insufficient Inspiration"{{/if}}/>
     </div>
-  </section>
+
+    <div class="form-group flexrow flex-between p-1">
+      <label class="small">Momentum Spend (Add 1 Die)</label>
+      <input type="checkbox" name="spendMomentum"/>
+    </div>
+
+    <div class="form-group flexrow flex-between p-1">
+      <label class="small">Scale Difference</label>
+      <input type="number" name="scale" value="0" data-dtype="Number" style="width: 40px; text-align: center;"/>
+    </div>
+  </div>
+
+  {{!-- Roll Summary Notes --}}
+  <div class="form-group mt-2">
+    <label class="font-weight-bold small-label">Roll Notes</label>
+    <input type="text" name="rollNotes" placeholder="e.g. Forging the ID, Aiming..."/>
+  </div>
+
+  <p class="notes italic small mt-2 border-top pt-1 text-center">
+    Total Successes = (Hits) + Enhancements.
+  </p>
 </form>
