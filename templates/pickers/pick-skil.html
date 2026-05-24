@@ -1,34 +1,33 @@
-<!--
-<form class="{{cssClass}} flexcol" autocomplete="off">
-  <section class="sheet-body">
-    <div class="items grid grid-1col">
-      {{#each this.items as |item key|}}
-        <div class="item flexrow flex-group-center" id="{{key}}">
-          <label for="{{item.data._id}}" class="resource-label" data-skilname="{{item.data.name}}">
-            {{item.name}}
-          </label>
-          <input type="radio" id="{{item.data._id}}" class="input" name="skil" value="{{item.data.name}}">
-        </div>
-      {{else}}
-        No Eligible Items Found.
-      {{/each}}
+{{!-- Skill Picker Dialog - Foundry V13 Compliant --}}
+<form class="trinity-dialog picker flexcol" autocomplete="off">
+  
+  <div class="form-group mb-2">
+    <label class="font-weight-bold block mb-1 text-center">Select a Skill</label>
+    <p class="notes italic small text-center mb-2">Choose the Skill to use for this action.</p>
+    
+    <div class="form-fields">
+      <select name="skillSelect" class="w-100">
+        {{#select selected}}
+          <option value="">None (Attribute Only)</option>
+          
+          {{!-- V13 Item Fetching Logic --}}
+          {{#each actor.itemTypes.skill as |skill|}}
+            <option value="{{skill.id}}">
+              {{skill.name}} ({{skill.system.value}} {{#if skill.system.subType}}- {{skill.system.subType}}{{/if}})
+            </option>
+          {{else}}
+            <option value="" disabled>No skills found on character sheet</option>
+          {{/each}}
+          
+        {{/select}}
+      </select>
     </div>
-  </section>
-</form>
--->
+  </div>
 
-<form class="{{cssClass}} flexcol" autocomplete="off">
-  <section class="sheet-body">
-    <div class="skills grid grid-4row">
-      {{#each this.items as |item key|}}
-      <div class="flexcol flex-group-center boxed">
-        <input type="radio" id="{{item.data._id}}" class="input" name="skil" value="{{item.data.name}}">
-        <label for="{{item.data._id}}" class="resource-label" data-skilname="{{item.data.name}}">
-          <span class="resource-label"> {{item.name}} </span>
-        </label>
-        <span class="icons"> {{{toDots item.data.data.value}}} </span>
-      </div>
-      {{/each}}
-    </div>
-</section>
+  {{!-- Manual Skill/Specialty Bonus --}}
+  <div class="form-group flexrow flex-center p-1 border-top mt-1">
+    <label class="small font-weight-bold mr-2">Additional Specialty/Bonus</label>
+    <input type="number" name="skillBonus" value="0" data-dtype="Number" style="width: 50px; text-align: center;"/>
+  </div>
+
 </form>
