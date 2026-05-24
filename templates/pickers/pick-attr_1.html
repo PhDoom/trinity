@@ -1,15 +1,70 @@
-{{log "MyPickerItem" this}}
-<form class="{{cssClass}} flexcol" autocomplete="off">
-  <section class="sheet-body">
-    <div class="attributes grid grid-3col">
-      {{#each this.actor.data.data.attributes as |attribute key|}}
-        <div class="attribute flexrow flex-group-center" id="{{key}}">
-          <label for="data.attributes.{{key}}" class="resource-label" data-attrname="{{attribute.name}}">
-            {{attribute.name}}
-          </label>
-          <input type="radio" id="{{attribute.name}}" class="input" name="attr" value="{{attribute.name}}">
-        </div>
-      {{/each}}
+{{!-- Visual Attribute Picker - Foundry V13 Compliant --}}
+<form class="trinity-dialog picker-grid flexcol" autocomplete="off">
+  
+  <header class="dialog-header border-bottom mb-2 text-center">
+    <label class="font-weight-bold">Choose an Attribute</label>
+  </header>
+
+  <div class="attribute-grid grid grid-3col">
+    {{!-- Physical Arena --}}
+    <div class="arena-group flexcol border p-1">
+      <h4 class="border-bottom text-center small-label">Physical</h4>
+      
+      <label class="flexrow flex-between p-1 clickable">
+        <span>Might ({{system.attributes.might.value}})</span>
+        <input type="radio" name="attributeSelect" value="system.attributes.might" {{#if (eq selected "system.attributes.might")}}checked{{/if}}>
+      </label>
+
+      <label class="flexrow flex-between p-1 clickable">
+        <span>Dexterity ({{system.attributes.dexterity.value}})</span>
+        <input type="radio" name="attributeSelect" value="system.attributes.dexterity" {{#if (eq selected "system.attributes.dexterity")}}checked{{/if}}>
+      </label>
+
+      <label class="flexrow flex-between p-1 clickable">
+        <span>Stamina ({{system.attributes.stamina.value}})</span>
+        <input type="radio" name="attributeSelect" value="system.attributes.stamina" {{#if (eq selected "system.attributes.stamina")}}checked{{/if}}>
+      </label>
     </div>
-  </section>
+
+    {{!-- Mental Arena --}}
+    <div class="arena-group flexcol border p-1">
+      <h4 class="border-bottom text-center small-label">Mental</h4>
+      
+      <label class="flexrow flex-between p-1 clickable">
+        <span>Intellect ({{system.attributes.intellect.value}})</span>
+        <input type="radio" name="attributeSelect" value="system.attributes.intellect" {{#if (eq selected "system.attributes.intellect")}}checked{{/if}}>
+      </label>
+
+      <label class="flexrow flex-between p-1 clickable">
+        <span>Cunning ({{system.attributes.cunning.value}})</span>
+        <input type="radio" name="attributeSelect" value="system.attributes.cunning" {{#if (eq selected "system.attributes.cunning")}}checked{{/if}}>
+      </label>
+
+      <label class="flexrow flex-between p-1 clickable">
+        <span>Resolve ({{system.attributes.resolve.value}})</span>
+        <input type="radio" name="attributeSelect" value="system.attributes.resolve" {{#if (eq selected "system.attributes.resolve")}}checked{{/if}}>
+      </label>
+    </div>
+
+    {{!-- Social Arena --}}
+    <div class="arena-group flexcol border p-1">
+      <h4 class="border-bottom text-center small-label">Social</h4>
+      
+      <label class="flexrow flex-between p-1 clickable">
+        <span>Presence ({{system.attributes.presence.value}})</span>
+        <input type="radio" name="attributeSelect" value="system.attributes.presence" {{#if (eq selected "system.attributes.presence")}}checked{{/if}}>
+      </label>
+
+      <label class="flexrow flex-between p-1 clickable">
+        <span>Manipulation ({{system.attributes.manipulation.value}})</span>
+        <input type="radio" name="attributeSelect" value="system.attributes.manipulation" {{#if (eq selected "system.attributes.manipulation")}}checked{{/if}}>
+      </label>
+
+      <label class="flexrow flex-between p-1 clickable">
+        <span>Composure ({{system.attributes.composure.value}})</span>
+        <input type="radio" name="attributeSelect" value="system.attributes.composure" {{#if (eq selected "system.attributes.composure")}}checked{{/if}}>
+      </label>
+    </div>
+  </div>
+
 </form>
