@@ -1,6 +1,6 @@
 /**
  * Trinity Continuum Actor Sheet
- * Fully Updated for Foundry V13 Compatibility
+ * Updated for Foundry V13 Compatibility & Gift Item Support
  */
 
 export class TrinityActorSheet extends ActorSheet {
@@ -51,8 +51,8 @@ export class TrinityActorSheet extends ActorSheet {
   }
 
   /**
-   * Organize and classify Items for Character sheets.
-   * V13: Iterates over the context.items array
+   * Sort items into their proper categories for the Handlebars partials.
+   * @param {Object} context The actor context object
    */
   _prepareItems(context) {
     const gear = [];
@@ -63,7 +63,8 @@ export class TrinityActorSheet extends ActorSheet {
     const powers = [];
     const conditions = [];
     const bonds = [];
-    const contacts = []; // New Container
+    const contacts = [];
+    const gifts = []; // Initialized Gifts container
 
     for (let i of context.items) {
       i.img = i.img || DEFAULT_TOKEN; 
@@ -76,7 +77,8 @@ export class TrinityActorSheet extends ActorSheet {
       else if (i.type === 'power' || i.type === 'action') powers.push(i);
       else if (i.type === 'condition') conditions.push(i);
       else if (i.type === 'bond') bonds.push(i);
-      else if (i.type === 'contact') contacts.push(i); // New Sorter
+      else if (i.type === 'contact') contacts.push(i);
+      else if (i.type === 'gift') gifts.push(i); // Sorting logic for Gifts
     }
 
     context.gear = gear;
@@ -87,7 +89,8 @@ export class TrinityActorSheet extends ActorSheet {
     context.powers = powers;
     context.conditions = conditions;
     context.bonds = bonds;
-    context.contacts = contacts; // Assign to context
+    context.contacts = contacts;
+    context.gifts = gifts; // Assigned to context for gifts.html
   }
 
   /** @override */
@@ -100,7 +103,7 @@ export class TrinityActorSheet extends ActorSheet {
     html.find('.item-edit').click(ev => {
       const li = $(ev.currentTarget).parents(".item");
       const item = this.actor.items.get(li.data("itemId"));
-      item.sheet.render(true);
+      if (item) item.sheet.render(true);
     });
 
     html.find('.item-delete').click(ev => {
@@ -133,7 +136,7 @@ export class TrinityActorSheet extends ActorSheet {
     const { TrinityRollPrompt } = await import("../dice/trinity-roll-prompt.js");
 
     if (dataset.attribute) {
-      const val = this.actor.system.attributes[dataset.attribute].value;
+      const val = this.actor.system.attributes[dataset.attribute]?.value || 0;
       const config = await TrinityRollPrompt.confirmRoll(this.actor, { name: dataset.attribute });
       await TrinityRollPrompt.executeRoll(this.actor, val, config);
     }
