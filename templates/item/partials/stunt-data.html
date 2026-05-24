@@ -1,15 +1,30 @@
-{{! Stunt Data }}
-<div class="boxed fit">
-  <div class="left-vcenter">
-    <div class="resource-label left-vcenter">Stunt Details</div>
-  </div>
-  <hr>
-  <div>
-    <label class="resource-label" for="stunt-type">Stunt Type</label>
-    <input class="resource" type="text" id="stunt-type" name="data.stuntType" value="{{data.data.stuntType}}" data-dtype="String"/>
-  </div>
-  <div>
-    <label class="resource-label" for="stunt-cost">Stunt Cost</label>
-    <input class="resource" type="text" id="stunt-cost" name="data.costDescription" value="{{data.data.costDescription}}" data-dtype="String"/>
-  </div>
+{{!-- Item Stunt Data Configuration Partial - Foundry V13 Compliant --}}
+<div class="stunt-data-settings border p-2 mb-2">
+    
+    <h3 class="header border-bottom mb-2">Stunt Properties</h3>
+
+    <div class="form-group flexrow mb-2">
+        <label class="resource-label font-weight-bold">Success Cost</label>
+        <div class="form-fields flexrow flex-center" style="max-width: 100px;">
+            {{!-- V13 Data Path: system.cost --}}
+            <input type="number" 
+                   name="system.cost" 
+                   value="{{system.cost}}" 
+                   data-dtype="Number" 
+                   placeholder="1" 
+                   style="text-align: center;" 
+                   title="Number of extra successes required to trigger this stunt." />
+        </div>
+    </div>
+
+    <div class="form-group flexcol">
+        <label class="resource-label font-weight-bold mb-1">Stunt Effect / Description</label>
+        {{!-- V13 Data Path: system.description --}}
+        {{editor system.description target="system.description" button=true owner=owner editable=editable engine="prosemirror"}}
+    </div>
+
+    <p class="notes mt-2 italic small border-top pt-1">
+        Stunts allow players to spend extra successes from a roll for tactical advantages.
+    </p>
+
 </div>
