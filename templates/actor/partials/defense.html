@@ -1,19 +1,20 @@
-{{!-- Defense Partial --}}
-<div class="boxed lowmargin">
-  <div class="flexrow bold">
-    <div class="flex-valign flex-fit">
-      Base Defense:&ensp;
+{{!-- Defense Partial - Foundry V13 Compliant --}}
+<div class="defense-section">
+  
+  <h3 class="header">Defense & Resilience</h3>
+  
+  <div class="grid grid-2col mb-1">
+    
+    <div class="resource flex-group-center">
+      <label for="system.defense.value" class="resource-label">Defense</label>
+      <input type="number" name="system.defense.value" value="{{system.defense.value}}" data-dtype="Number"/>
     </div>
-    <div class="big bold can-hide">
-      {{this.actor.data.data.defense.value}}
+    
+    <div class="resource flex-group-center">
+      <label for="system.resilience.value" class="resource-label">Resilience</label>
+      <input type="number" name="system.resilience.value" value="{{system.resilience.value}}" data-dtype="Number"/>
     </div>
-    <div class="flex-parent-nowrap-center edit-area can-hide hidden">
-      <i class="clickable sub-value large flex-valign fas fa-minus-circle" data-target="data.defense.value"></i>
-      <input class="flex-valign short-input resource" type="number" min="0" step="1" onfocus="this.previousValue = this.value" onkeydown="this.previousValue = this.value" oninput="validity.valid || (value = this.previousValue)" id="Defense-value" name="data.defense.value" value="{{data.data.defense.value}}" data-dtype="Number"/>
-      <i class="clickable add-value large flex-valign fas fa-plus-circle" data-target="data.defense.value"></i>
-    </div>
+    
   </div>
-  <div class="small-note">
-    See "Actions" for defensive options.
-  </div>
+
 </div>
