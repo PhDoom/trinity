@@ -1,88 +1,45 @@
-<form class="{{cssClass}} flexcol" autocomplete="off">
+{{!-- Trinity NPC Secondary Sheet - Foundry V13 Compliant --}}
+<form class="trinity-app trinity-actor-sheet-npc-secondary {{cssClass}}" autocomplete="off">
+    
+    {{!-- Secondary View Header --}}
+    <header class="trinity-flexrow p-2 border-bottom">
+        <h3 class="m-0">Faction & Lore</h3>
+    </header>
 
-  {{!-- NPC Header --}}
-  <header class="sheet-header">
-    <img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="100" width="100"/>
-    <div class="header-fields">
-      <h1 class="charname">
-        {{!-- V13: Top-level properties like name do not need the system. prefix --}}
-        <input name="name" type="text" value="{{actor.name}}" placeholder="NPC Name"/>
-      </h1>
-      
-      <div class="resources grid grid-3col">
-        {{!-- V13: All internal stats must use system.[path] for their name attribute --}}
-        <div class="resource flex-group-center">
-          <label for="system.health.value" class="resource-label">Health</label>
-          <div class="resource-content flexrow flex-center flex-between">
-            <input type="number" name="system.health.value" value="{{system.health.value}}" data-dtype="Number"/>
-            <span> / </span>
-            <input type="number" name="system.health.max" value="{{system.health.max}}" data-dtype="Number"/>
-          </div>
-        </div>
-
-        <div class="resource flex-group-center">
-          <label for="system.defense.value" class="resource-label">Defense</label>
-          <div class="resource-content flexrow flex-center flex-between">
-            <input type="number" name="system.defense.value" value="{{system.defense.value}}" data-dtype="Number"/>
-          </div>
-        </div>
-
-        <div class="resource flex-group-center">
-          <label for="system.initiative.value" class="resource-label">Initiative</label>
-          <div class="resource-content flexrow flex-center flex-between">
-            <input type="number" name="system.initiative.value" value="{{system.initiative.value}}" data-dtype="Number"/>
-          </div>
-        </div>
-      </div>
-    </div>
-  </header>
-
-  {{!-- NPC Sheet Navigation --}}
-  <nav class="sheet-tabs tabs" data-group="primary">
-    <a class="item" data-tab="stats">Stats & Actions</a>
-    <a class="item" data-tab="attributes">Attributes</a>
-    <a class="item" data-tab="edit">Edit</a>
-  </nav>
-
-  {{!-- NPC Sheet Body --}}
-  <section class="sheet-body">
-
-    {{!-- Stats Tab --}}
-    <div class="tab stats" data-group="primary" data-tab="stats">
-      {{!-- Uses the partials registered in trinity_1.js --}}
-      {{> "systems/trinity/templates/actor/partials-npc/npc-stats.html"}}
-      
-      {{!-- NPC Action Items/Attacks --}}
-      <div class="npc-actions mt-2">
-        <h3>Actions & Powers</h3>
-        <ol class="item-list">
-          {{#each items as |item id|}}
-          <li class="item flexrow" data-item-id="{{item._id}}">
-            <div class="item-name flexrow">
-              <div class="item-image" style="background-image: url('{{item.img}}')"></div>
-              <h4>{{item.name}}</h4>
+    {{!-- Advanced Data Grid --}}
+    <section class="trinity-grid trinity-grid-2col p-2 gap-10">
+        
+        {{!-- Faction Info --}}
+        <div class="trinity-flexcol border p-1">
+            <h4 class="border-bottom pb-1 mb-1">Affiliation</h4>
+            <div class="trinity-flexcol p-1">
+                <label class="small-label">Faction</label>
+                <input name="system.details.faction" type="text" value="{{system.details.faction}}" class="w-100"/>
             </div>
-            <div class="item-controls">
-              {{!-- Integrated with the roll-power listener from item-sheet.js --}}
-              <a class="item-control roll-power" title="Roll Action"><i class="fas fa-dice-d10"></i></a>
-              <a class="item-control item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>
-              <a class="item-control item-delete" title="Delete Item"><i class="fas fa-trash"></i></a>
+            <div class="trinity-flexcol p-1">
+                <label class="small-label">Rank / Title</label>
+                <input name="system.details.rank" type="text" value="{{system.details.rank}}" class="w-100"/>
             </div>
-          </li>
-          {{/each}}
-        </ol>
-      </div>
-    </div>
+        </div>
 
-    {{!-- Attributes Tab --}}
-    <div class="tab attributes" data-group="primary" data-tab="attributes">
-      {{> "systems/trinity/templates/actor/partials-npc/npc-attributes.html"}}
-    </div>
+        {{!-- Behavioral Notes --}}
+        <div class="trinity-flexcol border p-1">
+            <h4 class="border-bottom pb-1 mb-1">Behavior</h4>
+            <div class="trinity-flexrow trinity-flex-between p-1">
+                <label class="small">Aggressive</label>
+                <input type="checkbox" name="system.behavior.aggressive" {{checked system.behavior.aggressive}}/>
+            </div>
+            <div class="trinity-flexrow trinity-flex-between p-1">
+                <label class="small">Uses Cover</label>
+                <input type="checkbox" name="system.behavior.usesCover" {{checked system.behavior.usesCover}}/>
+            </div>
+        </div>
+    </section>
 
-    {{!-- Edit Tab --}}
-    <div class="tab edit" data-group="primary" data-tab="edit">
-      {{> "systems/trinity/templates/actor/partials-npc/npc-edit.html"}}
-    </div>
+    {{!-- Detailed Description Area --}}
+    <section class="p-2">
+        <label class="small-label font-weight-bold">Background Lore</label>
+        {{editor enrichedLore target="system.lore" button=true owner=owner editable=editable engine="prosemirror"}}
+    </section>
 
-  </section>
 </form>
