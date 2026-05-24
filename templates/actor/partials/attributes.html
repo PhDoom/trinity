@@ -1,28 +1,35 @@
-{{!-- Attribute Partial - Read-Only --}}
-<h2 style="text-align: center;">Attributes</h2>
-<div class="attributes grid grid-3row">
-  {{#each actor.attributes as |attribute key|}}
-  <div class="flexcol flex-group-center boxed item can-hide" data-item-id="{{attribute._id}}">
-    <div class="resource-label clickable item-edit"> {{attribute.name}} </div>
-    <div class="icons rollable" data-attrid="{{attribute._id}}" id="{{attribute._id}}"> {{{toDots attribute.data.value attribute.data.megaValue}}} </div>
-    <div class="small-note"> {{attribute.data.approach}} - {{attribute.data.arena}} </div>
-  </div>
-  <div class="flexcol flex-group-center boxed edit-area item can-hide hidden" data-itemid="{{attribute._id}}">
-    <span class="resource-label clickable item-edit"> {{attribute.name}} </span>
-    <div class="flex-parent-nowrap-center">
-      <i class="clickable sub-value large flex-valign fas fa-minus-circle" data-itemid="{{attribute._id}}" data-target="data.value"></i>
-      <input class="flex-valign short-input resource item-value-edit" type="number" min="0" step="1" onfocus="this.previousValue = this.value" onkeydown="this.previousValue = this.value" oninput="validity.valid || (value = this.previousValue)" id="{{attribute._id}}-value" value="{{data.value}}" data-dtype="Number" data-itemid="{{attribute._id}}" data-target="data.value"/>
-      <i class="clickable add-value large flex-valign fas fa-plus-circle" data-itemid="{{attribute._id}}" data-target="data.value"></i>
+{{!-- PC Attributes Partial - Foundry V13 Compliant --}}
+<div class="attributes-section">
+  
+  <h3 class="header">Attributes</h3>
+  
+  <div class="attributes-grid grid grid-3col">
+    {{!-- V13: Loop directly through system.attributes, bypassing legacy data.data --}}
+    {{#each system.attributes as |attr key|}}
+    <div class="attribute flexcol flex-group-center mb-1">
+      
+      {{!-- 
+        Rollable Label: 
+        The 'rollable' class and 'data-attribute' hook securely into your 
+        asynchronous V13 TrinityRollPrompt logic.
+      --}}
+      <label for="system.attributes.{{key}}.value" class="attribute-label rollable" data-attribute="{{key}}" title="Select {{localize attr.label}}">
+        <a>{{localize attr.label}}</a>
+      </label>
+      
+      {{!-- 
+        V13 Data Binding: 
+        name="system.attributes.{{key}}.value" tells the server exactly 
+        where to save this integer in the document schema.
+      --}}
+      <input type="number" 
+             class="attribute-input" 
+             name="system.attributes.{{key}}.value" 
+             value="{{attr.value}}" 
+             data-dtype="Number" />
+             
     </div>
-    {{#if ../actor.data.data.flags.isNova}}
-    <span class="resource-label"> Mega Dots </span>
-    <div class="flex-parent-nowrap-center">
-      <i class="clickable sub-value large flex-valign fas fa-minus-circle" data-itemid="{{attribute._id}}" data-target="data.megaValue"></i>
-      <input class="flex-valign short-input resource item-value-edit" type="number" min="0" step="1" onfocus="this.previousValue = this.value" onkeydown="this.previousValue = this.value" oninput="validity.valid || (value = this.previousValue)" id="{{attribute._id}}-megaValue" value="{{data.megaValue}}" data-dtype="Number" data-itemid="{{attribute._id}}" data-target="data.megaValue"/>
-      <i class="clickable add-value large flex-valign fas fa-plus-circle" data-itemid="{{attribute._id}}" data-target="data.megaValue"></i>
-    </div>
-    {{/if}}
-    <span class="small-note"> {{attribute.data.approach}} - {{attribute.data.arena}} </span>
+    {{/each}}
   </div>
-  {{/each}}
+
 </div>
