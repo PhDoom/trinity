@@ -1,7 +1,15 @@
-# IDE
-.idea/
-.vs/
+# Build & Source Files (Exclude these from the published package)
+/scss/
+/node_modules/
+/package.json
+/package-lock.json
+/gulpfile.js
+/webpack.config.js
+/vite.config.js
+/.gitignore
+/.npmignore
+/README.md
 
-# Node Modules
-node_modules/
-npm-debug.log
+# Build Artifacts (Keep these)
+# Ensure your compiled css files (e.g., /css/trinity.css) 
+# are NOT in this list, so they ARE included in the package.
