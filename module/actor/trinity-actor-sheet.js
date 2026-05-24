@@ -9,7 +9,6 @@ export class TrinityActorSheet extends ActorSheet {
   static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
       classes: ["trinity", "sheet", "actor"],
-      // Default template, can be overridden by the template getter
       template: "systems/trinity/templates/actor/trinity-actor-sheet_1.html",
       width: 800,
       height: 800,
@@ -19,7 +18,6 @@ export class TrinityActorSheet extends ActorSheet {
 
   /** @override */
   get template() {
-    // Dynamically select the HTML file based on the actor's type
     if (this.actor.type === "npc") {
       return "systems/trinity/templates/actor/trinity-actor-sheet-npc_1.html";
     }
@@ -28,15 +26,11 @@ export class TrinityActorSheet extends ActorSheet {
 
   /** @override */
   async getData(options) {
-    // V13 MANDATORY: getData must be asynchronous
     const context = await super.getData(options);
-
-    // Create safe V13 references
     const actorData = context.actor;
     context.system = actorData.system;
     context.flags = actorData.flags;
 
-    // V13: Asynchronous HTML Enrichment for ProseMirror editors
     context.enrichedBiography = await TextEditor.enrichHTML(context.system.biography || "", {
       async: true,
       secrets: this.actor.isOwner,
@@ -49,7 +43,6 @@ export class TrinityActorSheet extends ActorSheet {
       relativeTo: this.actor
     });
 
-    // Prepare character-specific data (sorting inventory, powers, conditions, etc.)
     if (actorData.type === 'character' || actorData.type === 'npc') {
       this._prepareItems(context);
     }
@@ -60,10 +53,8 @@ export class TrinityActorSheet extends ActorSheet {
   /**
    * Organize and classify Items for Character sheets.
    * V13: Iterates over the context.items array
-   * @param {Object} context The actor context object
    */
   _prepareItems(context) {
-    // Initialize containers for the HTML partials
     const gear = [];
     const weapons = [];
     const armor = [];
@@ -72,13 +63,11 @@ export class TrinityActorSheet extends ActorSheet {
     const powers = [];
     const conditions = [];
     const bonds = [];
+    const contacts = []; // New Container
 
-    // Iterate through items, allocating to containers
     for (let i of context.items) {
-      // Ensure image exists
       i.img = i.img || DEFAULT_TOKEN; 
       
-      // Sort by type matching your template categories
       if (i.type === 'gear' || i.type === 'item') gear.push(i);
       else if (i.type === 'weapon') weapons.push(i);
       else if (i.type === 'armor') armor.push(i);
@@ -87,9 +76,9 @@ export class TrinityActorSheet extends ActorSheet {
       else if (i.type === 'power' || i.type === 'action') powers.push(i);
       else if (i.type === 'condition') conditions.push(i);
       else if (i.type === 'bond') bonds.push(i);
+      else if (i.type === 'contact') contacts.push(i); // New Sorter
     }
 
-    // Assign back to the context so Handlebars can loop through them
     context.gear = gear;
     context.weapons = weapons;
     context.armor = armor;
@@ -98,51 +87,32 @@ export class TrinityActorSheet extends ActorSheet {
     context.powers = powers;
     context.conditions = conditions;
     context.bonds = bonds;
+    context.contacts = contacts; // Assign to context
   }
 
   /** @override */
   activateListeners(html) {
     super.activateListeners(html);
-
-    // If the sheet isn't editable (e.g., player viewing another player's sheet), skip binding controls
     if (!this.isEditable) return;
 
-    // ---------------------------------------------------------
-    // Item Management
-    // ---------------------------------------------------------
-
-    // Add New Item
     html.find('.item-create').click(this._onItemCreate.bind(this));
 
-    // Edit Existing Item
     html.find('.item-edit').click(ev => {
       const li = $(ev.currentTarget).parents(".item");
       const item = this.actor.items.get(li.data("itemId"));
       item.sheet.render(true);
     });
 
-    // Delete Item
     html.find('.item-delete').click(ev => {
       const li = $(ev.currentTarget).parents(".item");
-      // V13: Must use deleteEmbeddedDocuments, not deleteOwnedItem
       this.actor.deleteEmbeddedDocuments("Item", [li.data("itemId")]);
       li.slideUp(200, () => this.render(false));
     });
 
-    // ---------------------------------------------------------
-    // Roll Triggers
-    // ---------------------------------------------------------
-
-    // Attributes and Skills (from npc-attributes.html & others)
     html.find('.rollable').click(this._onRoll.bind(this));
-    
-    // Powers and Items (from the NPC actions list)
     html.find('.roll-power').click(this._onItemRoll.bind(this));
   }
 
-  /**
-   * Handle creating a new item from the sheet
-   */
   async _onItemCreate(event) {
     event.preventDefault();
     const header = event.currentTarget;
@@ -151,25 +121,17 @@ export class TrinityActorSheet extends ActorSheet {
     const name = `New ${type.capitalize()}`;
     const itemData = { name: name, type: type, system: data };
     
-    // Remove the type from the dataset since it's already in the itemData object
     delete itemData.system["type"];
     
     return await Item.create(itemData, {parent: this.actor});
   }
 
-  /**
-   * Handle basic attribute/skill rolls
-   * Integrated with your V13 TrinityRollPrompt
-   */
   async _onRoll(event) {
     event.preventDefault();
     const element = event.currentTarget;
     const dataset = element.dataset;
-
-    // V13: Dynamic import to avoid circular dependencies
     const { TrinityRollPrompt } = await import("../dice/trinity-roll-prompt.js");
 
-    // Check if the click came from an attribute
     if (dataset.attribute) {
       const val = this.actor.system.attributes[dataset.attribute].value;
       const config = await TrinityRollPrompt.confirmRoll(this.actor, { name: dataset.attribute });
@@ -177,10 +139,6 @@ export class TrinityActorSheet extends ActorSheet {
     }
   }
 
-  /**
-   * Handle Item/Power Rolls
-   * Integrated with your V13 TrinityRollPrompt3
-   */
   async _onItemRoll(event) {
     event.preventDefault();
     const li = $(event.currentTarget).parents(".item");
