@@ -8,7 +8,7 @@ export class TrinityActorSheet extends ActorSheet {
   /** @override */
   static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
-      classes: ["trinity", "sheet", "actor"],
+      classes: ["trinity-app", "sheet", "actor"], // Added V13 CSS namespace
       template: "systems/trinity/templates/actor/trinity-actor-sheet_1.html",
       width: 800,
       height: 800,
@@ -18,6 +18,7 @@ export class TrinityActorSheet extends ActorSheet {
 
   /** @override */
   get template() {
+    // Dynamically load the NPC sheet if the actor is an NPC
     if (this.actor.type === "npc") {
       return "systems/trinity/templates/actor/trinity-actor-sheet-npc_1.html";
     }
@@ -27,20 +28,23 @@ export class TrinityActorSheet extends ActorSheet {
   /** @override */
   async getData(options) {
     const context = await super.getData(options);
-    const actorData = context.actor;
+    
+    // Foundry V13 Best Practice: Use toObject() to prevent strict data-access warnings
+    const actorData = this.actor.toObject(false);
     context.system = actorData.system;
     context.flags = actorData.flags;
 
+    // V13 Rich Text Preparation
     context.enrichedBiography = await TextEditor.enrichHTML(context.system.biography || "", {
       async: true,
       secrets: this.actor.isOwner,
-      relativeTo: this.actor
+      rollData: this.actor.getRollData()
     });
 
     context.enrichedNotes = await TextEditor.enrichHTML(context.system.gmNotes || "", {
       async: true,
       secrets: this.actor.isOwner,
-      relativeTo: this.actor
+      rollData: this.actor.getRollData()
     });
 
     if (actorData.type === 'character' || actorData.type === 'npc') {
