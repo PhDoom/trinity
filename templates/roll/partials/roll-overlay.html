@@ -1,44 +1,46 @@
-<div id="overlay" class="overlay">
-  <div class="flex-parent-center-column">
-    <div class="nav flex-child flex-parent-wide">
-      <i class="xx-large fas fa-arrow-alt-circle-left back flex-valign"></i>
-      <div class="flex-child flex-valign back">Back to Roll Options</div>
+{{!-- Roll Overlay Partial - Foundry V13 Compliant --}}
+<div class="trinity-roll-overlay flexcol {{#if isSuccess}}success-glow{{else}}failure-dim{{/if}}">
+  
+  {{!-- Main Result Header --}}
+  <div class="result-banner flexrow flex-center p-2 mb-2">
+    <div class="success-count flexcol flex-center">
+      <span class="count-value">{{successes}}</span>
+      <span class="small-label font-weight-bold">Successes</span>
     </div>
-    <div class="grid grid-2col align-content-start" style="max-height: 350px; overflow-x: hidden; overflow-y: auto;">
-      <div class="grid-span2col flex-parent-wide-noflow boxed low-margin-padding flex-valign" id="CustomItem">
-        <div class="flex-child-fit flex-parent-column low-margin-padding">
-          <div class="left x-large low-margin-padding">
-            <input class="on-dark" onfocus="this.value=''" type="number" id="customValue" value="0">
-          </div>
-        </div>
-        <div class="flex-child-full flex-parent-column">
-          <div class="flex-child-full">
-            <input class="on-dark" onfocus="this.value=''" type="text" id="customName" value="Custom Value">
-          </div>
-        </div>
-        <div class="flex-child-fit flex-valign right add-custom clickable" id="addCustom">
-          <i class="x-large far fa-plus-square"></i>
-        </div>
-      </div>
-      {{#unless this.itemList}}<div class="grid-span2col"><center>No options of this type found.</center></div>{{/unless}}
-      {{#each this.itemList as |item key|}}
-        <div class="flex-parent-wide-noflow boxed low-margin-padding select-item" id="{{item.id}}">
-          <div class="flex-child-fit flex-parent-column low-margin-padding">
-            <div class="flex-valign left x-large low-margin-padding">
-              {{#if item.data.data.flags.isEnhancement}}{{item.data.data.enhancement.value}}{{else}}{{item.data.data.value}}{{/if}}<span class="small">{{#if item.data.data.flags.isEnhancement}}<i class="fas fa-hashtag"></i>{{else}}<i class="fas fa-circle"></i>{{/if}}</span>
-            </div>
-          </div>
-          <div class="flex-child-full flex-parent-column">
-            <div class="flex-child-full">
-              {{item.name}}
-            </div>
-            <div class="flex-child-full small-note">
-              {{#if item.data.data.flags.isEnhancement}}{{item.data.data.enhancement.relevance}}{{/if}}
-              {{#if item.data.data.flags.isMain}}{{item.data.data.arena}} / {{item.data.data.approach}}{{/if}}
-            </div>
-          </div>
-        </div>
-      {{/each}}
+    
+    <div class="vs-divider px-3 font-weight-bold italic">vs</div>
+    
+    <div class="difficulty-count flexcol flex-center">
+      <span class="count-value">{{difficulty}}</span>
+      <span class="small-label font-weight-bold">Difficulty</span>
     </div>
   </div>
+
+  {{!-- Detailed Outcome Metrics --}}
+  <div class="outcome-details grid grid-2col border-top pt-2">
+    
+    {{!-- Momentum/Inspiration Gain - V13 Logic --}}
+    <div class="outcome-metric flexcol flex-center border-right">
+      <span class="small-label text-uppercase">Net Successes</span>
+      <span class="metric-value {{#if (gt netSuccesses 0)}}text-green{{/if}}">
+        {{#if (gt netSuccesses 0)}}+{{/if}}{{netSuccesses}}
+      </span>
+    </div>
+
+    {{!-- Complications/Failures --}}
+    <div class="outcome-metric flexcol flex-center">
+      <span class="small-label text-uppercase">Complications</span>
+      <span class="metric-value {{#if complications}}text-red{{/if}}">
+        {{#if complications}}{{complications}}{{else}}None{{/if}}
+      </span>
+    </div>
+  </div>
+
+  {{!-- Action Type Badge --}}
+  {{#if actionType}}
+  <div class="action-badge mt-2 text-center small italic border-top pt-1">
+    {{actionType}} {{#if isCritical}}<span class="text-purple font-weight-bold">— CRITICAL</span>{{/if}}
+  </div>
+  {{/if}}
+
 </div>
