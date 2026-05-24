@@ -1,44 +1,43 @@
 // Import Modules
-import { TrinityActor } from "./actor/trinity-actor.js";
-import { TrinityActorSheet } from "./actor/trinity-actor-sheet.js";
-import { TrinityItem } from "./item/trinity-item.js";
-import { TrinityItemSheet } from "./item/trinity-item-sheet.js";
-import { TrinityCombat } from "./combat/trinity-combat.js";
-import { registerSettings } from "./core/game-settings.js";
-import { registerHandlebarHelpers } from "./core/handlebar-helpers.js";
-import { registerHooks } from "./core/hooks.js";
+import { TrinityActor } from "./actor/actor.js";
+import { TrinityActorSheet } from "./actor/actor-sheet.js";
+import { TrinityItem } from "./item/item.js";
+import { TrinityItemSheet } from "./item/item-sheet.js";
+import { preloadHandlebarsTemplates } from "./templates.js";
+import { extendPrototypes } from "./protos.js";
 
 /* -------------------------------------------- */
-/*  Foundry VTT Initialization                  */
+/*  Foundry V13 Initialization                  */
 /* -------------------------------------------- */
 
 Hooks.once('init', async function() {
 
-  console.log('Trinity | Initializing Trinity Continuum System');
+  console.log("Trinity | Initializing Trinity Continuum System for V13");
 
-  // 1. Register Core Logic & Listeners
-  registerSettings();
-  registerHandlebarHelpers();
-  registerHooks(); // <--- Connects the hooks.js file we just updated
+  // Create a namespace for system-specific functions
+  game.trinity = {
+    TrinityActor,
+    TrinityItem,
+    rollItemMacro
+  };
 
-  // 2. Map Custom Classes to CONFIG (V13 Requirement)
+  /**
+   * Set global constants for Trinity
+   */
   CONFIG.Actor.documentClass = TrinityActor;
   CONFIG.Item.documentClass = TrinityItem;
-  CONFIG.Combat.documentClass = TrinityCombat;
 
-  // 3. Register Sheet Application Classes
+  // Register sheet application classes
   Actors.unregisterSheet("core", ActorSheet);
   Actors.registerSheet("trinity", TrinityActorSheet, { makeDefault: true });
-
   Items.unregisterSheet("core", ItemSheet);
   Items.registerSheet("trinity", TrinityItemSheet, { makeDefault: true });
 
-  // 4. Pre-load HTML Templates
-  return loadTemplates([
-    "systems/trinity/templates/actor/actor-sheet.html",
-    "systems/trinity/templates/item/item-sheet.html",
-    "systems/trinity/templates/combat/focus-dialog.html"
-  ]);
+  // Extend Prototypes for Helper Methods
+  extendPrototypes();
+
+  // Preload Handlebars Templates
+  return preloadHandlebarsTemplates();
 });
 
 /* -------------------------------------------- */
@@ -46,25 +45,28 @@ Hooks.once('init', async function() {
 /* -------------------------------------------- */
 
 Hooks.once("ready", async function() {
-  console.log("Trinity | System Ready for Action");
+  // Wait for anything that requires the game world to be fully loaded
+  console.log("Trinity | System Ready");
 });
 
 /* -------------------------------------------- */
 /*  Hotbar Macros                               */
 /* -------------------------------------------- */
 
-Hooks.on("hotbarDrop", (bar, data, slot) => createTrinityMacro(data, slot));
-
+/**
+ * Create a Macro from an Item drop.
+ * @param {Object} data     The dropped data
+ * @param {number} slot     The hotbar slot to use
+ * @returns {Promise}
+ */
 async function createTrinityMacro(data, slot) {
   if (data.type !== "Item") return;
-  const item = data.uuid ? await fromUuid(data.uuid) : data.data;
+  if (!("data" in data)) return ui.notifications.warn("You can only create macros for owned Items");
+  const item = data.data;
 
-  // V13 Migration: Use the safer fromUuid lookup for macro items
-  if (!item) return ui.notifications.warn("Could not find the selected Item.");
-
+  // Create the macro command
   const command = `game.trinity.rollItemMacro("${item.name}");`;
   let macro = game.macros.find(m => (m.name === item.name) && (m.command === command));
-  
   if (!macro) {
     macro = await Macro.create({
       name: item.name,
@@ -76,4 +78,21 @@ async function createTrinityMacro(data, slot) {
   }
   game.user.assignHotbarMacro(macro, slot);
   return false;
+}
+
+/**
+ * Roll Item Macro.
+ * @param {string} itemName
+ * @return {Promise}
+ */
+function rollItemMacro(itemName) {
+  const speaker = ChatMessage.getSpeaker();
+  let actor;
+  if (speaker.token) actor = game.actors.tokens[speaker.token];
+  if (!actor) actor = game.actors.get(speaker.actor);
+  const item = actor ? actor.items.find(i => i.name === itemName) : null;
+  if (!item) return ui.notifications.warn(`Your controlled Actor does not have an item named ${itemName}`);
+
+  // Trigger the item's roll method (updated for V13 async)
+  return item.roll();
 }
