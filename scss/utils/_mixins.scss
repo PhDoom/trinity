@@ -1,16 +1,37 @@
-@mixin element-invisible {
-  position: absolute;
+/* Mixins for Trinity V13 */
 
-  width: 1px;
-  height: 1px;
-  margin: -1px;
-  border: 0;
-  padding: 0;
-
-  clip: rect(0 0 0 0);
-  overflow: hidden;
+/* 1. Text truncation (for long item descriptions in tight spaces) */
+@mixin truncate-text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
-@mixin hide {
-  display: none;
+/* 2. Theme-aware card background (Uses V13 variables) */
+@mixin tr-card-bg {
+    background: var(--color-bg-input);
+    border: 1px solid var(--color-border-light);
+    border-radius: 4px;
+    padding: 0.5rem;
+}
+
+/* 3. Button Reset (For custom Trinity buttons) */
+@mixin tr-button-reset {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    margin: 0;
+    color: var(--color-text-dark-primary);
+    
+    &:hover {
+        color: var(--color-text-dark-secondary);
+    }
+}
+
+/* 4. Flex Center helper (For consistent alignment) */
+@mixin flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
