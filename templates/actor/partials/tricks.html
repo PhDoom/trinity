@@ -1,26 +1,51 @@
-{{!-- Tricks item Box --}}
-<ol class="items-list boxed">
-    <li class="item flexrow item-header">
-      <div class="big item-name">Tricks</div>
-      <div class="item-dots"></div>
-      <div class="item-controls">
-        <a class="item-control item-create" title="Create item" data-type="trick"><i class="far fa-plus-square"></i></a>
+{{!-- Tricks Partial - Foundry V13 Compliant --}}
+<div class="items-category tricks-section mb-2">
+  
+  <h3 class="header flexrow flex-between">
+    <span>Tricks</span>
+    {{!-- V13 Item Creation Hook --}}
+    <a class="item-control item-create" title="Add Trick" data-type="trick">
+      <i class="fas fa-plus"></i> Add
+    </a>
+  </h3>
+  
+  <ol class="item-list">
+    {{!-- List Header --}}
+    <li class="item flexrow item-header border-bottom">
+      <div class="item-image"></div>
+      <div class="item-name">Trick Name</div>
+      <div class="item-detail" style="flex: 0 0 80px; text-align: center;">Cost</div>
+      <div class="item-controls" style="flex: 0 0 60px;"></div>
+    </li>
+
+    {{!-- V13 Array Iteration - Loops through 'tricks' from _prepareItems --}}
+    {{#each tricks as |item id|}}
+    <li class="item flexcol py-1 border-bottom-dashed" data-item-id="{{item._id}}">
+      <div class="flexrow flex-center">
+        <div class="item-name flexrow flex-center">
+          <div class="item-image" style="background-image: url('{{item.img}}'); width: 24px; height: 24px; background-size: cover; margin-right: 8px;"></div>
+          <h4 class="m-0">{{item.name}}</h4>
+        </div>
+        
+        {{!-- V13 Data Path: system.cost --}}
+        <div class="item-detail" style="flex: 0 0 80px; text-align: center;">
+          {{item.system.cost}}
+        </div>
+        
+        <div class="item-controls" style="flex: 0 0 60px; display: flex; justify-content: flex-end;">
+          <a class="item-control item-edit px-1" title="Edit Trick"><i class="fas fa-edit"></i></a>
+          <a class="item-control item-delete px-1" title="Delete Trick"><i class="fas fa-trash"></i></a>
+        </div>
       </div>
+
+      {{!-- Trick Effect Description --}}
+      {{#if item.system.description}}
+      <div class="item-description mt-1 px-2 py-1 small italic border-top">
+        {{{item.system.description}}}
+      </div>
+      {{/if}}
     </li>
-{{#each actor.tricks as |item id|}}
-    <li class="item flexrow" data-item-id="{{item._id}}">
-        <h4 class="flex-fit item-name item-edit clickable">
-          {{item.name}}
-          {{#if item.data.flags.isInjury}}<span><i class="fas fa-user-injured"></i></span>{{/if}}
-        </h4>
-        <div>
-          {{#if item.data.flags.hasRoll}}{{{createChip item._id ../actor}}}{{/if}}
-        </div>
-        <div class="item-dots small icons">{{#if item.data.flags.hasDots}}{{{toDots item.data.value}}}{{/if}}</div>
-        <div class="item-controls">
-            <a class="item-control item-chat" title="Output Description to Chat"><i class="far fa-comment-dots"></i></a>
-            <a class="item-control item-delete" title="Delete Item"><i class="far fa-minus-square"></i></a>
-        </div>
-    </li>
-{{/each}}
-</ol>
+    {{/each}}
+  </ol>
+
+</div>
