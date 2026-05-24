@@ -1,48 +1,34 @@
-<!--
-<form class="{{cssClass}} flexcol" autocomplete="off">
-  <section class="sheet-body">
-    <div class="items grid grid-1col">
-      {{#each this.items as |item key|}}
-        <div class="item flexrow flex-group-center" id="{{key}}">
-          <div class="flex-group-left-i min-content">
-            <input type="checkbox" id="{{item.data._id}}" class="input" name="enha" value="{{item.data.name}}">
-          </div>
-          <div class="flex-group-left-i big min-content">
-            <b>{{item.data.data.enhancement.value}}</b>
-          </div>
-          <div class="flex-group-right-i">
-            <label for="{{item.data._id}}" class="resource-label" data-skilname="{{item.data.name}}">
-              <div class="box-details">
-                <h3>{{item.name}}</h3>
-                <p>{{item.data.data.enhancement.relevance}}</p>
-              </div>
-            </label>
-          </div>
+{{!-- Enhancement Picker Dialog - Foundry V13 Compliant --}}
+<form class="trinity-dialog enhancement-picker flexcol" autocomplete="off">
+  
+  <div class="form-group mb-2">
+    <label class="font-weight-bold block mb-1 text-center">Select Enhancements</label>
+    <p class="notes italic small text-center mb-2">Choose any applicable bonuses for this action.</p>
+    
+    <div class="enhancement-list border p-2" style="max-height: 300px; overflow-y: auto;">
+      {{#each actor.itemTypes.enhancement as |enha|}}
+      <label class="flexrow flex-between p-1 border-bottom clickable">
+        <div class="enha-info flexcol">
+          <span class="font-weight-bold">{{enha.name}}</span>
+          <span class="small italic">{{enha.system.subType}}</span>
         </div>
+        <div class="enha-value flexrow flex-center">
+          <span class="px-2 font-weight-bold text-blue">+{{enha.system.value}}</span>
+          <input type="checkbox" name="enhancementSelect" value="{{enha.id}}" data-value="{{enha.system.value}}">
+        </div>
+      </label>
       {{else}}
-        No Eligible Items Found.
+      <p class="text-center italic small p-2">No specific enhancements found on character sheet.</p>
       {{/each}}
-    </div>
-  </section>
-</form>
--->
 
-
-<form class="{{cssClass}} flexcol" autocomplete="off">
-  <section class="sheet-body">
-    <div class="items grid grid-2col">
-      {{#each this.items as |item key|}}
-      <div class="flexcol flex-group-center boxed">
-        <input type="checkbox" id="{{item.data._id}}" class="input" name="enha" value="{{item.data.name}}">
-        <label for="{{item.data._id}}" class="resource-label" data-skilname="{{item.data.name}}">
-          <span class="resource-label"> {{item.name}} </span>
-        </label>
-        <span class="icons"> {{{toDots item.data.data.enhancement.value}}} </span>
-        <span class="small-note">{{item.data.data.enhancement.relevance}}</span>
+      {{!-- Manual/Situational Enhancement Entry --}}
+      <div class="manual-enha border-top mt-2 pt-2">
+        <label class="flexrow flex-between p-1">
+          <span class="font-weight-bold">Situational Bonus</span>
+          <input type="number" name="situationalEnhancement" value="0" data-dtype="Number" style="width: 50px; text-align: center;"/>
+        </div>
       </div>
-      {{else}}
-        No Eligible Items Found.
-      {{/each}}
     </div>
-</section>
+  </div>
+
 </form>
