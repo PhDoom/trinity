@@ -1,35 +1,32 @@
-{{! Enhancement Box }}
-<div class="boxed fit">
-  <div class="left-vcenter">
-    <input class="left-vcenter" type="checkbox" name="data.flags.isEnhancement" value="{{data.data.flags.isEnhancement}}" data-dtype="Boolean" {{checked data.data.flags.isEnhancement}}/>
-    <label class="resource-label left-vcenter" for="data.flags.isEnhancement">Enhancement</label>
-  </div>
-  {{#if data.data.flags.isEnhancement}}
-  <hr>
-  <!--
-  {{#unless (isEqual item.data.type "equipment" "condition" "quantumPower") }}
-  <div>
-    <label class="resource-label" for="enhancement-value">Enhancement Value</label>
-    <input
-        class="resource"
-        type="number"
-        min="0"
-        step="1"
-        onfocus="this.previousValue = this.value"
-        onkeydown="this.previousValue = this.value"
-        oninput="validity.valid || (value = this.previousValue)"
-        id="enhancement-value"
-        name="data.enhancement.value"
-        value="{{data.data.enhancement.value}}"
-        data-dtype="Number"/>
-  </div>
-  {{/unless}}
-  -->
-  {{#unless (isEqual item.data.type "specialty") }}
-  <div>
-    <label class="resource-label" for="enhancement-condition">Enhancement Condition</label>
-    <input class="resource" type="text" id="enhancement-condition" name="data.enhancement.relevance" value="{{data.data.enhancement.relevance}}" data-dtype="String"/>
-  </div>
-  {{/unless}}
-  {{/if}}
+{{!-- Item Enhancement Setting Partial - Foundry V13 Compliant --}}
+<div class="enhancement-setting border p-1 mb-2">
+    
+    <div class="form-group flexrow flex-between mb-1">
+        <label class="resource-label font-weight-bold">Is Enhancement?</label>
+        {{!-- V13 Data Path: system.isEnhancement (Boolean Toggle) --}}
+        <input type="checkbox" 
+               name="system.isEnhancement" 
+               {{checked system.isEnhancement}} 
+               data-dtype="Boolean" />
+    </div>
+
+    {{#if system.isEnhancement}}
+    <div class="form-group flexrow flex-between">
+        <label class="resource-label">Enhancement Value</label>
+        <div class="form-fields flexrow flex-center" style="max-width: 100px;">
+            {{!-- V13 Data Path: system.enhancementValue (Numeric Rating) --}}
+            <input type="number" 
+                   name="system.enhancementValue" 
+                   value="{{system.enhancementValue}}" 
+                   data-dtype="Number" 
+                   placeholder="0" 
+                   style="text-align: center;" 
+                   title="Bonus successes provided by this item" />
+        </div>
+    </div>
+    <p class="notes italic small mt-1">
+        This value will be added as bonus successes to applicable rolls.
+    </p>
+    {{/if}}
+
 </div>
