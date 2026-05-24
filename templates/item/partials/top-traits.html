@@ -1,15 +1,45 @@
-<div class="top-traits">
-  <span class="top-trait">
-    {{~item.data.data.typeName~}}
-    {{~#if item.data.data.flags.hasDots}}<span class="small icons">&nbsp;{{{toDots item.data.data.value item.data.data.megaValue}}}</span>{{/if~}}
-  </span>
-  {{! Flagged Info }}
-  {{~#if item.data.data.flags.isGear~}}<span class="top-trait secondary">Gear</span>{{~/if~}}
-  {{~#if item.data.data.flags.isWeapon~}}<span class="top-trait secondary">Weapon</span>{{~/if~}}
-  {{~#if item.data.data.flags.isArmor~}}<span class="top-trait secondary">Armor</span>{{~/if~}}
-  {{~#if item.data.data.flags.isVehicle~}}<span class="top-trait secondary">Vehicle</span>{{~/if~}}
-  {{~#if item.data.data.flags.isInjury~}}<span class="top-trait secondary">Injury</span>{{~/if~}}
-  {{~#if item.data.data.flags.isComplication~}}<span class="top-trait secondary">Complication</span>{{~/if~}}
-  {{~#if item.data.data.flags.isEnhancement~}}<span class="top-trait secondary">Enhancement {{item.data.data.enhancement.value}}</span>{{~/if~}}
-  {{~#if item.data.data.flags.hasRoll~}}<span class="top-trait secondary">Roll</span>{{~/if~}}
+{{!-- Item Top Traits Partial - Foundry V13 Compliant --}}
+<div class="item-top-traits border p-2 mb-2 bg-light">
+  
+  <div class="grid grid-3col">
+    
+    {{!-- V13 Data Path: system.value (Rating/Rank) --}}
+    <div class="form-group flexcol p-1">
+      <label class="resource-label font-weight-bold text-center">Rank / Rating</label>
+      <div class="form-fields">
+        <input type="number" 
+               name="system.value" 
+               value="{{system.value}}" 
+               data-dtype="Number" 
+               placeholder="0" 
+               style="text-align: center;" />
+      </div>
+    </div>
+
+    {{!-- V13 Data Path: system.subType (Category/Classification) --}}
+    <div class="form-group flexcol p-1">
+      <label class="resource-label font-weight-bold text-center">Category</label>
+      <div class="form-fields">
+        <input type="text" 
+               name="system.subType" 
+               value="{{system.subType}}" 
+               placeholder="e.g. Mental, Gear" 
+               style="text-align: center;" />
+      </div>
+    </div>
+
+    {{!-- V13 Data Path: system.source (Book/Page) --}}
+    <div class="form-group flexcol p-1">
+      <label class="resource-label font-weight-bold text-center">Source</label>
+      <div class="form-fields">
+        <input type="text" 
+               name="system.source" 
+               value="{{system.source}}" 
+               placeholder="Core p.123" 
+               style="text-align: center;" />
+      </div>
+    </div>
+
+  </div>
+
 </div>
