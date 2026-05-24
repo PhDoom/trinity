@@ -1,58 +1,28 @@
-{{!-- Skill Partial - Read-Only --}}
+{{!-- Skills Partial - Foundry V13 Compliant --}}
+<div class="skills-section mb-2">
+  <h3 class="header">Skills</h3>
+  
+  <div class="skills-list grid grid-2col border p-1">
+    {{!-- V13 Dynamic Iteration: Loops through the skills object in template.json --}}
+    {{#each system.skills as |skill key|}}
+    <div class="skill-item flexrow flex-between flex-center p-1 border-bottom-dashed">
+      
+      {{!-- Label with rollable hook and data-skill for JS listener --}}
+      <label class="skill-label rollable font-weight-bold" 
+             data-skill="{{key}}" 
+             title="Roll {{skill.label}}">
+        {{skill.label}}
+      </label>
 
-{{~#if (getSetting "useSkillSubTypes") ~}}
-<div class="flex-parent flex-parent-between" style="text-align: center;">
-{{#each (getSettingArray "skillSubTypes" true) as |subtype key|}}
-<div class="flex-child nomargin">
-  <h2>{{subtype}}s</h2>
-  {{#each ../actor.skills as |skill key|}}
-    {{~#if (isEqual skill.data.subType subtype)~}}
-
-    <div class="flexcol flex-group-center boxed can-hide item" data-item-id="{{skill._id}}">
-      <div class="resource-label clickable item-edit"> {{skill.name}} </div>
-      <div class="icons rollable" data-skillid="{{skill._id}}" id="{{skill._id}}"> {{{toDots skill.data.value}}} </div>
+      {{!-- V13 Path: system.skills.{{key}}.value --}}
+      <input type="number" 
+             name="system.skills.{{key}}.value" 
+             value="{{skill.value}}" 
+             data-dtype="Number" 
+             style="max-width: 2.5rem; text-align: center;" 
+             placeholder="0" />
+             
     </div>
-    <div class="flexcol flex-group-center boxed edit-area item can-hide hidden" data-itemid="{{skill._id}}">
-      <span class="resource-label clickable item-edit"> {{skill.name}} </span>
-      <div class="flex-parent-nowrap-center">
-        <i class="clickable sub-value large flex-valign fas fa-minus-circle" data-itemid="{{skill._id}}" data-target="data.value"></i>
-        <input class="flex-valign short-input resource item-value-edit" type="number" min="0" step="1" onfocus="this.previousValue = this.value" onkeydown="this.previousValue = this.value" oninput="validity.valid || (value = this.previousValue)" id="{{skill._id}}-value" value="{{data.value}}" data-dtype="Number" data-itemid="{{skill._id}}" data-target="data.value"/>
-        <i class="clickable add-value large flex-valign fas fa-plus-circle" data-itemid="{{skill._id}}" data-target="data.value"></i>
-      </div>
-    </div>
-
-    {{~/if~}}
-  {{/each}}
-</div>
-{{/each}}
-
-
-
-</div>
-
-
-
-
-
-
-
-
-{{else}}
-<h2 style="text-align: center;">Skills</h2>
-<div class="skills grid grid-4row">
-  {{#each actor.skills as |skill key|}}
-  <div class="flexcol flex-group-center boxed can-hide item" data-item-id="{{skill._id}}">
-    <div class="resource-label clickable item-edit"> {{skill.name}} </div>
-    <div class="icons rollable" data-skillid="{{skill._id}}" id="{{skill._id}}"> {{{toDots skill.data.value}}} </div>
+    {{/each}}
   </div>
-  <div class="flexcol flex-group-center boxed edit-area item can-hide hidden" data-itemid="{{skill._id}}">
-    <span class="resource-label clickable item-edit"> {{skill.name}} </span>
-    <div class="flex-parent-nowrap-center">
-      <i class="clickable sub-value large flex-valign fas fa-minus-circle" data-itemid="{{skill._id}}" data-target="data.value"></i>
-      <input class="flex-valign short-input resource item-value-edit" type="number" min="0" step="1" onfocus="this.previousValue = this.value" onkeydown="this.previousValue = this.value" oninput="validity.valid || (value = this.previousValue)" id="{{skill._id}}-value" value="{{data.value}}" data-dtype="Number" data-itemid="{{skill._id}}" data-target="data.value"/>
-      <i class="clickable add-value large flex-valign fas fa-plus-circle" data-itemid="{{skill._id}}" data-target="data.value"></i>
-    </div>
-  </div>
-  {{/each}}
 </div>
-{{~/if~}}
