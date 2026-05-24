@@ -1,165 +1,68 @@
-// trinity roll 2
-import { trinityRoll } from "/systems/trinity/module/trinity-roll.js";
-import { pickedElementsProto } from "/systems/trinity/module/protos.js";
+/**
+ * Trinity Continuum Picker Utility for Foundry V13.
+ * Handles the selection and highlighting of attributes/skills for dice pools.
+ */
+export class TrinityPicker {
 
-export class Picker {
+  /**
+   * Handle the selection of a trait on the character sheet.
+   * @param {Event} event     The click event.
+   * @param {Actor} actor     The actor owning the trait.
+   */
+  static async onPick(event, actor) {
+    const element = event.currentTarget;
+    const traitName = element.dataset.label;
+    const traitValue = parseInt(element.dataset.value) || 0;
+    const traitType = element.dataset.type; // e.g., 'attribute' or 'skill'
 
-  static async pDialog(pickType, targetActor, pickedElements) {
-
-    var html = {};
-    let pItems = {};
-
-    // add some conditional code here to change the template depending on pickType - attr, skil, etc.
-    /*
-    console.log("Picker, what does it have?");
-    console.log(this);
-    console.log(pickType);
-    console.log(targetActor);
-    console.log(pickedElements);
-    */
-    switch(pickType) {
-      case "attr":
-        html = await renderTemplate("systems/trinity/templates/pickers/pick-attr.html", {picked: pickedElements, actor: targetActor});
-        break;
-      case "skil":
-        pItems = targetActor.items.filter(f => f.type.includes("skill"));
-        html = await renderTemplate("systems/trinity/templates/pickers/pick-skil.html", {items: pItems, actor: targetActor});
-        break;
-      case "enha":
-        pItems = targetActor.items.filter(f => f.data.data.flags.isEnhancement === true);
-        pickedElements.enha = {};
-        Object.assign(pickedElements.enha, pickedElementsProto.enha);
-        html = await renderTemplate("systems/trinity/templates/pickers/pick-enha.html", {items: pItems, actor: targetActor});
-        break;
-      default:
-        ui.notifications.warn("No Picker Type Found.");
-        return;
+    // V13: Access internal roll settings via .system
+    const sys = actor.system;
+    
+    // Toggle selection state
+    const isSelected = element.classList.contains("selected");
+    
+    if (isSelected) {
+      element.classList.remove("selected");
+      this._clearSelection(actor, traitType);
+    } else {
+      // Clear previous selections of the same type
+      const sheet = element.closest(".sheet");
+      sheet.querySelectorAll(`[data-type="${traitType}"]`).forEach(el => el.classList.remove("selected"));
+      
+      element.classList.add("selected");
+      this._updateActorPool(actor, traitType, traitName, traitValue);
     }
+  }
 
-    // const pickDialog = await new Promise(resolve => {
-    return new Promise((resolve, reject) => {
-        new Dialog({
-        title: "Pick Element",
-        id: "picker",
-        content: html,
-        buttons: {
-          update: {
-            icon: "<i class='fas fa-redo'></i>",
-            label: "Update",
-            callback: () => {
-              for (let i of document.getElementsByClassName('input')) {
-                if (i.checked) {  // maybe i[0], might not work with Enha/Checkbox
-                  switch(pickType) {
-                    case "attr":
-                      pickedElements.attr = Object.values(targetActor.data.data.attributes).find(attribute => attribute.name === i.value) || pickedElements.attr;
-                      break;
-                    case "skil":
-                      pickedElements.skil = targetActor.items.find(item => item.id === i.id).data || pickedElements.skil;
-                      pickedElements.skil.value = pickedElements.skil.data.value;
-                      break;
-                    case "enha":
-                      pickedElements.enha[i.id] = targetActor.items.find(item => item.id === i.id).data || pickedElements.enha;
-                      pickedElements.enha.value = parseInt(pickedElements.enha.value) + parseInt(pickedElements.enha[i.id].data.enhancement.value);
-                      // pickedElements.enha.name = pickedElements.enha.name + '•' + pickedElements.enha[i.id].name;
+  /**
+   * Update the actor's hidden roll state.
+   * V13 Requirement: Use actor.update() targeting the 'system' path.
+   */
+  static async _updateActorPool(actor, type, name, value) {
+    const updateData = {};
+    updateData[`system.rollSettings.${type}`] = { name: name, value: value };
+    
+    // This allows the sheet to "remember" what was clicked for the Roll Dialog
+    return actor.update(updateData);
+  }
 
-                      console.log("enha case name assignment");
-                      console.log(pickedElementsProto.enha.name);
-                      pickedElements.enha.name = ((pickedElements.enha.name === pickedElementsProto.enha.name) ? (pickedElements.enha[i.id].name) : (pickedElements.enha.name + ' • ' + pickedElements.enha[i.id].name));
+  /**
+   * Clear the selection when a trait is deselected.
+   */
+  static async _clearSelection(actor, type) {
+    const updateData = {};
+    updateData[`system.rollSettings.${type}`] = { name: "", value: 0 };
+    return actor.update(updateData);
+  }
 
-                      console.log(pickedElements);
-
-                      break;
-                  }
-                }
-              };
-
-              console.log("pickedElements");
-              console.log(pickedElements);
-
-              // console.log(pickedElements);
-              // resolve(pickedElements);
-
-              // trinityRoll(null, targetActor, pickedElements);
-              trinityRoll(targetActor, pickedElements);
-
-              resolve(pickedElements);
-/*
-
-              let h = html.find('.input');
-              Array.prototype.forEach.call(h, function(i) {
-                if (i.checked) {  // maybe i[0]
-                  pickedElements.attr = Object.values(targetActor.data.data.attributes).find(attribute => attribute.name === i.value);
-                  console.log("Picker, Update button, pickedElement:");
-                  console.log(pickedElements);
-                }
-                console.log(i.tagName);
-              });
-
-
-/*
-              for (let i of html.filter('.input')) {
-                if (i.checked) {  // maybe i[0]
-                  pickedElements.attr = Object.values(targetActor.data.data.attributes).find(attribute => attribute.name === i.value);
-                  console.log("Picker, Update button, pickedElement:");
-                  console.log(pickedElements);
-                }
-              };
-*/
-
-
-/* Various useful code snippets
-targetAttr = Object.values(targetActor.data.data.attributes).find(attribute => attribute.name === dataset.attrname);
-pickedElements.attr = targetAttr;
-
-              if (html.find('#'+i._id)[0].checked) {
-                iSelect = html.find('#'+i._id)[0].value;
-              }
-
-              for (let part of Object.keys(rollParts)) {
-                if (document.getElementById(part)){
-                  rollParts[part] = parseInt(document.getElementById(part).value) || rollParts[part];
-                }
-                console.log("rollParts."+part+":");
-                console.log(rollParts[part]);
-              }
-/* End Code Snippets */
-
-
-
-              /* Needs updating to update pickedElements
-              for (let part of Object.keys(rollParts)) {
-                if (document.getElementById(part)){
-                  rollParts[part] = parseInt(document.getElementById(part).value) || rollParts[part];
-                }
-                console.log("rollParts."+part+":");
-                console.log(rollParts[part]);
-              }
-              resolve(rollParts); */
-            }
-          },
-          cancel: {
-            icon: "<i class='fas fa-times'></i>",
-            label: "Cancel",
-            callback: () => {
-              trinityRoll(targetActor, pickedElements);
-              resolve(pickedElements);
-          //	  actionType = "remove";
-            }
-          },
-        },
-        default:"roll",
-        callback: html => {
-          resolve(pickedElements);
-//            console.log(html, actor);
-/*
-            let passionName = html[0].querySelector('.newPassion').value
-            let passionValue = html[0].querySelector('.newPassionValue').value
-
-            actor.update({
-                "data.passions": [...actor.data.passions, [passionName, passionValue]]
-*/      }
-    }).render(true);
-  });
-}
-
+  /**
+   * Reset all selections (usually called after a roll is completed).
+   */
+  static async reset(actor, html) {
+    html.find(".selected").removeClass("selected");
+    return actor.update({
+      "system.rollSettings.attribute": { name: "", value: 0 },
+      "system.rollSettings.skill": { name: "", value: 0 }
+    });
+  }
 }
