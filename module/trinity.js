@@ -8,7 +8,7 @@ import { preloadHandlebarsTemplates } from "./templates.js";
 import { extendPrototypes } from "./protos.js";
 
 /* -------------------------------------------- */
-/*  Foundry V13 Initialization                  */
+/* Foundry V13 Initialization                  */
 /* -------------------------------------------- */
 
 Hooks.once('init', async function() {
@@ -33,11 +33,29 @@ Hooks.once('init', async function() {
   // V13 requires this registration to ensure rolls use your class logic
   CONFIG.Dice.rolls.push(TrinityRoll);
 
-  // Register sheet application classes
+  /* -------------------------------------------- */
+  /* V13 Sheet Registration                      */
+  /* -------------------------------------------- */
+
+  // 1. Unregister the core Foundry fallback sheets
   Actors.unregisterSheet("core", ActorSheet);
-  Actors.registerSheet("trinity", TrinityActorSheet, { makeDefault: true });
   Items.unregisterSheet("core", ItemSheet);
-  Items.registerSheet("trinity", TrinityItemSheet, { makeDefault: true });
+
+  // 2. Register Custom Actor Sheet
+  // V13 Requirement: The `types` array must match the keys in system.json -> documentTypes -> Actor
+  Actors.registerSheet("trinity", TrinityActorSheet, {
+      types: ["character", "npc"], 
+      makeDefault: true,
+      label: "Trinity Modern Sheet"
+  });
+
+  // 3. Register Custom Item Sheet
+  // V13 Requirement: The `types` array must match the keys in system.json -> documentTypes -> Item
+  Items.registerSheet("trinity", TrinityItemSheet, {
+      types: ["item", "feature", "spell"], 
+      makeDefault: true,
+      label: "Trinity Item Sheet"
+  });
 
   // Extend Prototypes for Helper Methods
   extendPrototypes();
@@ -47,7 +65,7 @@ Hooks.once('init', async function() {
 });
 
 /* -------------------------------------------- */
-/*  Ready Hook                                  */
+/* Ready Hook                                  */
 /* -------------------------------------------- */
 
 Hooks.once("ready", async function() {
@@ -55,7 +73,7 @@ Hooks.once("ready", async function() {
 });
 
 /* -------------------------------------------- */
-/*  Hotbar Macros                               */
+/* Hotbar Macros                               */
 /* -------------------------------------------- */
 
 /**
