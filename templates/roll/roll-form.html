@@ -1,65 +1,54 @@
-{{!-- Trinity Roll Form Template - Foundry V13 Compliant --}}
-<form class="trinity-roll-form flexcol" autocomplete="off">
+{{!-- Trinity Roll Form - Foundry V13 Compliant --}}
+<form class="trinity-dialog roll-form" autocomplete="off">
   
-  {{!-- Roll Identity & Context --}}
-  <header class="form-header flexrow border-bottom pb-2 mb-2">
-    <h3 class="m-0 flex-group-left">Configure Action</h3>
-    <div class="action-type flexrow flex-center px-2">
-      <label class="small-label mr-1">Type:</label>
-      <input type="text" name="system.actionType" value="{{system.actionType}}" placeholder="e.g. Combat"/>
+  {{!-- Header --}}
+  <header class="dialog-header border-bottom mb-2 trinity-flexrow trinity-flex-between p-2">
+    <h3 class="m-0">Configure Action</h3>
+    <div class="action-badge">
+      <input type="text" name="system.actionType" value="{{system.actionType}}" placeholder="Action Type" class="text-center"/>
     </div>
   </header>
 
-  {{!-- Core Dice Pool Mechanics --}}
-  <div class="form-section border p-2 mb-2">
-    <h4 class="section-title border-bottom mb-2">Base Pool Configuration</h4>
+  {{!-- Configuration Grid --}}
+  <div class="trinity-grid trinity-grid-2col mb-3">
     
-    <div class="form-group flexrow flex-between p-1">
-      <label>Base Pool (Fixed)</label>
-      <input type="number" name="system.basePool" value="{{system.basePool}}" data-dtype="Number" style="width: 50px; text-align: center;"/>
+    <div class="trinity-flexcol border p-2">
+      <label class="small-label font-weight-bold">Base Pool</label>
+      <input type="number" name="system.basePool" value="{{system.basePool}}" data-dtype="Number" class="text-center"/>
     </div>
 
-    <div class="form-group flexrow flex-between p-1">
-      <label>Default Enhancement</label>
-      <input type="number" name="system.enhancement" value="{{system.enhancement}}" data-dtype="Number" style="width: 50px; text-align: center;"/>
+    <div class="trinity-flexcol border p-2">
+      <label class="small-label font-weight-bold">Enhancement</label>
+      <input type="number" name="system.enhancement" value="{{system.enhancement}}" data-dtype="Number" class="text-center"/>
+    </div>
+
+    <div class="trinity-flexcol border p-2">
+      <label class="small-label font-weight-bold">Difficulty</label>
+      <input type="number" name="system.difficulty" value="{{system.difficulty}}" data-dtype="Number" class="text-center"/>
+    </div>
+
+    <div class="trinity-flexcol border p-2">
+      <label class="small-label font-weight-bold">Scale</label>
+      <input type="number" name="system.scale" value="{{system.scale}}" data-dtype="Number" class="text-center"/>
     </div>
   </div>
 
-  {{!-- Challenge Parameters --}}
-  <div class="form-section border p-2 mb-2">
-    <h4 class="section-title border-bottom mb-2">Default Challenge</h4>
-    
-    <div class="grid grid-2col">
-      <div class="form-group flexcol flex-center px-1">
-        <label class="small-label font-weight-bold">Difficulty</label>
-        <input type="number" name="system.difficulty" value="{{system.difficulty}}" data-dtype="Number" class="text-center w-50"/>
-      </div>
-
-      <div class="form-group flexcol flex-center px-1">
-        <label class="small-label font-weight-bold">Scale</label>
-        <input type="number" name="system.scale" value="{{system.scale}}" data-dtype="Number" class="text-center w-50"/>
-      </div>
-    </div>
-  </div>
-
-  {{!-- V13 System Flag Management --}}
-  <div class="form-section border-top pt-2">
-    <div class="form-group flexrow flex-between p-1">
-      <label class="small">Treat as Specialty Action?</label>
+  {{!-- Toggles --}}
+  <div class="trinity-flexcol border-top pt-2">
+    <div class="trinity-flexrow trinity-flex-between p-1">
+      <label class="small">Specialty Action</label>
       <input type="checkbox" name="system.isSpecialty" {{checked system.isSpecialty}}/>
     </div>
-
-    <div class="form-group flexrow flex-between p-1">
-      <label class="small">Allow Momentum Spends?</label>
+    <div class="trinity-flexrow trinity-flex-between p-1">
+      <label class="small">Allow Momentum</label>
       <input type="checkbox" name="system.allowMomentum" {{checked system.allowMomentum}}/>
     </div>
   </div>
 
-  {{!-- Description/Flavor --}}
+  {{!-- Rich Text Description --}}
   <div class="form-group mt-2">
-    <label class="font-weight-bold small-label">Action Description</label>
-    {{!-- Modern ProseMirror Editor for form context --}}
-    {{editor system.description target="system.description" button=true owner=owner editable=editable engine="prosemirror"}}
+    <label class="small-label font-weight-bold">Action Description</label>
+    {{editor enrichedDescription target="system.description" button=true owner=owner editable=editable engine="prosemirror"}}
   </div>
 
 </form>
