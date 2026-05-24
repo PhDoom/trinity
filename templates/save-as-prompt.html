@@ -1,10 +1,51 @@
-<form class="{{cssClass}} flexcol" autocomplete="off">
-  <section class="sheet-body">
-    <div>
-      <label class="resource-label" for="saveName">Enter Saved Roll Name:</label>
-      <input class="input" onfocus="this.value=''" type="text" name="saveNameInput" id="saveName" value="Saved Roll" data-dtype="String"/>
-      <!-- Apparently, without a value=, submitting the dialog w/ an input will crash Foundry.
-      Of course, even with a value it crashes sometimes. :( -->
+{{!-- Save-As Prompt - Foundry V13 Compliant --}}
+<form class="trinity-dialog save-as-prompt flexcol" autocomplete="off">
+  
+  {{!-- Context Header --}}
+  <header class="dialog-header border-bottom mb-2 flexrow flex-between p-1 bg-grey">
+    <h3 class="m-0">Save Action</h3>
+    <div class="small italic text-blue">Dice Pool: {{add attrVal skillVal}}</div>
+  </header>
+
+  {{!-- Configuration Details --}}
+  <div class="form-group mb-2">
+    <label class="font-weight-bold block mb-1">Saved Action Name</label>
+    <input type="text" name="savedName" value="{{attrName}} + {{#if skillName}}{{skillName}}{{else}}Attribute{{/if}}" placeholder="e.g. My Custom Attack"/>
+    <p class="notes small italic">This is the name that will appear in your 'Saved Actions' list.</p>
+  </div>
+
+  <div class="mechanics-grid grid grid-2col border-top pt-2 mb-2">
+    {{!-- Selection Summary --}}
+    <div class="selection-box flexcol p-1 border-right">
+      <span class="small-label font-weight-bold text-uppercase">Components</span>
+      <ul class="small m-0 px-3">
+        <li>{{attrName}} ({{attrVal}})</li>
+        {{#if skillName}}<li>{{skillName}} ({{skillVal}})</li>{{/if}}
+      </ul>
     </div>
-  </section>
+
+    {{!-- Permanent Modifiers --}}
+    <div class="modifier-box flexcol p-1">
+      <label class="small-label font-weight-bold text-uppercase">Enhancement</label>
+      <input type="number" name="enhancement" value="{{enhancement}}" data-dtype="Number" class="text-center w-50"/>
+    </div>
+  </div>
+
+  {{!-- V13 System Category Mapping --}}
+  <div class="form-group border-top pt-2">
+    <label class="font-weight-bold block mb-1">Action Category</label>
+    <select name="subType" class="w-100">
+      {{#select subType}}
+      <option value="combat">Combat</option>
+      <option value="social">Social</option>
+      <option value="mental">Mental</option>
+      <option value="exploration">Exploration</option>
+      <option value="other">Other</option>
+      {{/select}}
+    </select>
+  </div>
+
+  <p class="notes italic small text-center mt-2 border-top pt-1">
+    Saving this action allows you to roll it with a single click from the Overview tab.
+  </p>
 </form>
