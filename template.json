@@ -1,205 +1,138 @@
 {
   "Actor": {
-    "types": ["TrinityCharacter", "TrinityNPC"],
+    "types": ["character", "npc"],
     "templates": {
       "base": {
-        "system": {
-          "biography": "",
-          "logo": "systems/trinity/assets/emptycircle.webp",
-          "defense": {
-            "value": 1
-          },
-          "flags": {
-            "isTalent": false,
-            "isPsion": false,
-            "isNova": false,
-            "isMage": false,
-            "isOther": false,
-            "isActivePlayer": false,
-            "isTakenOut": false,
-            "isHealthModelUpdated": false
-          },
-          "health": {
-            "details": [],
-            "summary": {
-              "value": null,
-              "max": null,
-              "status": "",
-              "penalty": 0
-            },
-            "models": {
-              "modelT": {},
-              "modelS": {}
-            }
-          },
-          "savedRolls": {},
-          "initiativeRollID": "",
-          "linkedRolls": {},
-          "tier": 2,
-          "rollSettings": {
-            "expl": { "name": "Explode Threshold", "value": null },
-            "succ": { "name": "Success Threshold", "value": null },
-            "nsca": { "name": "Narrative Scale (Absolute)", "value": null },
-            "dsca": { "name": "Dramatic Scale (Difference)", "value": null },
-            "fail": { "name": "Fail Threshold", "value": null }
-          }
-        }
+        "health": { "value": 0, "max": 7, "bashing": 0, "lethal": 0, "aggravated": 0 },
+        "defense": { "value": 0 },
+        "resilience": { "value": 0 },
+        "speed": { "value": 0 },
+        "initiative": { "value": 0 },
+        "armor": { "value": 0 },
+        "biography": "",
+        "gmNotes": ""
+      }
+    },
+    "character": {
+      "templates": ["base"],
+      "concept": "",
+      "allegiance": "",
+      "experience": { "unspent": 0, "total": 0 },
+      "aspirations": {
+        "short1": "",
+        "short2": "",
+        "long": ""
       },
+      "bonds": "",
+      "rollSettings": {
+        "targetNumber": { "value": 8 },
+        "doubleSuccess": { "value": 10 },
+        "explodeThreshold": { "value": 10 },
+        "successThreshold": { "value": 0 },
+        "failThreshold": { "value": 1 },
+        "bonusDice": { "value": 0 },
+        "difficulty": { "value": 0 },
+        "narrativeScale": { "value": 0 },
+        "dramaticScale": { "value": 0 }
+      },
+      "attributes": {
+        "intellect": { "value": 1, "label": "Intellect" },
+        "cunning": { "value": 1, "label": "Cunning" },
+        "resolve": { "value": 1, "label": "Resolve" },
+        "might": { "value": 1, "label": "Might" },
+        "dexterity": { "value": 1, "label": "Dexterity" },
+        "stamina": { "value": 1, "label": "Stamina" },
+        "presence": { "value": 1, "label": "Presence" },
+        "manipulation": { "value": 1, "label": "Manipulation" },
+        "composure": { "value": 1, "label": "Composure" }
+      },
+      "skills": {
+        "aim": { "value": 0, "label": "Aim" },
+        "athletics": { "value": 0, "label": "Athletics" },
+        "closeCombat": { "value": 0, "label": "Close Combat" },
+        "command": { "value": 0, "label": "Command" },
+        "culture": { "value": 0, "label": "Culture" },
+        "empathy": { "value": 0, "label": "Empathy" },
+        "enigmas": { "value": 0, "label": "Enigmas" },
+        "humanities": { "value": 0, "label": "Humanities" },
+        "integrity": { "value": 0, "label": "Integrity" },
+        "larceny": { "value": 0, "label": "Larceny" },
+        "medicine": { "value": 0, "label": "Medicine" },
+        "persuasion": { "value": 0, "label": "Persuasion" },
+        "pilot": { "value": 0, "label": "Pilot" },
+        "science": { "value": 0, "label": "Science" },
+        "survival": { "value": 0, "label": "Survival" },
+        "technology": { "value": 0, "label": "Technology" }
+      },
+      "subType": "talent",
       "talent": {
-        "system": {
-          "moment": "",
-          "inspiration": {
-            "max": 0,
-            "value": 0
-          }
-        }
+        "inspiration": { "value": 1, "max": 10 }
       },
       "mage": {
-        "system": {
-          "tradition": "",
-          "virtues": "",
-          "vices": "",
-          "nature": "",
-          "demeanor": "",
-          "paradigm": "",
-          "essence": "",
-          "avatar": "",
-          "quintessence": { "max": 20, "value": 0 },
-          "paradox": { "max": 20, "value": 0 },
-          "willpower": { "max": 0, "value": 0 }
-        }
+        "quintessence": { "value": 1, "max": 10 },
+        "arete": { "value": 1 }
       },
       "psion": {
-        "system": {
-          "psiOrder": "",
-          "psi": {
-            "aptitude": "",
-            "rating": 0,
-            "points": { "max": 0, "value": 0 },
-            "tolerance": { "max": 0, "value": 0, "linkedItemIDs": [] }
-          }
-        }
+        "psi": { "value": 1, "max": 10 },
+        "tolerance": { "value": 1 }
       },
       "nova": {
-        "system": {
-          "quantum": {
-            "rating": 1,
-            "points": { "max": 0, "value": 0 }
-          },
-          "flux": 0,
-          "transcendence": 0
-        }
+        "quantum": { "value": 1, "max": 10 },
+        "flux": { "value": 0, "max": 10 }
       }
     },
-    "TrinityNPC": {
-      "templates": ["base", "talent", "psion", "nova"],
-      "system": {
-        "npcType": "",
-        "powerLevel": "",
-        "edgeDots": { "value": 1 },
-        "source": { "max": 1, "value": 1 },
-        "anomalyPowers": { "value": 1 }
-      }
-    },
-    "TrinityCharacter": {
-      "templates": ["base", "talent", "psion", "nova"],
-      "system": {
-        "player": "Player Name",
-        "concept": "Character Concept",
-        "flags": {
-          "isTalent": true,
-          "isActivePlayer": true
-        },
-        "experience": { "earned": 0, "available": 0 },
-        "aspirations": {
-          "shortTerm1": { "name": "Short Term Aspiration One", "description": "", "complete": false },
-          "shortTerm2": { "name": "Short Term Aspiration Two", "description": "", "complete": false },
-          "longTerm": { "name": "Long Term Aspiration", "description": "", "complete": false }
-        },
-        "favoredApproach": ""
+    "npc": {
+      "templates": ["base"],
+      "threat": { "value": 1 },
+      "size": { "value": 1 },
+      "pools": {
+        "primary": { "value": 5 },
+        "secondary": { "value": 4 },
+        "desperation": { "value": 3 },
+        "attack": { "value": 0 },
+        "movement": { "value": 0 },
+        "social": { "value": 0 }
+      },
+      "attributes": {
+        "cunning": { "value": 1, "label": "Cunning" }
       }
     }
   },
   "Item": {
-    "types": ["equipment", "attribute", "edge", "skill", "specialty", "path", "condition", "stunt", "gift", "trick", "contact", "bond", "mode", "action", "quantumPower", "modePower", "tag"],
+    "types": [
+      "gear", 
+      "item", 
+      "weapon", 
+      "armor", 
+      "edge", 
+      "path", 
+      "power", 
+      "action", 
+      "condition", 
+      "bond", 
+      "contact", 
+      "gift", 
+      "spell", 
+      "quantumPower"
+    ],
     "templates": {
-      "base": {
-        "system": {
-          "description": "",
-          "source": "",
-          "enhancement": { "value": 0, "relevance": "" },
-          "complication": { "value": 0, "relevance": "" },
-          "flags": {
-            "isEnhancement": false,
-            "isComplication": false,
-            "isGear": false,
-            "isWeapon": false,
-            "isArmor": false,
-            "isVehicle": false,
-            "isInjury": false,
-            "isEquipped": true,
-            "isFavorite": false,
-            "hasDots": true,
-            "isDice": false,
-            "hasRoll": false
-          },
-          "defaultSkill": "",
-          "defaultAttribute": "",
-          "linkedRollID": "",
-          "subItems": {}
-        }
+      "baseItem": {
+        "description": ""
       }
     },
-    "attribute": {
-      "system": {
-        "name": "",
-        "typeName": "Attribute",
-        "value": 0,
-        "megaValue": 0,
-        "arena": "",
-        "approach": "",
-        "npcDescription": "",
-        "sortNum": 0,
-        "flags": {
-          "hasDots": true,
-          "isDice": true,
-          "isMain": true,
-          "isQuantum": false,
-          "isPsi": false,
-          "isFacet": false,
-          "isSource": false
-        },
-        "enhancement": { "value": 0, "relevance": "" }
-      }
-    },
-    "equipment": {
-      "templates": ["base"],
-      "system": {
-        "typeName": "Equipment",
-        "quantity": 1,
-        "tolerance": 0,
-        "gear": { "tags": "" },
-        "weapon": { "tags": "", "damageType": "" },
-        "armor": { "tags": "", "hardArmor": 0, "softArmor": 0 },
-        "vehicle": { "name": "", "tags": "", "size": 1, "handling": 1, "speed": 1, "cost": 1 },
-        "enhancement": { "value": 1, "relevance": "" },
-        "flags": { "isEnhancement": true, "hasDots": false }
-      }
-    },
-    "edge": { "templates": ["base"], "system": { "typeName": "Edge", "value": 0, "flags": { "isMega": false } } },
-    "skill": { "templates": ["base"], "system": { "typeName": "Skill", "subType": "", "value": 0, "flags": { "isDice": true } } },
-    "specialty": { "templates": ["base"], "system": { "typeName": "Specialty", "skillOrigin": "", "enhancement": { "value": 1, "relevance": "Specialty: Skill Name" }, "flags": { "isEnhancement": true, "hasDots": false } } },
-    "path": { "templates": ["base"], "system": { "typeName": "Path", "pathtype": "", "value": 1 } },
-    "condition": { "templates": ["base"], "system": { "typeName": "Condition", "injury": { "type": 0, "value": 0 }, "flags": { "hasDots": false } } },
-    "stunt": { "templates": ["base"], "system": { "typeName": "Stunt", "costDescription": "", "stuntType": "", "costType": "", "value": 0, "flags": { "hasDots": false } } },
-    "gift": { "templates": ["base"], "system": { "typeName": "Gift", "keywords": "", "system": "", "flags": { "hasDots": false } } },
-    "trick": { "templates": ["base"], "system": { "typeName": "Skill Trick", "skillOrigin": "", "flags": { "hasDots": false } } },
-    "contact": { "templates": ["base"], "system": { "typeName": "Contact", "value": 1, "pathOrigin": "" } },
-    "bond": { "templates": ["base"], "system": { "typeName": "Bond", "value": 1, "skillOrigin": "" } },
-    "mode": { "templates": ["base"], "system": { "typeName": "Mode", "value": 1, "aptitude": "", "psiCost": "", "system": "", "flags": { "hasDots": true, "isBasicMode": false, "isAuxillary": false } } },
-    "action": { "templates": ["base"], "system": { "typeName": "Action", "linkedItemIDs": [], "flags": { "hasDots": false } } },
-    "quantumPower": { "templates": ["base"], "system": { "typeName": "Quantum Power", "value": 1, "quantumMin": "", "actionType": "", "cost": "", "dicePool": "", "range": "", "duration": "", "flags": { "isPowerSuite": false, "isDice": true } } },
-    "modePower": { "templates": ["base"], "system": { "typeName": "Mode Power", "actionType": "", "costDescription": "", "dotRequirement": 0, "dicePool": "", "range": "", "duration": "" } },
-    "tag": { "templates": ["base"], "system": { "typeName": "Tag", "tagValue": 0, "flags": { "hasDots": false } } }
+    "gear": { "templates": ["baseItem"], "quantity": 1 },
+    "item": { "templates": ["baseItem"], "quantity": 1 },
+    "weapon": { "templates": ["baseItem"], "damage": 0, "range": "", "tags": "" },
+    "armor": { "templates": ["baseItem"], "soak": 0, "tags": "" },
+    "edge": { "templates": ["baseItem"], "rating": 1 },
+    "path": { "templates": ["baseItem"], "rating": 1, "type": "" },
+    "power": { "templates": ["baseItem"], "dicePool": "", "cost": "" },
+    "action": { "templates": ["baseItem"], "dicePool": "", "cost": "" },
+    "condition": { "templates": ["baseItem"], "resolution": "", "effect": "" },
+    "bond": { "templates": ["baseItem"], "rating": 1 },
+    "contact": { "templates": ["baseItem"], "affiliation": "", "rating": 1 },
+    "gift": { "templates": ["baseItem"], "dicePool": "", "cost": "" },
+    "spell": { "templates": ["baseItem"], "dicePool": "", "cost": "" },
+    "quantumPower": { "templates": ["baseItem"], "dicePool": "", "cost": "" }
   }
 }
