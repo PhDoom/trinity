@@ -1,4 +1,32 @@
-@import url('https://fonts.googleapis.com/css2?family=Martel:wght@400;800&family=Roboto:wght@300;400;500&display=swap');
+@layer trinity.typography {
+    /* Set the default font for the system */
+    body, .trinity-dialog {
+        font-family: var(--font-primary, sans-serif);
+        font-size: var(--font-size-14, 14px);
+        color: var(--color-text-dark-primary);
+    }
 
-$font-primary: 'Roboto', sans-serif;
-$font-secondary: 'Roboto', sans-serif;
+    /* Standardized Trinity Heading Styles */
+    h1, h2, h3, h4 {
+        font-family: var(--font-headings, serif);
+        color: var(--color-text-header);
+        margin: 0.5rem 0;
+    }
+
+    /* Trinity-specific typography helpers */
+    .small-label {
+        font-size: var(--font-size-12, 12px);
+        font-weight: bold;
+        text-transform: uppercase;
+        color: var(--color-text-dark-secondary);
+    }
+
+    .font-weight-bold { font-weight: bold; }
+    
+    .text-center { text-align: center; }
+    
+    /* Monospace for numbers/stats */
+    .mono {
+        font-family: var(--font-mono, monospace);
+    }
+}
