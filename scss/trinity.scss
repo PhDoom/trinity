@@ -1,18 +1,19 @@
-// Import utilities.
-@import 'utils/typography';
-@import 'utils/colors';
-@import 'utils/mixins';
-@import 'utils/variables';
+/* 1. Global Utilities & Variables (Must load first) */
+@import "utils/variables";
+@import "utils/colors";
+@import "utils/typography";
+@import "utils/mixins";
 
-/* Global styles */
-@import 'global/window';
-@import 'global/grid';
-@import 'global/flex';
+/* 2. Global Layout Engines */
+@import "global/flex";
+@import "global/grid";
+@import "global/window";
 
-/* Styles limited to trinity sheets */
-.trinity {
-  @import 'components/forms';
-  @import 'components/resource';
-  @import 'components/tabs';
-  @import 'components/items';
-}
+/* 3. System Components */
+@import "components/items";
+@import "components/forms";
+@import "components/resource";
+@import "components/tabs";
+
+/* 4. Define Cascade Layers (Ensures proper priority) */
+@layer trinity.base, trinity.layout, trinity.items, trinity.resources, trinity.tabs;
