@@ -1,13 +1,42 @@
-{{log this}}
-<h2>Give Focus To</h2>
-<div class="flexcol">
-{{#each group as |actor id|}}
-  <div class="combatant boxed flex-parent actorbox" data-actorID="{{actor.id}}">
-    <img class="token-img" src="{{actor.data.token.img}}" title="Token" />
-    <div class="flexcol flex-left">
-      <div class="x-large">{{actor.name}}</div>
-      <div class="smaller">{{actor.data.data.player}}</div>
+{{!-- Focus Dialog - Foundry V13 Compliant --}}
+<form class="trinity-dialog focus-dialog">
+  <div class="flexcol border p-2">
+    
+    <p class="notes mb-2">Adjust the focus and situational modifiers for this action.</p>
+
+    {{!-- Focus Level Input --}}
+    <div class="form-group flexrow flex-between mb-1">
+      <label class="font-weight-bold">Focus Rating</label>
+      <div class="flexrow flex-center" style="max-width: 100px;">
+        <input type="number" 
+               name="focusValue" 
+               value="{{focus}}" 
+               data-dtype="Number" 
+               style="text-align: center;" />
+      </div>
     </div>
+
+    {{!-- Difficulty/Situational Modifier --}}
+    <div class="form-group flexrow flex-between mb-1">
+      <label class="font-weight-bold">Difficulty</label>
+      <div class="flexrow flex-center" style="max-width: 100px;">
+        <input type="number" 
+               name="difficulty" 
+               value="{{difficulty}}" 
+               data-dtype="Number" 
+               style="text-align: center;" />
+      </div>
+    </div>
+
+    <hr>
+
+    {{!-- Conditional: Special Bonus (If passed from actor) --}}
+    {{#if bonus}}
+    <div class="form-group flexrow flex-between">
+      <label>Additional Bonus</label>
+      <span class="px-2 font-weight-bold">+{{bonus}}</span>
+    </div>
+    {{/if}}
+
   </div>
-{{/each}}
-</div>
+</form>
