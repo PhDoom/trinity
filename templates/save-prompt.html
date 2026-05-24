@@ -1,59 +1,37 @@
-{{!-- Trinity Action Save Prompt - Foundry V13 Compliant --}}
-<form class="trinity-dialog save-prompt flexcol" autocomplete="off">
+{{!-- Trinity Quick Save Prompt - Foundry V13 Compliant --}}
+<form class="trinity-dialog save-prompt" autocomplete="off">
   
-  {{!-- Save Header --}}
-  <header class="dialog-header border-bottom mb-2 flexrow flex-between p-1 bg-grey">
-    <h3 class="m-0">Create Saved Action</h3>
-    <div class="pool-preview font-weight-bold text-blue">
-      Pool: {{add attrVal skillVal}} Dice
-    </div>
+  {{!-- Dialog Header --}}
+  <header class="dialog-header border-bottom mb-2 trinity-flexrow trinity-flex-between p-2">
+    <h3 class="m-0">Quick Save Action</h3>
   </header>
 
-  {{!-- Configuration Section --}}
+  {{!-- Action Name --}}
   <div class="form-group mb-2">
-    <label class="font-weight-bold block mb-1">Display Name</label>
-    {{!-- Default name combines the two stats selected --}}
-    <input type="text" name="name" value="{{attrName}} + {{#if skillName}}{{skillName}}{{else}}Attribute{{/if}}" placeholder="e.g. Rapid Fire, Heated Debate"/>
-    <p class="notes small italic">Give this action a unique name to find it easily on your sheet.</p>
+    <label class="small-label font-weight-bold">Assign Name</label>
+    <input type="text" name="name" value="{{name}}" placeholder="Action Name" class="w-100"/>
   </div>
 
-  <div class="mechanics-grid grid grid-2col border-top pt-2">
+  {{!-- Status Grid --}}
+  <div class="trinity-grid trinity-grid-2col border-top pt-2">
     
-    {{!-- Component Summary --}}
-    <div class="selection-details flexcol p-1 border-right">
-      <span class="small-label font-weight-bold text-uppercase">Dice Sources</span>
-      <div class="small mt-1">
-        <div class="flexrow flex-between">
-          <span>{{attrName}}:</span>
-          <span class="font-weight-bold">{{attrVal}}</span>
-        </div>
-        {{#if skillName}}
-        <div class="flexrow flex-between">
-          <span>{{skillName}}:</span>
-          <span class="font-weight-bold">{{skillVal}}</span>
-        </div>
-        {{/if}}
-      </div>
+    <div class="trinity-flexcol trinity-flex-center p-1">
+      <span class="small-label">Base Dice</span>
+      <span class="font-weight-bold text-blue">{{pool}}</span>
     </div>
 
-    {{!-- Fixed Modifiers --}}
-    <div class="modifier-details flexcol p-1">
-      <label class="small-label font-weight-bold text-uppercase">Permanent Enhancement</label>
-      <input type="number" name="enhancement" value="{{enhancement}}" data-dtype="Number" class="text-center w-100 mt-1"/>
-      <p class="notes tiny italic mt-1">Included in every roll of this action.</p>
+    <div class="trinity-flexcol trinity-flex-center p-1">
+      <span class="small-label">Difficulty</span>
+      <span class="font-weight-bold text-red">{{difficulty}}</span>
     </div>
 
   </div>
 
-  {{!-- Category Tagging --}}
-  <div class="form-group border-top mt-2 pt-2">
-    <label class="font-weight-bold small-label">Action Category</label>
-    <select name="subType" class="w-100">
-      <option value="combat">Combat</option>
-      <option value="social">Social</option>
-      <option value="mental">Mental</option>
-      <option value="exploration">Exploration</option>
-    </select>
+  {{!-- Confirmation Footer --}}
+  <div class="trinity-flexcol mt-2 border-top pt-2">
+    <p class="small text-center italic">
+      This action will be added to your character's stored actions list.
+    </p>
   </div>
 
 </form>
