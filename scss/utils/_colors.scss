@@ -1,2 +1,20 @@
-$c-white: #fff;
-$c-black: #000;
+@layer trinity.colors {
+    :root {
+        /* Define Trinity-specific semantic colors, mapped to Foundry V13 variables */
+        --trinity-color-primary: var(--color-shadow-primary);
+        --trinity-color-secondary: var(--color-shadow-secondary);
+        --trinity-color-success: var(--color-success);
+        --trinity-color-warning: var(--color-warning);
+        --trinity-color-danger: var(--color-danger);
+        
+        /* Specific Sci-Fi/Weird Fantasy accents */
+        --trinity-accent-science: #4b0082; /* Deep Purple */
+        --trinity-accent-mutation: #2d5a27; /* Toxic Green */
+    }
+
+    /* Use these globally across your system sheets */
+    .text-blue { color: var(--color-blue); }
+    .text-red { color: var(--color-danger); }
+    .text-purple { color: var(--trinity-accent-science); }
+    .text-green { color: var(--trinity-accent-mutation); }
+}
