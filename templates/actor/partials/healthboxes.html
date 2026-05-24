@@ -1,25 +1,53 @@
-{{!-- Healthboxes --}}
-<div class="boxed">
-  <div class="flex-fit flex-valign bold">Injuries:&ensp;</div>
-  <div class="healthboxes flexcol">
-    {{#each this.actor.data.data.health.details as |healthBox key|}}
-    {{#if healthBox.type}}
-    <div class="grid grid-2col lowmargin">
-      <div class="bold right-vcenter">{{healthBox.name}}</div>
-      <div class="big icons left-vcenter can-hide">
-        {{~#each healthBox.states as |state index|}}
-          <span class="fa-stack fa-2x x-small clickable healthbox" data-healthtype="{{healthBox.type}}" data-healthkey="{{key}}" data-healthstate="{{index}}" data-type="condition">
-            {{{toHealthBoxes state}}}
-          </span>
-        {{/each~}}
-      </div>
-      <div class="flex-parent-nowrap-center edit-area can-hide hidden">
-        <i class="clickable sub-value large flex-valign fas fa-minus-circle" data-target="data.health.details.{{key}}.boxes"></i>
-        <input class="flex-valign short-input resource" type="number" min="0" step="1" onfocus="this.previousValue = this.value" onkeydown="this.previousValue = this.value" oninput="validity.valid || (value = this.previousValue)" id="box-{{key}}-value" name="data.health.details.{{key}}.boxes" value="{{hbPathFixer key ../actor}}" data-dtype="Number"/>
-        <i class="clickable add-value large flex-valign fas fa-plus-circle" data-target="data.health.details.{{key}}.boxes"></i>
-      </div>
+{{!-- Health Boxes Partial - Foundry V13 Compliant --}}
+<div class="health-section mb-2">
+    <h3 class="header">Health & Damage</h3>
+    
+    <div class="grid grid-4col flex-group-center border p-1">
+        
+        {{!-- Max Health (Wounds) --}}
+        <div class="resource flexcol">
+            <label class="resource-label">Max Wounds</label>
+            <input type="number" 
+                   name="system.health.max" 
+                   value="{{system.health.max}}" 
+                   data-dtype="Number" />
+        </div>
+
+        {{!-- Bashing Damage --}}
+        <div class="resource flexcol">
+            <label class="resource-label">Bashing</label>
+            <input type="number" 
+                   name="system.health.bashing" 
+                   value="{{system.health.bashing}}" 
+                   data-dtype="Number" />
+        </div>
+
+        {{!-- Lethal Damage --}}
+        <div class="resource flexcol">
+            <label class="resource-label">Lethal</label>
+            <input type="number" 
+                   name="system.health.lethal" 
+                   value="{{system.health.lethal}}" 
+                   data-dtype="Number" />
+        </div>
+
+        {{!-- Aggravated Damage --}}
+        <div class="resource flexcol">
+            <label class="resource-label">Aggravated</label>
+            <input type="number" 
+                   name="system.health.aggravated" 
+                   value="{{system.health.aggravated}}" 
+                   data-dtype="Number" />
+        </div>
+
     </div>
-    {{/if}}
-    {{/each}}
-  </div>
+
+    {{!-- Optional: Visual Health Bar --}}
+    <div class="health-bar-container mt-1">
+        <div class="resource-label">Current Status: {{system.health.value}} / {{system.health.max}}</div>
+        {{!-- 
+            If you have a CSS class for a health bar, 
+            you can bind the width here using a percentage calculation 
+        --}}
+    </div>
 </div>
