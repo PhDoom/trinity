@@ -1,9 +1,55 @@
-{{!-- Healthboxes --}}
-<div class="healthboxes boxed flexcol">
-  {{#each this.actor.healthBoxes as |healthBox key|}}
-  <div class="grid grid-2col clickable lowmargin item-create" data-hbname="{{healthBox.name}}" id="{{key}}" data-type="condition">
-    <div class="bold right-vcenter">{{healthBox.name}}</div>
-    <div class="big icons left-vcenter">{{{toHealthBoxes healthBox}}}</div>
+{{!-- Health Boxes Partial (Variant 1) - Foundry V13 Compliant --}}
+<div class="health-section-v1 mb-2">
+  <h3 class="header">Health Tracking</h3>
+  
+  <div class="health-list flexcol border p-1">
+    
+    {{!-- Max Health Row --}}
+    <div class="resource flexrow flex-between flex-center mb-1">
+      <label class="resource-label">Total Health Boxes</label>
+      <input type="number" 
+             name="system.health.max" 
+             value="{{system.health.max}}" 
+             data-dtype="Number" 
+             style="max-width: 3rem; text-align: center;" />
+    </div>
+
+    <hr>
+
+    {{!-- Bashing Row --}}
+    <div class="resource flexrow flex-between flex-center mt-1">
+      <label class="resource-label">Bashing Damage</label>
+      <input type="number" 
+             name="system.health.bashing" 
+             value="{{system.health.bashing}}" 
+             data-dtype="Number" 
+             style="max-width: 3rem; text-align: center;" />
+    </div>
+
+    {{!-- Lethal Row --}}
+    <div class="resource flexrow flex-between flex-center mt-1">
+      <label class="resource-label">Lethal Damage</label>
+      <input type="number" 
+             name="system.health.lethal" 
+             value="{{system.health.lethal}}" 
+             data-dtype="Number" 
+             style="max-width: 3rem; text-align: center;" />
+    </div>
+
+    {{!-- Aggravated Row --}}
+    <div class="resource flexrow flex-between flex-center mt-1">
+      <label class="resource-label">Aggravated Damage</label>
+      <input type="number" 
+             name="system.health.aggravated" 
+             value="{{system.health.aggravated}}" 
+             data-dtype="Number" 
+             style="max-width: 3rem; text-align: center;" />
+    </div>
+
   </div>
-  {{/each}}
+
+  {{!-- Status Readout --}}
+  <div class="health-summary mt-1 flex-group-center">
+    <small>Current Wound Total: {{system.health.value}}</small>
+  </div>
 </div>
