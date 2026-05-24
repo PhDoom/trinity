@@ -1,22 +1,36 @@
-{{!-- Attribute Partial - Read-Only --}}
-<h2>Attributes</h2>
-<div class="attributes grid grid-3row">
-  {{#each actor.attributes as |attribute key|}}
-  <div class="flexcol flex-group-center rollable boxed" data-attrid="{{attribute._id}}" id="{{attribute._id}}">
-    <span class="resource-label"> {{attribute.name}} </span>
-    <span class="icons"> {{{toDots attribute.data.value}}} </span>
-    <span class="small-note"> {{attribute.data.approach}} - {{attribute.data.arena}} </span>
+{{!-- PC Attributes Partial (Variant 1) - Foundry V13 Compliant --}}
+<div class="attributes-section">
+  
+  <h3 class="header">Attributes</h3>
+  
+  <div class="attributes-list flexcol">
+    {{!-- V13: Loop directly through system.attributes --}}
+    {{#each system.attributes as |attr key|}}
+    <div class="attribute flexrow flex-between flex-center mb-1">
+      
+      {{!-- 
+        Rollable Label: 
+        The 'rollable' class and 'data-attribute' hook securely into your 
+        asynchronous V13 TrinityRollPrompt logic.
+      --}}
+      <label for="system.attributes.{{key}}.value" class="attribute-label rollable" data-attribute="{{key}}" title="Select {{localize attr.label}}">
+        <a>{{localize attr.label}}</a>
+      </label>
+      
+      {{!-- 
+        V13 Data Binding: 
+        name="system.attributes.{{key}}.value" tells the server exactly 
+        where to save this integer in the document schema.
+      --}}
+      <input type="number" 
+             class="attribute-input" 
+             name="system.attributes.{{key}}.value" 
+             value="{{attr.value}}" 
+             data-dtype="Number" 
+             style="max-width: 3rem; text-align: center;" />
+             
+    </div>
+    {{/each}}
   </div>
-  {{/each}}
-</div>
 
-<h2>Old Attributes</h2>
-<div class="attributes grid grid-3row">
-  {{#each actor.data.data.attributes as |attribute key|}}
-  <div class="flexcol flex-group-center rollable boxed" data-attrname="{{attribute.name}}" id="{{key}}">
-    <span class="resource-label"> {{attribute.name}} </span>
-    <span class="icons"> {{{toDots attribute.value}}} </span>
-    <span class="small-note"> {{attribute.approach}} - {{attribute.arena}} </span>
-  </div>
-  {{/each}}
 </div>
