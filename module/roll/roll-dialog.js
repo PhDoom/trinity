@@ -1,176 +1,78 @@
-//* Import Functions *//
-import { rollDataTemplate } from "/systems/trinity/module/protos.js";
+/**
+ * Trinity Continuum Roll Dialog for Foundry V13.
+ * Handles the pop-up UI for adjusting dice pools before rolling.
+ */
+export class TrinityRollDialog extends Dialog {
 
+  /**
+   * Create a new Roll Dialog.
+   * @param {Actor} actor       The actor performing the roll.
+   * @param {Object} rollData   Data including initial pool, attributes, and skills.
+   */
+  static async create(actor, rollData = {}) {
+    const system = actor.system;
+    const settings = system.rollSettings;
 
-export async function rollDialog(targetActor, rollData, event, force) {
+    // Build the HTML content
+    const html = await renderTemplate("systems/trinity/templates/roll/roll-dialog.html", {
+      actor: actor,
+      system: system,
+      rollData: rollData,
+      // Use values from the restored rollSettings as defaults
+      targetNumber: settings.targetNumber.value || 8,
+      difficulty: settings.difficulty.value || 0,
+      bonusDice: settings.bonusDice.value || 0
+    });
 
-/*
-  event = event || {};
-  const element = event.currentTarget || {};
-  const dataset = element.dataset || {};
-  var targetAttr = [];
-  var targetSkill = [];
-*/
-
-  // Elements table, or picked elements, will include the details of the selected roll components. (Replacing rollParts)
-  // Build defaults if empty
-  if (typeof rollData === 'undefined' || rollData === null ) {
-    console.log("Creating default rollData");
-    rollData = {};
-    rollData = JSON.parse(JSON.stringify(rollDataTemplate));
-    console.log(rollData);
-    // -------- Insert Actor's Roll Defaults here -------------
-  }
-
-  // Collect Actor Items into Catagories
-  var attributes = [];
-  var skills = [];
-  var quantum = [];
-  var powers = [];
-  var enhancements = [];
-  var itemList = [];
-
-  for (let i of targetActor.items) {
-    if (i.type === 'attribute' && i.data.data.flags.isMain) { attributes.push(i); }
-    if (i.type === 'skill') { skills.push(i); }
-    if (i.type === 'attribute' && i.data.data.flags.isQuantum) { quantum.push(i); }
-    if (i.type === 'quantumPower' && i.data.data.flags.isDice) { powers.push(i); }
-    if (i.data.data.flags.isEnhancement) { enhancements.push(i); }
-  }
-
-
-  let html = await renderTemplate("systems/trinity/templates/roll/roll-dialog.html", {actor: targetActor, rollData: rollData, itemList: itemList});
-
-  class TRDialog extends Dialog {
-
-    constructor(data, options, params) {
-      super(data, options);
-      // targetActor = params.targetActor;
-      // rollData = params.rollData;
-    }
-
-    // ------- New Method of Collapse/Expand Content
-    /*
-    async _render(force = false, options = {}) {
-      this._saveToggleStates();
-      await super._render(force, options);
-      this._setToggleStates();
-    }
-
-    _saveToggleStates() {
-      if (this.form === null)
-        return;
-
-      const html = $(this.form).parent();
-
-      this.toggleStates = {
-        headers : [],
-        content : []
-      };
-
-      // Headers
-      let headerItems = $(html.find(".collapsible"));
-      for (let item of headerItems) {
-        this.toggleStates.headers.push($(item).hasClass("collapsible-active"));
-      }
-
-      // Content
-      let contentItems = $(html.find(".collapsible-content"));
-      for (let item of contentItems) {
-        this.toggleStates.content.push($(item).hasClass("collapsible-content-active"));
-      }
-
-      console.log("_saveToggleStates:",this.toggleStates);
-
-    }
-
-    _setToggleStates() {
-      if (this.toggleStates) {
-        const html = $(this.form).parent();
-
-        // Headers
-        let headerItems = $(html.find(".collapsible"));
-        for (let i = 0; i < headerItems.length; i++) {
-          if (this.toggleStates.headers[i]) {
-            $(headerItems[i]).addClass("collapsible-active");
-          } else {
-            $(headerItems[i]).removeClass("collapsible-active");
+    return new Promise(resolve => {
+      new TrinityRollDialog({
+        title: `Roll: ${rollData.label || "Dice Pool"}`,
+        content: html,
+        buttons: {
+          roll: {
+            icon: '<i class="fas fa-dice"></i>',
+            label: "Roll",
+            callback: (html) => resolve(this._onRoll(html, actor, rollData))
+          },
+          cancel: {
+            icon: '<i class="fas fa-times"></i>',
+            label: "Cancel",
+            callback: () => resolve(null)
           }
-        }
-
-        // Content
-        let contentItems = $(html.find(".collapsible-content"));
-        for (let i = 0; i < contentItems.length; i++) {
-          if (this.toggleStates.content[i]) {
-            $(contentItems[i]).addClass("collapsible-content-active");
-          } else {
-            $(contentItems[i]).removeClass("collapsible-content-active");
-          }
-        }
-      }
-    }
-*/
-
-    activateListeners(html) {
-      super.activateListeners(html);
-
-      html.find('.selector').click((event) => {
-        console.log("Roll Dialog This:", this);
-        console.log("Selector Event:", event);
-        switch(event.currentTarget.id) {
-          case "attributes": itemList = attributes; break;
-          case "skills": itemList = skills; break;
-          case "quantum": itemList = quantum; break;
-          case "powers": itemList = powers; break;
-        }
-        console.log("itemList:", itemList);
-        this._render(true);
-        console.log("rendered");
-        document.getElementById("overlay").style.display = "block";
-        console.log("overlaid");
-      });
-
-      html.find('.back').click((event) => {
-        document.getElementById("overlay").style.display = "none";
-      });
-
-      html.find('.showOptions').click((event) => {
-        if (document.getElementById("options").style.display === "grid") {
-          document.getElementById("options").style.display = "none";
-        } else {
-          document.getElementById("options").style.display = "grid";
-        }
-        // reset height
-        const position = this.position;
-        position.height = "auto";
-        this.setPosition(position);
-      });
-
-    }
+        },
+        default: "roll"
+      }).render(true);
+    });
   }
 
-// logging
-  console.log("Pre-TRDialog: -------------");
-  console.log("this", this);
-  console.log("targetActor", targetActor);
-  console.log("rollData", rollData);
+  /**
+   * Handle the final roll execution after clicking 'Roll'.
+   */
+  static async _onRoll(html, actor, rollData) {
+    const form = html[0].querySelector("form");
+    
+    // Extract values from the form
+    const bonus = parseInt(form.bonusDice?.value) || 0;
+    const difficulty = parseInt(form.difficulty?.value) || 0;
+    const tn = parseInt(form.targetNumber?.value) || 8;
+    
+    const totalDice = (rollData.pool || 0) + bonus;
+    
+    // V13 Migration: Success counting syntax
+    // Trinity usually counts successes on TN or higher
+    const formula = `${totalDice}d10cs>=${tn}`;
+    
+    const roll = new Roll(formula, actor.getRollData());
+    
+    // V13 Requirement: Asynchronous evaluation
+    await roll.evaluate();
 
-  new TRDialog({
-    title: 'Roll',
-    buttons: {},
-    content: html
-  }, {width: 350, height: "auto"}, {targetActor, rollData}).render(true);
+    // Send to Chat
+    await roll.toMessage({
+      speaker: ChatMessage.getSpeaker({ actor: actor }),
+      flavor: `<b>${rollData.label}</b><br>Difficulty: ${difficulty} | Target: ${tn}`
+    });
 
+    return roll;
+  }
 }
-
-
-/*
-async _testButton(event) {
-  let html = await renderTemplate("systems/trinity/templates/roll/roll-dialog.html");
-  new Dialog({
-    title: 'Test Window',
-    buttons: {},
-    content: html
-  }, {width: 350, height: "auto"}).render(true);
-}
-*/
