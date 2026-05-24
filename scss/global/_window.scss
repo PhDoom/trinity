@@ -1,21 +1,29 @@
-.window-app {
-  font-family: $font-primary;
-}
+@layer trinity.window {
+    /* Namespace to ensure these styles only affect Trinity sheets/dialogs */
+    .trinity-app {
+        /* Use V13 variables for dynamic window coloring */
+        background: var(--color-bg-app, #f8f7f4);
+        border: 1px solid var(--color-border-dark);
+        border-radius: 8px;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+        overflow: hidden;
 
-.rollable {
-  &:hover,
-  &:focus {
-    color: #000;
-    text-shadow: 0 0 10px red;
-    cursor: pointer;
-  }
-}
+        /* Window Header - Modernized for V13 ApplicationV2 */
+        .window-header {
+            background: var(--color-header-background);
+            color: var(--color-text-header);
+            padding: 8px 12px;
+            font-family: var(--font-primary);
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
 
-.clickable {
-  &:hover,
-  &:focus {
-    color: #000;
-    text-shadow: 0 0 10px blue;
-    cursor: pointer;
-  }
+        /* Window Content Area */
+        .window-content {
+            padding: 10px;
+            color: var(--color-text-dark-primary);
+        }
+    }
 }
