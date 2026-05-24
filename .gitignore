@@ -1,9 +1,22 @@
-# IDE
-.idea/
-.vs/
+# Foundry V13 and development-specific ignores
+/foundry-config.yaml
+/foundry/
+*.log
 
-# Node Modules
+# Node dependencies and build output
 node_modules/
-npm-debug.log
+dist/
+build/
+*.bak
 
-desktop.ini
+# VSCode / IDE workspace settings
+.vscode/
+.DS_Store
+Thumbs.db
+
+# OS-specific temporary files
+__pycache__/
+*.pyc
+
+# Local environment variables
+.env
