@@ -1,34 +1,40 @@
-// .tabs {
-//   .item {
-//     background: rgba(0, 0, 0, 0.125);
-//     border: 1px solid;
-//     border-radius: 4px;
-//     margin: 0 10px 0;
-//     padding: 8px 4px;
+@layer trinity.tabs {
+    /* Main navigation container */
+    .tabs {
+        display: flex;
+        border-bottom: 2px solid var(--color-border-light);
+        margin-bottom: 10px;
+        gap: 5px;
 
-//     &:hover,
-//     &:focus {
-//       background: rgba(0, 0, 0, 0.125);
-//     }
+        /* Individual tab items */
+        .item {
+            padding: 5px 15px;
+            cursor: pointer;
+            border: 1px solid transparent;
+            border-radius: 4px 4px 0 0;
+            transition: background 0.2s ease;
 
-//     &.active {
-//       background: transparent;
-//     }
-//   }
-// }
+            &:hover {
+                background: var(--color-bg-button-hover);
+            }
 
-.tabs {
-  height: 40px;
-  border-top: 1px solid #AAA;
-  border-bottom: 1px solid #AAA;
+            /* Active state - V13 compatible */
+            &.active {
+                background: var(--color-bg-input);
+                border-color: var(--color-border-light);
+                border-bottom-color: var(--color-bg-canvas);
+                font-weight: bold;
+                color: var(--color-text-dark-primary);
+            }
+        }
+    }
 
-  .item {
-    line-height: 40px;
-    font-weight: bold;
-  }
+    /* Tab content container - ensuring only one shows at a time */
+    .tab-content {
+        display: none;
 
-  .item.active {
-    text-decoration: underline;
-    text-shadow: none;
-  }
+        &.active {
+            display: block;
+        }
+    }
 }
