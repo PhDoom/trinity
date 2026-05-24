@@ -1,9 +1,55 @@
-<div class="flex-parent-evenly">
-  <div class="flex-child-even">
-    {{> "systems/trinity/templates/actor/partials/facets.html"}}
-    {{> "systems/trinity/templates/actor/partials/inspiration.html"}}
+{{!-- Talent Resource Partial - Foundry V13 Compliant --}}
+<div class="talent-section mb-2">
+  
+  {{!-- Only render if the actor is a Talent --}}
+  {{#if (eq system.subType "talent")}}
+  <div class="grid grid-2col border p-1 mb-1">
+    
+    {{!-- Inspiration (Current/Max Pool) --}}
+    <div class="resource flexcol flex-center border-right">
+      <label class="resource-label rollable" data-roll-type="inspiration" title="Roll Inspiration">Inspiration</label>
+      <div class="flexrow flex-center">
+        <input type="number" 
+               name="system.talent.inspiration.value" 
+               value="{{system.talent.inspiration.value}}" 
+               data-dtype="Number" 
+               style="max-width: 2.5rem; text-align: center;" />
+        <span class="px-1"> / </span>
+        <input type="number" 
+               name="system.talent.inspiration.max" 
+               value="{{system.talent.inspiration.max}}" 
+               data-dtype="Number" 
+               style="max-width: 2.5rem; text-align: center;" />
+      </div>
+    </div>
+
+    {{!-- Facet Distribution --}}
+    <div class="resource flexcol flex-center">
+      <label class="resource-label">Facets</label>
+      <div class="flexrow flex-between px-2">
+        
+        {{!-- Destructive --}}
+        <div class="flexcol flex-center" title="Destructive">
+          <span class="small-label">D</span>
+          <input type="number" name="system.talent.destructive" value="{{system.talent.destructive}}" data-dtype="Number" style="max-width: 1.5rem; text-align: center;"/>
+        </div>
+
+        {{!-- Intuitive --}}
+        <div class="flexcol flex-center" title="Intuitive">
+          <span class="small-label">I</span>
+          <input type="number" name="system.talent.intuitive" value="{{system.talent.intuitive}}" data-dtype="Number" style="max-width: 1.5rem; text-align: center;"/>
+        </div>
+
+        {{!-- Reflective --}}
+        <div class="flexcol flex-center" title="Reflective">
+          <span class="small-label">R</span>
+          <input type="number" name="system.talent.reflective" value="{{system.talent.reflective}}" data-dtype="Number" style="max-width: 1.5rem; text-align: center;"/>
+        </div>
+
+      </div>
+    </div>
+
   </div>
-  <div class="flex-child-even">
-    {{> "systems/trinity/templates/actor/partials/gifts.html"}}
-  </div>
+  {{/if}}
+
 </div>
