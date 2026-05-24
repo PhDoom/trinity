@@ -1,101 +1,46 @@
-<form class="{{cssClass}} trinity-actor-sheet flexcol" autocomplete="off">
+{{!-- Trinity Secondary Actor Sheet - Foundry V13 Compliant --}}
+<form class="trinity-app trinity-actor-sheet-secondary {{cssClass}}" autocomplete="off">
+    
+    {{!-- Secondary View Header --}}
+    <header class="trinity-flexrow p-2 border-bottom">
+        <h3 class="m-0">Advanced Configuration</h3>
+    </header>
 
-  {{!-- Sheet Header --}}
-  <header class="sheet-header">
-    <img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="110" width="110"/>
-    <div class="header-fields">
-      
-      <h1 class="charname">
-        {{!-- Top-level document properties do not use the 'system.' prefix --}}
-        <input name="name" type="text" value="{{actor.name}}" placeholder="Character Name"/>
-      </h1>
-
-      <div class="resources grid grid-4col mt-1">
+    {{!-- Advanced Grid: Using trinity-grid for better density --}}
+    <section class="trinity-grid trinity-grid-2col p-2 gap-10">
         
-        {{!-- V13 Data Bindings: All internal values must use system.[path] --}}
-        <div class="resource flex-group-center">
-          <label for="system.health.value" class="resource-label">Health</label>
-          <div class="resource-content flexrow flex-center flex-between">
-            <input type="number" name="system.health.value" value="{{system.health.value}}" data-dtype="Number"/>
-            <span> / </span>
-            <input type="number" name="system.health.max" value="{{system.health.max}}" data-dtype="Number"/>
-          </div>
+        {{!-- Character Bio / Metadata --}}
+        <div class="trinity-flexcol border p-1">
+            <h4 class="border-bottom pb-1 mb-1">Biography</h4>
+            <div class="trinity-flexcol p-1">
+                <label class="small-label">Origin</label>
+                <input name="system.details.origin" type="text" value="{{system.details.origin}}" class="w-100"/>
+            </div>
+            <div class="trinity-flexcol p-1">
+                <label class="small-label">Concept</label>
+                <input name="system.details.concept" type="text" value="{{system.details.concept}}" class="w-100"/>
+            </div>
         </div>
 
-        <div class="resource flex-group-center">
-          <label for="system.resources.quantum.value" class="resource-label">Quantum/Psi</label>
-          <div class="resource-content flexrow flex-center flex-between">
-            <input type="number" name="system.resources.quantum.value" value="{{system.resources.quantum.value}}" data-dtype="Number"/>
-            <span> / </span>
-            <input type="number" name="system.resources.quantum.max" value="{{system.resources.quantum.max}}" data-dtype="Number"/>
-          </div>
+        {{!-- Settings / Advanced Toggles --}}
+        <div class="trinity-flexcol border p-1">
+            <h4 class="border-bottom pb-1 mb-1">Preferences</h4>
+            <div class="trinity-flexrow trinity-flex-between p-1">
+                <label class="small">Enable Cyberware</label>
+                <input type="checkbox" name="system.settings.useCyber" {{checked system.settings.useCyber}}/>
+            </div>
+            <div class="trinity-flexrow trinity-flex-between p-1">
+                <label class="small">Hide Unused Skills</label>
+                <input type="checkbox" name="system.settings.hideEmpty" {{checked system.settings.hideEmpty}}/>
+            </div>
         </div>
 
-        <div class="resource flex-group-center">
-          <label for="system.defense.value" class="resource-label">Defense</label>
-          <div class="resource-content flexrow flex-center flex-between">
-            <input type="number" name="system.defense.value" value="{{system.defense.value}}" data-dtype="Number"/>
-          </div>
-        </div>
+    </section>
 
-        <div class="resource flex-group-center">
-          <label for="system.initiative.value" class="resource-label">Initiative</label>
-          <div class="resource-content flexrow flex-center flex-between">
-            <input type="number" name="system.initiative.value" value="{{system.initiative.value}}" data-dtype="Number"/>
-          </div>
-        </div>
-        
-      </div>
-    </div>
-  </header>
+    {{!-- Editor Section for longer text --}}
+    <section class="p-2">
+        <label class="small-label font-weight-bold">Notes</label>
+        {{editor enrichedNotes target="system.notes" button=true owner=owner editable=editable engine="prosemirror"}}
+    </section>
 
-  {{!-- Sheet Tab Navigation --}}
-  <nav class="sheet-tabs tabs" data-group="primary">
-    <a class="item" data-tab="character">Character</a>
-    <a class="item" data-tab="stats">Attributes & Skills</a>
-    <a class="item" data-tab="items">Items & Powers</a>
-    <a class="item" data-tab="bio">Biography</a>
-    <a class="item" data-tab="full-data">Raw Data</a>
-  </nav>
-
-  {{!-- Sheet Body --}}
-  <section class="sheet-body">
-
-    {{!-- Character Core Info Tab --}}
-    <div class="tab character" data-group="primary" data-tab="character">
-      {{!-- Using the partials specifically registered in trinity_1.js --}}
-      {{> "systems/trinity/templates/actor/partials/character.html"}}
-      {{> "systems/trinity/templates/actor/partials/healthboxes.html"}}
-      {{> "systems/trinity/templates/actor/partials/inspiration.html"}}
-    </div>
-
-    {{!-- Stats: Attributes & Skills Tab --}}
-    <div class="tab stats" data-group="primary" data-tab="stats">
-      <div class="grid grid-2col">
-        <div class="attributes-col">
-          {{> "systems/trinity/templates/actor/partials/attributes.html"}}
-        </div>
-        <div class="skills-col">
-          {{> "systems/trinity/templates/actor/partials/skills.html"}}
-        </div>
-      </div>
-    </div>
-
-    {{!-- Items & Powers Tab --}}
-    <div class="tab items" data-group="primary" data-tab="items">
-      {{!-- Consolidating all inventory, gear, and powers based on trinity_1.js --}}
-      {{> "systems/trinity/templates/actor/partials/all-items.html"}}
-    </div>
-
-    {{!-- Biography Tab --}}
-    <div class="tab bio" data-group="primary" data-tab="bio">
-      {{> "systems/trinity/templates/actor/partials/bio.html"}}
-    </div>
-
-    {{!-- Full Data/Debug Tab --}}
-    <div class="tab full-data" data-group="primary" data-tab="full-data">
-      {{> "systems/trinity/templates/actor/partials/full-data.html"}}
-    </div>
-
-  </section>
 </form>
