@@ -1,48 +1,36 @@
 {
   "id": "trinity",
-  "title": "Trinity Continuum",
-  "description": "The Trinity Continuum system for FoundryVTT.",
-  "version": "0.4.0",
+  "title": "Trinity",
+  "name": "trinity",
+  "version": "1.0.0",
+  "description": "A modernized Trinity system for Foundry V13.",
+  "authors": [
+    {
+      "name": "PhDoom"
+    }
+  ],
   "compatibility": {
-    "minimum": "12",
-    "verified": "13",
-    "maximum": "14"
+    "minimum": "13",
+    "verified": "13"
   },
-  "templateVersion": 2,
-  "author": "Scott Martin, update by John Pingo",
-  "esmodules": [
-    "module/trinity.js"
+  "scripts": [
+    "scripts/trinity.mjs"
   ],
   "styles": [
     "css/trinity.css"
   ],
-  "packs": [
-    {
-      "name": "basic-npc-setup",
-      "label": "Basic NPC Setup",
-      "system": "trinity",
-      "path": "packs/basic-npc-setup.db",
-      "type": "Item"
+  "documentTypes": {
+    "Actor": {
+      "character": {},
+      "npc": {}
     },
-    {
-      "name": "basic-pc-setup",
-      "label": "Basic PC Setup",
-      "system": "trinity",
-      "path": "packs/basic-pc-setup.db",
-      "type": "Item"
+    "Item": {
+      "item": {},
+      "feature": {},
+      "spell": {}
     }
-  ],
-  "languages": [
-    {
-      "lang": "en",
-      "name": "English",
-      "path": "lang/en.json"
-    }
-  ],
-  "gridDistance": 5,
-  "gridUnits": "ft",
-  "url": "https://github.com/PhDoom/trinity/",
+  },
+  "url": "https://github.com/PhDoom/trinity",
   "manifest": "https://raw.githubusercontent.com/PhDoom/trinity/master/system.json",
-  "download": "https://github.com/PhDoom/trinity/archive/refs/heads/master.zip",
-  "license": "LICENSE.txt"
+  "download": "https://github.com/PhDoom/trinity/archive/master.zip"
 }
