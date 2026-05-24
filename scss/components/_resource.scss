@@ -1,4 +1,33 @@
-.resource-label {
-  font-weight: bold;
-  text-transform: uppercase;
+@layer trinity.resources {
+    .trinity-resource-bar {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        margin-bottom: 10px;
+
+        .bar-label {
+            font-weight: bold;
+            font-size: var(--font-size-12);
+            color: var(--color-text-dark-primary);
+        }
+
+        .bar-container {
+            height: 12px;
+            background: var(--color-bg-input);
+            border: 1px solid var(--color-border-light);
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* The actual colored bar */
+        .bar-fill {
+            height: 100%;
+            transition: width 0.3s ease;
+            
+            &.health { background: var(--color-success, #2d5a27); }
+            &.momentum { background: var(--color-highlight, #2a4c6e); }
+            &.inspiration { background: var(--color-purple, #4b0082); }
+        }
+    }
 }
