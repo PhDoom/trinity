@@ -1,45 +1,47 @@
-<form class="{{cssClass}} flexcol" autocomplete="off">
-
-  {{!-- Sheet Header --}}
-  <header class="sheet-header">
-    <img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="100" width="100"/>
-    <div class="header-fields">
-      <h1 class="charname"><input name="name" type="text" value="{{actor.name}}" placeholder="Name"/></h1>
-      
-      {{!-- Example Resource Field --}}
-      <div class="resources grid grid-2col">
-        <div class="resource">
-          <label class="resource-label">{{localize "TRINITY.Health"}}</label>
-          <input type="number" name="system.health.value" value="{{system.health.value}}" data-dtype="Number" />
-        </div>
-        <div class="resource">
-          <label class="resource-label">{{localize "TRINITY.Quantum"}}</label>
-          <input type="number" name="system.resources.quantum.value" value="{{system.resources.quantum.value}}" data-dtype="Number" />
-        </div>
-      </div>
-    </div>
-  </header>
-
-  {{!-- Sheet Tab Navigation --}}
-  <nav class="sheet-tabs tabs" data-group="primary">
-    <a class="item" data-tab="attributes">{{localize "TRINITY.Attributes"}}</a>
-    <a class="item" data-tab="skills">{{localize "TRINITY.Skills"}}</a>
-    <a class="item" data-tab="gear">{{localize "TRINITY.Gear"}}</a>
-  </nav>
-
-  {{!-- Sheet Body --}}
-  <section class="sheet-body">
+{{!-- Trinity Primary Actor Sheet - Foundry V13 Compliant --}}
+<form class="trinity-app trinity-actor-sheet {{cssClass}}" autocomplete="off">
     
-    {{!-- Attributes Tab --}}
-    <div class="tab attributes" data-group="primary" data-tab="attributes">
-      {{!-- Using the partials we registered in trinity.js --}}
-      {{> "systems/trinity/templates/actor/partials/attributes.html"}}
-    </div>
+    {{!-- Header: Uses namespaced flex for responsive layout --}}
+    <header class="trinity-flexrow p-2 border-bottom">
+        <img src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="100" width="100" class="border"/>
+        <div class="trinity-flexcol ml-2 flex-grow-1">
+            <h1 class="m-0"><input name="name" type="text" value="{{actor.name}}" placeholder="Character Name" class="border-none"/></h1>
+            <div class="trinity-flexrow mt-1">
+                <span class="small-label mr-1">Level:</span>
+                <input name="system.details.level" type="number" value="{{system.details.level}}" class="w-25 text-center"/>
+            </div>
+        </div>
+    </header>
 
-    {{!-- Skills Tab --}}
-    <div class="tab skills" data-group="primary" data-tab="skills">
-      {{> "systems/trinity/templates/actor/partials/skills.html"}}
-    </div>
+    {{!-- Body: Uses trinity-grid for V13-safe responsiveness --}}
+    <section class="trinity-grid trinity-grid-2col p-2 gap-10">
+        
+        {{!-- Left Column: Attributes --}}
+        <div class="trinity-flexcol border p-1">
+            <h3 class="border-bottom pb-1 mb-1">Attributes</h3>
+            {{#each system.attributes as |attr key|}}
+            <div class="trinity-flexrow trinity-flex-between p-1">
+                <label class="font-weight-bold">{{attr.label}}</label>
+                <input name="system.attributes.{{key}}.value" type="number" value="{{attr.value}}" class="w-25 text-center"/>
+            </div>
+            {{/each}}
+        </div>
 
-  </section>
+        {{!-- Right Column: Derived Stats --}}
+        <div class="trinity-flexcol border p-1">
+            <h3 class="border-bottom pb-1 mb-1">Derived</h3>
+            {{#each system.derived as |stat key|}}
+            <div class="trinity-flexrow trinity-flex-between p-1">
+                <label>{{stat.label}}</label>
+                <span class="font-weight-bold">{{stat.value}}</span>
+            </div>
+            {{/each}}
+        </div>
+    </section>
+
+    {{!-- Footer: Finalizes the V13 ApplicationV2 structure --}}
+    <footer class="trinity-flexrow trinity-flex-between p-2 border-top">
+        <span class="small italic">System: Trinity (V13 Modernized)</span>
+        <button type="submit" name="submit" class="trinity-button">Save Changes</button>
+    </footer>
 </form>
