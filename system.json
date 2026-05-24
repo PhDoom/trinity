@@ -17,6 +17,13 @@
     "module/trinity.js"
   ],
   "styles": [],
+  "languages": [
+    {
+      "lang": "en",
+      "name": "English",
+      "path": "lang/en.json"
+    }
+  ],
   "documentTypes": {
     "Actor": {
       "character": {},
