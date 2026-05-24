@@ -1,76 +1,46 @@
-<form class="{{cssClass}} trinity-npc-sheet flexcol" autocomplete="off">
-
-  {{!-- NPC Sheet Header --}}
-  <header class="sheet-header">
-    <img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="100" width="100"/>
-    <div class="header-fields">
-      <h1 class="charname">
-        <input name="name" type="text" value="{{actor.name}}" placeholder="NPC Name"/>
-      </h1>
-      
-      <div class="resource grid grid-3col">
-        {{!-- V13: Inputs must map strictly to system.[path] --}}
-        <div class="flex-group-center">
-          <label>Threat Level</label>
-          <input type="number" name="system.threat.value" value="{{system.threat.value}}" data-dtype="Number" />
-        </div>
-        <div class="flex-group-center">
-          <label>Health</label>
-          <div class="resource-content flexrow flex-center flex-between">
-            <input type="number" name="system.health.value" value="{{system.health.value}}" data-dtype="Number"/>
-            <span> / </span>
-            <input type="number" name="system.health.max" value="{{system.health.max}}" data-dtype="Number"/>
-          </div>
-        </div>
-        <div class="flex-group-center">
-          <label>Defense</label>
-          <input type="number" name="system.defense.value" value="{{system.defense.value}}" data-dtype="Number" />
-        </div>
-      </div>
-    </div>
-  </header>
-
-  {{!-- NPC Tab Navigation --}}
-  <nav class="sheet-tabs tabs" data-group="primary">
-    <a class="item" data-tab="stats">Combat & Stats</a>
-    <a class="item" data-tab="edit">Edit Details</a>
-  </nav>
-
-  {{!-- NPC Sheet Body --}}
-  <section class="sheet-body">
+{{!-- Trinity NPC Sheet - Foundry V13 Compliant --}}
+<form class="trinity-app trinity-actor-sheet-npc {{cssClass}}" autocomplete="off">
     
-    {{!-- Stats Tab (Read-Only / Rollable View) --}}
-    <div class="tab stats" data-group="primary" data-tab="stats">
-      {{!-- Uses the specific NPC partials you registered in trinity_1.js --}}
-      {{> "systems/trinity/templates/actor/partials-npc/npc-stats.html"}}
-      {{> "systems/trinity/templates/actor/partials-npc/npc-attributes.html"}}
-      
-      {{!-- Example of a V13 compliant roll button for NPCs --}}
-      <div class="npc-actions">
-        <h3>Primary Actions</h3>
-        <ol class="item-list">
-          {{#each items as |item id|}}
-          <li class="item flexrow" data-item-id="{{item._id}}">
-            <div class="item-name flexrow">
-              <div class="item-image" style="background-image: url('{{item.img}}')"></div>
-              <h4>{{item.name}}</h4>
+    {{!-- NPC Header: Streamlined for quick info --}}
+    <header class="trinity-flexrow p-2 border-bottom align-center">
+        <img src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="80" width="80" class="border"/>
+        <div class="trinity-flexcol ml-2 flex-grow-1">
+            <h1 class="m-0"><input name="name" type="text" value="{{actor.name}}" placeholder="NPC Name" class="border-none"/></h1>
+            <div class="trinity-flexrow mt-1">
+                <span class="small-label mr-1">CR/Rank:</span>
+                <input name="system.details.cr" type="number" value="{{system.details.cr}}" class="w-25 text-center"/>
             </div>
-            <div class="item-controls">
-              {{!-- V13 Async Roll Trigger --}}
-              <a class="item-control roll-power" title="Roll Action"><i class="fas fa-dice-d10"></i></a>
-              <a class="item-control item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>
-              <a class="item-control item-delete" title="Delete Item"><i class="fas fa-trash"></i></a>
+        </div>
+    </header>
+
+    {{!-- Body: Grid-based layout for NPC stats --}}
+    <section class="trinity-grid trinity-grid-2col p-2 gap-10">
+        
+        {{!-- Primary NPC Stats --}}
+        <div class="trinity-flexcol border p-1">
+            <h3 class="border-bottom pb-1 mb-1">Combat Profile</h3>
+            <div class="trinity-flexrow trinity-flex-between p-1">
+                <label class="font-weight-bold">Health</label>
+                <input name="system.health.value" type="number" value="{{system.health.value}}" class="w-25 text-center"/>
             </div>
-          </li>
-          {{/each}}
-        </ol>
-      </div>
-    </div>
+            <div class="trinity-flexrow trinity-flex-between p-1">
+                <label class="font-weight-bold">Defense</label>
+                <input name="system.defense" type="number" value="{{system.defense}}" class="w-25 text-center"/>
+            </div>
+        </div>
 
-    {{!-- Edit Tab (Form Inputs) --}}
-    <div class="tab edit" data-group="primary" data-tab="edit">
-      {{> "systems/trinity/templates/actor/partials-npc/npc-edit.html"}}
-    </div>
+        {{!-- NPC Abilities / Tactics --}}
+        <div class="trinity-flexcol border p-1">
+            <h3 class="border-bottom pb-1 mb-1">Tactics</h3>
+            <div class="p-1">
+                {{editor enrichedTactics target="system.tactics" button=true owner=owner editable=editable engine="prosemirror"}}
+            </div>
+        </div>
+    </section>
 
-  </section>
+    {{!-- Footer --}}
+    <footer class="trinity-flexrow trinity-flex-between p-2 border-top">
+        <span class="small italic">NPC Record</span>
+        <button type="submit" name="submit" class="trinity-button">Update NPC</button>
+    </footer>
 </form>
