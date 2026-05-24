@@ -66,6 +66,8 @@ export class TrinityActorSheet extends ActorSheet {
     const edges = [];
     const paths = [];
     const powers = [];
+    const conditions = [];
+    const bonds = [];
 
     // V13: Iterate over the flat context.items array
     for (let i of context.items) {
@@ -77,15 +79,19 @@ export class TrinityActorSheet extends ActorSheet {
       else if (i.type === 'edge') edges.push(i);
       else if (i.type === 'path') paths.push(i);
       else if (i.type === 'power' || i.type === 'action') powers.push(i);
+      else if (i.type === 'condition') conditions.push(i);
+      else if (i.type === 'bond') bonds.push(i);
     }
 
-    // Assign back to context so the partials (like all-items.html) can render them
+    // Assign back to context so the partials can render them
     context.gear = gear;
     context.weapons = weapons;
     context.armor = armor;
     context.edges = edges;
     context.paths = paths;
     context.powers = powers;
+    context.conditions = conditions;
+    context.bonds = bonds;
   }
 
   /** @override */
