@@ -1,34 +1,36 @@
-{{log "MyPickerItem" this}}
-<!--
-<form class="{{cssClass}} flexcol" autocomplete="off">
-  <section class="sheet-body">
-    <div class="attributes grid grid-3col">
-      {{#each this.actor.data.data.attributes as |attribute key|}}
-        <div class="attribute flexrow flex-group-center" id="{{key}}">
-          <label for="data.attributes.{{key}}" class="resource-label" data-attrname="{{attribute.name}}">
-            {{attribute.name}}
-          </label>
-          <input type="radio" id="{{attribute.name}}" class="input" name="attr" value="{{attribute.name}}">
-        </div>
-      {{/each}}
-    </div>
-  </section>
-</form>
--->
+{{!-- Attribute Picker Dialog - Foundry V13 Compliant --}}
+<form class="trinity-dialog picker flexcol" autocomplete="off">
+  
+  <div class="form-group mb-2">
+    <label class="font-weight-bold block mb-1 text-center">Select an Attribute</label>
+    <p class="notes italic small text-center mb-2">Choose the Attribute to combine with your action or skill.</p>
+    
+    <div class="form-fields">
+      <select name="attributeSelect" class="w-100">
+        {{#select selected}}
+          {{!-- V13 Object Structure Alignment --}}
+          
+          <optgroup label="Physical Arena">
+            <option value="system.attributes.might">Might ({{system.attributes.might.value}})</option>
+            <option value="system.attributes.dexterity">Dexterity ({{system.attributes.dexterity.value}})</option>
+            <option value="system.attributes.stamina">Stamina ({{system.attributes.stamina.value}})</option>
+          </optgroup>
 
-<form class="{{cssClass}} flexcol" autocomplete="off">
-  <section class="sheet-body">
-    <div class="attributes grid grid-3row">
-      {{#each this.actor.data.data.attributes as |attribute key|}}
-        <div class="flexcol flex-group-center boxed" data-attrname="{{attribute.name}}" id="{{key}}">
-          <input type="radio" id="{{attribute.name}}" class="input" name="attr" value="{{attribute.name}}">
-          <label for="{{attribute.name}}" class="resource-label" data-attrname="{{attribute.name}}">
-            {{attribute.name}}
-          </label>
-          <span class="icons"> {{{toDots attribute.value}}} </span>
-          <span class="small-note"> {{attribute.approach}} - {{attribute.arena}} </span>
-        </div>
-      {{/each}}
+          <optgroup label="Mental Arena">
+            <option value="system.attributes.intellect">Intellect ({{system.attributes.intellect.value}})</option>
+            <option value="system.attributes.cunning">Cunning ({{system.attributes.cunning.value}})</option>
+            <option value="system.attributes.resolve">Resolve ({{system.attributes.resolve.value}})</option>
+          </optgroup>
+
+          <optgroup label="Social Arena">
+            <option value="system.attributes.presence">Presence ({{system.attributes.presence.value}})</option>
+            <option value="system.attributes.manipulation">Manipulation ({{system.attributes.manipulation.value}})</option>
+            <option value="system.attributes.composure">Composure ({{system.attributes.composure.value}})</option>
+          </optgroup>
+          
+        {{/select}}
+      </select>
     </div>
-</section>
+  </div>
+
 </form>
