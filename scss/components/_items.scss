@@ -1,6 +1,6 @@
 @layer trinity.items {
     .trinity-item-sheet {
-        /* Use CSS Grid for the new flattened item layout */
+        /* Grid layout for the main sheet content */
         .item-sheet-content {
             display: grid;
             grid-template-columns: 1fr 2fr;
@@ -8,7 +8,26 @@
             padding: 10px;
         }
 
-        /* Styling for the new flattened data inputs */
+        /* 1. Image Handling: Ensures icons remain crisp and un-stretched */
+        .profile-img {
+            width: 100%;
+            height: auto;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            border: 1px solid var(--color-border-dark);
+            border-radius: 4px;
+        }
+
+        /* 2. Tab Activation: Ensures only the active tab displays */
+        .tab-content {
+            display: none;
+            
+            &.active {
+                display: block;
+            }
+        }
+
+        /* System Input styling */
         .system-input {
             width: 100%;
             padding: 5px;
@@ -17,7 +36,7 @@
             border-radius: 3px;
         }
 
-        /* Updated tag styling for the new system.tags array */
+        /* Updated tag styling */
         .tag-container {
             display: flex;
             flex-wrap: wrap;
@@ -32,7 +51,7 @@
             }
         }
 
-        /* Ensure ProseMirror editor fills its container correctly */
+        /* Ensure ProseMirror editor fills its container */
         .editor {
             height: 100%;
             .editor-content {
