@@ -1,11 +1,28 @@
 /**
  * Trinity Continuum Actor Sheet (Variant 1)
- * Updated for Foundry V13 Compatibility & Contact List Support
+ * Updated for Foundry V13 Compatibility & Gift Item Support
  */
 
 export class TrinityActorSheet extends ActorSheet {
 
-  // ... (Keep existing static get defaultOptions and get template methods)
+  /** @override */
+  static get defaultOptions() {
+    return foundry.utils.mergeObject(super.defaultOptions, {
+      classes: ["trinity", "sheet", "actor"],
+      template: "systems/trinity/templates/actor/trinity-actor-sheet_1.html",
+      width: 800,
+      height: 800,
+      tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "character" }]
+    });
+  }
+
+  /** @override */
+  get template() {
+    if (this.actor.type === "npc") {
+      return "systems/trinity/templates/actor/trinity-actor-sheet-npc_1.html";
+    }
+    return "systems/trinity/templates/actor/trinity-actor-sheet_1.html";
+  }
 
   /** @override */
   async getData(options) {
@@ -34,7 +51,7 @@ export class TrinityActorSheet extends ActorSheet {
   }
 
   /**
-   * Sort items into their proper categories, including Contacts.
+   * Sort items into their proper categories for the Handlebars partials.
    * @param {Object} context The actor context object
    */
   _prepareItems(context) {
@@ -46,7 +63,8 @@ export class TrinityActorSheet extends ActorSheet {
     const powers = [];
     const conditions = [];
     const bonds = [];
-    const contacts = []; // 1. Initialized new container
+    const contacts = [];
+    const gifts = []; // Initialized Gifts container
 
     for (let i of context.items) {
       i.img = i.img || DEFAULT_TOKEN; 
@@ -59,7 +77,8 @@ export class TrinityActorSheet extends ActorSheet {
       else if (i.type === 'power' || i.type === 'action') powers.push(i);
       else if (i.type === 'condition') conditions.push(i);
       else if (i.type === 'bond') bonds.push(i);
-      else if (i.type === 'contact') contacts.push(i); // 2. Added sorting logic
+      else if (i.type === 'contact') contacts.push(i);
+      else if (i.type === 'gift') gifts.push(i); // Sorting logic for Gifts
     }
 
     context.gear = gear;
@@ -70,8 +89,69 @@ export class TrinityActorSheet extends ActorSheet {
     context.powers = powers;
     context.conditions = conditions;
     context.bonds = bonds;
-    context.contacts = contacts; // 3. Assigned to context
+    context.contacts = contacts;
+    context.gifts = gifts; // Assigned to context
   }
 
-  // ... (Keep existing activateListeners, _onItemCreate, _onRoll, and _onItemRoll methods)
+  /** @override */
+  activateListeners(html) {
+    super.activateListeners(html);
+    if (!this.isEditable) return;
+
+    html.find('.item-create').click(this._onItemCreate.bind(this));
+
+    html.find('.item-edit').click(ev => {
+      const li = $(ev.currentTarget).parents(".item");
+      const item = this.actor.items.get(li.data("itemId"));
+      if (item) item.sheet.render(true);
+    });
+
+    html.find('.item-delete').click(ev => {
+      const li = $(ev.currentTarget).parents(".item");
+      this.actor.deleteEmbeddedDocuments("Item", [li.data("itemId")]);
+      li.slideUp(200, () => this.render(false));
+    });
+
+    html.find('.rollable').click(this._onRoll.bind(this));
+    html.find('.roll-power').click(this._onItemRoll.bind(this));
+  }
+
+  async _onItemCreate(event) {
+    event.preventDefault();
+    const header = event.currentTarget;
+    const type = header.dataset.type;
+    const data = foundry.utils.duplicate(header.dataset);
+    const name = `New ${type.capitalize()}`;
+    const itemData = { name: name, type: type, system: data };
+    
+    delete itemData.system["type"];
+    
+    return await Item.create(itemData, {parent: this.actor});
+  }
+
+  async _onRoll(event) {
+    event.preventDefault();
+    const element = event.currentTarget;
+    const dataset = element.dataset;
+    const { TrinityRollPrompt } = await import("../dice/trinity-roll-prompt.js");
+
+    if (dataset.attribute) {
+      const val = this.actor.system.attributes[dataset.attribute]?.value || 0;
+      const config = await TrinityRollPrompt.confirmRoll(this.actor, { name: dataset.attribute });
+      await TrinityRollPrompt.executeRoll(this.actor, val, config);
+    }
+  }
+
+  async _onItemRoll(event) {
+    event.preventDefault();
+    const li = $(event.currentTarget).parents(".item");
+    const item = this.actor.items.get(li.data("itemId"));
+    
+    if (item) {
+      const { TrinityRollPrompt3 } = await import("../dice/trinity-roll-prompt3.js");
+      const pool = item.system.dicePool || 0;
+      const config = await TrinityRollPrompt3.confirmRoll(this.actor, { pool: pool, name: item.name });
+      await TrinityRollPrompt3.executeRoll(this.actor, config);
+    }
+  }
 }
