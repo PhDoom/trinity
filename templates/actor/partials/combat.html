@@ -1,11 +1,47 @@
-<div class="flex-parent-evenly">
-  <div class="flex-child-even">
-    {{> "systems/trinity/templates/actor/partials/initiative.html"}}
-    {{> "systems/trinity/templates/actor/partials/defense.html"}}
-    {{> "systems/trinity/templates/actor/partials/healthboxes.html"}}
-    {{> "systems/trinity/templates/actor/partials/conditions.html"}}
+{{!-- Combat Stats Partial - Foundry V13 Compliant --}}
+<div class="combat-section">
+
+  <h3 class="header">Combat Statistics</h3>
+
+  <div class="grid grid-3col mb-2">
+    
+    {{!-- Initiative --}}
+    <div class="resource flex-group-center">
+      {{!-- The 'rollable' class hooks into the async _onRoll listener --}}
+      <label for="system.initiative.value" class="resource-label rollable" data-attribute="initiative" title="Roll Initiative">
+        <a>Initiative</a>
+      </label>
+      <input type="number" name="system.initiative.value" value="{{system.initiative.value}}" data-dtype="Number"/>
+    </div>
+
+    {{!-- Defense --}}
+    <div class="resource flex-group-center">
+      <label for="system.defense.value" class="resource-label">Defense</label>
+      <input type="number" name="system.defense.value" value="{{system.defense.value}}" data-dtype="Number"/>
+    </div>
+
+    {{!-- Armor / Soak --}}
+    <div class="resource flex-group-center">
+      <label for="system.armor.value" class="resource-label">Armor / Soak</label>
+      <input type="number" name="system.armor.value" value="{{system.armor.value}}" data-dtype="Number"/>
+    </div>
+
   </div>
-  <div class="flex-child-even">
-    {{> "systems/trinity/templates/actor/partials/actions.html"}}
+
+  <div class="grid grid-2col mb-2">
+    
+    {{!-- Speed / Movement --}}
+    <div class="resource flex-group-center">
+      <label for="system.speed.value" class="resource-label">Speed</label>
+      <input type="number" name="system.speed.value" value="{{system.speed.value}}" data-dtype="Number"/>
+    </div>
+
+    {{!-- Resilience --}}
+    <div class="resource flex-group-center">
+      <label for="system.resilience.value" class="resource-label">Resilience</label>
+      <input type="number" name="system.resilience.value" value="{{system.resilience.value}}" data-dtype="Number"/>
+    </div>
+
   </div>
+
 </div>
