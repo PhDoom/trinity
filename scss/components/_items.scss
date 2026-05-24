@@ -1,35 +1,44 @@
-.items-list {
-  list-style: none;
-  margin: 7px 0;
-  padding: 0;
-  overflow-y: auto;
+@layer trinity.items {
+    .trinity-item-sheet {
+        /* Use CSS Grid for the new flattened item layout */
+        .item-sheet-content {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 15px;
+            padding: 10px;
+        }
 
-  .item-header {
-    font-weight: bold;
-  }
+        /* Styling for the new flattened data inputs */
+        .system-input {
+            width: 100%;
+            padding: 5px;
+            background: var(--color-bg-input);
+            border: 1px solid var(--color-border-light);
+            border-radius: 3px;
+        }
 
-  .item {
-    height: 30px;
-    line-height: 24px;
-    padding: 3px 0;
-    border-bottom: 1px solid #BBB;
+        /* Updated tag styling for the new system.tags array */
+        .tag-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            
+            .tag {
+                background: var(--color-bg-button);
+                padding: 2px 8px;
+                border-radius: 12px;
+                font-size: 0.8em;
+                border: 1px solid var(--color-border-dark);
+            }
+        }
 
-    .item-image {
-      flex: 0 0 24px;
-      margin-right: 5px;
+        /* Ensure ProseMirror editor fills its container correctly */
+        .editor {
+            height: 100%;
+            .editor-content {
+                min-height: 150px;
+                background: var(--color-bg-input);
+            }
+        }
     }
-
-    img {
-      display: block;
-    }
-  }
-
-  .item-name {
-    margin: 0;
-  }
-
-  .item-controls {
-    flex: 0 0 86px;
-    text-align: right;
-  }
 }
