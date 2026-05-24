@@ -1,16 +1,41 @@
-<form class="{{cssClass}} flexcol" autocomplete="off">
-  <section class="sheet-body">
-    <div class="items grid grid-1col">
-      {{#each this.items as |item key|}}
-        <div class="item flexrow flex-group-center" id="{{key}}">
-          <label for="{{item.data._id}}" class="resource-label" data-skilname="{{item.data.name}}">
-            {{item.name}}
-          </label>
-          <input type="radio" id="{{item.data._id}}" class="input" name="skil" value="{{item.data.name}}">
-        </div>
-      {{else}}
-        No Eligible Items Found.
-      {{/each}}
-    </div>
-  </section>
+{{!-- Visual Skill Picker - Foundry V13 Compliant --}}
+<form class="trinity-dialog skill-picker-list flexcol" autocomplete="off">
+  
+  <header class="dialog-header border-bottom mb-2 text-center">
+    <label class="font-weight-bold">Select a Skill</label>
+  </header>
+
+  <div class="skill-list border p-2" style="max-height: 350px; overflow-y: auto;">
+    {{!-- No Skill Option --}}
+    <label class="flexrow flex-between p-1 border-bottom clickable">
+      <span class="italic">None (Attribute Only)</span>
+      <input type="radio" name="skillSelect" value="" {{#if (eq selected "")}}checked{{/if}}>
+    </label>
+
+    {{!-- V13 Item Fetching logic --}}
+    {{#each actor.itemTypes.skill as |skill|}}
+    <label class="flexrow flex-between p-1 border-bottom clickable">
+      <div class="skill-info flexcol">
+        <span class="font-weight-bold">{{skill.name}}</span>
+        {{#if skill.system.subType}}
+          <span class="small italic">{{skill.system.subType}}</span>
+        {{/if}}
+      </div>
+      <div class="skill-value flexrow flex-center">
+        <span class="px-2 font-weight-bold text-blue">{{skill.system.value}} Dots</span>
+        {{!-- V13: Store ID for JS retrieval --}}
+        <input type="radio" name="skillSelect" value="{{skill.id}}" data-value="{{skill.system.value}}" {{#if (eq ../selected skill.id)}}checked{{/if}}>
+      </div>
+    </label>
+    {{else}}
+    <p class="text-center italic small p-2">No skills available on character.</p>
+    {{/each}}
+  </div>
+
+  {{!-- Specialty/Situational Bonus --}}
+  <div class="form-group flexrow flex-center p-1 border-top mt-1">
+    <label class="small font-weight-bold mr-2">Additional Specialty Bonus</label>
+    <input type="number" name="skillBonus" value="0" data-dtype="Number" style="width: 50px; text-align: center;"/>
+  </div>
+
 </form>
