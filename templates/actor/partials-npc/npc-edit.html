@@ -1,34 +1,42 @@
-{{!-- NPC Edit Partial --}}
-<div class="attributes grid grid-3col">
-  {{#each actor.data.data.attributes as |attribute key|}}
-  <div class="boxed">
-    <div class="flex-parent-center-column" data-attrname="{{attribute.name}}" id="{{key}}">
-      <span class="flex-child-center resource-label"> {{attribute.name}} </span>
-      <input class="flex-child-center" name="data.attributes.{{key}}.value" type="number" min="0" step="1" onfocus="this.previousValue = this.value" onkeydown="this.previousValue = this.value" oninput="validity.valid || (value = this.previousValue)" value="{{attribute.value}}" />
+{{!-- NPC Edit Partial - Foundry V13 Compliant --}}
+<div class="npc-edit">
+  
+  {{!-- Basic String Inputs --}}
+  <div class="grid grid-2col mb-1">
+    <div class="form-group flexcol">
+      <label for="system.concept" class="resource-label">Concept</label>
+      <input type="text" name="system.concept" value="{{system.concept}}" placeholder="e.g. Rogue Mercenary"/>
     </div>
-    <div class="flex-parent-center-column" data-attrname="{{attribute.name}}" id="{{key}}">
-      <span class="flex-child-center resource-label">Area</span>
-      <input class="flex-child-center small-note" name="data.attributes.{{key}}.area" type="text" value="{{attribute.area}}" />
+    <div class="form-group flexcol">
+      <label for="system.faction" class="resource-label">Faction / Affiliation</label>
+      <input type="text" name="system.faction" value="{{system.faction}}" placeholder="e.g. Aberrant, Aeon Society"/>
     </div>
   </div>
-  {{/each}}
-</div>
 
-<div class="boxed flex-parent-evenly">
-  <div class="flex-child flex-parent-center-column">
-    <div class="flex-child-center resource-label">Enhancements</div>
-    <input class="flex-child-center big bold" type="number" min="0" step="1" onfocus="this.previousValue = this.value" onkeydown="this.previousValue = this.value" oninput="validity.valid || (value = this.previousValue)" id="npc-enhancement-edit" name="data.enhancements.value" value="{{actor.data.data.enhancements.value}}" data-dtype="Number"/>
+  <hr>
+
+  {{!-- V13 ProseMirror Rich Text Editors --}}
+  <div class="form-group stacked mt-1">
+    <label class="resource-label">Description & Biography</label>
+    <div class="editor-container" style="min-height: 150px; background: rgba(0, 0, 0, 0.05); padding: 5px; border-radius: 4px;">
+      {{!-- 
+        V13 Editor Helper: 
+        Uses the 'system.biography' path. 
+        'enrichedBiography' should be prepared in your actor-sheet.js getData() method.
+      --}}
+      {{editor enrichedBiography target="system.biography" button=true owner=owner editable=editable engine="prosemirror"}}
+    </div>
   </div>
-  <div class="flex-child flex-parent-center-column">
-      <div class="flex-child-center resource-label">{{actor.data.data.healthboxes.health.name}}</div>
-      <input class="flex-child-center big bold" type="number" min="0" step="1" onfocus="this.previousValue = this.value" onkeydown="this.previousValue = this.value" oninput="validity.valid || (value = this.previousValue)" id="npc-health-edit" name="data.healthboxes.health.value" value="{{actor.data.data.healthboxes.health.value}}" data-dtype="Number"/>
+
+  <div class="form-group stacked mt-2">
+    <label class="resource-label">GM Notes (Hidden from Players)</label>
+    <div class="editor-container" style="min-height: 150px; background: rgba(0, 0, 0, 0.05); padding: 5px; border-radius: 4px;">
+      {{!-- 
+        GM Notes target. 
+        'enrichedNotes' should be prepared in your actor-sheet.js getData() method.
+      --}}
+      {{editor enrichedNotes target="system.gmNotes" button=true owner=owner editable=editable engine="prosemirror"}}
+    </div>
   </div>
-  <div class="flex-child flex-parent-center-column">
-    <div class="flex-child-center resource-label">Defense</div>
-    <input class="flex-child-center big bold" type="number" min="0" step="1" onfocus="this.previousValue = this.value" onkeydown="this.previousValue = this.value" oninput="validity.valid || (value = this.previousValue)" id="npc-defense-edit" name="data.defense.value" value="{{actor.data.data.defense.value}}" data-dtype="Number"/>
-  </div>
-  <div class="flex-child flex-parent-center-column">
-    <div class="flex-child-center resource-label">Maximum Source</div>
-    <input class="flex-child-center big bold" type="number" min="0" step="1" onfocus="this.previousValue = this.value" onkeydown="this.previousValue = this.value" oninput="validity.valid || (value = this.previousValue)" id="npc-source-max-edit" name="data.source.max" value="{{actor.data.data.source.max}}" data-dtype="Number"/>
-  </div>
+
 </div>
