@@ -1,49 +1,75 @@
-{{log "Overview, This:" this}}
-<!--
-<h2>Momentum</h2>
-<div class="grid grid-3col">
-  <div class="">
-    <label for="current-momentum" class="resource-label"> Current Momentum </label>
-    <input type="number" min="0" step="1" onfocus="this.previousValue = this.value" onkeydown="this.previousValue = this.value" oninput="validity.valid || (value = this.previousValue)" id="current-momentum" name="momentum.current" value="{{momentum.current}}" data-dtype="Number"/>
-  </div>
-  <div class="">
-    <label for="spent-momentum" class="resource-label"> Spent Momentum </label>
-    <input type="number" min="0" step="1" onfocus="this.previousValue = this.value" onkeydown="this.previousValue = this.value" oninput="validity.valid || (value = this.previousValue)" id="spent-momentum" name="momentum.spent" value="{{momentum.spent}}" data-dtype="Number"/>
-  </div>
-  <div class="">
-    <label for="max-momentum" class="resource-label"> Max Momentum </label>
-    <input type="number" min="0" step="1" onfocus="this.previousValue = this.value" onkeydown="this.previousValue = this.value" oninput="validity.valid || (value = this.previousValue)" id="max-momentum" name="momentum.max" value="{{momentum.max}}" data-dtype="Number"/>
-  </div>
+{{!-- Actor Overview Table Variant - Foundry V13 Compliant --}}
+<div class="trinity-overview-table">
+
+  <header class="table-header border-bottom mb-2">
+    <h2>Party Status Dashboard</h2>
+  </header>
+
+  <table class="overview-table">
+    <thead>
+      <tr>
+        <th class="text-left">Character</th>
+        <th>Inspiration</th>
+        <th>Health / Injury</th>
+        <th>Active Paths</th>
+        <th>Conditions</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each actors as |actor id|}}
+      <tr class="actor-row" data-actor-id="{{actor.id}}">
+        
+        {{!-- Character Identity --}}
+        <td class="flexrow flex-center">
+          <img class="profile-img" src="{{actor.img}}" width="32" height="32" />
+          <span class="actor-name font-weight-bold ml-1">{{actor.name}}</span>
+        </td>
+
+        {{!-- Inspiration Tracking --}}
+        <td class="text-center">
+          {{!-- V13 Path: actor.system.inspiration --}}
+          <div class="resource-bar-container">
+            <span class="small">{{actor.system.inspiration.value}} / {{actor.system.inspiration.max}}</span>
+          </div>
+        </td>
+
+        {{!-- Health & Injury Status --}}
+        <td class="text-center">
+          {{!-- Accessing flattened system.attributes --}}
+          <span class="injury-penalty {{#if actor.system.attributes.health.penalty}}text-red{{/if}}">
+            {{#if actor.system.attributes.health.penalty}}-{{actor.system.attributes.health.penalty}}{{else}}Healthy{{/if}}
+          </span>
+        </td>
+
+        {{!-- Paths Iteration --}}
+        <td class="small italic">
+          {{#each actor.itemTypes.path as |path|}}
+            {{path.name}}{{#unless @last}}, {{/unless}}
+          {{/each}}
+        </td>
+
+        {{!-- Conditions Quick-View --}}
+        <td>
+          <div class="tag-group">
+            {{#each actor.itemTypes.condition as |condition|}}
+              <span class="tag border px-1 small" title="{{condition.system.description}}">
+                {{condition.name}} ({{condition.system.penalty}})
+              </span>
+            {{/each}}
+          </div>
+        </td>
+
+        {{!-- Table Actions --}}
+        <td class="text-center">
+          <a class="open-sheet-link" title="Open Character Sheet" data-actor-id="{{actor.id}}">
+            <i class="fas fa-file-alt"></i>
+          </a>
+        </td>
+
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+
 </div>
--->
-
-<h2>Characters</h2>
-
-<div class="flex-parent flex-valign">
-    <div class="button">
-        <button class="btn-filter">
-            <i class="fas fa-filter {{#ifEquals mode 'SHOW_ALL'}}inactive{{/ifEquals}}"></i>
-            {{#ifEquals mode 'SHOW_VISIBLE' }}<i class="fas fa-eye"></i>{{/ifEquals}}
-            {{#ifEquals mode 'SHOW_HIDDEN' }}<i class="fas fa-eye-slash"></i>{{/ifEquals}}
-        </button>
-    </div>
-    <div class="bold">Name</div>
-</div>
-
-{{#each actors as | actor | }}
-  <div class="boxed">
-    <div class="flex-parent flex-valign">
-        <div class="button">
-            <button class="btn-toggle-visibility" data-actor="{{actor.id }}">
-                {{#if actor.isHidden }}<i class="value fas fa-eye-slash"></i>{{else}}<i
-                    class="value fas fa-eye"></i>{{/if}}
-            </button>
-        </div>
-        <div class="text">{{ actor.name }}</div>
-    </div>
-    <div class="flex-parent">
-      <label class="flex-child-fit" for="{{actor.id}}-sta1">{{actor.aspirations.shortTerm1.name}}:</label>
-      <input class="flex-child-fit" type="text" id="{{actor.id}}-sta1" name="actor.aspirations.shortTerm1.value" value="{{actor.aspirations.shortTerm1.value}}" data-dtype="String"/>
-      <input class="flex-child-fit" type="checkbox" id="{{actor.id}}-sta1-complete" name="actor.aspirations.shortTerm1.complete" value="{{actor.aspirations.shortTerm1.complete}}" data-dtype="Boolean" {{checked actor.aspirations.shortTerm1.complete}}/>
-    </div>
-{{/each}}
