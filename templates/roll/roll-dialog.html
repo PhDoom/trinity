@@ -1,60 +1,60 @@
 {{!-- Trinity Roll Dialog - Foundry V13 Compliant --}}
-<form class="trinity-dialog roll-dialog flexcol" autocomplete="off">
+<form class="trinity-dialog roll-dialog" autocomplete="off">
   
-  {{!-- Pool Header --}}
-  <header class="dialog-header border-bottom mb-2 flexrow flex-between">
-    <h3 class="m-0">Build Dice Pool</h3>
-    <div class="base-pool-display font-weight-bold text-blue">
-      Base Pool: {{basePool}} Dice
+  {{!-- Dialog Header --}}
+  <header class="dialog-header border-bottom mb-2 trinity-flexrow trinity-flex-between p-2">
+    <h3 class="m-0">Action Configuration</h3>
+    <div class="pool-total">
+      <span class="small-label">Total Pool:</span> 
+      <span class="text-blue font-weight-bold">{{totalPool}}</span>
     </div>
   </header>
 
-  {{!-- Difficulty & Complications Section --}}
-  <div class="form-group-row flexrow mb-2">
-    <div class="form-group flexcol flex-center px-1">
-      <label class="font-weight-bold small-label">Difficulty</label>
-      <input type="number" name="difficulty" value="{{difficulty}}" data-dtype="Number" class="text-center w-50"/>
-    </div>
+  {{!-- Core Selection Grid --}}
+  <div class="trinity-grid trinity-grid-2col mb-2">
     
-    <div class="form-group flexcol flex-center px-1">
-      <label class="font-weight-bold small-label">Complications</label>
-      <input type="number" name="complications" value="0" data-dtype="Number" class="text-center w-50"/>
+    {{!-- Attribute Section --}}
+    <div class="trinity-flexcol trinity-flex-center border p-2">
+      <label class="small-label font-weight-bold">Attribute</label>
+      <span class="font-weight-bold">{{attrName}}</span>
+      <span class="small">({{attrVal}} Dots)</span>
     </div>
 
-    <div class="form-group flexcol flex-center px-1">
-      <label class="font-weight-bold small-label">Enhancement</label>
-      <input type="number" name="enhancement" value="{{enhancement}}" data-dtype="Number" class="text-center w-50"/>
+    {{!-- Skill Section --}}
+    <div class="trinity-flexcol trinity-flex-center border p-2">
+      <label class="small-label font-weight-bold">Skill</label>
+      <span class="font-weight-bold">{{#if skillName}}{{skillName}}{{else}}None{{/if}}</span>
+      <span class="small">({{skillVal}} Dots)</span>
     </div>
   </div>
 
-  {{!-- Toggleable Modifiers --}}
+  {{!-- Modifiers Section --}}
   <div class="modifiers-section border-top pt-2">
-    <h4 class="section-title small-label mb-1">Options & Modifiers</h4>
-    
-    <div class="form-group flexrow flex-between p-1">
-      <label class="small">Inspiration Spend (Add 2 Dice)</label>
-      {{!-- V13 Path: system.inspiration.value --}}
-      <input type="checkbox" name="spendInspiration" {{#if (lt system.inspiration.value 1)}}disabled title="Insufficient Inspiration"{{/if}}/>
-    </div>
+    <div class="trinity-grid trinity-grid-2col">
+      
+      <div class="form-group trinity-flexcol trinity-flex-center">
+        <label class="small-label">Enhancement</label>
+        <input type="number" name="enhancement" value="{{enhancement}}" data-dtype="Number" class="text-center w-50"/>
+      </div>
 
-    <div class="form-group flexrow flex-between p-1">
-      <label class="small">Momentum Spend (Add 1 Die)</label>
-      <input type="checkbox" name="spendMomentum"/>
-    </div>
+      <div class="form-group trinity-flexcol trinity-flex-center">
+        <label class="small-label">Difficulty</label>
+        <input type="number" name="difficulty" value="{{difficulty}}" data-dtype="Number" class="text-center w-50"/>
+      </div>
 
-    <div class="form-group flexrow flex-between p-1">
-      <label class="small">Scale Difference</label>
-      <input type="number" name="scale" value="0" data-dtype="Number" style="width: 40px; text-align: center;"/>
     </div>
   </div>
 
-  {{!-- Roll Summary Notes --}}
-  <div class="form-group mt-2">
-    <label class="font-weight-bold small-label">Roll Notes</label>
-    <input type="text" name="rollNotes" placeholder="e.g. Forging the ID, Aiming..."/>
+  {{!-- Footer Options --}}
+  <div class="trinity-flexcol mt-2 border-top pt-1">
+    <div class="trinity-flexrow trinity-flex-between p-1">
+      <label class="small">Apply Specialty</label>
+      <input type="checkbox" name="useSpecialty" {{checked useSpecialty}}/>
+    </div>
+    <div class="trinity-flexrow trinity-flex-between p-1">
+      <label class="small">Spend Inspiration</label>
+      <input type="checkbox" name="spendInspiration" {{checked spendInspiration}}/>
+    </div>
   </div>
 
-  <p class="notes italic small mt-2 border-top pt-1 text-center">
-    Total Successes = (Hits) + Enhancements.
-  </p>
 </form>
