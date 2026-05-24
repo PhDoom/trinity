@@ -1,16 +1,59 @@
-<div class="flex-parent-wide-noflow boxed select-item" id="{{item.id}}">
-  <div class="flex-child-fit flex-valign left large">
-    {{item.value}}<span class="small">{{#if item.isDice}}<i class="fas fa-circle"></i>{{else}}<i class="fas fa-hashtag"></i>{{/if}}</span>
-  </div>
-  <div class="flex-child-full flex-parent-column">
-    <div class="flex-child-full">
-      {{item.name}}
+{{!-- Item Roll Box Partial - Foundry V13 Compliant --}}
+<div class="trinity-item-box flexcol border p-1 mb-1" data-item-id="{{item.id}}">
+  
+  {{!-- Item Header: Name & Icon --}}
+  <header class="item-box-header flexrow border-bottom pb-1 mb-1">
+    {{#if item.img}}
+    <img src="{{item.img}}" title="{{item.name}}" width="24" height="24" class="mr-1"/>
+    {{/if}}
+    <h4 class="item-name m-0">{{item.name}}</h4>
+    
+    {{!-- V13 Path: item.system.value or rating --}}
+    {{#if item.system.value}}
+    <div class="item-value px-1 small border ml-auto">
+      {{item.system.value}} Dots
     </div>
-    <div class="flex-child-full small-note">
-      {{item.note}}
+    {{/if}}
+  </header>
+
+  {{!-- Item Details Body --}}
+  <div class="item-box-details flexcol small">
+    
+    {{!-- Category/Subtype - V13 Path: item.system.subType --}}
+    {{#if item.system.subType}}
+    <div class="detail-row flexrow flex-between italic">
+      <span>Type:</span>
+      <span>{{item.system.subType}}</span>
     </div>
-  <div class="flex-child-fit flex-valign right remove clickable" id="{{item.id}}">
-    <i class="far fa-minus-square"></i>
+    {{/if}}
+
+    {{!-- Enhancements - V13 Path: item.system.enhancement --}}
+    {{#if item.system.enhancement}}
+    <div class="detail-row flexrow flex-between text-blue font-weight-bold">
+      <span>Enhancement:</span>
+      <span>+{{item.system.enhancement}}</span>
+    </div>
+    {{/if}}
+
+    {{!-- Tags/Qualities - V13 Path: item.system.tags --}}
+    {{#if item.system.tags}}
+    <div class="tag-list mt-1">
+      <div class="tag-label font-weight-bold small-label">Tags:</div>
+      <div class="tags flexrow flex-wrap">
+        {{#each item.system.tags as |tag|}}
+          <span class="tag border px-1 mr-1 mb-1 bg-grey small">{{tag}}</span>
+        {{/each}}
+      </div>
+    </div>
+    {{/if}}
+
   </div>
+
+  {{!-- Expandable Description (Optional toggle via CSS) --}}
+  {{#if item.system.description}}
+  <div class="item-box-description border-top mt-1 pt-1 small italic">
+    {{{item.system.description}}}
   </div>
+  {{/if}}
+
 </div>
