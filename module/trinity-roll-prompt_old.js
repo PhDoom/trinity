@@ -1,96 +1,100 @@
+/**
+ * Trinity Continuum Roll Prompt
+ * Final V13 Optimized Version
+ */
+
 export class TrinityRollPrompt {
 
-  static async tRollPrompt(rollParts, targetActor, pickedElements) {
+  /**
+   * Display the Dialog for standard rolls.
+   */
+  static async confirmRoll(actor, item) {
+    const sys = actor.system;
+    
+    // Retrieve current settings (defaults to 8 TN and 0 Difficulty)
+    const settings = sys.rollSettings || {};
+    
+    const content = `
+      <form class="trinity-roll-dialog">
+        <div class="form-group">
+          <label>Bonus Dice:</label>
+          <input type="number" id="bonus-input" value="${settings.bonusDice?.value ?? 0}">
+        </div>
+        <div class="form-group">
+          <label>Target Number (TN):</label>
+          <input type="number" id="tn-input" value="${settings.targetNumber?.value ?? 8}">
+        </div>
+        <div class="form-group">
+          <label>Difficulty:</label>
+          <input type="number" id="diff-input" value="${settings.difficulty?.value ?? 0}">
+        </div>
+      </form>
+    `;
 
-// Open Dialog with received options
-//  function renderPrompt () {
-//    let newRollParts = rollParts;
-//    const actor = this.actor;
-    const html = await renderTemplate("systems/trinity/templates/roll-prompt.html", {roll: rollParts, actor: targetActor, elements: pickedElements});
-    /*Another hook/data test
-    html.getElementById('attr-label').addEventListener("click", ()=> {
-      console.log(this);
-    });
-    */
-    const rollDialog = await new Promise(resolve => {
-        new Dialog({
-        title: "Roll Options",
-        id: "rdialog",
-        content: html,
+    return new Promise((resolve) => {
+      new Dialog({
+        title: `Roll Configuration: ${item?.name ?? "Standard Roll"}`,
+        content: content,
         buttons: {
           roll: {
-            icon: "<i class='fas fa-redo'></i>",
-    			  label: "Roll",
-    			  callback: () => {
-              for (let part of Object.keys(rollParts)) {
-                if (document.getElementById(part)){
-                  rollParts[part] = parseInt(document.getElementById(part).value) || rollParts[part];
-                }
-                console.log("rollParts."+part+":");
-                console.log(rollParts[part]);
-              }
-              resolve(rollParts);
-    			//	  actionType = "remove";
+            icon: '<i class="fas fa-dice"></i>',
+            label: "Roll",
+            callback: (html) => {
+              resolve({
+                bonus: parseInt(html.find('#bonus-input').val()) || 0,
+                tn: parseInt(html.find('#tn-input').val()) || 8,
+                difficulty: parseInt(html.find('#diff-input').val()) || 0
+              });
             }
-          },
-          cancel: {
-            icon: "<i class='fas fa-times'></i>",
-            label: "Cancel",
-            callback: () => {
-              resolve();
-          //	  actionType = "remove";
-            }
-          },
+          }
         },
-        default:"roll",
-        callback: html => {
-          resolve();
-//            console.log(html, actor);
-/*
-            let passionName = html[0].querySelector('.newPassion').value
-            let passionValue = html[0].querySelector('.newPassionValue').value
-
-            actor.update({
-                "data.passions": [...actor.data.passions, [passionName, passionValue]]
-*/      }
-    }).render(true);
-
-  });
-
-
-  /* Test Section, Can I add listeners here?
-  Hooks.on('renderDialog', (dialog, html, data, input) => {
-  rollDialog.activateListeners(html) {
-    html.find(".attr").on('click', event => {
-      console.log("Test: Attr Roller Hook");
-      console.log(html);
-      console.log(data);
-      console.log(arg3);
-      console.log(arg4)
+        default: "roll"
+      }).render(true);
     });
-  };
-   End Test Section */
-//    }
-// return the updated rollParts
-    console.log("rollParts, just before return statement:");
-    console.log(rollParts);
-//  Original:
-  return rollParts;
-//  Test hook:
-/*
-    Hooks.on('renderDialog', (dialog, html, data, input) => {
-      if (dialog.data.id === "rdialog") {
-        html.find(".attr").on('click', event => {
-          console.log("Test: Attr Roller Hook");
-          console.log(dialog);
-          console.log(html);
-          console.log(data);
-          console.log(rollParts);
-        });
-      }
-    });
-    rollDialog.render(true);
-*/
   }
 
+  /**
+   * Execute the Roll
+   * Uses standard d10 success counting (cs>=TN)
+   */
+  static async executeRoll(actor, pool, config) {
+    if (!config) return;
+
+    // Build the V13 compliant dice formula
+    const totalPool = pool + config.bonus;
+    const formula = `${totalPool}d10cs>=${config.tn}`;
+    const roll = new Roll(formula, actor.getRollData());
+
+    // MANDATORY V13: Asynchronous evaluation
+    await roll.evaluate();
+
+    // Calculate final results
+    const netSuccesses = roll.total - config.difficulty;
+    const isSuccess = netSuccesses >= 0;
+
+    // Build Chat Message
+    await roll.toMessage({
+      speaker: ChatMessage.getSpeaker({ actor: actor }),
+      flavor: `
+        <div class="trinity-roll-result">
+          <div class="roll-header"><b>Trinity Roll</b></div>
+          <div class="roll-stats">
+            Pool: ${totalPool} | TN: ${config.tn} | Diff: ${config.difficulty}
+          </div>
+          <div class="roll-total ${isSuccess ? 'success' : 'failure'}">
+            ${isSuccess ? 'Success' : 'Failure'}: ${netSuccesses} Net Successes
+          </div>
+        </div>
+      `,
+      flags: {
+        "trinity.rollMetadata": {
+          totalPool: totalPool,
+          netSuccesses: netSuccesses,
+          isSuccess: isSuccess
+        }
+      }
+    });
+
+    return roll;
+  }
 }
