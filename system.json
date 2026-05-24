@@ -16,9 +16,7 @@
   "esmodules": [
     "module/trinity.js"
   ],
-  "styles": [
-    "css/trinity.css"
-  ],
+  "styles": [],
   "documentTypes": {
     "Actor": {
       "character": {},
