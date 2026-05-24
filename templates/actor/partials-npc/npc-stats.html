@@ -1,31 +1,67 @@
-{{!-- NPC Stats Partial --}}
-<div class="boxed flex-parent-evenly">
-  <div class="flex-child flex-parent-center-column">
-    <div class="flex-child-center resource-label">Enhancements</div>
-    <div class="flex-child-center big bold">{{actor.data.data.enhancements.value}}</div>
+{{!-- NPC Stats Partial - Foundry V13 Compliant --}}
+<div class="npc-stats">
+
+  {{!-- Core NPC Details --}}
+  <div class="grid grid-3col mb-1 mt-1">
+    <div class="resource flex-group-center">
+      <label for="system.threat.value" class="resource-label">Threat / Rank</label>
+      <input type="number" name="system.threat.value" value="{{system.threat.value}}" data-dtype="Number"/>
+    </div>
+    
+    <div class="resource flex-group-center">
+      <label for="system.size.value" class="resource-label">Size</label>
+      <input type="number" name="system.size.value" value="{{system.size.value}}" data-dtype="Number"/>
+    </div>
+
+    <div class="resource flex-group-center">
+      <label for="system.speed.value" class="resource-label">Speed</label>
+      <input type="number" name="system.speed.value" value="{{system.speed.value}}" data-dtype="Number"/>
+    </div>
   </div>
-  <div class="flex-child flex-parent-center-column">
-    {{#each this.actor.healthBoxes as |healthBox key|}}
-      <div class="flex-child-center resource-label">{{healthBox.name}}</div>
-      <div class="flex-child-center big icons left-vcenter clickable item-create" data-hbname="{{healthBox.name}}" id="{{key}}" data-type="condition">{{{toHealthBoxes healthBox}}}</div>
-    {{/each}}
+
+  <hr>
+
+  {{!-- NPC Quick Action Pools --}}
+  <h3 class="header">Quick Action Pools</h3>
+  <div class="grid grid-3col mb-1">
+    
+    <div class="resource flex-group-center">
+      {{!-- The 'rollable' class and 'data-attribute' hook into your _onRoll listener --}}
+      <label class="resource-label rollable" data-attribute="pools.primary" title="Roll Primary Pool">
+        <a>Primary Action</a>
+      </label>
+      <input type="number" name="system.pools.primary.value" value="{{system.pools.primary.value}}" data-dtype="Number"/>
+    </div>
+
+    <div class="resource flex-group-center">
+      <label class="resource-label rollable" data-attribute="pools.secondary" title="Roll Secondary Pool">
+        <a>Secondary Action</a>
+      </label>
+      <input type="number" name="system.pools.secondary.value" value="{{system.pools.secondary.value}}" data-dtype="Number"/>
+    </div>
+
+    <div class="resource flex-group-center">
+      <label class="resource-label rollable" data-attribute="pools.desperation" title="Roll Desperation Pool">
+        <a>Desperation</a>
+      </label>
+      <input type="number" name="system.pools.desperation.value" value="{{system.pools.desperation.value}}" data-dtype="Number"/>
+    </div>
+
   </div>
-  <div class="flex-child flex-parent-center-column">
-    <div class="flex-child-center resource-label">Defense</div>
-    <div class="flex-child-center big bold">{{actor.data.data.defense.value}}</div>
+
+  <hr>
+
+  {{!-- NPC Armor & Resistances --}}
+  <h3 class="header">Armor & Resistances</h3>
+  <div class="grid grid-2col mb-2">
+    <div class="resource flex-group-center">
+      <label for="system.armor.value" class="resource-label">Armor (Soak)</label>
+      <input type="number" name="system.armor.value" value="{{system.armor.value}}" data-dtype="Number"/>
+    </div>
+    <div class="resource flex-group-center">
+      <label for="system.resilience.value" class="resource-label">Resilience</label>
+      <input type="number" name="system.resilience.value" value="{{system.resilience.value}}" data-dtype="Number"/>
+    </div>
   </div>
-  <!-- Stats for NPC Creation. Remove - build as actor templates, to make it easier to remove game elements
-  <div class="flex-child flex-parent-center-column">
-    <div class="flex-child-center resource-label">Edge Dots</div>
-    <div class="flex-child-center big bold">{{actor.data.edgeDots.value}}</div>
-  </div>
-  <div class="flex-child flex-parent-center-column">
-    <div class="flex-child-center resource-label">Source</div>
-    <div class="flex-child-center big bold">{{actor.data.source.value}}</div>
-  </div>
-  <div class="flex-child flex-parent-center-column">
-    <div class="flex-child-center resource-label">Anomaly Powers</div>
-    <div class="flex-child-center big bold">{{actor.data.anomalyPowers.value}}</div>
-  </div>
-  -->
+
 </div>
