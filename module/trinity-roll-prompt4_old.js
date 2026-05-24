@@ -1,108 +1,98 @@
-//* Import Functions *//
-import { Picker } from "/systems/trinity/module/picker.js";
+/**
+ * Trinity Continuum Roll Prompt (Version 4)
+ * Updated for Foundry V13 - Handles Quantum/Power resource integration.
+ */
 
-class RDialog extends Dialog {
+export class TrinityRollPrompt4 {
 
-  constructor(data, params, options) {
-    super(data, options);
-    this.actor = params.targetActor;
-    this.pickedElements = params.pickedElements;
+  /**
+   * Display the Dialog for specialized rolls
+   */
+  static async confirmRoll(actor, item) {
+    const sys = actor.system;
+    
+    // Check for resources (e.g., Quantum or Psi points)
+    const resourceName = sys.resources?.quantum?.label || "Quantum";
+    const resourceVal = sys.resources?.quantum?.value || 0;
+
+    const content = `
+      <form class="trinity-roll-v4">
+        <div class="form-group">
+          <label>Dice Pool:</label>
+          <input type="number" id="pool-input" value="${item?.system?.dicePool || 0}">
+        </div>
+        <div class="form-group">
+          <label>Spend ${resourceName}:</label>
+          <input type="number" id="spend-input" value="0" max="${resourceVal}">
+        </div>
+        <div class="form-group">
+          <label>Difficulty:</label>
+          <input type="number" id="diff-input" value="0">
+        </div>
+      </form>
+    `;
+
+    return new Promise((resolve) => {
+      new Dialog({
+        title: `Roll: ${item?.name || "Power"}`,
+        content: content,
+        buttons: {
+          roll: {
+            icon: '<i class="fas fa-bolt"></i>',
+            label: "Roll",
+            callback: (html) => {
+              resolve({
+                pool: parseInt(html.find('#pool-input').val()) || 0,
+                spend: parseInt(html.find('#spend-input').val()) || 0,
+                difficulty: parseInt(html.find('#diff-input').val()) || 0
+              });
+            }
+          }
+        },
+        default: "roll"
+      }).render(true);
+    });
   }
 
-  getData(options) {
-    const data = super.getData(options);
-    return data;
-  }
+  /**
+   * Execute the Roll asynchronously
+   */
+  static async executeRoll(actor, config) {
+    if (!config) return;
 
-//  async _render(force = false, options = {}) {
-  async _render(force, options = {}) {
-    console.log("RDialog Starts Rendering -- This:");
-    console.log(this);
-    await super._render(force, options);
-//    console.log("RDialog Stops Rendering");
-  }
+    // V13: Formula with success counting
+    const formula = `${config.pool}d10cs>=8`;
+    const roll = new Roll(formula, actor.getRollData());
 
-  activateListeners(html) {
-    super.activateListeners(html);
+    // MANDATORY V13: Await evaluation
+    await roll.evaluate();
 
-    // Attribute Picker v2
-    // based on html.find('.rollable').click(this._onRoll.bind(this));
-    // maybe we need the bind to hold the this properly
-    //html.find('.attr-label').click(this._onElementClick.bind(this));
-    //html.find('.attr-label').click(this._onElementClick.bind(this));
-    html.find('.attr-label').click((event) => {
-      // this.pickedElements = await Picker.pDialog("attr", this.actor, this.pickedElements);
-      this.pickedElements.attr.name = "testattr";
-      renderTemplate("systems/trinity/templates/roll-prompt.html", {actor: this.actor, elements: this.pickedElements});
-      this.render(true);
+    // Logic: Spending resource adds automatic successes
+    const totalSuccesses = roll.total + config.spend - config.difficulty;
+
+    await roll.toMessage({
+      speaker: ChatMessage.getSpeaker({ actor: actor }),
+      flavor: `
+        <div class="trinity-roll-v4">
+          <b>${actor.name} uses ${config.spend > 0 ? 'Quantum' : 'Power'}</b><br>
+          Gross Successes: ${roll.total} | Resources Spent: ${config.spend}<br>
+          <strong>Net Successes: ${totalSuccesses}</strong>
+        </div>
+      `,
+      flags: {
+        "trinity.rollMetadata": {
+          spend: config.spend,
+          difficulty: config.difficulty,
+          netSuccesses: totalSuccesses
+        }
+      }
     });
 
+    // Optional: Auto-deduct resources if you have the actor-update logic configured
+    if (config.spend > 0) {
+      await actor.update({
+        "system.resources.quantum.value": Math.max(0, actor.system.resources.quantum.value - config.spend)
+      });
+    }
   }
-
-  async _onElementClick(event) {
-    event.preventDefault();
-    console.log("Listener, this");
-    console.log(this);
-    this.render(false);
-    this.pickedElements = await Picker.pDialog("attr", this.actor, this.pickedElements);
-    console.log("this.pickedElements:");
-    console.log(this.pickedElements);
-//  this.content = await renderTemplate("systems/trinity/templates/roll-prompt.html", {actor: this.actor, elements: this.pickedElements});
-    renderTemplate("systems/trinity/templates/roll-prompt.html", {actor: this.actor, elements: this.pickedElements});
-    // test w/ false (should be true though)
-    console.log("Render Attempt, w/ log:");
-    this._render(false, {log : true, renderContext : "ElementClick Refresh"});
-  }
-
 }
-
-
-async function rollDialog(rollParts, targetActor, pickedElements) {
-  let html = await renderTemplate("systems/trinity/templates/roll-prompt.html", {roll: rollParts, actor: targetActor, elements: pickedElements});
-  return new Promise((resolve, reject) => {
-    new RDialog({
-      title: "Roll Options",
-      id: "rdialog",
-      content: html,
-      buttons: {
-        roll: {
-          icon: "<i class='fas fa-redo'></i>",
-          label: "Roll",
-          callback: () => {
-            for (let part of Object.keys(rollParts)) {
-              if (document.getElementById(part)){
-                rollParts[part] = parseInt(document.getElementById(part).value) || rollParts[part];
-              }
-              console.log("rollParts."+part+":");
-              console.log(rollParts[part]);
-            }
-            resolve(rollParts);
-          }
-        },
-        cancel: {
-          icon: "<i class='fas fa-times'></i>",
-          label: "Cancel",
-          callback: () => {
-            resolve();
-          }
-        },
-        refresh: {
-          icon: "<i class='fas fa-times'></i>",
-          label: "Refresh",
-          callback: () => {
-            console.log("Refresh Render This:")
-            console.log(this);
-            this.render(true);
-          }
-        },
-      },
-      default:"roll",
-      callback: html => {
-        resolve();
-      }
-    }, {targetActor, pickedElements}).render(true, {log : true, renderContext : "RDialog Render (render option)"});
-  });
-}
-
-//* Export Functions *//
-export {RDialog, rollDialog};
