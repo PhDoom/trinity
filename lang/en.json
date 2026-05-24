@@ -1,3 +1,40 @@
 {
-  "MYSYSTEM.ActorName": "Actor's Name"
+  "TRINITY": {
+    "Attribute": {
+      "Might": "Might",
+      "Dexterity": "Dexterity",
+      "Stamina": "Stamina",
+      "Intellect": "Intellect",
+      "Cunning": "Cunning",
+      "Resolve": "Resolve",
+      "Presence": "Presence",
+      "Manipulation": "Manipulation",
+      "Composure": "Composure"
+    },
+    "Roll": {
+      "Difficulty": "Difficulty",
+      "Complication": "Complication",
+      "Enhancement": "Enhancement",
+      "BasePool": "Base Pool",
+      "Scale": "Scale",
+      "Specialty": "Specialty",
+      "InspirationSpend": "Spend Inspiration (+2 Dice)",
+      "MomentumSpend": "Spend Momentum (+1 Die)"
+    },
+    "Item": {
+      "Type": "Type",
+      "Value": "Rating",
+      "Tags": "Tags",
+      "Cost": "Cost",
+      "Description": "Description"
+    },
+    "Action": {
+      "Save": "Save Action",
+      "Category": "Category",
+      "Combat": "Combat",
+      "Social": "Social",
+      "Mental": "Mental",
+      "Exploration": "Exploration"
+    }
+  }
 }
