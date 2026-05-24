@@ -1,32 +1,57 @@
-export class TRoll extends Roll {
+/**
+ * Trinity/Aeon Roll Logic for Foundry VTT v13
+ * Handles success counting, exploding dice, and chat integration.
+ */
+export async function trinityRoll({
+  parts = [],
+  data = {},
+  flavor = null,
+  successValue = 7,
+  failValue = 1,
+  explodeValue = 10
+} = {}) {
+  
+  // 1. Build the formula (e.g., "5d10")
+  const formula = parts.join(" + ");
+  
+  // 2. Instantiate the Roll
+  const roll = new Roll(formula, data);
 
-  constructor(formula, data={}, options={}, enh) {
-    super(formula, data={}, options={});
-  }
+  // 3. MANDATORY V13 CHANGE: Asynchronous Evaluation
+  // We await the evaluation before accessing any results.
+  await roll.evaluate();
 
-  async render({flavor, template="/systems/trinity/templates/chat/roll.html", isPrivate=false}={}) {
+  // 4. Process Successes and Explosions
+  // We extract the dice terms to count results based on Trinity rules
+  let successes = 0;
+  let explosions = 0;
 
-    // Check for botch
-    console.log("_evaluateTotal", this);
-    let successCount = 0;
-    let oneCount = 0;
-    for (var d = 0; d < this.dice[0].results.length; d++) {
-      if (this.dice[0].results[d].success) { successCount += 1; }
-      if (this.dice[0].results[d].result === 1) { oneCount += 1; }
+  for (let term of roll.terms) {
+    if (term instanceof DiceTerm) {
+      term.results.forEach(r => {
+        if (r.result >= successValue) successes++;
+        if (r.result >= explodeValue) successes++; // Double success on 10s
+        if (r.result === failValue) successes--;   // Botch potential
+      });
     }
-    let isBotch = (successCount < 1 && oneCount > 0);
-
-
-    if ( !this._evaluated ) await this.evaluate({async: true});
-    const chatData = {
-      formula: isPrivate ? "???" : this._formula,
-      flavor: isPrivate ? null : flavor,
-      user: game.user.id,
-      tooltip: isPrivate ? "" : await this.getTooltip(),
-      total: isPrivate ? "?" : Math.round(this.total * 100) / 100,
-      botch: isBotch
-    };
-    return renderTemplate(template, chatData);
   }
 
+  // 5. Build the Chat Content
+  // Note: V13 uses "rolls" (array) instead of "roll" (single object)
+  const chatData = {
+    user: game.user.id,
+    speaker: ChatMessage.getSpeaker(),
+    flavor: flavor || "Trinity Roll",
+    type: CONST.CHAT_MESSAGE_STYLES.ROLL, // V12/V13 use STYLES constant
+    rolls: [roll], 
+    content: `
+      <div class="trinity-roll">
+        <div class="dice-total">${successes} Successes</div>
+        <div class="dice-formula">${roll.formula}</div>
+      </div>
+    `
+  };
+
+  // 6. Create the Message
+  return ChatMessage.create(chatData);
 }
