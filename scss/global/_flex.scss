@@ -1,9 +1,40 @@
-.flex-center {
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-}
+@layer trinity.layout {
+    /* Namespace with 'trinity-' to avoid collisions with Foundry's core */
+    .trinity-flexrow {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        gap: 0.5rem;
+        align-items: center;
+    }
 
-.flex-between {
-  justify-content: space-between;
+    .trinity-flexcol {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: nowrap;
+        gap: 0.5rem;
+    }
+
+    /* Helper utilities for layout alignment */
+    .trinity-flex-center {
+        justify-content: center;
+        align-items: center;
+    }
+
+    .trinity-flex-between {
+        justify-content: space-between;
+    }
+
+    /* Grid wrappers for the complex sheets we modernized */
+    .trinity-grid-2col {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.5rem;
+    }
+
+    .trinity-grid-3col {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.5rem;
+    }
 }
