@@ -14,7 +14,7 @@
     "verified": "13"
   },
   "scripts": [
-    "scripts/trinity.mjs"
+    "scripts/trinity.js"
   ],
   "styles": [
     "css/trinity.css"
