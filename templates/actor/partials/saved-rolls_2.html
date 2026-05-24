@@ -1,26 +1,48 @@
-{{!-- Saved Rolls Partial - Read-Only --}}
-
-<h2>Saved Rolls</h2>
-<label class="resource-label" for="selectDIRoll">Default Initiative Roll: </label>
-<select id="selectDIRoll" name="data.initiativeRollID" data-dtype="String">
-  {{#select data.data.initiativeRollID}}
-  <option value="">None Selected</option>
-  {{#each this.actor.data.data.savedRolls as |iRoll key|}}
-    <option value="{{iRoll}}">{{{iRoll.name}}}</option>
-  {{/each}}
-  {{/select}}
-</select>
-<hr>
-<div class="saved-rolls grid grid-4col">
-  {{#each data.data.savedRolls as |roll key|}}
-    <div class="flexcol flex-group-center boxed" id="{{key}}">
-      <div class="resource-label rollable saved-roll" data-rollID="{{key}}"> {{roll.name}} </div>
-      <div class="flexcol flex-parent-wide">
-        <div class="flex-child left-vcenter small-note">
-          <b>{{roll.diceTotal}}</b><i class="small fas fa-dice"></i>&nbsp;+&nbsp;<b>{{roll.enhaTotal}}</b><i class="small fas fa-hashtag"></i>
+{{!-- Saved Rolls Partial (Variant 2) - Foundry V13 Compliant --}}
+<div class="items-category saved-rolls-section-v2 mb-2">
+  
+  <h3 class="header flexrow flex-between">
+    <span>Saved Rolls</span>
+    <a class="item-control item-create" title="Create Saved Roll" data-type="roll">
+      <i class="fas fa-plus"></i>
+    </a>
+  </h3>
+  
+  <div class="grid grid-2col">
+    {{!-- V13 Array Iteration - Loops through 'rolls' from _prepareItems --}}
+    {{#each rolls as |item id|}}
+    <div class="item saved-roll-card flexcol border p-1 m-1" data-item-id="{{item._id}}">
+      
+      <div class="flexrow flex-between mb-1 border-bottom pb-1">
+        <div class="item-name flexrow flex-center">
+          <div class="item-image" style="background-image: url('{{item.img}}'); width: 32px; height: 32px; background-size: cover; margin-right: 8px;"></div>
+          <h4 class="m-0">{{item.name}}</h4>
         </div>
-        <i class="flex-child right-vcenter far fa-minus-square roll-delete clickable" data-rollID="{{key}}"></i>
+        
+        <div class="item-controls">
+          {{!-- roll-power triggers TrinityRollPrompt3 in your JS files --}}
+          <a class="item-control roll-power p-1" title="Execute Roll"><i class="fas fa-dice-d10 fa-lg"></i></a>
+          <a class="item-control item-edit p-1" title="Edit"><i class="fas fa-edit"></i></a>
+          <a class="item-control item-delete p-1" title="Delete"><i class="fas fa-trash"></i></a>
+        </div>
       </div>
+
+      <div class="flexrow flex-between">
+        {{!-- V13 Data Path: Accessing dicePool --}}
+        <div class="item-detail">
+          <label class="resource-label">Dice Pool:</label>
+          <span class="px-1">{{item.system.dicePool}}</span>
+        </div>
+      </div>
+
+      {{!-- Enriched Description for the Card --}}
+      {{#if item.system.description}}
+      <div class="item-description mt-1 px-1 small italic border-top pt-1">
+        {{{item.system.description}}}
+      </div>
+      {{/if}}
     </div>
-  {{/each}}
+    {{/each}}
+  </div>
+
 </div>
