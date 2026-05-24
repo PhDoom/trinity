@@ -1,26 +1,58 @@
-<div id="overlay" class="overlay">
-  <div class="flex-parent-center-column">
-    <div class="nav flex-child flex-parent-wide">
-      <i class="xx-large fas fa-arrow-alt-circle-left back flex-valign"></i>
-      <div class="flex-child flex-valign back">Back to Roll Options</div>
-    </div>
-    <div class="flex-child-full" style="height: 350px; overflow-x: hidden; overflow-y: auto;">
-      {{#unless this.itemList}}<center>No options of this type found.</center>{{/unless}}
-      {{#each this.itemList as |item key|}}
-        <div class="flex-parent-wide-noflow boxed select-item" id="{{item.id}}">
-          <div class="xx-large flex-valign">
-            {{#if item.data.data.flags.isEnhancement}}{{item.data.data.enhancement.value}}{{else}}{{item.data.data.value}}{{/if}}<span class="large">{{#if item.data.data.flags.isEnhancement}}<i class="fas fa-hashtag"></i>{{else}}<i class="fas fa-circle"></i>{{/if}}</span>
-          </div>
-          <div class="flex-child-full flex-parent-column">
-            <div class="flex-child-full x-large">
-              {{item.name}}
-            </div>
-            <div class="flex-child-full small-note">
-              {{item.id}}
-            </div>
-          </div>
-        </div>
-      {{/each}}
+{{!-- Detailed Roll Overlay Variant - Foundry V13 Compliant --}}
+<div class="trinity-roll-overlay-v2 flexcol {{#if isSuccess}}success-state{{else}}failure-state{{/if}}">
+  
+  {{!-- Primary Total Successes Display --}}
+  <div class="result-total flexrow flex-center mb-2">
+    <div class="total-circle flexcol flex-center">
+      <span class="total-value">{{successes}}</span>
+      <span class="total-label">Total Successes</span>
     </div>
   </div>
+
+  {{!-- Breakdown Section - V13 Logic --}}
+  <div class="breakdown-grid grid grid-3col border-top border-bottom py-2 mb-2">
+    
+    {{!-- Attribute/Skill Successes --}}
+    <div class="metric flexcol flex-center border-right">
+      <span class="small-label">Base</span>
+      <span class="metric-value">{{baseSuccesses}}</span>
+    </div>
+
+    {{!-- Enhancement Successes --}}
+    <div class="metric flexcol flex-center border-right">
+      <span class="small-label">Enha.</span>
+      <span class="metric-value text-blue">{{enhancementSuccesses}}</span>
+    </div>
+
+    {{!-- Complications --}}
+    <div class="metric flexcol flex-center">
+      <span class="small-label">Comp.</span>
+      <span class="metric-value {{#if complications}}text-red{{/if}}">
+        {{#if complications}}{{complications}}{{else}}0{{/if}}
+      </span>
+    </div>
+  </div>
+
+  {{!-- Net Threshold & Outcome --}}
+  <div class="outcome-banner flexrow flex-between p-1 px-2 small">
+    <span class="font-weight-bold italic">Difficulty: {{difficulty}}</span>
+    
+    {{!-- Modern Handlebars Comparison --}}
+    <span class="outcome-text font-weight-bold">
+      {{#if (gte successes difficulty)}}
+        <span class="text-green">SUCCESS</span>
+      {{else}}
+        <span class="text-red">FAILURE</span>
+      {{/if}}
+    </span>
+  </div>
+
+  {{!-- V13 Consumed Resources --}}
+  {{#if (or momentumSpent inspirationSpent)}}
+  <div class="resource-usage border-top mt-1 pt-1 flexrow flex-center flex-wrap italic small">
+    {{#if momentumSpent}}<span class="mx-1">Momentum ({{momentumSpent}})</span>{{/if}}
+    {{#if inspirationSpent}}<span class="mx-1">Inspiration ({{inspirationSpent}})</span>{{/if}}
+  </div>
+  {{/if}}
+
 </div>
