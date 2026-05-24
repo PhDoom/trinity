@@ -49,7 +49,7 @@ export class TrinityActorSheet extends ActorSheet {
       relativeTo: this.actor
     });
 
-    // Prepare character-specific data (sorting inventory, powers, etc.)
+    // Prepare character-specific data (sorting inventory, powers, conditions, etc.)
     if (actorData.type === 'character' || actorData.type === 'npc') {
       this._prepareItems(context);
     }
@@ -70,6 +70,8 @@ export class TrinityActorSheet extends ActorSheet {
     const edges = [];
     const paths = [];
     const powers = [];
+    const conditions = [];
+    const bonds = [];
 
     // Iterate through items, allocating to containers
     for (let i of context.items) {
@@ -83,6 +85,8 @@ export class TrinityActorSheet extends ActorSheet {
       else if (i.type === 'edge') edges.push(i);
       else if (i.type === 'path') paths.push(i);
       else if (i.type === 'power' || i.type === 'action') powers.push(i);
+      else if (i.type === 'condition') conditions.push(i);
+      else if (i.type === 'bond') bonds.push(i);
     }
 
     // Assign back to the context so Handlebars can loop through them
@@ -92,6 +96,8 @@ export class TrinityActorSheet extends ActorSheet {
     context.edges = edges;
     context.paths = paths;
     context.powers = powers;
+    context.conditions = conditions;
+    context.bonds = bonds;
   }
 
   /** @override */
@@ -141,7 +147,7 @@ export class TrinityActorSheet extends ActorSheet {
     event.preventDefault();
     const header = event.currentTarget;
     const type = header.dataset.type;
-    const data = duplicate(header.dataset);
+    const data = foundry.utils.duplicate(header.dataset);
     const name = `New ${type.capitalize()}`;
     const itemData = { name: name, type: type, system: data };
     
@@ -169,7 +175,6 @@ export class TrinityActorSheet extends ActorSheet {
       const config = await TrinityRollPrompt.confirmRoll(this.actor, { name: dataset.attribute });
       await TrinityRollPrompt.executeRoll(this.actor, val, config);
     }
-    // You can add an 'else if (dataset.skill)' here if needed
   }
 
   /**
