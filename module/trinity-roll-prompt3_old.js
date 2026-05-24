@@ -1,201 +1,97 @@
-import { Picker } from "/systems/trinity/module/picker.js";
+/**
+ * Trinity Continuum Roll Prompt (Version 3)
+ * Updated for Foundry V13 - Handles advanced pool construction.
+ */
 
-export class RDialog extends Dialog {
+export class TrinityRollPrompt3 {
 
-  constructor(data, params, options) {
-    super(data, options);
-    this.actor = params.targetActor;
-    this.pickedElements = params.pickedElements;
-  }
+  /**
+   * Show the prompt dialog
+   */
+  static async confirmRoll(actor, params = {}) {
+    const sys = actor.system;
+    const settings = sys.rollSettings || {};
 
-  getData(options) {
-    const data = super.getData(options);
-    return data;
-  }
+    const content = `
+      <form>
+        <div class="form-group">
+          <label>Dice Pool:</label>
+          <input type="number" id="pool-input" value="${params.pool || 0}">
+        </div>
+        <div class="form-group">
+          <label>Target Number:</label>
+          <input type="number" id="tn-input" value="${settings.targetNumber?.value ?? 8}">
+        </div>
+        <div class="form-group">
+          <label>Difficulty:</label>
+          <input type="number" id="diff-input" value="${settings.difficulty?.value ?? 0}">
+        </div>
+      </form>
+    `;
 
-  activateListeners(html) {
-    super.activateListeners(html);
-
-    // Launch Attribute Picker
-    /*
-    html.find('.attr-label').click(async ev => {
-        ev.preventDefault();
-        this.render(false);
-        console.log("Listener, this");
-        console.log(this);
-
-        // Somewhat working code: doesn't return properly:
-        // let placeholder = await Picker.pDialog("attr", this.actor, this.pickedElements);
-        // rollParts = await new Promise(resolve => {resolve(TrinityRollPrompt.tRollPrompt(rollParts, targetActor, pickedElements))});
-        // let pickedElements = await new Promise(resolve => {resolve(Picker.pDialog("attr", this.actor, this.pickedElements))});
-        // var pickedElements = {};
-        this.pickedElements = await Picker.pDialog("attr", this.actor, this.pickedElements);
-        // pickedElements.attr = await Picker.pDialog("attr", this.actor, this.pickedElements);
-        // this.pickedElements = pickedElements;
-        console.log("this.pickedElements:");
-        console.log(this.pickedElements);
-        // this.pickedElements = await Picker.pDialog("attr", this.actor, this.pickedElements);
-        this.content = await renderTemplate("systems/trinity/templates/roll-prompt.html", {actor: this.actor, elements: this.pickedElements});
-        this.render(true);
-
-
-
-
-        //openAttrPicker();
-
-//        this.pickedElements = async function() {
-//          console.log("Inside call to open picker dialog");
-//          await new Promise(resolve => (resolve(Picker.pDialog("attr", this.actor, this.pickedElements))));
-
-//        };
-
-        console.log(this);
-        console.log("Post Picker Dialog Call");
-
-
-        //this.pickedElements = await new Promise(resolve => {resolve(Picker.pDialog("attr", this.actor, this.pickedElements))});
-
-
-    });
-*/
-
-    // Attribute Picker v2
-    // based on html.find('.rollable').click(this._onRoll.bind(this));
-    // maybe we need the bind to hold the this properly
-    html.find('.attr-label').click(this._onElementClick.bind(this));
-
-  }
-
-
-  async _onElementClick(event) {
-    event.preventDefault();
-    this.render(false);
-    console.log("Listener, this");
-    console.log(this);
-    this.pickedElements = await Picker.pDialog("attr", this.actor, this.pickedElements);
-    console.log("this.pickedElements:");
-    console.log(this.pickedElements);
-    this.content = await renderTemplate("systems/trinity/templates/roll-prompt.html", {actor: this.actor, elements: this.pickedElements});
-    this.render(true);
-  }
-
-/* Doesn't work?
-  async function openAttrPicker() {
-    // Open Attr Picker Dialog
-    this.pickedElements = await Picker.pDialog("attr", this.actor, this.pickedElements);
-    // Re-Render template
-    html = await renderTemplate("systems/trinity/templates/roll-prompt.html", {roll: rollParts, actor: targetActor, elements: pickedElements});
-    // Refresh Roll Prompt when done
-    this.render(true);
-  }
-*/
-}
-
-export class TrinityRollPrompt {
-
-  static async tRollPrompt(rollParts, targetActor, pickedElements) {
-
-// Open Dialog with received options
-//  function renderPrompt () {
-//    let newRollParts = rollParts;
-//    const actor = this.actor;
-    let html = await renderTemplate("systems/trinity/templates/roll-prompt.html", {roll: rollParts, actor: targetActor, elements: pickedElements});
-    /*Another hook/data test
-    html.getElementById('attr-label').addEventListener("click", ()=> {
-      console.log(this);
-    });
-    */
-    const rollDialog = await new Promise(resolve => {
-        new RDialog({
-        title: "Roll Options",
-        id: "rdialog",
-        content: html,
+    return new Promise((resolve) => {
+      new Dialog({
+        title: "Advanced Trinity Roll",
+        content: content,
         buttons: {
           roll: {
-            icon: "<i class='fas fa-redo'></i>",
-    			  label: "Roll",
-    			  callback: () => {
-              for (let part of Object.keys(rollParts)) {
-                if (document.getElementById(part)){
-                  rollParts[part] = parseInt(document.getElementById(part).value) || rollParts[part];
-                }
-                console.log("rollParts."+part+":");
-                console.log(rollParts[part]);
-              }
-              resolve(rollParts);
-    			//	  actionType = "remove";
+            icon: '<i class="fas fa-dice"></i>',
+            label: "Execute Roll",
+            callback: (html) => {
+              resolve({
+                pool: parseInt(html.find('#pool-input').val()) || 0,
+                tn: parseInt(html.find('#tn-input').val()) || 8,
+                difficulty: parseInt(html.find('#diff-input').val()) || 0
+              });
             }
-          },
-          cancel: {
-            icon: "<i class='fas fa-times'></i>",
-            label: "Cancel",
-            callback: () => {
-              resolve();
-          //	  actionType = "remove";
-            }
-          },
-          refresh: {
-            icon: "<i class='fas fa-times'></i>",
-            label: "Refresh",
-            callback: () => {
-              this.render(true);
-          //	  actionType = "remove";
-            }
-          },
+          }
         },
-        default:"roll",
-        callback: html => {
-          resolve();
-//            console.log(html, actor);
-/*
-            let passionName = html[0].querySelector('.newPassion').value
-            let passionValue = html[0].querySelector('.newPassionValue').value
-
-            actor.update({
-                "data.passions": [...actor.data.passions, [passionName, passionValue]]
-*/      }
-    }, {targetActor, pickedElements}).render(true);
-
-  });
-
-
-  /* Test Section, Can I add listeners here?
-  Hooks.on('renderDialog', (dialog, html, data, input) => {
-  rollDialog.activateListeners(html) {
-    html.find(".attr").on('click', event => {
-      console.log("Test: Attr Roller Hook");
-      console.log(html);
-      console.log(data);
-      console.log(arg3);
-      console.log(arg4)
+        default: "roll"
+      }).render(true);
     });
-  };
-   End Test Section */
-//    }
-// return the updated rollParts
-    console.log("rollParts, just before return statement:");
-    console.log(rollParts);
-    console.log("pickedElements, just before return statement:");
-    console.log(pickedElements);
-    console.log("this, just before return statement:");
-    console.log(this);
-//  Original:
-  return rollParts;
-//  Test hook:
-/*
-    Hooks.on('renderDialog', (dialog, html, data, input) => {
-      if (dialog.data.id === "rdialog") {
-        html.find(".attr").on('click', event => {
-          console.log("Test: Attr Roller Hook");
-          console.log(dialog);
-          console.log(html);
-          console.log(data);
-          console.log(rollParts);
-        });
-      }
-    });
-    rollDialog.render(true);
-*/
   }
 
+  /**
+   * Execute the Roll
+   * Note: Always use async/await for V13 roll evaluation
+   */
+  static async executeRoll(actor, config) {
+    if (!config) return;
+
+    // Build formula: Dice pool with success threshold
+    const formula = `${config.pool}d10cs>=${config.tn}`;
+    const roll = new Roll(formula, actor.getRollData());
+
+    // MANDATORY V13: Await the evaluation
+    await roll.evaluate();
+
+    // Calculation logic
+    const netSuccesses = roll.total - config.difficulty;
+    const isSuccess = netSuccesses >= 0;
+
+    // Build the Chat Message
+    await roll.toMessage({
+      speaker: ChatMessage.getSpeaker({ actor: actor }),
+      flavor: `
+        <div class="trinity-roll-v3">
+          <b>Advanced Roll</b><br>
+          Pool: ${config.pool} | TN: ${config.tn} | Diff: ${config.difficulty}<br>
+          <span style="color: ${isSuccess ? 'var(--color-success)' : 'var(--color-danger)'}">
+            ${isSuccess ? 'Success' : 'Failure'}: ${netSuccesses} Net Successes
+          </span>
+        </div>
+      `,
+      flags: {
+        "trinity.rollMetadata": {
+          totalDice: config.pool,
+          tn: config.tn,
+          difficulty: config.difficulty,
+          grossSuccesses: roll.total,
+          netSuccesses: netSuccesses
+        }
+      }
+    });
+
+    return roll;
+  }
 }
