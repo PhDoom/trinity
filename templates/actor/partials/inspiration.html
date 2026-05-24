@@ -1,24 +1,33 @@
-{{!-- Inspiration --}}
+{{!-- Inspiration Partial - Foundry V13 Compliant --}}
+<div class="inspiration-section mb-2">
+  
+  {{!-- Check if character is a Talent --}}
+  {{#if (eq system.subType "talent")}}
+  <div class="resource flexrow flex-group-center p-1 border">
+    
+    <label class="resource-label rollable" data-roll-type="inspiration" title="Roll Inspiration">
+      Inspiration
+    </label>
 
-<div class="inspiration boxed">
+    <div class="resource-content flexrow flex-center">
+      {{!-- Current Inspiration --}}
+      <input type="number" 
+             name="system.talent.inspiration.value" 
+             value="{{system.talent.inspiration.value}}" 
+             data-dtype="Number" 
+             style="max-width: 3rem; text-align: center;" />
+      
+      <span class="px-1"> / </span>
+      
+      {{!-- Max Inspiration --}}
+      <input type="number" 
+             name="system.talent.inspiration.max" 
+             value="{{system.talent.inspiration.max}}" 
+             data-dtype="Number" 
+             style="max-width: 3rem; text-align: center;" />
+    </div>
 
-    <div class="flex-parent-center-column">
-      <div class="flex-child resource-label">Max Inspiration</div>
-      <div class="flex-child big icons can-hide">{{{to10Dots this.actor.data.data.inspiration.max}}}</div>
-      <div class="flex-parent-nowrap-center edit-area can-hide hidden">
-        <i class="clickable sub-value large flex-valign fas fa-minus-circle" data-target="data.inspiration.max"></i>
-        <input class="flex-valign short-input resource" type="number" min="0" step="1" onfocus="this.previousValue = this.value" onkeydown="this.previousValue = this.value" oninput="validity.valid || (value = this.previousValue)" id="maxInsp-value" name="data.inspiration.max" value="{{data.data.inspiration.max}}" data-dtype="Number"/>
-        <i class="clickable add-value large flex-valign fas fa-plus-circle" data-target="data.inspiration.max"></i>
-      </div>
-    </div>
-    <hr>
-    <div class="flex-parent-center-column">
-      <div class="flex-child big icons">
-        <i class="clickable sub-value far fa-caret-square-left" data-target="data.inspiration.value"></i>
-        {{{to10Boxes this.actor.data.data.inspiration.value}}}
-        <i class="clickable add-value far fa-caret-square-right" data-target="data.inspiration.value"></i>
-      </div>
-      <div class="flex-child resource-label">Current Inspiration</div>
-    </div>
+  </div>
+  {{/if}}
 
 </div>
