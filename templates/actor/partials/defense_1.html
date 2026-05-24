@@ -1,13 +1,30 @@
-{{!-- Defense Partial --}}
-  <div class="boxed grid grid-2col lowmargin">
-    <div class="bold right-vcenter">Defense: </div>
-    <div class="big bold left-vcenter can-hide">
-      {{this.actor.data.data.defense.value}}&ensp;/&ensp;
-      {{{createChip "defense"}}}
+{{!-- Defense Partial (Variant 1) - Foundry V13 Compliant --}}
+<div class="defense-section">
+  
+  <h3 class="header">Defense & Resilience</h3>
+  
+  <div class="defense-list flexcol mb-1">
+    
+    {{!-- Defense Value Row --}}
+    <div class="resource flexrow flex-between flex-center mb-1">
+      <label for="system.defense.value" class="resource-label">Defense</label>
+      <input type="number" 
+             name="system.defense.value" 
+             value="{{system.defense.value}}" 
+             data-dtype="Number" 
+             style="max-width: 4rem; text-align: center;" />
     </div>
-    <div class="flex-parent-nowrap-center edit-area can-hide hidden">
-      <i class="clickable sub-value large flex-valign fas fa-minus-circle" data-target="data.defense.value"></i>
-      <input class="flex-valign short-input resource" type="number" min="0" step="1" onfocus="this.previousValue = this.value" onkeydown="this.previousValue = this.value" oninput="validity.valid || (value = this.previousValue)" id="Defense-value" name="data.defense.value" value="{{data.data.defense.value}}" data-dtype="Number"/>
-      <i class="clickable add-value large flex-valign fas fa-plus-circle" data-target="data.defense.value"></i>
+    
+    {{!-- Resilience Value Row --}}
+    <div class="resource flexrow flex-between flex-center mb-1">
+      <label for="system.resilience.value" class="resource-label">Resilience</label>
+      <input type="number" 
+             name="system.resilience.value" 
+             value="{{system.resilience.value}}" 
+             data-dtype="Number" 
+             style="max-width: 4rem; text-align: center;" />
     </div>
+    
   </div>
+
+</div>
