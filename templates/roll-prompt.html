@@ -1,52 +1,61 @@
 {{!-- Trinity Roll Prompt - Foundry V13 Compliant --}}
-<form class="trinity-dialog roll-prompt flexcol" autocomplete="off">
+<form class="trinity-dialog roll-prompt" autocomplete="off">
   
-  {{!-- Dice Pool Summary Header --}}
-  <header class="dialog-header border-bottom mb-2 flexrow flex-between p-1 bg-grey">
-    <h3 class="m-0">Roll Selection</h3>
-    <div class="pool-total font-weight-bold">
-      Base Pool: <span class="text-blue">{{add attrVal skillVal}}</span> Dice
+  {{!-- Dialog Header --}}
+  <header class="dialog-header border-bottom mb-2 trinity-flexrow trinity-flex-between p-2">
+    <h3 class="m-0">Action Configuration</h3>
+    <div class="pool-preview">
+      <span class="small-label">Total Pool:</span> 
+      <span class="text-blue font-weight-bold">{{totalPool}}</span>
     </div>
   </header>
 
-  {{!-- Selection Details --}}
-  <div class="selection-grid grid grid-2col mb-2">
+  {{!-- Configuration Grid --}}
+  <div class="trinity-grid trinity-grid-2col mb-2">
     
-    {{!-- Attribute Column --}}
-    <div class="selection-box flexcol flex-center border p-2 mr-1">
-      <label class="small-label font-weight-bold text-uppercase">Attribute</label>
-      <span class="selection-name">{{attrName}}</span>
-      <div class="selection-value border-top mt-1 pt-1 font-weight-bold">
-        {{attrVal}} Dots
-      </div>
+    {{!-- Attribute Selection --}}
+    <div class="trinity-flexcol trinity-flex-center border p-2">
+      <label class="small-label font-weight-bold">Attribute</label>
+      <span class="font-weight-bold">{{attrName}}</span>
+      <span class="small">({{attrVal}})</span>
     </div>
 
-    {{!-- Skill Column --}}
-    <div class="selection-box flexcol flex-center border p-2 ml-1">
-      <label class="small-label font-weight-bold text-uppercase">Skill</label>
-      <span class="selection-name">{{#if skillName}}{{skillName}}{{else}}None{{/if}}</span>
-      <div class="selection-value border-top mt-1 pt-1 font-weight-bold">
-        {{#if skillVal}}{{skillVal}}{{else}}0{{/if}} Dots
-      </div>
+    {{!-- Skill Selection --}}
+    <div class="trinity-flexcol trinity-flex-center border p-2">
+      <label class="small-label font-weight-bold">Skill</label>
+      <span class="font-weight-bold">{{#if skillName}}{{skillName}}{{else}}None{{/if}}</span>
+      <span class="small">({{skillVal}})</span>
     </div>
 
   </div>
 
-  {{!-- Adjustments & Enhancements --}}
-  <div class="prompt-modifiers border-top pt-2">
-    <div class="form-group flexrow flex-between p-1">
-      <label class="small">Additional Enhancement (Gear/Edges)</label>
-      <input type="number" name="enhancement" value="{{enhancement}}" data-dtype="Number" style="width: 50px; text-align: center;"/>
-    </div>
+  {{!-- Modifiers Section --}}
+  <div class="modifiers-section border-top pt-2">
+    <div class="trinity-grid trinity-grid-2col">
+      
+      <div class="form-group trinity-flexcol trinity-flex-center">
+        <label class="small-label">Enhancement</label>
+        <input type="number" name="enhancement" value="{{enhancement}}" data-dtype="Number" class="text-center w-50"/>
+      </div>
 
-    {{!-- V13 Path Reference for resource checks --}}
-    <div class="form-group flexrow flex-between p-1">
-      <label class="small">Situational Difficulty</label>
-      <input type="number" name="difficulty" value="1" data-dtype="Number" style="width: 50px; text-align: center;"/>
+      <div class="form-group trinity-flexcol trinity-flex-center">
+        <label class="small-label">Difficulty</label>
+        <input type="number" name="difficulty" value="{{difficulty}}" data-dtype="Number" class="text-center w-50"/>
+      </div>
+
     </div>
   </div>
 
-  <p class="notes italic small text-center mt-2 border-top pt-1">
-    Click 'Roll' to proceed to the success/complication breakdown.
-  </p>
+  {{!-- Resource Toggles --}}
+  <div class="trinity-flexcol mt-2 border-top pt-2">
+    <div class="trinity-flexrow trinity-flex-between p-1">
+      <label class="small">Specialty Bonus</label>
+      <input type="checkbox" name="useSpecialty" {{checked useSpecialty}}/>
+    </div>
+    <div class="trinity-flexrow trinity-flex-between p-1">
+      <label class="small">Spend Inspiration (+2 Dice)</label>
+      <input type="checkbox" name="spendInspiration" {{checked spendInspiration}}/>
+    </div>
+  </div>
+
 </form>
