@@ -1,22 +1,38 @@
-{{! Injury Flag & Info }}
-<div class="boxed fit">
-  <div class="left-vcenter">
-    <input class="left-vcenter" type="checkbox" name="data.flags.isInjury" value="{{data.data.flags.isInjury}}" data-dtype="Boolean" {{checked data.data.flags.isInjury}}/>
-    <label class="resource-label left-vcenter" for="data.flags.isInjury">Injury</label>
-  </div>
-  {{#if data.data.flags.isInjury}}
-  <hr>
-  <div class="resource">
-    <label class="resource-label" for="injury-level">Injury Level</label>
-    <select id="injury-level" name="data.injury.value" data-dtype="Number">
-      {{#select data.data.injury.value}}
-      <option value="0">Armor</option>
-      <option value="1">Bruised (+1)</option>
-      <option value="2">Injured (+2)</option>
-      <option value="4">Maimed (+4)</option>
-      <option value="5">Taken Out</option>
-      {{/select}}
-    </select>
-  </div>
-  {{/if}}
+{{!-- Item Injury Setting Partial - Foundry V13 Compliant --}}
+<div class="injury-setting border p-2 mb-2">
+    
+    <h3 class="header border-bottom mb-2">Injury Details</h3>
+
+    {{!-- V13 Data Path: system.penalty --}}
+    <div class="form-group flexrow mb-1">
+        <label class="resource-label font-weight-bold">Dice Penalty</label>
+        <div class="form-fields flexrow flex-center" style="max-width: 80px;">
+            <input type="number" 
+                   name="system.penalty" 
+                   value="{{system.penalty}}" 
+                   data-dtype="Number" 
+                   placeholder="0" 
+                   style="text-align: center;" 
+                   title="Dice pool reduction caused by this injury" />
+        </div>
+    </div>
+
+    {{!-- V13 Data Path: system.severity --}}
+    <div class="form-group flexrow mb-1">
+        <label class="resource-label font-weight-bold">Severity Level</label>
+        <div class="form-fields flexrow flex-center" style="max-width: 80px;">
+            <input type="number" 
+                   name="system.severity" 
+                   value="{{system.severity}}" 
+                   data-dtype="Number" 
+                   placeholder="1" 
+                   style="text-align: center;" 
+                   title="1 = Minor, 2 = Maimed, 3 = Taken Out" />
+        </div>
+    </div>
+
+    <p class="notes italic small mt-1">
+        Injuries are automatically applied to relevant dice pools based on their penalty value.
+    </p>
+
 </div>
