@@ -1,14 +1,18 @@
-{{! Value/Dots Flag & Info }}
-<div class="boxed fit">
-  <div class="left-vcenter">
-    <input class="left-vcenter" type="checkbox" name="data.flags.hasDots" value="{{data.data.flags.hasDots}}" data-dtype="Boolean" {{checked data.data.flags.hasDots}}/>
-    <label class="resource-label left-vcenter" for="data.flags.hasDots">Dots</label>
-  </div>
-  {{#if data.data.flags.hasDots}}
-  <hr>
-  <div>
-    <label class="resource-label" for="dot-value">Dot Value</label>
-    <input class="resource" type="number" min="0" step="1" onfocus="this.previousValue = this.value" onkeydown="this.previousValue = this.value" oninput="validity.valid || (value = this.previousValue)" id="dot-value" name="data.value" value="{{data.data.value}}" data-dtype="Number"/>
-  </div>
-  {{/if}}
+{{!-- Item Dots Display Toggle Partial - Foundry V13 Compliant --}}
+<div class="form-group dots-flag-setting mb-2">
+    
+    <label class="resource-label font-weight-bold">Display as Dots</label>
+    
+    <div class="form-fields flexrow flex-center">
+        {{!-- V13 Data Path: system.flags.isDots --}}
+        <input type="checkbox" 
+               name="system.flags.isDots" 
+               {{checked system.flags.isDots}} 
+               data-dtype="Boolean" />
+        
+        <p class="notes px-2 italic small">
+            If enabled, this item's rating will be rendered as dots (e.g., Edges, Backgrounds).
+        </p>
+    </div>
+
 </div>
