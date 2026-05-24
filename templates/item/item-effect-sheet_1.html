@@ -1,49 +1,70 @@
-<form class="{{cssClass}}" autocomplete="off">
-    <header class="sheet-header">
-        <img class="profile-img" src="{{item.img}}" data-edit="img" title="{{item.name}}"/>
-        <div class="header-fields">
-            <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="Name"/></h1>
+{{!-- Item Effect Sheet Variant - Foundry V13 Compliant --}}
+<form class="{{cssClass}} flexcol" autocomplete="off">
+
+  {{!-- Item Sheet Header --}}
+  <header class="sheet-header flexrow border-bottom pb-2 mb-2">
+    <img class="profile-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" height="100" width="100"/>
+    <div class="header-details flexcol">
+      <h1 class="charname">
+        <input name="name" type="text" value="{{item.name}}" placeholder="Effect Name"/>
+      </h1>
+      
+      <div class="item-subtitle flexrow flex-between">
+        {{!-- V13 Path: system.subType (Effect Classification) --}}
+        <div class="flex-group-left">
+          <input type="text" name="system.subType" value="{{system.subType}}" placeholder="Type (e.g. Talent, Psi, Nova)"/>
         </div>
-    </header>
+        
+        {{!-- V13 Path: system.value (Effect Dots/Level) --}}
+        <div class="item-rating flexrow flex-center" style="max-width: 120px;">
+          <label class="px-1 font-weight-bold text-uppercase small">Rating</label>
+          <input type="number" name="system.value" value="{{system.value}}" data-dtype="Number" style="width: 45px; text-align: center;"/>
+        </div>
+      </div>
+    </div>
+  </header>
 
-    {{!-- Sheet Tab Navigation --}}
-    <nav class="sheet-tabs tabs" data-group="primary">
-        <a class="item" data-tab="description">Description</a>
-        <a class="item" data-tab="attributes">Attributes</a>
-    </nav>
+  {{!-- Sheet Tab Navigation --}}
+  <nav class="sheet-tabs tabs border-bottom mb-2" data-group="primary">
+    <a class="item" data-tab="description">Description</a>
+    <a class="item" data-tab="details">Details</a>
+  </nav>
 
-    {{!-- Sheet Body --}}
-    <section class="sheet-body">
+  {{!-- Sheet Body --}}
+  <section class="sheet-body">
 
-        {{!-- Description Tab --}}
-        <div class="tab" data-group="primary" data-tab="description">
-            {{editor content=data.data.description target="data.description" button=true owner=owner editable=editable}}
+    {{!-- Description Tab --}}
+    <div class="tab" data-group="primary" data-tab="description">
+      {{!-- V13 ProseMirror Editor --}}
+      {{editor system.description target="system.description" button=true owner=owner editable=editable engine="prosemirror"}}
+    </div>
+
+    {{!-- Details Tab --}}
+    <div class="tab details" data-group="primary" data-tab="details">
+      
+      {{!-- High-level Traits Partial --}}
+      {{> "systems/trinity/templates/item/partials/top-traits.html"}}
+
+      <div class="mechanics-group border p-2 mt-2">
+        <h3 class="header border-bottom mb-2">Effect Mechanics</h3>
+        
+        <div class="form-group mb-1">
+            <label class="font-weight-bold">Duration</label>
+            <input type="text" name="system.duration" value="{{system.duration}}" placeholder="Instant, Sustained, Permanent..."/>
         </div>
 
-        {{!-- Attributes Tab --}}
-        <div class="tab attributes" data-group="primary" data-tab="attributes">
-            {{!-- As you add new fields, add them in here! --}}
-            <label for="data.flags.isInjury" class="resource-label">Injury Flag</label>
-            <input type="checkbox" name="data.flags.isInjury" value="{{data.flags.isInjury}}" data-dtype="Boolean" {{checked data.flags.isInjury}}/>
-            {{#if data.flags.isInjury}}
-            <div class="resource">
-              <label class="resource-label">Injury Value</label>
-                <input type="input" name="data.injury.value" value="{{data.injury.value}}" data-dtype="Number"/>
-            </div>
-            {{/if}}
-            <hr>
-
-            <input type="checkbox" name="data.enhancement.isEnhancement" value="{{data.enhancement.isEnhancement}}" data-dtype="Boolean" {{checked data.enhancement.isEnhancement}}/>
-            <div class="grid">
-              <div class="resource">
-                <label class="resource-label">Enhancement Value</label>
-                  <input type="input" name="data.enhancement.value" value="{{data.enhancement.value}}" data-dtype="Number"/>
-              </div>
-              <div class="resource">
-                <label class="resource-label">Enhancement Condition</label>
-                  <input type="input" name="data.enhancement.relevance" value="{{data.enhancement.relevance}}" data-dtype="Number"/>
-              </div>
-            </div>
+        <div class="form-group mb-1">
+            <label class="font-weight-bold">Range</label>
+            <input type="text" name="system.range" value="{{system.range}}" placeholder="Close, Near, Medium, Far..."/>
         </div>
-    </section>
+
+        {{!-- Mechanical Flag Partials --}}
+        {{> "systems/trinity/templates/item/partials/roll-flag.html"}}
+        {{> "systems/trinity/templates/item/partials/enhancement-flag.html"}}
+        {{> "systems/trinity/templates/item/partials/complication-flag.html"}}
+      </div>
+
+    </div>
+
+  </section>
 </form>
