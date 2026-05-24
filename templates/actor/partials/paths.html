@@ -1,26 +1,50 @@
-{{!-- Paths item Box --}}
-<ol class="items-list boxed">
+{{!-- Paths Partial - Foundry V13 Compliant --}}
+<div class="items-category paths-section mb-2">
+  
+  <h3 class="header">Paths</h3>
+  
+  <ol class="item-list">
+    {{!-- List Header --}}
     <li class="item flexrow item-header">
-      <div class="big item-name">Paths</div>
-      <div class="item-dots"></div>
+      <div class="item-image"></div>
+      <div class="item-name">Path Name (Origin, Role, Society)</div>
+      <div class="item-detail" style="flex: 0 0 80px; text-align: center;">Rating</div>
       <div class="item-controls">
-        <a class="item-control item-create" title="Create item" data-type="path"><i class="far fa-plus-square"></i></a>
+        {{!-- V13 Item Creation Hook --}}
+        <a class="item-control item-create" title="Add Path" data-type="path">
+          <i class="fas fa-plus"></i> Add
+        </a>
       </div>
     </li>
-{{#each actor.paths as |item id|}}
-    <li class="item flexrow" data-item-id="{{item._id}}">
-        <h4 class="item-name flex-fit item-edit clickable">
-          {{item.name}}
-          {{#if item.data.flags.isInjury}}<span><i class="fas fa-user-injured"></i></span>{{/if}}
-        </h4>
-        <div>
-          {{#if item.data.flags.hasRoll}}{{{createChip item._id ../actor}}}{{/if}}
+
+    {{!-- V13 Array Iteration - Loops through 'paths' from _prepareItems --}}
+    {{#each paths as |item id|}}
+    <li class="item flexcol" data-item-id="{{item._id}}">
+      <div class="flexrow">
+        <div class="item-name flexrow">
+          <div class="item-image" style="background-image: url('{{item.img}}')"></div>
+          <h4>{{item.name}}</h4>
         </div>
-        <div class="item-dots small icons">{{#if item.data.flags.hasDots}}{{{toDots item.data.value}}}{{/if}}</div>
+        
+        {{!-- V13 Data Path: Accessing rating defined in template.json --}}
+        <div class="item-detail" style="flex: 0 0 80px; text-align: center;">
+          {{item.system.value}}
+        </div>
+        
         <div class="item-controls">
-            <a class="item-control item-chat" title="Output Description to Chat"><i class="far fa-comment-dots"></i></a>
-            <a class="item-control item-delete" title="Delete Item"><i class="far fa-minus-square"></i></a>
+          <a class="item-control item-edit" title="Edit Path"><i class="fas fa-edit"></i></a>
+          <a class="item-control item-delete" title="Delete Path"><i class="fas fa-trash"></i></a>
         </div>
+      </div>
+
+      {{!-- Enriched Path Description/Connections --}}
+      {{#if item.system.description}}
+      <div class="item-description px-2 py-1 italic">
+        {{{item.system.description}}}
+      </div>
+      {{/if}}
     </li>
-{{/each}}
-</ol>
+    {{/each}}
+  </ol>
+
+</div>
