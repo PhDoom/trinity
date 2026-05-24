@@ -1,61 +1,52 @@
-<form class="{{cssClass}} flexcol" autocomplete="off">
+{{!-- Trinity Roll Prompt - Foundry V13 Compliant --}}
+<form class="trinity-dialog roll-prompt flexcol" autocomplete="off">
+  
+  {{!-- Dice Pool Summary Header --}}
+  <header class="dialog-header border-bottom mb-2 flexrow flex-between p-1 bg-grey">
+    <h3 class="m-0">Roll Selection</h3>
+    <div class="pool-total font-weight-bold">
+      Base Pool: <span class="text-blue">{{add attrVal skillVal}}</span> Dice
+    </div>
+  </header>
 
-  {{!-- Sheet Body --}}
-  <section class="sheet-body">
-    {{log "roll-prompt.html, this:" this}}
-    <div class="flex-parent-center-column">
-      <div class="flex-parent-between flex-valign boxed"> {{!-- Skill --}}
-        <input class="narrow-input left" type="number" id="skil" value="{{this.elements.skil.value}}" data-dtype="Number"/>
-        <label class="flex-child-full center-text resource-label clickable skil-label" for="skil" id="skil-label">
-          {{this.elements.skil.name}}
-        </label>
-      </div>
-      <div class="flex-parent-between flex-valign boxed"> {{!-- Attribute --}}
-        <input class="narrow-input left" type="number" id="attr" value="{{this.elements.attr.value}}" data-dtype="Number"/>
-        <label class="flex-child-full center-text resource-label clickable attr-label" for="attr" id="attr-label">
-          {{this.elements.attr.name}}
-        </label>
-      </div>
-      <div class="flex-parent-between flex-valign boxed"> {{!-- Enhancements --}}
-        <input class="narrow-input left" type="number" id="enha" value="{{this.elements.enha.value}}" data-dtype="Number"/>
-        <label class="flex-child-full center-text resource-label clickable enha-label" for="enha" id="enha-label">
-          {{this.elements.enha.name}}
-        </label>
-      </div>
-      <div class="flex-parent-center-column boxed"> {{!-- Extras --}}
-        <div class="flex-parent-between flex-valign">
-          <input class="narrow-input left" type="number" id="nsca" value="{{this.elements.nsca.value}}" data-dtype="Number"/>
-          <label class="flex-child-full center-text resource-label nsca-label" for="nsca" id="nsca-label">
-            {{this.elements.nsca.name}}
-          </label>
-        </div>
-        <div class="flex-parent-between flex-valign">
-          <input class="narrow-input left" type="number" id="dsca" value="{{this.elements.dsca.value}}" data-dtype="Number"/>
-          <label class="flex-child-full center-text resource-label dsca-label" for="dsca" id="dsca-label">
-            {{this.elements.dsca.name}}
-          </label>
-        </div>
-        <div class="flex-parent-between flex-valign">
-          <input class="narrow-input left" type="number" id="expl" value="{{this.elements.expl.value}}" data-dtype="Number"/>
-          <label class="flex-child-full center-text resource-label expl-label" for="expl" id="expl-label">
-            {{this.elements.expl.name}}
-          </label>
-        </div>
-        <div class="flex-parent-between flex-valign">
-          <input class="narrow-input left" type="number" id="succ" value="{{this.elements.succ.value}}" data-dtype="Number"/>
-          <label class="flex-child-full center-text resource-label succ-label" for="succ" id="succ-label">
-            {{this.elements.succ.name}}
-          </label>
-        </div>
-        <div class="flex-parent-between flex-valign">
-          <input class="left-vcenter init-checkbox" type="checkbox" id="init" value="init-value" data-dtype="Boolean" {{checked this.elements.init.value}} />
-          <!-- <input class="left-vcenter init-checkbox" type="checkbox" id="init" value="{{this.elements.init.value}}" data-dtype="Boolean" {{checked this.elements.init.value}} /> -->
-          <label class="flex-child-full center-text resource-label init-label" for="init" id="init-label">
-            {{this.elements.init.name}}
-          </label>
-        </div>
+  {{!-- Selection Details --}}
+  <div class="selection-grid grid grid-2col mb-2">
+    
+    {{!-- Attribute Column --}}
+    <div class="selection-box flexcol flex-center border p-2 mr-1">
+      <label class="small-label font-weight-bold text-uppercase">Attribute</label>
+      <span class="selection-name">{{attrName}}</span>
+      <div class="selection-value border-top mt-1 pt-1 font-weight-bold">
+        {{attrVal}} Dots
       </div>
     </div>
-  </section>
 
+    {{!-- Skill Column --}}
+    <div class="selection-box flexcol flex-center border p-2 ml-1">
+      <label class="small-label font-weight-bold text-uppercase">Skill</label>
+      <span class="selection-name">{{#if skillName}}{{skillName}}{{else}}None{{/if}}</span>
+      <div class="selection-value border-top mt-1 pt-1 font-weight-bold">
+        {{#if skillVal}}{{skillVal}}{{else}}0{{/if}} Dots
+      </div>
+    </div>
+
+  </div>
+
+  {{!-- Adjustments & Enhancements --}}
+  <div class="prompt-modifiers border-top pt-2">
+    <div class="form-group flexrow flex-between p-1">
+      <label class="small">Additional Enhancement (Gear/Edges)</label>
+      <input type="number" name="enhancement" value="{{enhancement}}" data-dtype="Number" style="width: 50px; text-align: center;"/>
+    </div>
+
+    {{!-- V13 Path Reference for resource checks --}}
+    <div class="form-group flexrow flex-between p-1">
+      <label class="small">Situational Difficulty</label>
+      <input type="number" name="difficulty" value="1" data-dtype="Number" style="width: 50px; text-align: center;"/>
+    </div>
+  </div>
+
+  <p class="notes italic small text-center mt-2 border-top pt-1">
+    Click 'Roll' to proceed to the success/complication breakdown.
+  </p>
 </form>
