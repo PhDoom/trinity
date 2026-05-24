@@ -1,57 +1,69 @@
-{{log "Overview, This:" this}}
-<form class="{{cssClass}} flexcol" autocomplete="off">
-  <section class="sheet-body">
-
-<!--
-<h2>Momentum</h2>
-<div class="grid grid-3col">
-  <div class="">
-    <label for="current-momentum" class="resource-label"> Current Momentum </label>
-    <input class="momentum" type="number" min="0" step="1" onfocus="this.previousValue = this.value" onkeydown="this.previousValue = this.value" oninput="validity.valid || (value = this.previousValue)" id="current-momentum" name="momentum.current" value="{{momentum.current}}" data-dtype="Number"/>
-  </div>
-  <div class="">
-    <label for="spent-momentum" class="resource-label"> Spent Momentum </label>
-    <input class="momentum" type="number" min="0" step="1" onfocus="this.previousValue = this.value" onkeydown="this.previousValue = this.value" oninput="validity.valid || (value = this.previousValue)" id="spent-momentum" name="momentum.spent" value="{{momentum.spent}}" data-dtype="Number"/>
-  </div>
-  <div class="">
-    <label for="max-momentum" class="resource-label"> Max Momentum </label>
-    <input class="momentum" type="number" min="0" step="1" onfocus="this.previousValue = this.value" onkeydown="this.previousValue = this.value" oninput="validity.valid || (value = this.previousValue)" id="max-momentum" name="momentum.max" value="{{momentum.max}}" data-dtype="Number"/>
-  </div>
-</div>
--->
-
-<h2>Momentum</h2>
-<div class="grid grid-3col">
-  <div class="">
-    <label for="momentum-current" class="resource-label"> Current </label>
-    <input class="momentum" type="number" min="0" id="momentum-current" name="momentum.current" value="{{momentum.current}}" data-dtype="Number"/>
-  </div>
-  <div class="">
-    <label for="momentum-spent" class="resource-label"> Spent </label>
-    <input class="momentum" type="number" min="0" step="1" id="momentum-spent" name="state.momentum.spent" value="{{momentum.spent}}" data-dtype="Number"/>
-  </div>
-  <div class="">
-    <label for="momentum-max" class="resource-label"> Max </label>
-    <input class="momentum" type="number" min="0" step="1" id="momentum-max" name="this.state.momentum.max" value="{{momentum.max}}" data-dtype="Number"/>
-  </div>
-</div>
-
-<h2>Character Aspirations</h2>
-
-{{#each actors as | actor | }}
-  <div class="boxed">
-    <div class="flex-parent flex-valign">
-        <div class="big bold">{{ actor.name }}</div>
+{{!-- Actor Overview Dashboard - Foundry V13 Compliant --}}
+<div class="trinity-overview flexcol">
+  
+  {{!-- Dashboard Header --}}
+  <header class="overview-header flexrow border-bottom pb-2 mb-2">
+    <h2 class="flex-group-left">Character Overview</h2>
+    <div class="header-actions flexrow flex-center" style="max-width: 200px;">
+      {{!-- Optional: Add global filters or toggle buttons here --}}
     </div>
-    {{#each actor.aspirations as |aspiration key|}}
-    <div class="flex-parent">
-      {{{aspiration.icon}}}
-      <!-- <label class="flex-child-fit" for="{{aspiration}}.name">{{aspiration.name}}:</label> -->
-      <input class="flex-child-fit" type="text" id="{{key}}.name" name="actor.aspirations.{{key}}.value" value="{{aspiration.value}}" data-dtype="String" disabled/>
-      <input class="flex-child-fit" type="checkbox" id="{{key}}.complete" name="actor.aspirations.{{key}}.complete" value="{{aspiration.complete}}" data-dtype="Boolean" {{checked aspiration.complete}} disabled/>
+  </header>
+
+  {{!-- Actor List Section --}}
+  <section class="actor-grid grid grid-3col">
+    {{#each actors as |actor id|}}
+    <div class="actor-card border p-2 mb-2" data-actor-id="{{actor.id}}">
+      
+      {{!-- Actor Identity --}}
+      <div class="actor-profile flexrow mb-2">
+        <img class="profile-img border" src="{{actor.img}}" title="{{actor.name}}" width="48" height="48"/>
+        <div class="actor-identity px-2 flexcol">
+          <h3 class="actor-name m-0">{{actor.name}}</h3>
+          {{!-- Path Summary - V13 Path: system.subType --}}
+          <span class="small italic">
+            {{#each actor.itemTypes.path as |path|}}
+              {{path.name}}{{#unless @last}}, {{/unless}}
+            {{/each}}
+          </span>
+        </div>
+      </div>
+
+      {{!-- Core Vitals (Inspiration/Momentum) --}}
+      <div class="vitals-row flexrow flex-between border-bottom pb-1 mb-1">
+        <div class="vital flexcol flex-center">
+          <label class="small font-weight-bold">Inspiration</label>
+          {{!-- V13 Path: actor.system.inspiration.value --}}
+          <span class="vital-value">{{actor.system.inspiration.value}} / {{actor.system.inspiration.max}}</span>
+        </div>
+        <div class="vital flexcol flex-center">
+          <label class="small font-weight-bold">Momentum</label>
+          {{!-- Assuming Momentum is tracked at the world level or actor system --}}
+          <span class="vital-value">{{actor.system.momentum.value}}</span>
+        </div>
+      </div>
+
+      {{!-- Compact Skill/Attribute Quick-View --}}
+      <div class="stat-summary flexcol">
+        <div class="stat-row flexrow flex-between">
+          <span class="small">Injuries</span>
+          <span class="vital-value {{#if actor.system.attributes.health.penalty}}text-red{{/if}}">
+            {{#if actor.system.attributes.health.penalty}}-{{actor.system.attributes.health.penalty}}{{else}}0{{/if}}
+          </span>
+        </div>
+        
+        {{!-- Top Skills or Conditions --}}
+        <div class="conditions-list mt-1">
+          {{#each actor.itemTypes.condition as |condition|}}
+            <span class="tag small border px-1" title="{{condition.name}}">{{condition.name}} ({{condition.system.penalty}})</span>
+          {{/each}}
+        </div>
+      </div>
+
+      <div class="card-footer mt-2">
+        <button class="open-sheet btn-small" data-actor-id="{{actor.id}}">Open Sheet</button>
+      </div>
     </div>
     {{/each}}
-  </div>
-{{/each}}
-</section>
-</form>
+  </section>
+
+</div>
