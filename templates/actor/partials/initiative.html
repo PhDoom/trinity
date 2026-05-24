@@ -1,7 +1,21 @@
-{{!-- Initiative Partial --}}
-<div class="boxed flexrow lowmargin">
-  <div class="flex-fit flex-valign bold">Initiative:&ensp;</div>
-  <div class="flex-fit flex-valign">
-    {{{createChip "initiative"}}}
+{{!-- Initiative Partial - Foundry V13 Compliant --}}
+<div class="initiative-section mb-1">
+  <div class="resource flexrow flex-group-center p-1 border">
+    
+    {{!-- Initiative Label (Rollable) --}}
+    <label class="resource-label rollable" 
+           data-roll-type="initiative" 
+           title="Roll Initiative">
+      Initiative
+    </label>
+
+    {{!-- Initiative Value Input --}}
+    <input type="number" 
+           name="system.initiative.value" 
+           value="{{system.initiative.value}}" 
+           data-dtype="Number" 
+           style="max-width: 4rem; text-align: center;" 
+           placeholder="0" />
+           
   </div>
 </div>
