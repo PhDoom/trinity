@@ -1,19 +1,40 @@
-/* 1. Global Utilities & Variables (Must load first) */
-@import "utils/variables";
-@import "utils/colors";
-@import "utils/typography";
-@import "utils/mixins";
+/* 1. Cascade Layer Definitions 
+   Define these first so the browser understands the priority hierarchy. */
+@layer trinity.libs, trinity.base, trinity.layout, trinity.items, trinity.resources, trinity.tabs;
 
-/* 2. Global Layout Engines */
-@import "global/flex";
-@import "global/grid";
-@import "global/window";
+/* 2. External Libraries (Isolated in their own layer) */
+@layer trinity.libs {
+    @import "../lib/some-lib/some-lib.css";
+}
 
-/* 3. System Components */
-@import "components/items";
-@import "components/forms";
-@import "components/resource";
-@import "components/tabs";
+/* 3. Global Utilities & Variables */
+@layer trinity.base {
+    @import "utils/variables";
+    @import "utils/colors";
+    @import "utils/typography";
+    @import "utils/mixins";
+}
 
-/* 4. Define Cascade Layers (Ensures proper priority) */
-@layer trinity.base, trinity.layout, trinity.items, trinity.resources, trinity.tabs;
+/* 4. Global Layout Engines */
+@layer trinity.layout {
+    @import "global/flex";
+    @import "global/grid";
+    @import "global/window";
+}
+
+/* 5. System Components */
+@layer trinity.items {
+    @import "components/items";
+}
+
+@layer trinity.resources {
+    @import "components/resource";
+}
+
+@layer trinity.tabs {
+    @import "components/tabs";
+}
+
+@layer trinity.forms {
+    @import "components/forms";
+}
