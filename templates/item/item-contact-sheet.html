@@ -1,42 +1,68 @@
-<form class="{{cssClass}}" autocomplete="off">
-    <header class="sheet-header">
-      <div class="header-fields"> {{! Left Side of Header}}
-        <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="Name"/></h1>
-        <div class="left-vcenter"> {{! Type & Flagged Info }}
-          <span class="trait">
-            <span class="small icons">{{#if item.data.data.flags.hasDots}}{{{toDots item.data.data.value}}}{{/if}}</span>
-            {{item.data.data.typeName}}
-          </span>
-          {{! Flagged Info }}
-          {{#if item.data.data.flags.isEnhancement}}<span class="boxed">Enhancement</span>{{/if}}
-          {{#if item.data.data.flags.isComplication}}<span class="boxed">Complication</span>{{/if}}
+{{!-- Item Contact Sheet - Foundry V13 Compliant --}}
+<form class="{{cssClass}} flexcol" autocomplete="off">
+
+  {{!-- Item Sheet Header --}}
+  <header class="sheet-header flexrow border-bottom pb-2 mb-2">
+    <img class="profile-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" height="100" width="100"/>
+    <div class="header-details flexcol">
+      <h1 class="charname">
+        <input name="name" type="text" value="{{item.name}}" placeholder="Contact Name"/>
+      </h1>
+      
+      <div class="item-subtitle flexrow flex-between">
+        {{!-- V13 Path: system.subType (Contact Type/Field) --}}
+        <div class="flex-group-left">
+          <input type="text" name="system.subType" value="{{system.subType}}" placeholder="Field (e.g. Police, Tech, Underworld)"/>
+        </div>
+        
+        {{!-- V13 Path: system.value (Dots) --}}
+        <div class="item-rating flexrow flex-center" style="max-width: 120px;">
+          <label class="px-1 font-weight-bold text-uppercase small">Rating</label>
+          <input type="number" name="system.value" value="{{system.value}}" data-dtype="Number" style="width: 45px; text-align: center;"/>
         </div>
       </div>
-    </header>
+    </div>
+  </header>
 
-    {{!-- Sheet Tab Navigation --}}
-    <nav class="sheet-tabs tabs" data-group="primary">
-        <a class="item" data-tab="description">Description</a>
-        <a class="item" data-tab="attributes">Attributes</a>
-    </nav>
+  {{!-- Sheet Tab Navigation --}}
+  <nav class="sheet-tabs tabs border-bottom mb-2" data-group="primary">
+    <a class="item" data-tab="description">Description</a>
+    <a class="item" data-tab="details">Details</a>
+  </nav>
 
-    {{!-- Sheet Body --}}
-    <section class="sheet-body">
+  {{!-- Sheet Body --}}
+  <section class="sheet-body">
 
-        {{!-- Description Tab --}}
-        <div class="tab" data-group="primary" data-tab="description">
-            {{editor content=data.data.description target="data.description" button=true owner=owner editable=editable}}
+    {{!-- Description Tab --}}
+    <div class="tab" data-group="primary" data-tab="description">
+      {{!-- V13 ProseMirror Editor --}}
+      {{editor system.description target="system.description" button=true owner=owner editable=editable engine="prosemirror"}}
+    </div>
+
+    {{!-- Details Tab --}}
+    <div class="tab details" data-group="primary" data-tab="details">
+      
+      {{!-- Meta Data Partial --}}
+      {{> "systems/trinity/templates/item/partials/top-traits.html"}}
+
+      <div class="mechanics-group border p-2 mt-2">
+        <h3 class="header border-bottom mb-2">Contact Settings</h3>
+        
+        <div class="form-group mb-1">
+            <label class="font-weight-bold">Location</label>
+            <input type="text" name="system.location" value="{{system.location}}" placeholder="Where are they based?"/>
         </div>
 
-        {{!-- Attributes Tab --}}
-        <div class="tab attributes" data-group="primary" data-tab="attributes">
-            {{!-- As you add new fields, add them in here! --}}
-
-            {{> "systems/trinity/templates/item/partials/dots-flag.html"}}
-            {{> "systems/trinity/templates/item/partials/enhancement-flag.html"}}
-            {{> "systems/trinity/templates/item/partials/complication-flag.html"}}
-
-
+        {{!-- Check for 'dots' display flag --}}
+        {{> "systems/trinity/templates/item/partials/dots-flag.html"}}
+        
+        <div class="form-group mt-2">
+            <label class="font-weight-bold">Source Reference</label>
+            <input type="text" name="system.source" value="{{system.source}}" placeholder="Core Book, p. 123"/>
         </div>
-    </section>
+      </div>
+
+    </div>
+
+  </section>
 </form>
