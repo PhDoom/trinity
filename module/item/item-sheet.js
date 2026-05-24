@@ -1,53 +1,54 @@
 /**
- * Extend the basic ItemSheet with Trinity-specific logic for V13.
- * @extends {ItemSheet}
+ * Trinity Item Sheet
+ * Updated for Foundry V13 compatibility
  */
-export class TrinityItemSheet extends ItemSheet {
 
+export class TrinityItemSheet extends ItemSheet {
+  
   /** @override */
   static get defaultOptions() {
-    return foundry.utils.mergeObject(super.defaultOptions, {
+    return mergeObject(super.defaultOptions, {
       classes: ["trinity", "sheet", "item"],
-      template: "systems/trinity/templates/item/item-sheet.html",
       width: 520,
       height: 480,
       tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "description" }]
     });
   }
 
-  /* -------------------------------------------- */
-
-  /** @override */
-  async getData(options) {
-    // V13 Requirement: Use super.getData() to get the base document data
-    const context = await super.getData(options);
-    const itemData = context.item;
-
-    // Map system data to a top-level property for easy Handlebars access
-    context.system = itemData.system;
-    context.config = CONFIG.TRINITY; // If you have global config constants
-
-    // Add labels or extra formatting for specific item types
-    context.isWeapon = itemData.type === 'weapon';
-    context.isArmor = itemData.type === 'armor';
-    context.isStunt = itemData.type === 'stunt';
-
-    return context;
-  }
-
-  /* -------------------------------------------- */
-
   /** @override */
   activateListeners(html) {
     super.activateListeners(html);
 
-    // Everything below here is only needed if the sheet is editable
-    if (!this.options.editable) return;
+    // V13: Ensure listener binding is clean
+    html.find(".roll-power").click(this._onRollPower.bind(this));
+  }
 
-    // Example: Handle a "Roll" button click on a weapon or power
-    html.find('.item-roll').click(ev => {
-      // Use the roll logic from the Item document class we updated
-      this.item.roll();
-    });
+  /**
+   * Handle Power Roll Execution
+   * Triggered by clicking a button with the class 'roll-power' in your HTML
+   */
+  async _onRollPower(event) {
+    event.preventDefault();
+    
+    // Ensure we have an actor to roll for
+    const actor = this.item.actor;
+    if (!actor) {
+      ui.notifications.warn("This item must be owned by an actor to roll.");
+      return;
+    }
+
+    // Import your Prompt class (adjust path as needed based on your module folder structure)
+    // Assuming TrinityRollPrompt3 is in the same module scope or globally available
+    const { TrinityRollPrompt3 } = await import("../trinity-roll-prompt3_old.js");
+
+    // Get the dice pool from the item's system data
+    // V13: Use .system instead of .data.data
+    const pool = this.item.system.dicePool || 0;
+
+    // Open the prompt
+    const config = await TrinityRollPrompt3.confirmRoll(actor, { pool: pool });
+    
+    // Execute the roll
+    await TrinityRollPrompt3.executeRoll(actor, config);
   }
 }
