@@ -1,44 +1,61 @@
-{{!-- Aspirations Partial --}}
-<div class="boxed">
+{{!-- Character Core Info Partial - Foundry V13 Compliant --}}
+<div class="character-info-section">
+  
+  <div class="grid grid-2col mb-1">
+    
+    {{!-- Core Concept & Details --}}
+    <div class="details-col flexcol">
+      <h3 class="header">Character Details</h3>
+      
+      <div class="form-group">
+        <label for="system.concept" class="resource-label">Concept</label>
+        <input type="text" name="system.concept" value="{{system.concept}}" placeholder="e.g. Rogue Mercenary"/>
+      </div>
 
-  <div class="flex-parent">
-    <label class="flex-child-fit" for="char-name">Name:</label>
-      <input class="flex-child-fit" id="char-name" name="name" type="text" value="{{actor.name}}"/>
-  </div>
-  <div class="flex-parent">
-    <label class="flex-child-fit" for="char-player">Player:</label>
-      <input class="flex-child-fit" id="char-player" name="data.player" type="text" value="{{data.data.player}}"/>
-  </div>
-  <div class="flex-parent">
-    <label class="flex-child-fit" for="char-concept">Concept:</label>
-      <input class="flex-child-fit" id="char-concept" name="data.concept" type="text" value="{{data.data.concept}}"/>
-  </div>
-  {{#if actor.data.data.flags.isPsion}}
-  <div class="flex-parent">
-    <label class="flex-child-fit" for="char-psiOrder">Psi Order:</label>
-      <input class="flex-child-fit" id="char-psiOrder" name="data.psiOrder" type="text" value="{{data.data.psiOrder}}"/>
-  </div>
-  {{/if}}
-  {{#if actor.data.data.flags.isTalent}}
-  <div class="flex-parent">
-    <label class="flex-child-fit" for="moment">Moment of Inspiration:</label>
-      <input class="flex-child-fit" id="moment" name="data.moment" type="text" value="{{actor.data.data.moment}}"/>
-  </div>
-  {{/if}}
-  <div class="flex-parent">
-    <label class="flex-child-fit" for="char-xp-avail">Experience Available:</label>
-      <input class="flex-child-fit" id="char-xp-avail" name="data.experience.available" type="number" min="0" step="1" onfocus="this.previousValue = this.value" onkeydown="this.previousValue = this.value" oninput="validity.valid || (value = this.previousValue)" value="{{data.data.experience.available}}"/>
-  </div>
-  <div class="flex-parent">
-    <label class="flex-child-fit" for="char-xp-earned">Experience Earned:</label>
-      <input class="flex-child-fit" id="char-xp-earned" name="data.experience.earned" type="number" min="0" step="1" onfocus="this.previousValue = this.value" onkeydown="this.previousValue = this.value" oninput="validity.valid || (value = this.previousValue)" value="{{data.data.experience.earned}}"/>
+      <div class="form-group">
+        <label for="system.allegiance" class="resource-label">Allegiance / Faction</label>
+        <input type="text" name="system.allegiance" value="{{system.allegiance}}" placeholder="e.g. Triton Foundation, Novas"/>
+      </div>
+    </div>
+
+    {{!-- Experience Tracking --}}
+    <div class="xp-col flexcol">
+      <h3 class="header">Experience (XP)</h3>
+      
+      <div class="form-group">
+        <label for="system.experience.unspent" class="resource-label">Unspent XP</label>
+        {{!-- V13: data-dtype="Number" prevents XP from saving as a string --}}
+        <input type="number" name="system.experience.unspent" value="{{system.experience.unspent}}" data-dtype="Number"/>
+      </div>
+
+      <div class="form-group">
+        <label for="system.experience.total" class="resource-label">Total XP</label>
+        <input type="number" name="system.experience.total" value="{{system.experience.total}}" data-dtype="Number"/>
+      </div>
+    </div>
+
   </div>
 
-  {{#each data.data.aspirations as |aspiration key|}}
-  <div class="flex-parent">
-    <label class="flex-child-fit" for="{{aspiration}}.name">{{aspiration.name}}:</label>
-    <input class="flex-child-fit" type="text" id="{{key}}.name" name="data.aspirations.{{key}}.value" value="{{aspiration.value}}" data-dtype="String"/>
-    <input class="flex-child-fit" type="checkbox" id="{{key}}.complete" name="data.aspirations.{{key}}.complete" value="{{aspiration.complete}}" data-dtype="Boolean" {{checked aspiration.complete}}/>
+  <hr>
+
+  {{!-- Aspirations (Trinity Continuum Core Mechanic) --}}
+  <div class="aspirations-section mt-1 mb-2">
+    <h3 class="header">Aspirations</h3>
+    
+    <div class="form-group stacked mb-1">
+      <label for="system.aspirations.short1" class="resource-label">Short-Term Aspiration 1</label>
+      <input type="text" name="system.aspirations.short1" value="{{system.aspirations.short1}}" placeholder="e.g. Find a new contact in the underworld"/>
+    </div>
+
+    <div class="form-group stacked mb-1">
+      <label for="system.aspirations.short2" class="resource-label">Short-Term Aspiration 2</label>
+      <input type="text" name="system.aspirations.short2" value="{{system.aspirations.short2}}" placeholder="e.g. Acquire a better weapon"/>
+    </div>
+
+    <div class="form-group stacked mb-1">
+      <label for="system.aspirations.long" class="resource-label">Long-Term Aspiration</label>
+      <input type="text" name="system.aspirations.long" value="{{system.aspirations.long}}" placeholder="e.g. Overthrow the local syndicate leader"/>
+    </div>
   </div>
-  {{/each}}
+
 </div>
