@@ -1,7 +1,23 @@
-{{!-- Initiative Partial --}}
-  <div class="boxed grid grid-2col lowmargin">
-    <div class="bold right-vcenter">Initiative: </div>
-    <div class="big bold left-vcenter">
-      {{{createChip "initiative"}}}
+{{!-- Initiative Partial (Variant 1) - Foundry V13 Compliant --}}
+<div class="initiative-section-v1 mb-1">
+  <div class="resource flexrow flex-between flex-center p-1 border-bottom">
+    
+    {{!-- Label with Rollable Hook --}}
+    <label class="resource-label rollable" 
+           data-roll-type="initiative" 
+           title="Roll Initiative">
+      Initiative
+    </label>
+
+    {{!-- V13 Data Path: system.initiative.value --}}
+    <div class="flexrow flex-center" style="max-width: 5rem;">
+      <input type="number" 
+             name="system.initiative.value" 
+             value="{{system.initiative.value}}" 
+             data-dtype="Number" 
+             style="text-align: center;" 
+             placeholder="0" />
     </div>
+           
   </div>
+</div>
