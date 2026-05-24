@@ -1,66 +1,44 @@
-{{!-- Trinity Dynamic Roll Prompt - Foundry V13 Compliant --}}
-<form class="trinity-dialog roll-prompt-v2 flexcol" autocomplete="off">
+{{!-- Trinity Secondary Roll Prompt - Foundry V13 Compliant --}}
+<form class="trinity-dialog roll-prompt-secondary" autocomplete="off">
   
-  {{!-- Dice Pool Context --}}
-  <header class="dialog-header border-bottom mb-2 flexrow flex-between p-2 bg-grey">
-    <div class="selection-summary flexcol">
-      <h3 class="m-0">{{attrName}} + {{#if skillName}}{{skillName}}{{else}}Attribute Only{{/if}}</h3>
-      <span class="small italic">Base Pool: {{add attrVal skillVal}} Dice</span>
-    </div>
-    <div class="pool-visual flexcol flex-center">
-      <span class="total-dice text-blue font-weight-bold" style="font-size: 1.5rem;">{{add (add attrVal skillVal) enhancement}}</span>
-      <span class="small-label">Total Pool</span>
+  {{!-- Dialog Header --}}
+  <header class="dialog-header border-bottom mb-2 trinity-flexrow trinity-flex-between p-2">
+    <h3 class="m-0">Modifier Configuration</h3>
+    <div class="pool-modifier">
+      <span class="small-label">Modified Pool:</span> 
+      <span class="text-purple font-weight-bold">{{totalPool}}</span>
     </div>
   </header>
 
-  <div class="prompt-body flexcol">
+  {{!-- Adjustment Grid --}}
+  <div class="adjustments-group trinity-grid trinity-grid-2col border-top pt-2">
     
-    {{!-- Specialty & Stunt Toggles --}}
-    <div class="mechanics-group border p-2 mb-2">
-      <h4 class="section-title border-bottom mb-1">Applicable Assets</h4>
-      
-      {{!-- Specialties Loop - V13 itemTypes logic --}}
-      <div class="form-group flexrow flex-between p-1">
-        <label class="small">Apply Specialty? (+1 Success)</label>
-        <input type="checkbox" name="useSpecialty" {{checked useSpecialty}}/>
-      </div>
-
-      {{!-- Stunt Selection --}}
-      <div class="form-group flexcol p-1">
-        <label class="small-label font-weight-bold">Available Stunts</label>
-        <select name="selectedStunt" class="w-100 mt-1">
-          <option value="">None</option>
-          {{#each actor.itemTypes.stunt as |stunt|}}
-            <option value="{{stunt.id}}">{{stunt.name}} (Cost: {{stunt.system.cost}})</option>
-          {{/each}}
-        </select>
-      </div>
+    <div class="form-group trinity-flexcol trinity-flex-center">
+      <label class="small-label">Scale Adjustment</label>
+      <input type="number" name="scale" value="{{scale}}" data-dtype="Number" class="text-center w-50"/>
     </div>
 
-    {{!-- Manual Adjustments --}}
-    <div class="adjustments-group grid grid-2col border-top pt-2">
-      <div class="form-group flexcol flex-center px-1">
-        <label class="small-label font-weight-bold">Extra Enhancement</label>
-        <input type="number" name="enhancement" value="{{enhancement}}" data-dtype="Number" class="text-center w-50"/>
-      </div>
-
-      <div class="form-group flexcol flex-center px-1">
-        <label class="small-label font-weight-bold">Difficulty</label>
-        <input type="number" name="difficulty" value="{{difficulty}}" data-dtype="Number" class="text-center w-50"/>
-      </div>
-    </div>
-
-    {{!-- Resource Check: V13 Path system.inspiration --}}
-    <div class="resource-spend border-top mt-2 pt-2">
-      <div class="form-group flexrow flex-between p-1">
-        <label class="small">Inspiration Spend (Add 2 Dice)</label>
-        <input type="checkbox" name="spendInspiration" {{#if (lt actor.system.inspiration.value 1)}}disabled title="Insufficient Inspiration"{{/if}}/>
-      </div>
+    <div class="form-group trinity-flexcol trinity-flex-center">
+      <label class="small-label">Complications</label>
+      <input type="number" name="complication" value="{{complication}}" data-dtype="Number" class="text-center w-50"/>
     </div>
 
   </div>
 
-  <p class="notes italic small text-center mt-2 border-top pt-1">
-    Specialties in Storypath provide extra successes, not extra dice.
+  {{!-- Secondary Options --}}
+  <div class="options-section trinity-flexcol mt-2 border-top pt-2">
+    <div class="trinity-flexrow trinity-flex-between p-1">
+      <label class="small">Add Contextual Bonus</label>
+      <input type="checkbox" name="contextBonus" {{checked contextBonus}}/>
+    </div>
+    <div class="trinity-flexrow trinity-flex-between p-1">
+      <label class="small">Ignore Complications</label>
+      <input type="checkbox" name="ignoreComplication" {{checked ignoreComplication}}/>
+    </div>
+  </div>
+
+  <p class="notes small italic text-center mt-2">
+    These modifiers will be applied to your final dice pool calculation.
   </p>
+
 </form>
