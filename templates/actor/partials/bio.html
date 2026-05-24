@@ -1,11 +1,30 @@
-<div class="flex-parent boxed">
-  <div class="portrait-area" style="position: relative;">
-    <img class="bio-image flex-child-fit portrait" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" />
-    <a class="portrait-popout hidden">
-      <i class="fas fa-share-square"></i>
-    </a>
+{{!-- Biography & Notes Partial - Foundry V13 Compliant --}}
+<div class="bio-section">
+
+  {{!-- Public Biography & Appearance --}}
+  <div class="form-group stacked mb-2">
+    <h3 class="header">Biography & Appearance</h3>
+    <div class="editor-container" style="min-height: 300px; background: rgba(0, 0, 0, 0.05); padding: 5px; border-radius: 4px;">
+      {{!-- 
+        V13 Editor Helper: 
+        Uses the 'enrichedBiography' string we generated in getData()
+        target="system.biography" tells the DB where to save it.
+      --}}
+      {{editor enrichedBiography target="system.biography" button=true owner=owner editable=editable engine="prosemirror"}}
+    </div>
   </div>
-  <div class="flex-child-fit">
-      {{editor content=data.data.biography target="data.biography" button=true owner=owner editable=editable}}
+
+  {{!-- GM Notes (Hidden from Players) --}}
+  <div class="form-group stacked mt-2">
+    <h3 class="header">GM Notes</h3>
+    <div class="editor-container" style="min-height: 200px; background: rgba(0, 0, 0, 0.05); padding: 5px; border-radius: 4px;">
+      {{!-- 
+        V13 Editor Helper:
+        Uses 'enrichedNotes'. The secrets flag in actor-sheet.js 
+        ensures this stays secure.
+      --}}
+      {{editor enrichedNotes target="system.gmNotes" button=true owner=owner editable=editable engine="prosemirror"}}
+    </div>
   </div>
+
 </div>
