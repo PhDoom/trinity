@@ -1,17 +1,46 @@
-{{!-- Healthboxes --}}
-<div class="boxed">
-  <div class="flex-fit flex-valign bold">Injuries:&ensp;</div>
-  <div class="healthboxes flexcol">
-    {{#each this.actor.data.data.health.details as |healthBox key|}}
-    <div class="grid grid-2col lowmargin">
-      <div class="bold right-vcenter">{{healthBox.name}}</div>
-      <div class="big icons left-vcenter clickable item-create can-hide" data-healthtype="{{healthBox.type}}" data-type="condition">{{{toHealthBoxes healthBox.states}}}</div>
-      <div class="flex-parent-nowrap-center edit-area can-hide hidden">
-        <i class="clickable sub-value large flex-valign fas fa-minus-circle" data-target="data.health.details.{{key}}.boxes"></i>
-        <input class="flex-valign short-input resource" type="number" min="0" step="1" onfocus="this.previousValue = this.value" onkeydown="this.previousValue = this.value" oninput="validity.valid || (value = this.previousValue)" id="box-{{key}}-value" name="data.health.details.{{key}}.boxes" value="{{hbPathFixer key ../actor}}" data-dtype="Number"/>
-        <i class="clickable add-value large flex-valign fas fa-plus-circle" data-target="data.health.details.{{key}}.boxes"></i>
-      </div>
+{{!-- Health Boxes Partial (Variant 3) - Foundry V13 Compliant --}}
+<div class="health-section-v3 mb-1">
+  <div class="flexrow flex-group-center border-bottom pb-1">
+    
+    {{!-- Max Health --}}
+    <div class="resource flexrow flex-center px-1">
+      <label class="resource-label mr-1">Max</label>
+      <input type="number" 
+             name="system.health.max" 
+             value="{{system.health.max}}" 
+             data-dtype="Number" 
+             style="max-width: 2.5rem; text-align: center;" />
     </div>
-    {{/each}}
+
+    {{!-- Bashing --}}
+    <div class="resource flexrow flex-center px-1">
+      <label class="resource-label mr-1" title="Bashing Damage">B</label>
+      <input type="number" 
+             name="system.health.bashing" 
+             value="{{system.health.bashing}}" 
+             data-dtype="Number" 
+             style="max-width: 2rem; text-align: center;" />
+    </div>
+
+    {{!-- Lethal --}}
+    <div class="resource flexrow flex-center px-1">
+      <label class="resource-label mr-1" title="Lethal Damage">L</label>
+      <input type="number" 
+             name="system.health.lethal" 
+             value="{{system.health.lethal}}" 
+             data-dtype="Number" 
+             style="max-width: 2rem; text-align: center;" />
+    </div>
+
+    {{!-- Aggravated --}}
+    <div class="resource flexrow flex-center px-1">
+      <label class="resource-label mr-1" title="Aggravated Damage">A</label>
+      <input type="number" 
+             name="system.health.aggravated" 
+             value="{{system.health.aggravated}}" 
+             data-dtype="Number" 
+             style="max-width: 2rem; text-align: center;" />
+    </div>
+
   </div>
 </div>
