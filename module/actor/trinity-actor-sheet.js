@@ -1,126 +1,141 @@
 /**
- * Extend the basic ActorSheet with some very simple modifications
- * @extends {ActorSheet}
+ * Trinity Continuum Actor Sheet
+ * Fully Updated for Foundry V13 Compatibility
  */
+
 export class TrinityActorSheet extends ActorSheet {
 
   /** @override */
   static get defaultOptions() {
-    return mergeObject(super.defaultOptions, {
+    return foundry.utils.mergeObject(super.defaultOptions, {
       classes: ["trinity", "sheet", "actor"],
-      template: "systems/trinity/templates/actor/actor-sheet.html",
-      width: 600,
-      height: 600,
-      tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "description" }]
+      // Default template, can be overridden by the template getter
+      template: "systems/trinity/templates/actor/trinity-actor-sheet_1.html",
+      width: 800,
+      height: 800,
+      tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "character" }]
     });
   }
 
-  /* -------------------------------------------- */
+  /** @override */
+  get template() {
+    // Dynamically select the HTML file based on the actor's type
+    if (this.actor.type === "npc") {
+      return "systems/trinity/templates/actor/trinity-actor-sheet-npc_1.html";
+    }
+    return "systems/trinity/templates/actor/trinity-actor-sheet_1.html";
+  }
 
   /** @override */
-  getData() {
-    // Basic data
-    const context = super.getData();
-    
-    // Use the modern V10+ 'system' property instead of 'data.data'
-    const actorData = context.actor.system;
-    context.system = actorData;
-    context.flags = context.actor.flags;
+  async getData(options) {
+    // V13 MANDATORY: getData must be asynchronous
+    const context = await super.getData(options);
 
-    // Prepare items.
-    if (this.actor.type === 'character' || this.actor.type === 'npc') {
-      this._prepareCharacterItems(context);
+    // Create safe V13 references
+    const actorData = context.actor;
+    context.system = actorData.system;
+    context.flags = actorData.flags;
+
+    // V13: Asynchronous HTML Enrichment for ProseMirror editors
+    context.enrichedBiography = await TextEditor.enrichHTML(context.system.biography || "", {
+      async: true,
+      secrets: this.actor.isOwner,
+      relativeTo: this.actor
+    });
+
+    context.enrichedNotes = await TextEditor.enrichHTML(context.system.gmNotes || "", {
+      async: true,
+      secrets: this.actor.isOwner,
+      relativeTo: this.actor
+    });
+
+    // Prepare character-specific data (sorting inventory, powers, etc.)
+    if (actorData.type === 'character' || actorData.type === 'npc') {
+      this._prepareItems(context);
     }
-
-    // Add roll data for TinyMCE and other contexts
-    context.rollData = context.actor.getRollData();
 
     return context;
   }
 
   /**
    * Organize and classify Items for Character sheets.
-   *
-   * @param {Object} actorData The actor to prepare.
-   *
-   * @return {undefined}
+   * V13: Iterates over the context.items array
+   * @param {Object} context The actor context object
    */
-  _prepareCharacterItems(context) {
-    const actorData = context.actor;
-
-    // Initialize containers.
+  _prepareItems(context) {
+    // Initialize containers for the HTML partials
     const gear = [];
     const weapons = [];
     const armor = [];
-    const talents = [];
-    const stunts = [];
+    const edges = [];
+    const paths = [];
+    const powers = [];
 
     // Iterate through items, allocating to containers
     for (let i of context.items) {
-      let item = i.system; // Access item system data
-      i.img = i.img || DEFAULT_TOKEN;
+      // Ensure image exists
+      i.img = i.img || DEFAULT_TOKEN; 
       
-      if (i.type === 'item') gear.push(i);
+      // Sort by type matching your template categories
+      if (i.type === 'gear' || i.type === 'item') gear.push(i);
       else if (i.type === 'weapon') weapons.push(i);
       else if (i.type === 'armor') armor.push(i);
-      else if (i.type === 'talent') talents.push(i);
-      else if (i.type === 'stunt') stunts.push(i);
+      else if (i.type === 'edge') edges.push(i);
+      else if (i.type === 'path') paths.push(i);
+      else if (i.type === 'power' || i.type === 'action') powers.push(i);
     }
 
-    // Assign and return
+    // Assign back to the context so Handlebars can loop through them
     context.gear = gear;
     context.weapons = weapons;
     context.armor = armor;
-    context.talents = talents;
-    context.stunts = stunts;
+    context.edges = edges;
+    context.paths = paths;
+    context.powers = powers;
   }
-
-  /* -------------------------------------------- */
 
   /** @override */
   activateListeners(html) {
     super.activateListeners(html);
 
-    // Everything below here is only needed if the sheet is editable
-    if (!this.options.editable) return;
+    // If the sheet isn't editable (e.g., player viewing another player's sheet), skip binding controls
+    if (!this.isEditable) return;
 
-    // Add Inventory Item
+    // ---------------------------------------------------------
+    // Item Management
+    // ---------------------------------------------------------
+
+    // Add New Item
     html.find('.item-create').click(this._onItemCreate.bind(this));
 
-    // Update Inventory Item
+    // Edit Existing Item
     html.find('.item-edit').click(ev => {
       const li = $(ev.currentTarget).parents(".item");
       const item = this.actor.items.get(li.data("itemId"));
       item.sheet.render(true);
     });
 
-    // Delete Inventory Item
+    // Delete Item
     html.find('.item-delete').click(ev => {
       const li = $(ev.currentTarget).parents(".item");
+      // V13: Must use deleteEmbeddedDocuments, not deleteOwnedItem
       this.actor.deleteEmbeddedDocuments("Item", [li.data("itemId")]);
       li.slideUp(200, () => this.render(false));
     });
 
-    // Rollable abilities.
-    html.find('.rollable').click(this._onRoll.bind(this));
+    // ---------------------------------------------------------
+    // Roll Triggers
+    // ---------------------------------------------------------
 
-    // Drag events for macros.
-    if (this.actor.isOwner) {
-      let handler = ev => this._onDragStart(ev);
-      html.find('li.item').each((i, li) => {
-        if (li.classList.contains("inventory-header")) return;
-        li.setAttribute("draggable", true);
-        li.addEventListener("dragstart", handler, false);
-      });
-    }
+    // Attributes and Skills (from npc-attributes.html & others)
+    html.find('.rollable').click(this._onRoll.bind(this));
+    
+    // Powers and Items (from the NPC actions list)
+    html.find('.roll-power').click(this._onItemRoll.bind(this));
   }
 
-  /* -------------------------------------------- */
-
   /**
-   * Handle creating a new Owned Item for the actor using initial data object
-   * @param {Event} event   The originating click event
-   * @private
+   * Handle creating a new item from the sheet
    */
   async _onItemCreate(event) {
     event.preventDefault();
@@ -128,33 +143,49 @@ export class TrinityActorSheet extends ActorSheet {
     const type = header.dataset.type;
     const data = duplicate(header.dataset);
     const name = `New ${type.capitalize()}`;
-    const itemData = {
-      name: name,
-      type: type,
-      system: data
-    };
-    delete itemData.system.type;
-
-    return await this.actor.createEmbeddedDocuments("Item", [itemData]);
+    const itemData = { name: name, type: type, system: data };
+    
+    // Remove the type from the dataset since it's already in the itemData object
+    delete itemData.system["type"];
+    
+    return await Item.create(itemData, {parent: this.actor});
   }
 
   /**
-   * Handle clickable rolls.
-   * @param {Event} event   The originating click event
-   * @private
+   * Handle basic attribute/skill rolls
+   * Integrated with your V13 TrinityRollPrompt
    */
-  _onRoll(event) {
+  async _onRoll(event) {
     event.preventDefault();
     const element = event.currentTarget;
     const dataset = element.dataset;
 
-    if (dataset.roll) {
-      let roll = new Roll(dataset.roll, this.actor.getRollData());
-      let label = dataset.label ? `Rolling ${dataset.label}` : '';
-      roll.toMessage({
-        speaker: ChatMessage.getSpeaker({ actor: this.actor }),
-        flavor: label
-      });
+    // V13: Dynamic import to avoid circular dependencies
+    const { TrinityRollPrompt } = await import("../dice/trinity-roll-prompt.js");
+
+    // Check if the click came from an attribute
+    if (dataset.attribute) {
+      const val = this.actor.system.attributes[dataset.attribute].value;
+      const config = await TrinityRollPrompt.confirmRoll(this.actor, { name: dataset.attribute });
+      await TrinityRollPrompt.executeRoll(this.actor, val, config);
+    }
+    // You can add an 'else if (dataset.skill)' here if needed
+  }
+
+  /**
+   * Handle Item/Power Rolls
+   * Integrated with your V13 TrinityRollPrompt3
+   */
+  async _onItemRoll(event) {
+    event.preventDefault();
+    const li = $(event.currentTarget).parents(".item");
+    const item = this.actor.items.get(li.data("itemId"));
+    
+    if (item) {
+      const { TrinityRollPrompt3 } = await import("../dice/trinity-roll-prompt3.js");
+      const pool = item.system.dicePool || 0;
+      const config = await TrinityRollPrompt3.confirmRoll(this.actor, { pool: pool, name: item.name });
+      await TrinityRollPrompt3.executeRoll(this.actor, config);
     }
   }
 }
