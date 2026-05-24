@@ -66,6 +66,8 @@ export class TrinityActorSheet extends ActorSheet {
     const edges = [];
     const paths = [];
     const powers = [];
+    const conditions = [];
+    const bonds = [];
 
     // V13: Iterate over the flat context.items array directly
     for (let i of context.items) {
@@ -77,6 +79,8 @@ export class TrinityActorSheet extends ActorSheet {
       else if (i.type === 'edge') edges.push(i);
       else if (i.type === 'path') paths.push(i);
       else if (i.type === 'power' || i.type === 'action') powers.push(i);
+      else if (i.type === 'condition') conditions.push(i);
+      else if (i.type === 'bond') bonds.push(i);
     }
 
     // Assign back to context so the Handlebars partials can loop through them
@@ -86,6 +90,8 @@ export class TrinityActorSheet extends ActorSheet {
     context.edges = edges;
     context.paths = paths;
     context.powers = powers;
+    context.conditions = conditions;
+    context.bonds = bonds;
   }
 
   /** @override */
