@@ -1,316 +1,85 @@
-//* Import Functions *//
-import { rollDataTemplate } from "/systems/trinity/module/protos.js";
-
 /**
- * DOCUMENTATION FOR ORIGINAL FormApplication:
- * An abstract pattern for defining an Application responsible for updating some object using an HTML form
- *
- * A few critical assumptions:
- * 1) This application is used to only edit one object at a time
- * 2) The template used contains one (and only one) HTML form as it's outer-most element
- * 3) This abstract layer has no knowledge of what is being updated, so the implementation must define _updateObject
- *
- * @extends {Application}
- * @abstract
- * @interface
- *
- * @param {Object} object                     Some object which is the target data structure to be be updated by the form.
- * @param {FormApplicationOptions} [options]  Additional options which modify the rendering of the sheet.
+ * Trinity Continuum Roll Form (Version 2) for Foundry V13.
+ * Optimized for quick-selection rolls and pool modification.
  */
+export class TrinityRollForm extends FormApplication {
 
-
-export class RollForm extends FormApplication {
-
-  // since the main form object is created by the form, rearranging args for easier use
-  // constructor(actor={}, options={}, object={}) {
-  constructor(actor, options, object) {
-    super(object, options);
-    console.log("RollForm Constructor this: ", this);
-    console.log("RollForm Constructor Actor: ", actor);
-    console.log("RollForm Object Pre-Check: ", object);
-    if (typeof object === 'undefined' || object === null) {
-      // this.object = JSON.parse(JSON.stringify(rollDataTemplate));
-      this.object = this._rollDataTemplate();
-    } else {
-      this.object = object;
-    }
+  constructor(actor, options, params) {
+    super(actor, options);
     this.actor = actor;
-    this.itemList = [];
-    console.log("RollForm Object Post-Check this: ", this);
+    this.params = params;
   }
 
+  /** @override */
   static get defaultOptions() {
-    return mergeObject(super.defaultOptions, {
-      classes: ["trinity", "roll-form"],
-      popOut: true,
-      template: "systems/trinity/templates/roll/roll-form.html",
-      id: "roll-form",
-      title: "Roll",
-      width: 350
+    return foundry.utils.mergeObject(super.defaultOptions, {
+      id: "trinity-roll-form-v2",
+      title: "Dice Pool Builder",
+      template: "systems/trinity/templates/roll/roll-form_2.html",
+      width: 420,
+      height: "auto",
+      closeOnSubmit: true
     });
   }
-  // height : "100%"
 
-  getData() {
-    // Send data to the template
-    console.log("RollForm getData called");
+  /** @override */
+  async getData(options) {
+    const sys = this.actor.system;
+
+    // V13 Migration: Access data via .system
+    // Ensuring sub-type specific pools (like Inspiration) are available to the form
     return {
       actor: this.actor,
-      rollData: this.object,
-      itemList: this.itemList
+      system: sys,
+      params: this.params,
+      rollSettings: sys.rollSettings,
+      // Default pool values from the Actor's current state
+      targetNumber: sys.rollSettings?.targetNumber?.value ?? 8,
+      difficulty: sys.rollSettings?.difficulty?.value ?? 0,
+      bonusDice: sys.rollSettings?.bonusDice?.value ?? 0
     };
   }
 
-  activateListeners(html) {
-    super.activateListeners(html);
-
-    html.find('.selector').click(async (event) => {
-      console.log("Roll Dialog This:", this);
-      console.log("Selector Event:", event);
-      console.log("Selector Event ID:", event.currentTarget.id);
-      this._getItems(event.currentTarget.id); // Update ItemList
-      console.log("itemList:", this.itemList);
-      await this._render(true);
-      console.log("rendered");
-      document.getElementById("overlay").style.display = "block";
-      console.log("overlaid");
-      // reset height
-      this._resetHeight();
-    });
-
-    html.find('.back').click((event) => {
-      document.getElementById("overlay").style.display = "none";
-      // reset height
-      this._resetHeight();
-    });
-
-    html.find('.roll-button').click((event) => {
-      this._roll();
-    });
-
-    html.find('.showOptions').click((event) => {
-      if (document.getElementById("options").style.display === "grid") {
-        document.getElementById("options").style.display = "none";
-      } else {
-        document.getElementById("options").style.display = "grid";
-      }
-      // reset height
-      this._resetHeight();
-    });
-
-    html.find('.select-item').click(async (event) => {
-      document.getElementById("overlay").style.display = "none"; // Remove overlay
-      const item = this.actor.items.get(event.currentTarget.id);
-      var rollData = this.object;
-      var note = "";
-      var itemValue = item.data.data.flags.isEnhancement ? item.data.data.enhancement.value : item.data.data.value;
-      if (item.type === "attribute" && item.data.data.flags.isMain === true) {
-        note = item.data.data.arena + "/" + item.data.data.approach;
-      } else {
-        note = item.data.data.enhancement.relevance;
-      }
-      if (item.id in rollData.items) {
-        rollData.items[item.id].multiplier += 1;
-      } else {
-        rollData.items[item.id] = {
-          value : itemValue,
-          name : item.name,
-          SourceType : item.type,
-          note : note,
-          isDice : !item.data.data.flags.isEnhancement,
-          multiplier : 1,
-          id : item.id,
-          isCustom : false
-        }
-      }
-      await this._render(true);
-      this._resetHeight();
-      console.log("rollData after Selection: ", rollData);
-    });
-
-    html.find('.remove').click(async (event) => {
-      const itemID = event.currentTarget.id;
-      this._removeItem(itemID);
-      await this._render(true);
-      this._resetHeight();
-    });
-
-    html.find('.save').click(async (event) => {
-      this._save(this.object, this.actor);
-    });
-
-    html.find('.add-custom').click(async (event) => {
-      console.log("add-custom Listener, this: ", this);
-      console.log("add-custom Listener, this: ", event);
-
-      let customValue = document.getElementById("customValue").value || 0;
-      let customName = document.getElementById("customName").value || "Custom Value";
-      let note = "Manually Entered";
-      var rollData = this.object;
-      let uniqueNumber = randomID(16);
-      let isDice = (this.itemListType === "enhancement") ? false : true;
-
-      rollData.items[uniqueNumber] = {
-        value : customValue,
-        name : customName,
-        SourceType : this.itemListType,
-        note : note,
-        isDice : isDice,
-        multiplier : 1,
-        id : uniqueNumber,
-        isCustom : true
-      }
-
-      await this._render(true);
-      this._resetHeight();
-      console.log("rollData after Selection: ", rollData);
-
-    });
-
-    html.find('.setting').change(async (event) => {
-      this.submit({preventClose: true});
-    });
-
-  }
-
-  // Example - not yet used...
+  /** @override */
   async _updateObject(event, formData) {
-    console.log("_updateObject");
-    console.log("_updateObject event: ", event);
-    console.log("_updateObject formData: ", formData);
-    mergeObject(this, formData);
-    console.log("_updateObject rollData after merge: ", this);
-  }
+    const sys = this.actor.system;
+    
+    // Extract data from the form
+    const pool = parseInt(formData.pool) || 0;
+    const bonus = parseInt(formData.bonusDice) || 0;
+    const tn = parseInt(formData.targetNumber) || 8;
+    const diff = parseInt(formData.difficulty) || 0;
 
-  // reset height
-  _resetHeight() {
-    const position = this.position;
-    // position.height = "100%";
-    // position.height = this.form.clientHeight + 30;
-    position.height = "auto";
-    this.setPosition(position);
-  }
+    const totalDice = pool + bonus;
+    const label = this.params.label || "Quick Roll";
 
-  _getItems(type) {
-    this.itemListType = type;
-    this.itemList = [];
-    for (let i of this.actor.items) {
-      if (i.name === type) { this.itemList.push(i); continue; }
-      if (i.type === "attribute" && i.data.data.flags.isMain === false) { continue; }
-      if (i.type === type) { this.itemList.push(i); }
-      if (type === "enhancement" && i.data.data.flags.isEnhancement === true) { this.itemList.push(i); }
-    }
-  }
+    // V13 Requirement: Success counting syntax
+    // cs>=X marks successes in the chat log
+    const formula = `${totalDice}d10cs>=${tn}`;
+    const roll = new Roll(formula, this.actor.getRollData());
 
-  _removeItem(id) {
-    var rollData = this.object;
-    delete rollData.items[id];
-  }
+    // V13 Migration: Asynchronous evaluation is mandatory
+    await roll.evaluate();
 
-  _roll() {
-    var rollData = this.object;
-    let roll = new Roll(rollData.formula);
-    roll.toMessage({
+    // Create the Chat Message
+    await roll.toMessage({
       speaker: ChatMessage.getSpeaker({ actor: this.actor }),
-      flavor: rollData.flavor
+      flavor: `
+        <div class="trinity-chat-card">
+          <b>${label}</b><br>
+          Pool: ${totalDice} | TN: ${tn} | Diff: ${diff}
+        </div>
+      `,
+      flags: {
+        "trinity.rollMetadata": {
+          totalDice: totalDice,
+          tn: tn,
+          difficulty: diff,
+          successes: roll.total
+        }
+      }
     });
+
+    return roll;
   }
-
-  _rollDataTemplate() {
-    return {
-      name : "Trinity Roll",
-      // id : "",
-      get flavor() {
-        let text = '<div class="flex-flavor">';
-        for (let i of Object.keys(this.items)) {
-          if (this.items[i].isDice) {
-            text += '<span class="flex-flavor-trait small-trait">';
-            text += this.items[i].value + "● " + this.items[i].name; // Expand this for better Flavortext
-            text += '</span>';
-          }
-        }
-        for (let i of Object.keys(this.items)) {
-          if (!this.items[i].isDice) {
-            text += '<span class="flex-flavor-trait small-trait">';
-            text += this.items[i].value + "# " + this.items[i].name; // Expand this for better Flavortext
-            text += '</span>';
-          }
-        }
-        text += '</div>'
-        return text;
-      },
-      desc : "",
-      // formula : "",
-      // use Getter to compute this automatically
-      get formula() {
-        if (!this.items) { return 0; }
-        let enhaScale = this.enhaTotal + (this.settings.dsca * 2);
-        let rollFormula = `(${this.diceTotal}d10x>=${this.settings.expl}cs>=${this.settings.succ}ae${enhaScale})*${this.settings.nsca}`;
-        return rollFormula;
-      },
-      items : {
-        /*
-        value
-        name
-        SourceType
-        note
-        isDice
-        */
-      },
-      get diceTotal() {
-        let total = 0;
-        for (let i of Object.keys(this.items)) {
-          if (this.items[i].isDice) { total += this.items[i].value * this.items[i].multiplier; }
-        }
-        return total;
-      },
-      get enhaTotal() {
-        let total = 0;
-        for (let i of Object.keys(this.items)) {
-          if (!this.items[i].isDice) { total += this.items[i].value * this.items[i].multiplier; }
-        }
-        return total;
-      },
-      settings : {
-        expl : 10,
-        succ : 8,
-        nsca : 1, // Narrative Scale (Absolute)
-        dsca : 0, // Dramatic Scale (Difference)
-        init : false // For Compatibility
-      }
-    };
-  }
-
-  async _save(rollData, targetActor) {
-    console.log("_save started");
-    let html = await renderTemplate("systems/trinity/templates/save-prompt.html");
-    new Dialog({
-      title: "Save Roll As",
-      content: html,
-      default: 'save',
-      buttons: {
-        save: {
-          icon: '<i class="fas fa-check"></i>',
-          label: 'Save',
-          default: true,
-          callback: html => {
-            let results = document.getElementById('saveName').value;
-            rollData.name = results;
-            let uniqueRollNumber = randomID(16);
-
-            let updates = {
-              "data.savedRolls": {
-                [uniqueRollNumber]: rollData
-              }
-            };
-            game.actors.get(targetActor.id).update(updates);
-
-            ui.notifications.notify(`Saved Roll to ${targetActor.name} as "${results}".`);
-            return;
-          },
-        }
-      }
-    }).render(true);
-  }
-
 }
