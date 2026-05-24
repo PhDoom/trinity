@@ -1,26 +1,60 @@
-{{!-- Weapons item Box --}}
-<ol class="items-list boxed">
-    <li class="item flexrow item-header">
-      <div class="big item-name">Weapons</div>
-      <div class="item-dots"></div>
-      <div class="item-controls">
-        <a class="item-control item-create" title="Create item" data-type="equipment" data-flag="isWeapon"><i class="far fa-plus-square"></i></a>
+{{!-- Weapons Partial - Foundry V13 Compliant --}}
+<div class="items-category weapons-section mb-2">
+  
+  <h3 class="header flexrow flex-between">
+    <span>Weapons</span>
+    {{!-- V13 Item Creation Hook --}}
+    <a class="item-control item-create" title="Add Weapon" data-type="weapon">
+      <i class="fas fa-plus"></i> Add
+    </a>
+  </h3>
+  
+  <ol class="item-list">
+    {{!-- List Header --}}
+    <li class="item flexrow item-header border-bottom">
+      <div class="item-image"></div>
+      <div class="item-name">Weapon Name</div>
+      <div class="item-detail" style="flex: 0 0 60px; text-align: center;">Acc.</div>
+      <div class="item-detail" style="flex: 0 0 60px; text-align: center;">Dmg.</div>
+      <div class="item-controls" style="flex: 0 0 80px;"></div>
+    </li>
+
+    {{!-- V13 Array Iteration - Loops through 'weapons' from _prepareItems --}}
+    {{#each weapons as |item id|}}
+    <li class="item flexcol py-1 border-bottom-dashed" data-item-id="{{item._id}}">
+      <div class="flexrow flex-center">
+        <div class="item-name flexrow flex-center">
+          <div class="item-image" style="background-image: url('{{item.img}}'); width: 24px; height: 24px; background-size: cover; margin-right: 8px;"></div>
+          <h4 class="m-0">{{item.name}}</h4>
+        </div>
+        
+        {{!-- V13 Data Path: system.accuracy --}}
+        <div class="item-detail" style="flex: 0 0 60px; text-align: center;">
+          {{#if item.system.accuracy}}+{{/if}}{{item.system.accuracy}}
+        </div>
+
+        {{!-- V13 Data Path: system.damage --}}
+        <div class="item-detail" style="flex: 0 0 60px; text-align: center;">
+          {{item.system.damage}}
+        </div>
+        
+        <div class="item-controls" style="flex: 0 0 80px; display: flex; justify-content: space-around;">
+          {{!-- roll-power triggers TrinityRollPrompt3 for attack rolls --}}
+          <a class="item-control roll-power" title="Attack"><i class="fas fa-dice-d10"></i></a>
+          <a class="item-control item-edit" title="Edit"><i class="fas fa-edit"></i></a>
+          <a class="item-control item-delete" title="Delete"><i class="fas fa-trash"></i></a>
+        </div>
       </div>
+
+      {{!-- Tags/Qualities and Description --}}
+      {{#if (or item.system.qualities item.system.description)}}
+      <div class="item-description mt-1 px-2 py-1 small italic border-top">
+        {{#if item.system.qualities}}<strong>Tags:</strong> {{item.system.qualities}} | {{/if}}
+        {{{item.system.description}}}
+      </div>
+      {{/if}}
     </li>
-{{#each actor.weapons as |item id|}}
-    <li class="item flexrow" data-item-id="{{item._id}}">
-        <h4 class="flex-fit item-name item-edit clickable">
-          {{item.name}}
-          {{#if item.data.flags.isInjury}}<span><i class="fas fa-user-injured"></i></span>{{/if}}
-        </h4>
-        <div>
-          {{#if item.data.flags.hasRoll}}{{{createChip item._id ../actor}}}{{/if}}
-        </div>
-        <div class="item-dots small icons">{{#if item.data.flags.hasDots}}{{{toDots item.data.value}}}{{/if}}</div>
-        <div class="item-controls">
-            <a class="item-control item-chat" title="Output Description to Chat"><i class="far fa-comment-dots"></i></a>
-            <a class="item-control item-delete" title="Delete Item"><i class="far fa-minus-square"></i></a>
-        </div>
-    </li>
-{{/each}}
-</ol>
+    {{/each}}
+  </ol>
+
+</div>
