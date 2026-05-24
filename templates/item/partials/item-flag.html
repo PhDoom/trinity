@@ -1,19 +1,45 @@
-{{! Enhancement Box }}
-<div class="boxed fit">
-  <div class="left-vcenter">
-    <input class="left-vcenter" type="checkbox" name="data.flags.isGear" value="{{data.data.flags.isGear}}" data-dtype="Boolean" {{checked data.data.flags.isGear}}/>
-    <label class="resource-label left-vcenter" for="data.flags.isGear">Gear</label>
-  </div>
-  <div class="left-vcenter">
-    <input class="left-vcenter" type="checkbox" name="data.flags.isWeapon" value="{{data.data.flags.isWeapon}}" data-dtype="Boolean" {{checked data.data.flags.isWeapon}}/>
-    <label class="resource-label left-vcenter" for="data.flags.isWeapon">Weapon</label>
-  </div>
-  <div class="left-vcenter">
-    <input class="left-vcenter" type="checkbox" name="data.flags.isArmor" value="{{data.data.flags.isArmor}}" data-dtype="Boolean" {{checked data.data.flags.isArmor}}/>
-    <label class="resource-label left-vcenter" for="data.flags.isArmor">Armor</label>
-  </div>
-  <div class="left-vcenter">
-    <input class="left-vcenter" type="checkbox" name="data.flags.isVehicle" value="{{data.data.flags.isVehicle}}" data-dtype="Boolean" {{checked data.data.flags.isVehicle}}/>
-    <label class="resource-label left-vcenter" for="data.flags.isVehicle">Vehicle</label>
-  </div>
+{{!-- Generic Item Configuration Partial - Foundry V13 Compliant --}}
+<div class="item-flag-settings border p-2 mb-2">
+    
+    <h3 class="header border-bottom mb-2">Item Properties</h3>
+
+    <div class="grid grid-2col">
+        {{!-- V13 Data Path: system.quantity --}}
+        <div class="form-group flexrow p-1">
+            <label class="resource-label font-weight-bold">Quantity</label>
+            <div class="form-fields">
+                <input type="number" 
+                       name="system.quantity" 
+                       value="{{system.quantity}}" 
+                       data-dtype="Number" 
+                       placeholder="1" 
+                       style="text-align: center;" />
+            </div>
+        </div>
+
+        {{!-- V13 Data Path: system.value (Used for Cost or Rating) --}}
+        <div class="form-group flexrow p-1">
+            <label class="resource-label font-weight-bold">Cost / Rating</label>
+            <div class="form-fields">
+                <input type="number" 
+                       name="system.value" 
+                       value="{{system.value}}" 
+                       data-dtype="Number" 
+                       placeholder="0" 
+                       style="text-align: center;" />
+            </div>
+        </div>
+    </div>
+
+    {{!-- V13 Data Path: system.source --}}
+    <div class="form-group flexrow mt-1">
+        <label class="resource-label">Source/Book</label>
+        <div class="form-fields">
+            <input type="text" 
+                   name="system.source" 
+                   value="{{system.source}}" 
+                   placeholder="e.g. Core Rulebook" />
+        </div>
+    </div>
+
 </div>
