@@ -1,95 +1,78 @@
-<form class="{{cssClass}}" autocomplete="off">
-    <header class="sheet-header">
-      <div class="header-fields"> {{! Left Side of Header}}
-        <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="Name"/></h1>
-        <div class="left-vcenter"> {{! Type & Flagged Info }}
-          <span class="trait">Condition</span>
-          {{! Flagged Info }}
-          {{#if item.data.flags.isInjury}}<span class="boxed">Injury</span>{{/if}}
-          {{#if item.data.flags.isComplication}}<span class="boxed">Complication</span>{{/if}}
-          {{#if item.data.flags.isEnhancement}}<span class="boxed">Enhancement</span>{{/if}}
+{{!-- Item Effect Sheet Complex Variant - Foundry V13 Compliant --}}
+<form class="{{cssClass}} flexcol" autocomplete="off">
+
+  {{!-- Item Sheet Header --}}
+  <header class="sheet-header flexrow border-bottom pb-2 mb-2">
+    <img class="profile-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" height="100" width="100"/>
+    <div class="header-details flexcol">
+      <h1 class="charname">
+        <input name="name" type="text" value="{{item.name}}" placeholder="Effect Name"/>
+      </h1>
+      
+      <div class="item-subtitle flexrow flex-between">
+        {{!-- V13 Path: system.subType (Effect Origin/Source Type) --}}
+        <div class="flex-group-left">
+          <input type="text" name="system.subType" value="{{system.subType}}" placeholder="Origin (e.g. Talent, Psionic, Tech)"/>
+        </div>
+        
+        {{!-- V13 Path: system.value (Dots/Rating) --}}
+        <div class="item-rating flexrow flex-center" style="max-width: 120px;">
+          <label class="px-1 font-weight-bold text-uppercase small">Rating</label>
+          <input type="number" name="system.value" value="{{system.value}}" data-dtype="Number" style="width: 45px; text-align: center;"/>
         </div>
       </div>
-    </header>
+    </div>
+  </header>
 
-    {{!-- Sheet Tab Navigation --}}
-    <nav class="sheet-tabs tabs" data-group="primary">
-        <a class="item" data-tab="description">Description</a>
-        <a class="item" data-tab="attributes">Attributes</a>
-    </nav>
+  {{!-- Sheet Tab Navigation --}}
+  <nav class="sheet-tabs tabs border-bottom mb-2" data-group="primary">
+    <a class="item" data-tab="description">Description</a>
+    <a class="item" data-tab="details">Details</a>
+  </nav>
 
-    {{!-- Sheet Body --}}
-    <section class="sheet-body">
+  {{!-- Sheet Body --}}
+  <section class="sheet-body">
 
-        {{!-- Description Tab --}}
-        <div class="tab" data-group="primary" data-tab="description">
-            {{editor content=data.description target="data.description" button=true owner=owner editable=editable}}
+    {{!-- Description Tab --}}
+    <div class="tab" data-group="primary" data-tab="description">
+      {{!-- V13 ProseMirror Editor --}}
+      {{editor system.description target="system.description" button=true owner=owner editable=editable engine="prosemirror"}}
+    </div>
+
+    {{!-- Details Tab --}}
+    <div class="tab details" data-group="primary" data-tab="details">
+      
+      {{!-- High-level Traits Partial --}}
+      {{> "systems/trinity/templates/item/partials/top-traits.html"}}
+
+      <div class="mechanics-group border p-2 mt-2">
+        <h3 class="header border-bottom mb-2">Technical Specifications</h3>
+        
+        <div class="grid grid-2col mb-2">
+            <div class="form-group flexcol p-1">
+                <label class="small-label font-weight-bold">Range</label>
+                <input type="text" name="system.range" value="{{system.range}}" placeholder="e.g. Near"/>
+            </div>
+            <div class="form-group flexcol p-1">
+                <label class="small-label font-weight-bold">Duration</label>
+                <input type="text" name="system.duration" value="{{system.duration}}" placeholder="e.g. Sustained"/>
+            </div>
+            <div class="form-group flexcol p-1">
+                <label class="small-label font-weight-bold">Target / Area</label>
+                <input type="text" name="system.target" value="{{system.target}}" placeholder="e.g. Individual"/>
+            </div>
+            <div class="form-group flexcol p-1">
+                <label class="small-label font-weight-bold">Scale</label>
+                <input type="number" name="system.scale" value="{{system.scale}}" data-dtype="Number" placeholder="0"/>
+            </div>
         </div>
 
-        {{!-- Attributes Tab --}}
-        <div class="tab attributes" data-group="primary" data-tab="attributes">
-            {{!-- As you add new fields, add them in here! --}}
+        {{!-- Additional Mechanical Flags --}}
+        {{> "systems/trinity/templates/item/partials/roll-flag.html"}}
+        {{> "systems/trinity/templates/item/partials/enhancement-flag.html"}}
+      </div>
 
-            {{! Injury Box }}
-            <div class="boxed fit">
-              <div class="left-vcenter">
-                <input class="left-vcenter" type="checkbox" name="data.flags.isInjury" value="{{data.flags.isInjury}}" data-dtype="Boolean" {{checked data.flags.isInjury}}/>
-                <label class="resource-label left-vcenter" for="data.flags.isInjury">Injury</label>
-              </div>
-              {{#if data.flags.isInjury}}
-              <hr>
-              <div class="resource">
-                <label class="resource-label" for="injury-level">Injury Level</label>
-                <select id="injury-level" name="data.injury.value" data-dtype="Number">
-                  {{#select data.injury.value}}
-                  <option value="1">Bruised (+1)</option>
-                  <option value="2">Injured (+2)</option>
-                  <option value="3">Maimed (+4)</option>
-                  <option value="4">Taken Out</option>
-                  {{/select}}
-                </select>
-              </div>
-              {{/if}}
-            </div>
+    </div>
 
-            {{! Complication Box }}
-            <div class="boxed fit">
-              <div class="left-vcenter">
-                <input class="left-vcenter" type="checkbox" name="data.flags.isComplication" value="{{data.flags.isComplication}}" data-dtype="Boolean" {{checked data.flags.isComplication}}/>
-                <label class="resource-label left-vcenter" for="data.flags.isComplication">Complication</label>
-              </div>
-              {{#if data.flags.isComplication}}
-              <hr>
-              <div>
-                <label class="resource-label" for="complication-value">Complication Value</label>
-                <input class="resource" type="text" id="complication-value" name="data.complication.value" value="{{data.complication.value}}" data-dtype="Number"/>
-              </div>
-              <div>
-                <label class="resource-label" for="complication-condition">Complication Condition</label>
-                <input class="resource" type="text" id="complication-condition" name="data.complication.relevance" value="{{data.complication.relevance}}" data-dtype="String"/>
-              </div>
-              {{/if}}
-            </div>
-
-            {{! Enhancement Box }}
-            <div class="boxed fit">
-              <div class="left-vcenter">
-                <input class="left-vcenter" type="checkbox" name="data.flags.isEnhancement" value="{{data.flags.isEnhancement}}" data-dtype="Boolean" {{checked data.flags.isEnhancement}}/>
-                <label class="resource-label left-vcenter" for="data.flags.isEnhancement">Enhancement</label>
-              </div>
-              {{#if data.flags.isEnhancement}}
-              <hr>
-              <div>
-                <label class="resource-label" for="enhancement-value">Enhancement Value</label>
-                <input class="resource" type="text" id="enhancement-value" name="data.enhancement.value" value="{{data.enhancement.value}}" data-dtype="Number"/>
-              </div>
-              <div>
-                <label class="resource-label" for="enhancement-condition">Enhancement Condition</label>
-                <input class="resource" type="text" id="enhancement-condition" name="data.enhancement.relevance" value="{{data.enhancement.relevance}}" data-dtype="String"/>
-              </div>
-              {{/if}}
-            </div>
-
-        </div>
-    </section>
+  </section>
 </form>
