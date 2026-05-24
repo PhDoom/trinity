@@ -1,10 +1,48 @@
-<div class="dice-roll">
-    {{#if flavor}}
-    <div class="dice-flavor">{{flavor}}</div>
-    {{/if}}
-    <div class="dice-result">
-        <div class="dice-formula">{{formula}}</div>
-        {{{tooltip}}}
-        <h4 class="dice-total">{{#if botch}}BOTCH{{else}}{{total}}{{/if}}</h4>
+{{!-- Trinity Roll Chat Message - Foundry V13 Compliant --}}
+<div class="trinity chat-card roll-card" data-actor-id="{{actor._id}}">
+    
+    {{!-- Header: Displays the name of the roll or skill used --}}
+    <header class="card-header flexrow border-bottom mb-1">
+        <img src="{{actor.img}}" title="{{actor.name}}" width="36" height="36"/>
+        <h3 class="item-name">{{flavor}}</h3>
+    </header>
+
+    <div class="card-content">
+        {{!-- Dice Pool Summary --}}
+        <div class="flexrow flex-between mb-1">
+            <span class="small">Pool: <strong>{{pool}}</strong></span>
+            <span class="small">Target: <strong>{{targetValue}}</strong></span>
+        </div>
+
+        <hr>
+
+        {{!-- Success Count Display --}}
+        <div class="flexcol flex-center py-1">
+            <div class="success-count {{#if (gte successes 1)}}success-glow{{/if}}" style="font-size: 1.5rem; font-weight: bold;">
+                {{successes}} Successes
+            </div>
+            {{#if complications}}
+            <div class="complication-count text-red small italic">
+                {{complications}} Complications
+            </div>
+            {{/if}}
+        </div>
+
+        {{!-- Individual Dice Breakdown --}}
+        <div class="dice-breakdown flexrow flex-group-center mt-1">
+            {{#each dice as |die|}}
+            <span class="dice-result {{#if die.success}}success{{/if}} {{#if die.fail}}fail{{/if}} {{#if die.botch}}botch{{/if}}" 
+                  style="display: inline-block; width: 24px; text-align: center; border: 1px solid #7a7971; margin: 1px; border-radius: 3px; {{#if die.success}}background: #e6f3e6; font-weight: bold;{{/if}}">
+                {{die.result}}
+            </span>
+            {{/each}}
+        </div>
     </div>
+
+    {{!-- Footer: Contextual info --}}
+    {{#if subSubType}}
+    <footer class="card-footer border-top mt-1 small italic">
+        Tag: {{subSubType}}
+    </footer>
+    {{/if}}
 </div>
