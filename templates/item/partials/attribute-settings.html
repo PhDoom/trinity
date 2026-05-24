@@ -1,41 +1,44 @@
-<div class="boxed">
-  <div class="grid grid-5col center-text options">
-    <div class="">
-      <label class="center-text resource-label" for="core" id="core-label">Core</label><br>
-      <input class="" type="checkbox" id="core" name="data.flags.isMain" value="{{data.data.flags.isMain}}" data-dtype="Boolean" {{checked data.data.flags.isMain}}/>
+{{!-- Item Attribute Settings Partial - Foundry V13 Compliant --}}
+<div class="item-settings attributes-tab">
+  
+  <h3 class="header border-bottom mb-2">Attribute Modifiers & Requirements</h3>
+
+  <div class="grid grid-3col flex-group-center">
+    {{!-- Loop through the three primary Attribute Arenas --}}
+    {{#each system.attributes as |arena aKey|}}
+    <div class="arena-group flexcol border p-1 m-1">
+      <h4 class="arena-header border-bottom mb-1" style="text-transform: capitalize;">{{aKey}}</h4>
+      
+      {{!-- Loop through specific attributes within each arena (Physical, Mental, Social) --}}
+      {{#each arena as |attr key|}}
+      <div class="attribute-row flexrow flex-between mb-1 px-1">
+        <label class="small-label">{{attr.label}}</label>
+        
+        {{!-- V13 Data Path: system.attributes.[arena].[attribute].mod --}}
+        <input type="number" 
+               name="system.attributes.{{aKey}}.{{key}}.mod" 
+               value="{{attr.mod}}" 
+               data-dtype="Number" 
+               placeholder="0"
+               style="max-width: 2rem; text-align: center;" 
+               title="Modifier to {{attr.label}}"/>
+      </div>
+      {{/each}}
     </div>
-    <div class="">
-      <label class="center-text resource-label" for="facet" id="facet-label">Facet</label><br>
-      <input class="" type="checkbox" id="facet" name="data.flags.isFacet" value="{{data.data.flags.isFacet}}" data-dtype="Boolean" {{checked data.data.flags.isFacet}}/>
-    </div>
-    <div class="">
-      <label class="center-text resource-label" for="psi" id="psi-label">Psi</label><br>
-      <input class="" type="checkbox" id="psi" name="data.flags.isPsi" value="{{data.data.flags.isPsi}}" data-dtype="Boolean" {{checked data.data.flags.isPsi}}/>
-    </div>
-    <div class="">
-      <label class="center-text resource-label" for="quantum" id="quantum-label">Quantum</label><br>
-      <input class="" type="checkbox" id="quantum" name="data.flags.isQuantum" value="{{data.data.flags.isQuantum}}" data-dtype="Boolean" {{checked data.data.flags.isQuantum}}/>
-    </div>
-    <div class="">
-      <label class="center-text resource-label" for="custom" id="custom-label">Custom</label><br>
-      <input class="" type="checkbox" id="custom" name="data.flags.isCustom" value="{{data.data.flags.isCustom}}" data-dtype="Boolean" {{checked data.data.flags.isCustom}}/>
+    {{/each}}
+  </div>
+
+  {{!-- Static Item-Specific Attribute Overrides --}}
+  <div class="form-group flexrow mt-2 p-1 border-top">
+    <label class="font-weight-bold">Minimum Attribute Requirement</label>
+    <div class="flexrow flex-center">
+      <input type="number" 
+             name="system.requirement.value" 
+             value="{{system.requirement.value}}" 
+             data-dtype="Number" 
+             style="max-width: 3rem; text-align: center;"/>
+      <span class="px-2 italic small">Level needed to use item</span>
     </div>
   </div>
 
-  <div>
-    <label class="resource-label" for="arena-text">Arena</label>
-    <input class="resource" type="text" id="arena-text" name="data.arena" value="{{data.data.arena}}" data-dtype="String"/>
-  </div>
-  <div>
-    <label class="resource-label" for="approach-text">Approach</label>
-    <input class="resource" type="text" id="approach-text" name="data.approach" value="{{data.data.approach}}" data-dtype="String"/>
-  </div>
-  <div>
-    <label class="resource-label" for="npcDescription-text">NPC Description</label>
-    <input class="resource" type="text" id="npcDescription-text" name="data.npcDescription" value="{{data.data.npcDescription}}" data-dtype="String"/>
-  </div>
-  <div>
-    <label class="resource-label" for="sortNum-value">Sort Order</label>
-    <input class="resource" type="number" min="0" step="1" onfocus="this.previousValue = this.value" onkeydown="this.previousValue = this.value" oninput="validity.valid || (value = this.previousValue)" id="sortNum-value" name="data.sortNum" value="{{data.data.sortNum}}" data-dtype="Number"/>
-  </div>
 </div>
