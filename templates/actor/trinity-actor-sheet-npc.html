@@ -1,85 +1,76 @@
-<form class="{{cssClass}} flexcol" autocomplete="off">
+<form class="{{cssClass}} trinity-npc-sheet flexcol" autocomplete="off">
 
-  {{!-- Sheet Header --}}
+  {{!-- NPC Sheet Header --}}
   <header class="sheet-header">
-      <img class="profile-img" src="{{actor.data.token.img}}" data-edit="token.img" title="{{actor.name}}" height="50" />
-      <div class="header-fields charname">
-          <h1>{{actor.name}}</h1>
+    <img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="100" width="100"/>
+    <div class="header-fields">
+      <h1 class="charname">
+        <input name="name" type="text" value="{{actor.name}}" placeholder="NPC Name"/>
+      </h1>
+      
+      <div class="resource grid grid-3col">
+        {{!-- V13: Inputs must map strictly to system.[path] --}}
+        <div class="flex-group-center">
+          <label>Threat Level</label>
+          <input type="number" name="system.threat.value" value="{{system.threat.value}}" data-dtype="Number" />
+        </div>
+        <div class="flex-group-center">
+          <label>Health</label>
+          <div class="resource-content flexrow flex-center flex-between">
+            <input type="number" name="system.health.value" value="{{system.health.value}}" data-dtype="Number"/>
+            <span> / </span>
+            <input type="number" name="system.health.max" value="{{system.health.max}}" data-dtype="Number"/>
+          </div>
+        </div>
+        <div class="flex-group-center">
+          <label>Defense</label>
+          <input type="number" name="system.defense.value" value="{{system.defense.value}}" data-dtype="Number" />
+        </div>
       </div>
-      <div class="header-fields charname flex-right">
-          <h1 class="large">{{actor.data.data.concept}}</h1>
-      </div>
-      <img class="large profile-img" src="{{actor.data.data.logo}}" data-edit="data.logo" height="50" />
+    </div>
   </header>
 
-  {{!-- Sheet Tab Navigation --}}
-  <nav class="sheet-tabs tabs actor" data-group="primary">
-    <a class="item" data-tab="roll"><i class="large clickable fas fa-dice"></i></a> {{!-- Saved Rolls --}}
-    <a class="item" data-tab="background">Background</a> {{!-- Bio, Aspirations, Details, Contacts, Bonds --}}
-    <a class="item" data-tab="main">Attributes & Combat</a>
-    {{#if actor.data.data.flags.isTalent}}<a class="item" data-tab="talent">Talent</a>{{/if}}
-    {{#if actor.data.data.flags.isPsion}}<a class="item" data-tab="psion">Psion</a>{{/if}}
-    {{#if actor.data.data.flags.isNova}}<a class="item" data-tab="nova">Nova</a>{{/if}}
-    <a class="item" data-tab="equip">Equipment</a> {{!-- Gear, Weapons, Armor, Vehicles --}}
-    <a class="item config-tab can-hide hidden" data-tab="data-entry">Configure</a>
-    <div class="item">
-      <i class="large clickable edit-button fas fa-lock can-hide"></i> {{!-- No Tab Content, just unlocks editing mode --}}
-      <i class="large clickable edit-button fas fa-unlock can-hide hidden"></i>
-    </div>
+  {{!-- NPC Tab Navigation --}}
+  <nav class="sheet-tabs tabs" data-group="primary">
+    <a class="item" data-tab="stats">Combat & Stats</a>
+    <a class="item" data-tab="edit">Edit Details</a>
   </nav>
 
-    {{!-- Sheet Body --}}
-    <section class="sheet-body">
-
-      {{!-- "Roll" Tab --}}
-      <div class="tab roll" data-group="primary" data-tab="roll">
-          {{> "systems/trinity/templates/actor/partials/saved-rolls.html"}}
+  {{!-- NPC Sheet Body --}}
+  <section class="sheet-body">
+    
+    {{!-- Stats Tab (Read-Only / Rollable View) --}}
+    <div class="tab stats" data-group="primary" data-tab="stats">
+      {{!-- Uses the specific NPC partials you registered in trinity_1.js --}}
+      {{> "systems/trinity/templates/actor/partials-npc/npc-stats.html"}}
+      {{> "systems/trinity/templates/actor/partials-npc/npc-attributes.html"}}
+      
+      {{!-- Example of a V13 compliant roll button for NPCs --}}
+      <div class="npc-actions">
+        <h3>Primary Actions</h3>
+        <ol class="item-list">
+          {{#each items as |item id|}}
+          <li class="item flexrow" data-item-id="{{item._id}}">
+            <div class="item-name flexrow">
+              <div class="item-image" style="background-image: url('{{item.img}}')"></div>
+              <h4>{{item.name}}</h4>
+            </div>
+            <div class="item-controls">
+              {{!-- V13 Async Roll Trigger --}}
+              <a class="item-control roll-power" title="Roll Action"><i class="fas fa-dice-d10"></i></a>
+              <a class="item-control item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>
+              <a class="item-control item-delete" title="Delete Item"><i class="fas fa-trash"></i></a>
+            </div>
+          </li>
+          {{/each}}
+        </ol>
       </div>
+    </div>
 
-      {{!-- "Background" Tab --}}
-      <div class="tab background" data-group="primary" data-tab="background">
-          {{> "systems/trinity/templates/actor/partials/bio.html"}}
-          {{> "systems/trinity/templates/actor/partials/contacts.html"}}
-          {{> "systems/trinity/templates/actor/partials/bonds.html"}}
-      </div>
+    {{!-- Edit Tab (Form Inputs) --}}
+    <div class="tab edit" data-group="primary" data-tab="edit">
+      {{> "systems/trinity/templates/actor/partials-npc/npc-edit.html"}}
+    </div>
 
-      {{!-- Main Tab --}}
-      <div class="tab main" data-group="primary" data-tab="main">
-        {{> "systems/trinity/templates/actor/partials-npc/npc-main.html"}}
-      </div>
-
-      {{!-- Talent Tab --}}
-      <div class="tab talent" data-group="primary" data-tab="talent">
-        {{> "systems/trinity/templates/actor/partials/talent.html"}}
-      </div>
-
-      {{!-- Psion Tab --}}
-      <div class="tab psion" data-group="primary" data-tab="psion">
-        {{> "systems/trinity/templates/actor/partials/psi.html"}}
-      </div>
-
-      {{!-- Nova Tab --}}
-      <div class="tab nova" data-group="primary" data-tab="nova">
-        {{> "systems/trinity/templates/actor/partials/nova.html"}}
-      </div>
-
-      {{!-- Equipment Tab --}}
-      <div class="tab equip" data-group="primary" data-tab="equip">
-        {{> "systems/trinity/templates/actor/partials/weapons.html"}}
-        {{> "systems/trinity/templates/actor/partials/armors.html"}}
-        {{> "systems/trinity/templates/actor/partials/gear.html"}}
-        {{> "systems/trinity/templates/actor/partials/vehicles.html"}}
-        {{> "systems/trinity/templates/actor/partials/unflagged.html"}}
-      </div>
-
-      {{!-- Data Entry Tab --}}
-      <div class="tab data-entry" data-group="primary" data-tab="data-entry">
-        {{> "systems/trinity/templates/actor/partials/full-data.html"}}
-        {{> "systems/trinity/templates/actor/partials/all-items.html"}}
-      </div>
-
-
-
-
-    </section>
+  </section>
 </form>
