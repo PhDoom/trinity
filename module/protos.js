@@ -1,97 +1,73 @@
-//This file is now unused...
+/**
+ * Trinity Continuum Prototype Extensions for Foundry V13.
+ * Logic here adds helper methods to all Actor and Item instances.
+ */
 
-export const pickedElementsProto = {
-  attr : {
-    name : "No Attribute Selected",
-    value : 0
-  },
-  skil : {
-    name : "No Skill Selected",
-    value : 0
-  },
-  // Eventually, change 'value' to be a function that loops through item IDs that are attached to PickedElements
-  enha : {
-    name : "No Enhancements Selected",
-    value : 0
-  },
-  expl : {
-    name : "Explode Threshold",
-    value : 10
-  },
-  succ : {
-    name : "Success Threshold",
-    value : 8
-  },
-  nsca : {
-    name : "Narrative Scale (Absolute)",
-    value : 1
-  },
-  dsca : {
-    name : "Dramatic Scale (Difference)",
-    value : 0
-  },
-  init : {
-    name : "Initiative Roll",
-    value : false
-  }
-};
+export const extendPrototypes = function() {
 
+  /* -------------------------------------------- */
+  /*  Actor Prototypes                            */
+  /* -------------------------------------------- */
 
-export const rollDataTemplate = {
-  name : "Trinity Roll",
-  // id : "",
-  get flavor() {
-    let text = "";
-    for (let d of Object.keys(this.dice)) {
-      text += this.dice[d].value + "●" + this.dice[d].name + " "; // Expand this for better Flavortext
-    }
-    for (let e of Object.keys(this.enha)) {
-      text += "+" + this.enha[e].value + "e " + this.enha[e].name + " "; // Expand this for better Flavortext
-    }
-    return text;
-  },
-  desc : "",
-  formula : "", // use Getter to compute this automatically
-  dice : {
-    /*
-    diceSourceID :{
-      value
-      name
-      SourceType
-      SourceItemID
-    }
-    */
-  },
-  enha : {
-    /*
-    enhaSourceID :{
-      value
-      name
-      SourceType
-      SourceItemID
-    }
-    */
-  },
-  items : {},
-  get diceTotal() {
-    let total = 0;
-    for (let d of Object.keys(this.dice)) {
-      total = total + this.dice[d].value;
-    }
-    return total;
-  },
-  get enhaTotal() {
-    let total = 0;
-    for (let e of Object.keys(this.enha)) {
-      total = total + this.enha[e].value;
-    }
-    return total;
-  },
-  settings : {
-    expl : 10,
-    succ : 8,
-    nsca : 1, // Narrative Scale (Absolute)
-    dsca : 0, // Dramatic Scale (Difference)
-    init : false // For Compatibility
-  }
+  /**
+   * Shortcut to check if an actor is a specific Trinity sub-type.
+   * Usage: actor.isType('psion')
+   */
+  Actor.prototype.isType = function(type) {
+    return this.system.subType === type;
+  };
+
+  /**
+   * Retrieves a specific attribute value safely.
+   */
+  Actor.prototype.getAttr = function(attrName) {
+    const attr = this.system.attributes?.[attrName];
+    return attr ? (attr.value || 0) : 0;
+  };
+
+  /**
+   * Retrieves a specific skill value safely.
+   */
+  Actor.prototype.getSkill = function(skillName) {
+    const skill = this.system.skills?.[skillName];
+    return skill ? (skill.value || 0) : 0;
+  };
+
+  /* -------------------------------------------- */
+  /*  Item Prototypes                             */
+  /* -------------------------------------------- */
+
+  /**
+   * Helper to determine if an item is a "Power" type (Gift, Spell, etc.)
+   * Based on the restored template.json sub-types.
+   */
+  Item.prototype.isPower = function() {
+    const powerTypes = ['gift', 'spell', 'power', 'quantumpower'];
+    return powerTypes.includes(this.type);
+  };
+
+  /* -------------------------------------------- */
+  /*  Global Roll Helpers                         */
+  /* -------------------------------------------- */
+
+  /**
+   * V13 Requirement: Asynchronous Roll Helper
+   * Can be called on any actor to trigger a standard Trinity d10 pool.
+   */
+  Actor.prototype.executeTrinityRoll = async function(poolSize, flavor = "Dice Pool") {
+    const tn = this.system.rollSettings?.targetNumber?.value ?? 8;
+    const formula = `${poolSize}d10cs>=${tn}`;
+    
+    const roll = new Roll(formula, this.getRollData());
+    
+    // V13: Must await evaluation
+    await roll.evaluate();
+
+    return roll.toMessage({
+      speaker: ChatMessage.getSpeaker({ actor: this }),
+      flavor: `<b>${flavor}</b><br>Target Number: ${tn}`
+    });
+  };
+
+  console.log("Trinity | Prototypes Extended for V13");
 };
