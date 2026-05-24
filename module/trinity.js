@@ -3,8 +3,7 @@ import { TrinityActor } from "./actor/trinity-actor.js";
 import { TrinityActorSheet } from "./actor/trinity-actor-sheet.js";
 import { TrinityItem } from "./item/item.js";
 import { TrinityItemSheet } from "./item/item-sheet.js";
-import { TrinityRoll } from "./trinity-roll.js"; // Updated import
-import { preloadHandlebarsTemplates } from "./templates.js";
+import { TrinityRoll } from "./trinity-roll.js"; 
 import { extendPrototypes } from "./protos.js";
 
 /* -------------------------------------------- */
@@ -30,7 +29,6 @@ Hooks.once('init', async function() {
   CONFIG.Item.documentClass = TrinityItem;
   
   // Register the Custom Roll Class
-  // V13 requires this registration to ensure rolls use your class logic
   CONFIG.Dice.rolls.push(TrinityRoll);
 
   /* -------------------------------------------- */
@@ -42,7 +40,6 @@ Hooks.once('init', async function() {
   Items.unregisterSheet("core", ItemSheet);
 
   // 2. Register Custom Actor Sheet
-  // V13 Requirement: The `types` array must match the keys in system.json -> documentTypes -> Actor
   Actors.registerSheet("trinity", TrinityActorSheet, {
       types: ["character", "npc"], 
       makeDefault: true,
@@ -50,7 +47,6 @@ Hooks.once('init', async function() {
   });
 
   // 3. Register Custom Item Sheet
-  // V13 Requirement: The `types` array must match the keys in system.json -> documentTypes -> Item
   Items.registerSheet("trinity", TrinityItemSheet, {
       types: ["item", "feature", "spell"], 
       makeDefault: true,
@@ -60,8 +56,6 @@ Hooks.once('init', async function() {
   // Extend Prototypes for Helper Methods
   extendPrototypes();
 
-  // Preload Handlebars Templates
-  return preloadHandlebarsTemplates();
 });
 
 /* -------------------------------------------- */
