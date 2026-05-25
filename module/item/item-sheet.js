@@ -1,54 +1,57 @@
-/**
- * Trinity Item Sheet
- * Updated for Foundry V13 compatibility
- */
-
 export class TrinityItemSheet extends ItemSheet {
-  
+
   /** @override */
   static get defaultOptions() {
-    return mergeObject(super.defaultOptions, {
-      classes: ["trinity", "sheet", "item"],
+    return foundry.utils.mergeObject(super.defaultOptions, {
+      classes: ["trinity-app", "sheet", "item"],
       width: 520,
-      height: 480,
-      tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "description" }]
+      height: 520,
+      tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "details" }]
     });
+  }
+
+  /** @override */
+  get template() {
+    return `systems/trinity/templates/item/item-${this.item.type}-sheet.html`;
+  }
+
+  /** @override */
+  async getData(options) {
+    const context = await super.getData(options);
+    const itemData = this.item.toObject(false);
+    
+    context.system = itemData.system;
+    context.flags = itemData.flags;
+
+    context.enrichedDescription = await TextEditor.enrichHTML(context.system.description || "", {
+      async: true,
+      secrets: this.item.isOwner,
+      rollData: this.item.getRollData()
+    });
+
+    return context;
   }
 
   /** @override */
   activateListeners(html) {
     super.activateListeners(html);
+    if (!this.isEditable) return;
 
-    // V13: Ensure listener binding is clean
-    html.find(".roll-power").click(this._onRollPower.bind(this));
+    // Listen for clicks on the visual pips/dots inside the ITEM sheet
+    html.find('.pip').click(this._onPipClick.bind(this));
   }
 
-  /**
-   * Handle Power Roll Execution
-   * Triggered by clicking a button with the class 'roll-power' in your HTML
-   */
-  async _onRollPower(event) {
+  /** Handle clicking on a pip/dot to set the item's value */
+  _onPipClick(event) {
     event.preventDefault();
+    const element = event.currentTarget;
+    const field = element.parentElement.dataset.name;
+    const currentValue = Number(element.parentElement.dataset.value);
+    const clickedIndex = Number(element.dataset.index);
+
+    // If clicking the current value, reduce it by 1 (allows setting to 0)
+    const newValue = (currentValue === clickedIndex) ? clickedIndex - 1 : clickedIndex;
     
-    // Ensure we have an actor to roll for
-    const actor = this.item.actor;
-    if (!actor) {
-      ui.notifications.warn("This item must be owned by an actor to roll.");
-      return;
-    }
-
-    // Import your Prompt class (adjust path as needed based on your module folder structure)
-    // Assuming TrinityRollPrompt3 is in the same module scope or globally available
-    const { TrinityRollPrompt3 } = await import("../trinity-roll-prompt3_old.js");
-
-    // Get the dice pool from the item's system data
-    // V13: Use .system instead of .data.data
-    const pool = this.item.system.dicePool || 0;
-
-    // Open the prompt
-    const config = await TrinityRollPrompt3.confirmRoll(actor, { pool: pool });
-    
-    // Execute the roll
-    await TrinityRollPrompt3.executeRoll(actor, config);
+    return this.document.update({ [field]: newValue });
   }
 }
