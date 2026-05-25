@@ -2,14 +2,14 @@
 import { TrinityActor } from "./actor/trinity-actor.js";
 import { TrinityActorSheet } from "./actor/trinity-actor-sheet.js";
 import { TrinityItem } from "./item/item.js";
-import { TrinityItemSheet } from "./item/item-sheet.js";
+import { TrinityItemSheet } from "./item/item-sheet.js"; // Path is perfectly correct
 import { TrinityRoll } from "./trinity-roll.js"; 
 import { extendPrototypes } from "./protos.js";
 // Added back the template preloader
 import { preloadHandlebarsTemplates } from "./templates.js"; 
 
 /* -------------------------------------------- */
-/* Foundry V13 Initialization                  */
+/* Foundry V13 Initialization                   */
 /* -------------------------------------------- */
 
 Hooks.once('init', async function() {
@@ -34,7 +34,7 @@ Hooks.once('init', async function() {
   CONFIG.Dice.rolls.push(TrinityRoll);
 
   /* -------------------------------------------- */
-  /* V13 Sheet Registration                      */
+  /* V13 Sheet Registration                       */
   /* -------------------------------------------- */
 
   // 1. Unregister the core Foundry fallback sheets
@@ -48,9 +48,9 @@ Hooks.once('init', async function() {
       label: "Trinity Modern Sheet"
   });
 
-  // 3. Register Custom Item Sheet
+  // 3. Register Custom Item Sheet 
+  // (Removed the 'types' array so it applies to ALL items, including quantumPower!)
   Items.registerSheet("trinity", TrinityItemSheet, {
-      types: ["item", "feature", "spell"], 
       makeDefault: true,
       label: "Trinity Item Sheet"
   });
@@ -64,7 +64,7 @@ Hooks.once('init', async function() {
 });
 
 /* -------------------------------------------- */
-/* Ready Hook                                  */
+/* Ready Hook                                   */
 /* -------------------------------------------- */
 
 Hooks.once("ready", async function() {
@@ -72,7 +72,7 @@ Hooks.once("ready", async function() {
 });
 
 /* -------------------------------------------- */
-/* Hotbar Macros                               */
+/* Hotbar Macros                                */
 /* -------------------------------------------- */
 
 /**
