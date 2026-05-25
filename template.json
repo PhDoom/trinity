@@ -146,7 +146,12 @@
     "item": { "templates": ["baseItem"], "quantity": 1 },
     "weapon": { "templates": ["baseItem"], "damage": 0, "range": "", "tags": "" },
     "armor": { "templates": ["baseItem"], "soak": 0, "tags": "" },
-    "edge": { "templates": ["baseItem"], "rating": 1 },
+    "edge": { 
+      "templates": ["baseItem"], 
+      "rating": 0, 
+      "isMegaEdge": false, 
+      "prerequisite": "" 
+    },
     "path": { "templates": ["baseItem"], "rating": 1, "type": "" },
     "power": { "templates": ["baseItem"], "dicePool": "", "cost": "" },
     "action": { "templates": ["baseItem"], "dicePool": "", "cost": "" },
