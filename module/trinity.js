@@ -5,6 +5,8 @@ import { TrinityItem } from "./item/item.js";
 import { TrinityItemSheet } from "./item/item-sheet.js";
 import { TrinityRoll } from "./trinity-roll.js"; 
 import { extendPrototypes } from "./protos.js";
+// Added back the template preloader
+import { preloadHandlebarsTemplates } from "./templates.js"; 
 
 /* -------------------------------------------- */
 /* Foundry V13 Initialization                  */
@@ -55,6 +57,9 @@ Hooks.once('init', async function() {
 
   // Extend Prototypes for Helper Methods
   extendPrototypes();
+
+  // Load HTML Partials
+  return preloadHandlebarsTemplates();
 
 });
 
