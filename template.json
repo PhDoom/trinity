@@ -158,7 +158,11 @@
     "condition": { "templates": ["baseItem"], "resolution": "", "effect": "" },
     "bond": { "templates": ["baseItem"], "rating": 1 },
     "contact": { "templates": ["baseItem"], "affiliation": "", "rating": 1 },
-    "gift": { "templates": ["baseItem"], "dicePool": "", "cost": "" },
+    "gift": { 
+      "templates": ["baseItem"], 
+      "keywords": "", 
+      "prerequisite": "" 
+    },
     "spell": { "templates": ["baseItem"], "dicePool": "", "cost": "" },
     "quantumPower": { 
       "templates": ["baseItem"], 
