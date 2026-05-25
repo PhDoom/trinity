@@ -1,38 +1,51 @@
-{{!-- Facets Partial - Foundry V13 Compliant --}}
-<div class="facets-section mt-1 mb-2">
-  <h3 class="header">Facets</h3>
-  
-  <div class="grid grid-3col flex-group-center">
-    
-    {{!-- Force Facet --}}
-    <div class="facet-col flexcol">
-      <label for="system.facets.force.value" class="resource-label">Force</label>
-      <input type="number" 
-             name="system.facets.force.value" 
-             value="{{system.facets.force.value}}" 
-             data-dtype="Number" 
-             placeholder="0"/>
-    </div>
+<div class="facets-section mt-1 mb-1">
+    <h3 class="header">Facets</h3>
+    <div class="grid grid-3col gap-10">
+        
+        {{!-- Destructive Facet --}}
+        <div class="form-group flexcol border p-1" style="border-radius: 5px; background: rgba(0,0,0,0.02);">
+            <label class="font-weight-bold text-red text-center mb-1">Destructive</label>
+            <input type="text" name="system.facets.destructive.name" value="{{system.facets.destructive.name}}" placeholder="Facet Name..."/>
+            <div class="flexrow flex-center mt-1">
+                <div class="pip-container" data-name="system.facets.destructive.rating" data-value="{{system.facets.destructive.rating}}">
+                    <i class="pip {{#if (gt system.facets.destructive.rating 0)}}fas{{else}}far{{/if}} fa-circle" data-index="1"></i>
+                    <i class="pip {{#if (gt system.facets.destructive.rating 1)}}fas{{else}}far{{/if}} fa-circle" data-index="2"></i>
+                    <i class="pip {{#if (gt system.facets.destructive.rating 2)}}fas{{else}}far{{/if}} fa-circle" data-index="3"></i>
+                    <i class="pip {{#if (gt system.facets.destructive.rating 3)}}fas{{else}}far{{/if}} fa-circle" data-index="4"></i>
+                    <i class="pip {{#if (gt system.facets.destructive.rating 4)}}fas{{else}}far{{/if}} fa-circle" data-index="5"></i>
+                </div>
+            </div>
+        </div>
 
-    {{!-- Finesse Facet --}}
-    <div class="facet-col flexcol">
-      <label for="system.facets.finesse.value" class="resource-label">Finesse</label>
-      <input type="number" 
-             name="system.facets.finesse.value" 
-             value="{{system.facets.finesse.value}}" 
-             data-dtype="Number" 
-             placeholder="0"/>
-    </div>
+        {{!-- Intuitive Facet --}}
+        <div class="form-group flexcol border p-1" style="border-radius: 5px; background: rgba(0,0,0,0.02);">
+            <label class="font-weight-bold text-blue text-center mb-1">Intuitive</label>
+            <input type="text" name="system.facets.intuitive.name" value="{{system.facets.intuitive.name}}" placeholder="Facet Name..."/>
+            <div class="flexrow flex-center mt-1">
+                <div class="pip-container" data-name="system.facets.intuitive.rating" data-value="{{system.facets.intuitive.rating}}">
+                    <i class="pip {{#if (gt system.facets.intuitive.rating 0)}}fas{{else}}far{{/if}} fa-circle" data-index="1"></i>
+                    <i class="pip {{#if (gt system.facets.intuitive.rating 1)}}fas{{else}}far{{/if}} fa-circle" data-index="2"></i>
+                    <i class="pip {{#if (gt system.facets.intuitive.rating 2)}}fas{{else}}far{{/if}} fa-circle" data-index="3"></i>
+                    <i class="pip {{#if (gt system.facets.intuitive.rating 3)}}fas{{else}}far{{/if}} fa-circle" data-index="4"></i>
+                    <i class="pip {{#if (gt system.facets.intuitive.rating 4)}}fas{{else}}far{{/if}} fa-circle" data-index="5"></i>
+                </div>
+            </div>
+        </div>
 
-    {{!-- Resistance Facet --}}
-    <div class="facet-col flexcol">
-      <label for="system.facets.resistance.value" class="resource-label">Resistance</label>
-      <input type="number" 
-             name="system.facets.resistance.value" 
-             value="{{system.facets.resistance.value}}" 
-             data-dtype="Number" 
-             placeholder="0"/>
-    </div>
+        {{!-- Reflective Facet --}}
+        <div class="form-group flexcol border p-1" style="border-radius: 5px; background: rgba(0,0,0,0.02);">
+            <label class="font-weight-bold text-purple text-center mb-1">Reflective</label>
+            <input type="text" name="system.facets.reflective.name" value="{{system.facets.reflective.name}}" placeholder="Facet Name..."/>
+            <div class="flexrow flex-center mt-1">
+                <div class="pip-container" data-name="system.facets.reflective.rating" data-value="{{system.facets.reflective.rating}}">
+                    <i class="pip {{#if (gt system.facets.reflective.rating 0)}}fas{{else}}far{{/if}} fa-circle" data-index="1"></i>
+                    <i class="pip {{#if (gt system.facets.reflective.rating 1)}}fas{{else}}far{{/if}} fa-circle" data-index="2"></i>
+                    <i class="pip {{#if (gt system.facets.reflective.rating 2)}}fas{{else}}far{{/if}} fa-circle" data-index="3"></i>
+                    <i class="pip {{#if (gt system.facets.reflective.rating 3)}}fas{{else}}far{{/if}} fa-circle" data-index="4"></i>
+                    <i class="pip {{#if (gt system.facets.reflective.rating 4)}}fas{{else}}far{{/if}} fa-circle" data-index="5"></i>
+                </div>
+            </div>
+        </div>
 
-  </div>
+    </div>
 </div>
