@@ -7,7 +7,6 @@
     <div class="details-col flexcol">
       <h3 class="header">Character Details</h3>
       
-      {{!-- FIXED: Character Paradigm Dropdown (V13 Safe) --}}
       <div class="form-group">
         <label class="resource-label font-weight-bold">Paradigm</label>
         <select name="system.details.characterType">
@@ -30,22 +29,78 @@
       </div>
     </div>
 
-    {{!-- Experience Tracking --}}
+    {{!-- Experience Tracking (Now Shrink-Fitted) --}}
     <div class="xp-col flexcol">
       <h3 class="header">Experience (XP)</h3>
       
-      <div class="form-group">
-        <label for="system.experience.unspent" class="resource-label">Unspent XP</label>
-        {{!-- V13: data-dtype="Number" prevents XP from saving as a string --}}
-        <input type="number" name="system.experience.unspent" value="{{system.experience.unspent}}" data-dtype="Number"/>
-      </div>
+      <div class="flexrow" style="justify-content: flex-start; gap: 15px;">
+        <div class="form-group flexcol" style="flex: 0 0 80px;">
+            <label for="system.experience.unspent" class="resource-label text-center">Unspent</label>
+            <input type="number" name="system.experience.unspent" value="{{system.experience.unspent}}" data-dtype="Number" style="text-align: center; font-size: 1.2em;"/>
+        </div>
 
-      <div class="form-group">
-        <label for="system.experience.total" class="resource-label">Total XP</label>
-        <input type="number" name="system.experience.total" value="{{system.experience.total}}" data-dtype="Number"/>
+        <div class="form-group flexcol" style="flex: 0 0 80px;">
+            <label for="system.experience.total" class="resource-label text-center">Total</label>
+            <input type="number" name="system.experience.total" value="{{system.experience.total}}" data-dtype="Number" style="text-align: center; font-size: 1.2em;"/>
+        </div>
       </div>
     </div>
 
+  </div>
+
+  <hr>
+
+  {{!-- NEW: Hardcoded Paths Section --}}
+  <div class="paths-section mt-1 mb-2">
+    <h3 class="header">Paths</h3>
+    <div class="grid grid-3col gap-10">
+        
+        {{!-- Origin Path --}}
+        <div class="form-group flexcol border p-1" style="border-radius: 5px; background: rgba(0,0,0,0.02);">
+            <label class="font-weight-bold text-blue text-center mb-1">Origin Path</label>
+            <input type="text" name="system.paths.origin.name" value="{{system.paths.origin.name}}" placeholder="e.g. Suburbia..."/>
+            <div class="flexrow flex-center mt-1">
+                <div class="pip-container" data-name="system.paths.origin.rating" data-value="{{system.paths.origin.rating}}">
+                    <i class="pip {{#if (gt system.paths.origin.rating 0)}}fas{{else}}far{{/if}} fa-circle" data-index="1"></i>
+                    <i class="pip {{#if (gt system.paths.origin.rating 1)}}fas{{else}}far{{/if}} fa-circle" data-index="2"></i>
+                    <i class="pip {{#if (gt system.paths.origin.rating 2)}}fas{{else}}far{{/if}} fa-circle" data-index="3"></i>
+                    <i class="pip {{#if (gt system.paths.origin.rating 3)}}fas{{else}}far{{/if}} fa-circle" data-index="4"></i>
+                    <i class="pip {{#if (gt system.paths.origin.rating 4)}}fas{{else}}far{{/if}} fa-circle" data-index="5"></i>
+                </div>
+            </div>
+        </div>
+
+        {{!-- Role Path --}}
+        <div class="form-group flexcol border p-1" style="border-radius: 5px; background: rgba(0,0,0,0.02);">
+            <label class="font-weight-bold text-blue text-center mb-1">Role Path</label>
+            <input type="text" name="system.paths.role.name" value="{{system.paths.role.name}}" placeholder="e.g. Investigator..."/>
+            <div class="flexrow flex-center mt-1">
+                <div class="pip-container" data-name="system.paths.role.rating" data-value="{{system.paths.role.rating}}">
+                    <i class="pip {{#if (gt system.paths.role.rating 0)}}fas{{else}}far{{/if}} fa-circle" data-index="1"></i>
+                    <i class="pip {{#if (gt system.paths.role.rating 1)}}fas{{else}}far{{/if}} fa-circle" data-index="2"></i>
+                    <i class="pip {{#if (gt system.paths.role.rating 2)}}fas{{else}}far{{/if}} fa-circle" data-index="3"></i>
+                    <i class="pip {{#if (gt system.paths.role.rating 3)}}fas{{else}}far{{/if}} fa-circle" data-index="4"></i>
+                    <i class="pip {{#if (gt system.paths.role.rating 4)}}fas{{else}}far{{/if}} fa-circle" data-index="5"></i>
+                </div>
+            </div>
+        </div>
+
+        {{!-- Society Path --}}
+        <div class="form-group flexcol border p-1" style="border-radius: 5px; background: rgba(0,0,0,0.02);">
+            <label class="font-weight-bold text-blue text-center mb-1">Society Path</label>
+            <input type="text" name="system.paths.society.name" value="{{system.paths.society.name}}" placeholder="e.g. Æon Society..."/>
+            <div class="flexrow flex-center mt-1">
+                <div class="pip-container" data-name="system.paths.society.rating" data-value="{{system.paths.society.rating}}">
+                    <i class="pip {{#if (gt system.paths.society.rating 0)}}fas{{else}}far{{/if}} fa-circle" data-index="1"></i>
+                    <i class="pip {{#if (gt system.paths.society.rating 1)}}fas{{else}}far{{/if}} fa-circle" data-index="2"></i>
+                    <i class="pip {{#if (gt system.paths.society.rating 2)}}fas{{else}}far{{/if}} fa-circle" data-index="3"></i>
+                    <i class="pip {{#if (gt system.paths.society.rating 3)}}fas{{else}}far{{/if}} fa-circle" data-index="4"></i>
+                    <i class="pip {{#if (gt system.paths.society.rating 4)}}fas{{else}}far{{/if}} fa-circle" data-index="5"></i>
+                </div>
+            </div>
+        </div>
+
+    </div>
   </div>
 
   <hr>
@@ -70,7 +125,7 @@
     </div>
   </div>
 
-  {{!-- NEW: Path Contacts Drag-and-Drop List --}}
+  {{!-- Path Contacts Drag-and-Drop List --}}
   <div class="contacts-section mt-1">
       <div class="flexrow flex-between header p-1 border-bottom">
           <h3 class="m-0">Path Contacts</h3>
@@ -87,7 +142,6 @@
                       <h4 class="m-0 rollable" data-roll-type="item">{{item.name}}</h4>
                   </div>
 
-                  {{!-- Displays the rating on the sheet --}}
                   <div class="flexrow align-center">
                       <span class="tag mx-1" style="padding: 2px 8px; font-weight: bold;">Rating: {{item.system.rating}}</span>
                       <div class="item-controls flexrow flex-center ml-1">
