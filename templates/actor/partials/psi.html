@@ -1,72 +1,120 @@
-{{!-- Psion Paradigm Partial --}}
-<div class="paradigm-section">
-  <h3 class="header">Psion Traits</h3>
-
-  {{!-- Psion Background Details --}}
-  <div class="grid grid-2col mb-1">
-    <div class="form-group flexcol">
-      <label for="system.details.psiOrder" class="resource-label font-weight-bold">PSI Order</label>
-      <input type="text" name="system.details.psiOrder" value="{{system.details.psiOrder}}" placeholder="e.g. Orgotek, Legions, ISRA..."/>
-    </div>
-
-    <div class="form-group flexcol">
-      <label for="system.details.aptitude" class="resource-label font-weight-bold">Aptitude</label>
-      <input type="text" name="system.details.aptitude" value="{{system.details.aptitude}}" placeholder="e.g. Telekinesis, Biokinesis..."/>
-    </div>
-  </div>
-  
-  {{!-- Core Psion Stats Grid --}}
-  <div class="grid grid-3col mb-1">
+<div class="psion-section mb-2">
+    <h3 class="header">Psion Traits</h3>
     
-    <div class="flexcol flex-center">
-      <label class="resource-label rollable" data-attribute="psi">PSI Rating</label>
-      <input type="number" name="system.psi.value" value="{{system.psi.value}}" min="0" max="10" data-dtype="Number"/>
-    </div>
-    
-    <div class="flexcol flex-center w-100">
-      <label class="resource-label">PSI Points</label>
-      <div class="flexrow flex-center">
-        <input class="w-50 text-center" type="number" name="system.psiPoints.value" value="{{system.psiPoints.value}}" data-dtype="Number"/>
-        <span class="px-1">/</span>
-        <input class="w-50 text-center" type="number" name="system.psiPoints.max" value="{{system.psiPoints.max}}" data-dtype="Number"/>
-      </div>
+    <div class="grid grid-2col gap-10 mb-1">
+        <div class="form-group flexcol border p-1" style="border-radius: 5px;">
+            <label class="font-weight-bold">PSI Order</label>
+            <input type="text" name="system.psion.order" value="{{system.psion.order}}" placeholder="e.g. Orgotek, Legions, ISRA..."/>
+        </div>
+        <div class="form-group flexcol border p-1" style="border-radius: 5px;">
+            <label class="font-weight-bold">Aptitude</label>
+            <input type="text" name="system.psion.aptitude" value="{{system.psion.aptitude}}" placeholder="e.g. Telekinesis, Biokinesis..."/>
+        </div>
     </div>
 
-    <div class="flexcol flex-center">
-      <label class="resource-label rollable" data-attribute="tolerance">Tolerance</label>
-      <input type="number" name="system.tolerance.value" value="{{system.tolerance.value}}" min="0" max="10" data-dtype="Number"/>
-    </div>
-    
-  </div>
-
-  <hr>
-
-  {{!-- PSI Powers List --}}
-  <div class="flexrow flex-between header p-1 mt-1">
-    <h3 class="m-0">PSI Powers</h3>
-    <a class="item-create" data-type="power" title="Add PSI Power"><i class="fas fa-plus"></i> Add</a>
-  </div>
-  
-  <div class="power-list p-1 border">
-    {{!-- 
-      This uses the same robust drag-and-drop rendering loop as the Nova sheet.
-      Dropping a power from the sidebar will automatically populate this list.
-    --}}
-    {{#if items.power.length}}
-        {{#each items.power as |item id|}}
-        <div class="item flexrow flex-between p-1 border-bottom" data-item-id="{{item._id}}">
-            <div class="item-name flexrow flex-center">
-                <div class="item-image" style="background-image: url('{{item.img}}'); width: 24px; height: 24px; background-size: cover; margin-right: 5px;"></div>
-                <h4 class="m-0 rollable" data-roll-type="item">{{item.name}}</h4>
-            </div>
-            <div class="item-controls flexrow flex-center">
-                <a class="item-control item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>
-                <a class="item-control item-delete" title="Delete Item"><i class="fas fa-trash"></i></a>
+    <div class="grid grid-3col gap-10 align-center mb-1">
+        
+        {{!-- PSI Rating --}}
+        <div class="form-group flexcol flex-center border p-1" style="border-radius: 5px; background: rgba(0,0,0,0.02);">
+            <label class="font-weight-bold text-blue mb-1">PSI Rating</label>
+            <div class="pip-container" data-name="system.psion.psi.value" data-value="{{system.psion.psi.value}}">
+                <i class="pip {{#if (gt system.psion.psi.value 0)}}fas{{else}}far{{/if}} fa-circle" data-index="1"></i>
+                <i class="pip {{#if (gt system.psion.psi.value 1)}}fas{{else}}far{{/if}} fa-circle" data-index="2"></i>
+                <i class="pip {{#if (gt system.psion.psi.value 2)}}fas{{else}}far{{/if}} fa-circle" data-index="3"></i>
+                <i class="pip {{#if (gt system.psion.psi.value 3)}}fas{{else}}far{{/if}} fa-circle" data-index="4"></i>
+                <i class="pip {{#if (gt system.psion.psi.value 4)}}fas{{else}}far{{/if}} fa-circle" data-index="5"></i>
+                <i class="pip {{#if (gt system.psion.psi.value 5)}}fas{{else}}far{{/if}} fa-circle" data-index="6"></i>
+                <i class="pip {{#if (gt system.psion.psi.value 6)}}fas{{else}}far{{/if}} fa-circle" data-index="7"></i>
+                <i class="pip {{#if (gt system.psion.psi.value 7)}}fas{{else}}far{{/if}} fa-circle" data-index="8"></i>
+                <i class="pip {{#if (gt system.psion.psi.value 8)}}fas{{else}}far{{/if}} fa-circle" data-index="9"></i>
+                <i class="pip {{#if (gt system.psion.psi.value 9)}}fas{{else}}far{{/if}} fa-circle" data-index="10"></i>
             </div>
         </div>
-        {{/each}}
-    {{else}}
-        <em style="color: #666;">Drag and drop PSI Powers from the items sidebar here, or click the '+' button above to create a new one.</em>
-    {{/if}}
-  </div>
+
+        {{!-- Stacked PSI Points --}}
+        <div class="form-group flexcol flex-center border p-1" style="border-radius: 5px; background: rgba(0,0,0,0.02);">
+            <label class="font-weight-bold text-blue mb-1">PSI Points</label>
+            
+            <div class="flexrow mb-1 align-center" title="Current PSI Points">
+                <div class="pip-container" data-name="system.psion.psiPoints.value" data-value="{{system.psion.psiPoints.value}}">
+                    <i class="pip {{#if (gt system.psion.psiPoints.value 0)}}fas{{else}}far{{/if}} fa-circle" data-index="1"></i>
+                    <i class="pip {{#if (gt system.psion.psiPoints.value 1)}}fas{{else}}far{{/if}} fa-circle" data-index="2"></i>
+                    <i class="pip {{#if (gt system.psion.psiPoints.value 2)}}fas{{else}}far{{/if}} fa-circle" data-index="3"></i>
+                    <i class="pip {{#if (gt system.psion.psiPoints.value 3)}}fas{{else}}far{{/if}} fa-circle" data-index="4"></i>
+                    <i class="pip {{#if (gt system.psion.psiPoints.value 4)}}fas{{else}}far{{/if}} fa-circle" data-index="5"></i>
+                    <i class="pip {{#if (gt system.psion.psiPoints.value 5)}}fas{{else}}far{{/if}} fa-circle" data-index="6"></i>
+                    <i class="pip {{#if (gt system.psion.psiPoints.value 6)}}fas{{else}}far{{/if}} fa-circle" data-index="7"></i>
+                    <i class="pip {{#if (gt system.psion.psiPoints.value 7)}}fas{{else}}far{{/if}} fa-circle" data-index="8"></i>
+                    <i class="pip {{#if (gt system.psion.psiPoints.value 8)}}fas{{else}}far{{/if}} fa-circle" data-index="9"></i>
+                    <i class="pip {{#if (gt system.psion.psiPoints.value 9)}}fas{{else}}far{{/if}} fa-circle" data-index="10"></i>
+                </div>
+            </div>
+
+            <div class="flexrow align-center" title="Maximum PSI Points">
+                <div class="pip-container" data-name="system.psion.psiPoints.max" data-value="{{system.psion.psiPoints.max}}">
+                    <i class="pip {{#if (gt system.psion.psiPoints.max 0)}}fas{{else}}far{{/if}} fa-square" data-index="1"></i>
+                    <i class="pip {{#if (gt system.psion.psiPoints.max 1)}}fas{{else}}far{{/if}} fa-square" data-index="2"></i>
+                    <i class="pip {{#if (gt system.psion.psiPoints.max 2)}}fas{{else}}far{{/if}} fa-square" data-index="3"></i>
+                    <i class="pip {{#if (gt system.psion.psiPoints.max 3)}}fas{{else}}far{{/if}} fa-square" data-index="4"></i>
+                    <i class="pip {{#if (gt system.psion.psiPoints.max 4)}}fas{{else}}far{{/if}} fa-square" data-index="5"></i>
+                    <i class="pip {{#if (gt system.psion.psiPoints.max 5)}}fas{{else}}far{{/if}} fa-square" data-index="6"></i>
+                    <i class="pip {{#if (gt system.psion.psiPoints.max 6)}}fas{{else}}far{{/if}} fa-square" data-index="7"></i>
+                    <i class="pip {{#if (gt system.psion.psiPoints.max 7)}}fas{{else}}far{{/if}} fa-square" data-index="8"></i>
+                    <i class="pip {{#if (gt system.psion.psiPoints.max 8)}}fas{{else}}far{{/if}} fa-square" data-index="9"></i>
+                    <i class="pip {{#if (gt system.psion.psiPoints.max 9)}}fas{{else}}far{{/if}} fa-square" data-index="10"></i>
+                </div>
+            </div>
+
+        </div>
+
+        {{!-- Tolerance --}}
+        <div class="form-group flexcol flex-center border p-1" style="border-radius: 5px; background: rgba(0,0,0,0.02);">
+            <label class="font-weight-bold text-blue mb-1">Tolerance</label>
+            <div class="pip-container" data-name="system.psion.tolerance.value" data-value="{{system.psion.tolerance.value}}">
+                <i class="pip {{#if (gt system.psion.tolerance.value 0)}}fas{{else}}far{{/if}} fa-circle" data-index="1"></i>
+                <i class="pip {{#if (gt system.psion.tolerance.value 1)}}fas{{else}}far{{/if}} fa-circle" data-index="2"></i>
+                <i class="pip {{#if (gt system.psion.tolerance.value 2)}}fas{{else}}far{{/if}} fa-circle" data-index="3"></i>
+                <i class="pip {{#if (gt system.psion.tolerance.value 3)}}fas{{else}}far{{/if}} fa-circle" data-index="4"></i>
+                <i class="pip {{#if (gt system.psion.tolerance.value 4)}}fas{{else}}far{{/if}} fa-circle" data-index="5"></i>
+                <i class="pip {{#if (gt system.psion.tolerance.value 5)}}fas{{else}}far{{/if}} fa-circle" data-index="6"></i>
+                <i class="pip {{#if (gt system.psion.tolerance.value 6)}}fas{{else}}far{{/if}} fa-circle" data-index="7"></i>
+                <i class="pip {{#if (gt system.psion.tolerance.value 7)}}fas{{else}}far{{/if}} fa-circle" data-index="8"></i>
+                <i class="pip {{#if (gt system.psion.tolerance.value 8)}}fas{{else}}far{{/if}} fa-circle" data-index="9"></i>
+                <i class="pip {{#if (gt system.psion.tolerance.value 9)}}fas{{else}}far{{/if}} fa-circle" data-index="10"></i>
+            </div>
+        </div>
+
+    </div>
+
+    {{!-- Drag-and-Drop PSI Powers Area --}}
+    <div class="powers-section mt-1">
+        <div class="flexrow flex-between header p-1 border-bottom">
+            <h3 class="m-0">PSI Powers</h3>
+            <a class="item-create text-blue" data-type="power" title="Create New Power"><i class="fas fa-plus"></i> Add</a>
+        </div>
+        
+        <div class="power-list p-1 border">
+            {{#if powers.length}}
+                {{#each powers as |item id|}}
+                <div class="item flexrow flex-between p-1 border-bottom align-center" data-item-id="{{item._id}}">
+                    
+                    <div class="item-name flexrow align-center">
+                        <div class="item-image" style="background-image: url('{{item.img}}'); width: 28px; height: 28px; background-size: cover; margin-right: 10px; border-radius: 3px;"></div>
+                        <h4 class="m-0 rollable" data-roll-type="item">{{item.name}}</h4>
+                    </div>
+
+                    <div class="flexrow align-center">
+                        <span class="tag mx-1" style="padding: 2px 8px;">Cost: {{item.system.cost}}</span>
+                        <div class="item-controls flexrow flex-center ml-1">
+                            <a class="item-control item-edit mx-1" title="Edit Item"><i class="fas fa-edit"></i></a>
+                            <a class="item-control item-delete text-red" title="Delete Item"><i class="fas fa-trash"></i></a>
+                        </div>
+                    </div>
+                </div>
+                {{/each}}
+            {{else}}
+                <em style="color: #666;">Drag and drop PSI Powers here, or click '+ Add'.</em>
+            {{/if}}
+        </div>
+    </div>
 </div>
