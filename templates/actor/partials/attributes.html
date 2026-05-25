@@ -1,14 +1,14 @@
 <div class="attributes-section">
   <h3 class="header">Attributes</h3>
   
-  <div class="grid grid-4col gap-5 align-center mb-1">
+  <div class="grid grid-4col gap-5 mb-1" style="align-items: flex-start;">
     
-    {{!-- Row 1: FORCE --}}
-    <div class="flexcol flex-center">
-      <label><input type="checkbox" name="system.favored.force" {{checked system.favored.force}}> Force</label>
+    {{!-- ================= ROW 1: FORCE ================= --}}
+    <div class="flexcol flex-center h-100 p-1">
+      <label><input type="checkbox" name="system.favored.force" {{checked system.favored.force}}> <strong>Force</strong></label>
     </div>
     
-    {{!-- Intellect (Mental) --}}
+    {{!-- Intellect --}}
     <div class="flexcol flex-center p-1 border">
       <label class="attribute-label rollable font-weight-bold" data-attribute="intellect">Intellect</label>
       <div class="pip-container" data-name="system.attributes.intellect.value" data-value="{{system.attributes.intellect.value}}">
@@ -17,8 +17,8 @@
         <i class="pip {{#if (gt system.attributes.intellect.value 2)}}fas{{else}}far{{/if}} fa-circle" data-index="3"></i>
         <i class="pip {{#if (gt system.attributes.intellect.value 3)}}fas{{else}}far{{/if}} fa-circle" data-index="4"></i>
         <i class="pip {{#if (gt system.attributes.intellect.value 4)}}fas{{else}}far{{/if}} fa-circle" data-index="5"></i>
+        <i class="pip {{#if (gt system.attributes.intellect.value 5)}}fas{{else}}far{{/if}} fa-circle" data-index="6"></i>
       </div>
-      {{!-- Optional Mega-Attribute block --}}
       {{#if (eq @root.system.details.characterType "nova")}}
         <label class="attribute-label rollable text-blue font-weight-bold mt-1" data-attribute="mega-intellect">Mega Intellect</label>
         <div class="pip-container" data-name="system.attributes.intellect.mega" data-value="{{system.attributes.intellect.mega}}">
@@ -27,11 +27,12 @@
           <i class="pip {{#if (gt system.attributes.intellect.mega 2)}}fas{{else}}far{{/if}} fa-circle" data-index="3"></i>
           <i class="pip {{#if (gt system.attributes.intellect.mega 3)}}fas{{else}}far{{/if}} fa-circle" data-index="4"></i>
           <i class="pip {{#if (gt system.attributes.intellect.mega 4)}}fas{{else}}far{{/if}} fa-circle" data-index="5"></i>
+          <i class="pip {{#if (gt system.attributes.intellect.mega 5)}}fas{{else}}far{{/if}} fa-circle" data-index="6"></i>
         </div>
       {{/if}}
     </div>
 
-    {{!-- Might (Physical) --}}
+    {{!-- Might --}}
     <div class="flexcol flex-center p-1 border">
       <label class="attribute-label rollable font-weight-bold" data-attribute="might">Might</label>
       <div class="pip-container" data-name="system.attributes.might.value" data-value="{{system.attributes.might.value}}">
@@ -40,6 +41,7 @@
         <i class="pip {{#if (gt system.attributes.might.value 2)}}fas{{else}}far{{/if}} fa-circle" data-index="3"></i>
         <i class="pip {{#if (gt system.attributes.might.value 3)}}fas{{else}}far{{/if}} fa-circle" data-index="4"></i>
         <i class="pip {{#if (gt system.attributes.might.value 4)}}fas{{else}}far{{/if}} fa-circle" data-index="5"></i>
+        <i class="pip {{#if (gt system.attributes.might.value 5)}}fas{{else}}far{{/if}} fa-circle" data-index="6"></i>
       </div>
       {{#if (eq @root.system.details.characterType "nova")}}
         <label class="attribute-label rollable text-blue font-weight-bold mt-1" data-attribute="mega-might">Mega Might</label>
@@ -47,12 +49,14 @@
           <i class="pip {{#if (gt system.attributes.might.mega 0)}}fas{{else}}far{{/if}} fa-circle" data-index="1"></i>
           <i class="pip {{#if (gt system.attributes.might.mega 1)}}fas{{else}}far{{/if}} fa-circle" data-index="2"></i>
           <i class="pip {{#if (gt system.attributes.might.mega 2)}}fas{{else}}far{{/if}} fa-circle" data-index="3"></i>
+          <i class="pip {{#if (gt system.attributes.might.mega 3)}}fas{{else}}far{{/if}} fa-circle" data-index="4"></i>
           <i class="pip {{#if (gt system.attributes.might.mega 4)}}fas{{else}}far{{/if}} fa-circle" data-index="5"></i>
+          <i class="pip {{#if (gt system.attributes.might.mega 5)}}fas{{else}}far{{/if}} fa-circle" data-index="6"></i>
         </div>
       {{/if}}
     </div>
 
-    {{!-- Presence (Social) --}}
+    {{!-- Presence --}}
     <div class="flexcol flex-center p-1 border">
       <label class="attribute-label rollable font-weight-bold" data-attribute="presence">Presence</label>
       <div class="pip-container" data-name="system.attributes.presence.value" data-value="{{system.attributes.presence.value}}">
@@ -61,6 +65,7 @@
         <i class="pip {{#if (gt system.attributes.presence.value 2)}}fas{{else}}far{{/if}} fa-circle" data-index="3"></i>
         <i class="pip {{#if (gt system.attributes.presence.value 3)}}fas{{else}}far{{/if}} fa-circle" data-index="4"></i>
         <i class="pip {{#if (gt system.attributes.presence.value 4)}}fas{{else}}far{{/if}} fa-circle" data-index="5"></i>
+        <i class="pip {{#if (gt system.attributes.presence.value 5)}}fas{{else}}far{{/if}} fa-circle" data-index="6"></i>
       </div>
       {{#if (eq @root.system.details.characterType "nova")}}
         <label class="attribute-label rollable text-blue font-weight-bold mt-1" data-attribute="mega-presence">Mega Presence</label>
@@ -70,12 +75,164 @@
           <i class="pip {{#if (gt system.attributes.presence.mega 2)}}fas{{else}}far{{/if}} fa-circle" data-index="3"></i>
           <i class="pip {{#if (gt system.attributes.presence.mega 3)}}fas{{else}}far{{/if}} fa-circle" data-index="4"></i>
           <i class="pip {{#if (gt system.attributes.presence.mega 4)}}fas{{else}}far{{/if}} fa-circle" data-index="5"></i>
+          <i class="pip {{#if (gt system.attributes.presence.mega 5)}}fas{{else}}far{{/if}} fa-circle" data-index="6"></i>
         </div>
       {{/if}}
     </div>
+
+    {{!-- ================= ROW 2: FINESSE ================= --}}
+    <div class="flexcol flex-center h-100 p-1">
+      <label><input type="checkbox" name="system.favored.finesse" {{checked system.favored.finesse}}> <strong>Finesse</strong></label>
+    </div>
     
-    {{!-- Repeat this pattern for Row 2 (Finesse) and Row 3 (Resilience) --}}
-    {{!-- Since the logic is identical, you will swap out Intellect/Might/Presence for Cunning/Dexterity/Manipulation, etc. --}}
+    {{!-- Cunning --}}
+    <div class="flexcol flex-center p-1 border">
+      <label class="attribute-label rollable font-weight-bold" data-attribute="cunning">Cunning</label>
+      <div class="pip-container" data-name="system.attributes.cunning.value" data-value="{{system.attributes.cunning.value}}">
+        <i class="pip {{#if (gt system.attributes.cunning.value 0)}}fas{{else}}far{{/if}} fa-circle" data-index="1"></i>
+        <i class="pip {{#if (gt system.attributes.cunning.value 1)}}fas{{else}}far{{/if}} fa-circle" data-index="2"></i>
+        <i class="pip {{#if (gt system.attributes.cunning.value 2)}}fas{{else}}far{{/if}} fa-circle" data-index="3"></i>
+        <i class="pip {{#if (gt system.attributes.cunning.value 3)}}fas{{else}}far{{/if}} fa-circle" data-index="4"></i>
+        <i class="pip {{#if (gt system.attributes.cunning.value 4)}}fas{{else}}far{{/if}} fa-circle" data-index="5"></i>
+        <i class="pip {{#if (gt system.attributes.cunning.value 5)}}fas{{else}}far{{/if}} fa-circle" data-index="6"></i>
+      </div>
+      {{#if (eq @root.system.details.characterType "nova")}}
+        <label class="attribute-label rollable text-blue font-weight-bold mt-1" data-attribute="mega-cunning">Mega Cunning</label>
+        <div class="pip-container" data-name="system.attributes.cunning.mega" data-value="{{system.attributes.cunning.mega}}">
+          <i class="pip {{#if (gt system.attributes.cunning.mega 0)}}fas{{else}}far{{/if}} fa-circle" data-index="1"></i>
+          <i class="pip {{#if (gt system.attributes.cunning.mega 1)}}fas{{else}}far{{/if}} fa-circle" data-index="2"></i>
+          <i class="pip {{#if (gt system.attributes.cunning.mega 2)}}fas{{else}}far{{/if}} fa-circle" data-index="3"></i>
+          <i class="pip {{#if (gt system.attributes.cunning.mega 3)}}fas{{else}}far{{/if}} fa-circle" data-index="4"></i>
+          <i class="pip {{#if (gt system.attributes.cunning.mega 4)}}fas{{else}}far{{/if}} fa-circle" data-index="5"></i>
+          <i class="pip {{#if (gt system.attributes.cunning.mega 5)}}fas{{else}}far{{/if}} fa-circle" data-index="6"></i>
+        </div>
+      {{/if}}
+    </div>
+
+    {{!-- Dexterity --}}
+    <div class="flexcol flex-center p-1 border">
+      <label class="attribute-label rollable font-weight-bold" data-attribute="dexterity">Dexterity</label>
+      <div class="pip-container" data-name="system.attributes.dexterity.value" data-value="{{system.attributes.dexterity.value}}">
+        <i class="pip {{#if (gt system.attributes.dexterity.value 0)}}fas{{else}}far{{/if}} fa-circle" data-index="1"></i>
+        <i class="pip {{#if (gt system.attributes.dexterity.value 1)}}fas{{else}}far{{/if}} fa-circle" data-index="2"></i>
+        <i class="pip {{#if (gt system.attributes.dexterity.value 2)}}fas{{else}}far{{/if}} fa-circle" data-index="3"></i>
+        <i class="pip {{#if (gt system.attributes.dexterity.value 3)}}fas{{else}}far{{/if}} fa-circle" data-index="4"></i>
+        <i class="pip {{#if (gt system.attributes.dexterity.value 4)}}fas{{else}}far{{/if}} fa-circle" data-index="5"></i>
+        <i class="pip {{#if (gt system.attributes.dexterity.value 5)}}fas{{else}}far{{/if}} fa-circle" data-index="6"></i>
+      </div>
+      {{#if (eq @root.system.details.characterType "nova")}}
+        <label class="attribute-label rollable text-blue font-weight-bold mt-1" data-attribute="mega-dexterity">Mega Dexterity</label>
+        <div class="pip-container" data-name="system.attributes.dexterity.mega" data-value="{{system.attributes.dexterity.mega}}">
+          <i class="pip {{#if (gt system.attributes.dexterity.mega 0)}}fas{{else}}far{{/if}} fa-circle" data-index="1"></i>
+          <i class="pip {{#if (gt system.attributes.dexterity.mega 1)}}fas{{else}}far{{/if}} fa-circle" data-index="2"></i>
+          <i class="pip {{#if (gt system.attributes.dexterity.mega 2)}}fas{{else}}far{{/if}} fa-circle" data-index="3"></i>
+          <i class="pip {{#if (gt system.attributes.dexterity.mega 3)}}fas{{else}}far{{/if}} fa-circle" data-index="4"></i>
+          <i class="pip {{#if (gt system.attributes.dexterity.mega 4)}}fas{{else}}far{{/if}} fa-circle" data-index="5"></i>
+          <i class="pip {{#if (gt system.attributes.dexterity.mega 5)}}fas{{else}}far{{/if}} fa-circle" data-index="6"></i>
+        </div>
+      {{/if}}
+    </div>
+
+    {{!-- Manipulation --}}
+    <div class="flexcol flex-center p-1 border">
+      <label class="attribute-label rollable font-weight-bold" data-attribute="manipulation">Manipulation</label>
+      <div class="pip-container" data-name="system.attributes.manipulation.value" data-value="{{system.attributes.manipulation.value}}">
+        <i class="pip {{#if (gt system.attributes.manipulation.value 0)}}fas{{else}}far{{/if}} fa-circle" data-index="1"></i>
+        <i class="pip {{#if (gt system.attributes.manipulation.value 1)}}fas{{else}}far{{/if}} fa-circle" data-index="2"></i>
+        <i class="pip {{#if (gt system.attributes.manipulation.value 2)}}fas{{else}}far{{/if}} fa-circle" data-index="3"></i>
+        <i class="pip {{#if (gt system.attributes.manipulation.value 3)}}fas{{else}}far{{/if}} fa-circle" data-index="4"></i>
+        <i class="pip {{#if (gt system.attributes.manipulation.value 4)}}fas{{else}}far{{/if}} fa-circle" data-index="5"></i>
+        <i class="pip {{#if (gt system.attributes.manipulation.value 5)}}fas{{else}}far{{/if}} fa-circle" data-index="6"></i>
+      </div>
+      {{#if (eq @root.system.details.characterType "nova")}}
+        <label class="attribute-label rollable text-blue font-weight-bold mt-1" data-attribute="mega-manipulation">Mega Manipulation</label>
+        <div class="pip-container" data-name="system.attributes.manipulation.mega" data-value="{{system.attributes.manipulation.mega}}">
+          <i class="pip {{#if (gt system.attributes.manipulation.mega 0)}}fas{{else}}far{{/if}} fa-circle" data-index="1"></i>
+          <i class="pip {{#if (gt system.attributes.manipulation.mega 1)}}fas{{else}}far{{/if}} fa-circle" data-index="2"></i>
+          <i class="pip {{#if (gt system.attributes.manipulation.mega 2)}}fas{{else}}far{{/if}} fa-circle" data-index="3"></i>
+          <i class="pip {{#if (gt system.attributes.manipulation.mega 3)}}fas{{else}}far{{/if}} fa-circle" data-index="4"></i>
+          <i class="pip {{#if (gt system.attributes.manipulation.mega 4)}}fas{{else}}far{{/if}} fa-circle" data-index="5"></i>
+          <i class="pip {{#if (gt system.attributes.manipulation.mega 5)}}fas{{else}}far{{/if}} fa-circle" data-index="6"></i>
+        </div>
+      {{/if}}
+    </div>
+
+    {{!-- ================= ROW 3: RESILIENCE ================= --}}
+    <div class="flexcol flex-center h-100 p-1">
+      <label><input type="checkbox" name="system.favored.resilience" {{checked system.favored.resilience}}> <strong>Resilience</strong></label>
+    </div>
     
+    {{!-- Resolve --}}
+    <div class="flexcol flex-center p-1 border">
+      <label class="attribute-label rollable font-weight-bold" data-attribute="resolve">Resolve</label>
+      <div class="pip-container" data-name="system.attributes.resolve.value" data-value="{{system.attributes.resolve.value}}">
+        <i class="pip {{#if (gt system.attributes.resolve.value 0)}}fas{{else}}far{{/if}} fa-circle" data-index="1"></i>
+        <i class="pip {{#if (gt system.attributes.resolve.value 1)}}fas{{else}}far{{/if}} fa-circle" data-index="2"></i>
+        <i class="pip {{#if (gt system.attributes.resolve.value 2)}}fas{{else}}far{{/if}} fa-circle" data-index="3"></i>
+        <i class="pip {{#if (gt system.attributes.resolve.value 3)}}fas{{else}}far{{/if}} fa-circle" data-index="4"></i>
+        <i class="pip {{#if (gt system.attributes.resolve.value 4)}}fas{{else}}far{{/if}} fa-circle" data-index="5"></i>
+        <i class="pip {{#if (gt system.attributes.resolve.value 5)}}fas{{else}}far{{/if}} fa-circle" data-index="6"></i>
+      </div>
+      {{#if (eq @root.system.details.characterType "nova")}}
+        <label class="attribute-label rollable text-blue font-weight-bold mt-1" data-attribute="mega-resolve">Mega Resolve</label>
+        <div class="pip-container" data-name="system.attributes.resolve.mega" data-value="{{system.attributes.resolve.mega}}">
+          <i class="pip {{#if (gt system.attributes.resolve.mega 0)}}fas{{else}}far{{/if}} fa-circle" data-index="1"></i>
+          <i class="pip {{#if (gt system.attributes.resolve.mega 1)}}fas{{else}}far{{/if}} fa-circle" data-index="2"></i>
+          <i class="pip {{#if (gt system.attributes.resolve.mega 2)}}fas{{else}}far{{/if}} fa-circle" data-index="3"></i>
+          <i class="pip {{#if (gt system.attributes.resolve.mega 3)}}fas{{else}}far{{/if}} fa-circle" data-index="4"></i>
+          <i class="pip {{#if (gt system.attributes.resolve.mega 4)}}fas{{else}}far{{/if}} fa-circle" data-index="5"></i>
+          <i class="pip {{#if (gt system.attributes.resolve.mega 5)}}fas{{else}}far{{/if}} fa-circle" data-index="6"></i>
+        </div>
+      {{/if}}
+    </div>
+
+    {{!-- Stamina --}}
+    <div class="flexcol flex-center p-1 border">
+      <label class="attribute-label rollable font-weight-bold" data-attribute="stamina">Stamina</label>
+      <div class="pip-container" data-name="system.attributes.stamina.value" data-value="{{system.attributes.stamina.value}}">
+        <i class="pip {{#if (gt system.attributes.stamina.value 0)}}fas{{else}}far{{/if}} fa-circle" data-index="1"></i>
+        <i class="pip {{#if (gt system.attributes.stamina.value 1)}}fas{{else}}far{{/if}} fa-circle" data-index="2"></i>
+        <i class="pip {{#if (gt system.attributes.stamina.value 2)}}fas{{else}}far{{/if}} fa-circle" data-index="3"></i>
+        <i class="pip {{#if (gt system.attributes.stamina.value 3)}}fas{{else}}far{{/if}} fa-circle" data-index="4"></i>
+        <i class="pip {{#if (gt system.attributes.stamina.value 4)}}fas{{else}}far{{/if}} fa-circle" data-index="5"></i>
+        <i class="pip {{#if (gt system.attributes.stamina.value 5)}}fas{{else}}far{{/if}} fa-circle" data-index="6"></i>
+      </div>
+      {{#if (eq @root.system.details.characterType "nova")}}
+        <label class="attribute-label rollable text-blue font-weight-bold mt-1" data-attribute="mega-stamina">Mega Stamina</label>
+        <div class="pip-container" data-name="system.attributes.stamina.mega" data-value="{{system.attributes.stamina.mega}}">
+          <i class="pip {{#if (gt system.attributes.stamina.mega 0)}}fas{{else}}far{{/if}} fa-circle" data-index="1"></i>
+          <i class="pip {{#if (gt system.attributes.stamina.mega 1)}}fas{{else}}far{{/if}} fa-circle" data-index="2"></i>
+          <i class="pip {{#if (gt system.attributes.stamina.mega 2)}}fas{{else}}far{{/if}} fa-circle" data-index="3"></i>
+          <i class="pip {{#if (gt system.attributes.stamina.mega 3)}}fas{{else}}far{{/if}} fa-circle" data-index="4"></i>
+          <i class="pip {{#if (gt system.attributes.stamina.mega 4)}}fas{{else}}far{{/if}} fa-circle" data-index="5"></i>
+          <i class="pip {{#if (gt system.attributes.stamina.mega 5)}}fas{{else}}far{{/if}} fa-circle" data-index="6"></i>
+        </div>
+      {{/if}}
+    </div>
+
+    {{!-- Composure --}}
+    <div class="flexcol flex-center p-1 border">
+      <label class="attribute-label rollable font-weight-bold" data-attribute="composure">Composure</label>
+      <div class="pip-container" data-name="system.attributes.composure.value" data-value="{{system.attributes.composure.value}}">
+        <i class="pip {{#if (gt system.attributes.composure.value 0)}}fas{{else}}far{{/if}} fa-circle" data-index="1"></i>
+        <i class="pip {{#if (gt system.attributes.composure.value 1)}}fas{{else}}far{{/if}} fa-circle" data-index="2"></i>
+        <i class="pip {{#if (gt system.attributes.composure.value 2)}}fas{{else}}far{{/if}} fa-circle" data-index="3"></i>
+        <i class="pip {{#if (gt system.attributes.composure.value 3)}}fas{{else}}far{{/if}} fa-circle" data-index="4"></i>
+        <i class="pip {{#if (gt system.attributes.composure.value 4)}}fas{{else}}far{{/if}} fa-circle" data-index="5"></i>
+        <i class="pip {{#if (gt system.attributes.composure.value 5)}}fas{{else}}far{{/if}} fa-circle" data-index="6"></i>
+      </div>
+      {{#if (eq @root.system.details.characterType "nova")}}
+        <label class="attribute-label rollable text-blue font-weight-bold mt-1" data-attribute="mega-composure">Mega Composure</label>
+        <div class="pip-container" data-name="system.attributes.composure.mega" data-value="{{system.attributes.composure.mega}}">
+          <i class="pip {{#if (gt system.attributes.composure.mega 0)}}fas{{else}}far{{/if}} fa-circle" data-index="1"></i>
+          <i class="pip {{#if (gt system.attributes.composure.mega 1)}}fas{{else}}far{{/if}} fa-circle" data-index="2"></i>
+          <i class="pip {{#if (gt system.attributes.composure.mega 2)}}fas{{else}}far{{/if}} fa-circle" data-index="3"></i>
+          <i class="pip {{#if (gt system.attributes.composure.mega 3)}}fas{{else}}far{{/if}} fa-circle" data-index="4"></i>
+          <i class="pip {{#if (gt system.attributes.composure.mega 4)}}fas{{else}}far{{/if}} fa-circle" data-index="5"></i>
+          <i class="pip {{#if (gt system.attributes.composure.mega 5)}}fas{{else}}far{{/if}} fa-circle" data-index="6"></i>
+        </div>
+      {{/if}}
+    </div>
+
   </div>
 </div>
