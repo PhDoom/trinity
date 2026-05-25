@@ -8,7 +8,7 @@ export class TrinityActorSheet extends ActorSheet {
   /** @override */
   static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
-      classes: ["trinity-app", "sheet", "actor"], // Added V13 CSS namespace
+      classes: ["trinity-app", "sheet", "actor"], 
       template: "systems/trinity/templates/actor/trinity-actor-sheet_1.html",
       width: 800,
       height: 800,
@@ -18,7 +18,6 @@ export class TrinityActorSheet extends ActorSheet {
 
   /** @override */
   get template() {
-    // Dynamically load the NPC sheet if the actor is an NPC
     if (this.actor.type === "npc") {
       return "systems/trinity/templates/actor/trinity-actor-sheet-npc_1.html";
     }
@@ -29,12 +28,10 @@ export class TrinityActorSheet extends ActorSheet {
   async getData(options) {
     const context = await super.getData(options);
     
-    // Foundry V13 Best Practice: Use toObject() to prevent strict data-access warnings
     const actorData = this.actor.toObject(false);
     context.system = actorData.system;
     context.flags = actorData.flags;
 
-    // V13 Rich Text Preparation
     context.enrichedBiography = await TextEditor.enrichHTML(context.system.biography || "", {
       async: true,
       secrets: this.actor.isOwner,
@@ -68,7 +65,7 @@ export class TrinityActorSheet extends ActorSheet {
     const conditions = [];
     const bonds = [];
     const contacts = [];
-    const gifts = []; // Initialized Gifts container
+    const gifts = []; 
 
     for (let i of context.items) {
       i.img = i.img || DEFAULT_TOKEN; 
@@ -82,7 +79,7 @@ export class TrinityActorSheet extends ActorSheet {
       else if (i.type === 'condition') conditions.push(i);
       else if (i.type === 'bond') bonds.push(i);
       else if (i.type === 'contact') contacts.push(i);
-      else if (i.type === 'gift') gifts.push(i); // Sorting logic for Gifts
+      else if (i.type === 'gift') gifts.push(i); 
     }
 
     context.gear = gear;
@@ -94,7 +91,7 @@ export class TrinityActorSheet extends ActorSheet {
     context.conditions = conditions;
     context.bonds = bonds;
     context.contacts = contacts;
-    context.gifts = gifts; // Assigned to context for gifts.html
+    context.gifts = gifts; 
   }
 
   /** @override */
@@ -119,7 +116,6 @@ export class TrinityActorSheet extends ActorSheet {
     html.find('.rollable').click(this._onRoll.bind(this));
     html.find('.roll-power').click(this._onItemRoll.bind(this));
 
-    // --- NEW: INTERACTIVE DOTS & HEALTH LISTENERS ---
     // Listen for clicks on the visual pips/dots
     html.find('.pip').click(this._onPipClick.bind(this));
 
@@ -169,13 +165,36 @@ export class TrinityActorSheet extends ActorSheet {
     }
   }
 
-  // ==========================================
-  // --- NEW: INTERACTIVE DOTS & HEALTH LOGIC ---
-  // ==========================================
-
   /** Handle clicking on a pip/dot to set the value */
   _onPipClick(event) {
     event.preventDefault();
     const element = event.currentTarget;
     const field = element.parentElement.dataset.name;
-    const
+    const currentValue = Number(element.parentElement.dataset.value);
+    const clickedIndex = Number(element.dataset.index);
+
+    // If clicking the current value, reduce it by 1 (allows setting to 0)
+    const newValue = (currentValue === clickedIndex) ? clickedIndex - 1 : clickedIndex;
+    
+    return this.document.update({ [field]: newValue });
+  }
+
+  /** Handle adding an extra Bruised or Injured box (Left-click) */
+  _onAddHealthBox(event) {
+    event.preventDefault();
+    const type = event.currentTarget.dataset.type; 
+    const currentMax = this.document.system.health[type].max;
+    return this.document.update({ [`system.health.${type}.max`]: currentMax + 1 });
+  }
+
+  /** Handle removing an extra Health box (Right-click) */
+  _onRemoveHealthBox(event) {
+    event.preventDefault();
+    const type = event.currentTarget.dataset.type;
+    const currentMax = this.document.system.health[type].max;
+    // Don't allow it to go below 0 max boxes
+    if (currentMax > 0) {
+      return this.document.update({ [`system.health.${type}.max`]: currentMax - 1 });
+    }
+  }
+}
