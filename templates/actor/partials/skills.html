@@ -1,28 +1,22 @@
-{{!-- Skills Partial - Foundry V13 Compliant --}}
-<div class="skills-section mb-2">
+<div class="skills-section">
   <h3 class="header">Skills</h3>
   
-  <div class="skills-list grid grid-2col border p-1">
-    {{!-- V13 Dynamic Iteration: Loops through the skills object in template.json --}}
+  <div class="grid grid-2col gap-5">
+    {{!-- Loop directly through system.skills --}}
     {{#each system.skills as |skill key|}}
-    <div class="skill-item flexrow flex-between flex-center p-1 border-bottom-dashed">
+    <div class="flexrow flex-between align-center border-bottom p-1">
+      <label class="attribute-label rollable font-weight-bold" data-attribute="{{key}}">{{localize skill.label}}</label>
       
-      {{!-- Label with rollable hook and data-skill for JS listener --}}
-      <label class="skill-label rollable font-weight-bold" 
-             data-skill="{{key}}" 
-             title="Roll {{skill.label}}">
-        {{skill.label}}
-      </label>
-
-      {{!-- V13 Path: system.skills.{{key}}.value --}}
-      <input type="number" 
-             name="system.skills.{{key}}.value" 
-             value="{{skill.value}}" 
-             data-dtype="Number" 
-             style="max-width: 2.5rem; text-align: center;" 
-             placeholder="0" />
-             
+      {{!-- The universal pip-container logic built in JS handles this perfectly! --}}
+      <div class="pip-container" data-name="system.skills.{{key}}.value" data-value="{{skill.value}}">
+        <i class="pip {{#if (gt skill.value 0)}}fas{{else}}far{{/if}} fa-circle" data-index="1"></i>
+        <i class="pip {{#if (gt skill.value 1)}}fas{{else}}far{{/if}} fa-circle" data-index="2"></i>
+        <i class="pip {{#if (gt skill.value 2)}}fas{{else}}far{{/if}} fa-circle" data-index="3"></i>
+        <i class="pip {{#if (gt skill.value 3)}}fas{{else}}far{{/if}} fa-circle" data-index="4"></i>
+        <i class="pip {{#if (gt skill.value 4)}}fas{{else}}far{{/if}} fa-circle" data-index="5"></i>
+      </div>
     </div>
     {{/each}}
   </div>
+
 </div>
