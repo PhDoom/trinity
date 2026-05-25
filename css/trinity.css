@@ -29,6 +29,7 @@
     .grid { display: grid; gap: 10px; }
     .grid-2col { grid-template-columns: repeat(2, 1fr); }
     .grid-3col { grid-template-columns: repeat(3, 1fr); }
+    .grid-4col { grid-template-columns: repeat(4, 1fr); }
 
     /* --- Forms & Inputs --- */
     .form-group { margin-bottom: 5px; }
@@ -119,5 +120,26 @@
     .vital-value {
         font-size: 1.2em;
         font-weight: bold;
+    }
+
+    /* --- Interactive Pips & Dots --- */
+    .pip-container .pip {
+        cursor: pointer;
+        color: #333;
+        margin: 0 1px;
+    }
+    
+    .pip-container .pip:hover {
+        color: var(--trinity-blue);
+        text-shadow: 0 0 5px rgba(42, 76, 110, 0.5);
+    }
+    
+    /* Adds a little visual flair to the Add/Remove health box buttons */
+    .add-health-box {
+        cursor: pointer;
+        font-size: 0.9em;
+    }
+    .add-health-box:hover {
+        text-shadow: 0 0 5px var(--trinity-blue);
     }
 }
