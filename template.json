@@ -39,6 +39,11 @@
       "templates": ["base"],
       "concept": "",
       "allegiance": "",
+      "paths": {
+        "origin": { "name": "", "rating": 1 },
+        "role": { "name": "", "rating": 1 },
+        "society": { "name": "", "rating": 1 }
+      },
       "experience": { "unspent": 0, "total": 0 },
       "aspirations": {
         "short1": "",
@@ -127,7 +132,6 @@
       "weapon", 
       "armor", 
       "edge", 
-      "path", 
       "power", 
       "action", 
       "condition", 
@@ -152,7 +156,6 @@
       "isMegaEdge": false, 
       "prerequisite": "" 
     },
-    "path": { "templates": ["baseItem"], "rating": 1, "type": "" },
     "power": { 
       "templates": ["baseItem"], 
       "value": 0, 
