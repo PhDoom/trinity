@@ -44,6 +44,11 @@
         "role": { "name": "", "rating": 1 },
         "society": { "name": "", "rating": 1 }
       },
+      "facets": {
+        "destructive": { "name": "", "rating": 0 },
+        "intuitive": { "name": "", "rating": 0 },
+        "reflective": { "name": "", "rating": 0 }
+      },
       "experience": { "unspent": 0, "total": 0 },
       "aspirations": {
         "short1": "",
