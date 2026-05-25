@@ -35,7 +35,7 @@
                 <div>{{> "systems/trinity/templates/actor/partials/skills.html"}}</div>
             </div>
             
-            {{!-- NEW: Facets explicitly placed under Attributes & Skills --}}
+            {{!-- Facets explicitly placed under Attributes & Skills --}}
             {{> "systems/trinity/templates/actor/partials/facets.html"}}
             
             {{> "systems/trinity/templates/actor/partials/edges.html"}}
@@ -50,12 +50,12 @@
             {{/if}}
             
             {{#if (eq system.details.characterType "talent")}}
-                {{> "systems/trinity/templates/actor/partials/talent.html"}}
-                {{!-- Gifts stand alone now since Facets moved --}}
+                {{!-- Inspiration moved to the top! The redundant talent.html partial was removed from here. --}}
+                {{> "systems/trinity/templates/actor/partials/inspiration.html"}}
+                
                 <div class="mt-1">
                     {{> "systems/trinity/templates/actor/partials/gifts.html"}}
                 </div>
-                {{> "systems/trinity/templates/actor/partials/inspiration.html"}}
             {{/if}}
             
             {{#if (eq system.details.characterType "nova")}}
