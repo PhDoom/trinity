@@ -9,10 +9,21 @@
           "resilience": false
         },
         "health": {
-          "bruised": { "value": 0, "max": 1 },
-          "injured": { "value": 0, "max": 1 },
-          "maimed": { "value": false },
-          "takenOut": { "value": false }
+          "bruised1": { "active": false, "desc": "" },
+          "bruised2": { "active": false, "desc": "" },
+          "bruised3": { "active": false, "desc": "" },
+          "bruised4": { "active": false, "desc": "" },
+          "bruised5": { "active": false, "desc": "" },
+          "bruised6": { "active": false, "desc": "" },
+          "bruised7": { "active": false, "desc": "" },
+          "bruised8": { "active": false, "desc": "" },
+          "bruised9": { "active": false, "desc": "" },
+          "bruised10": { "active": false, "desc": "" },
+          "bruised11": { "active": false, "desc": "" },
+          "injured1": { "active": false, "desc": "" },
+          "injured2": { "active": false, "desc": "" },
+          "maimed": { "active": false, "desc": "" },
+          "takenOut": { "active": false }
         },
         "defense": { "value": 0 },
         "resilience": { "value": 0 },
