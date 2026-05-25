@@ -1,45 +1,80 @@
-{{!-- Trinity NPC Secondary Sheet - Foundry V13 Compliant --}}
-<form class="trinity-app trinity-actor-sheet-npc-secondary {{cssClass}}" autocomplete="off">
+<form class="trinity-app {{cssClass}} flexcol" autocomplete="off">
     
-    {{!-- Secondary View Header --}}
-    <header class="trinity-flexrow p-2 border-bottom">
-        <h3 class="m-0">Faction & Lore</h3>
+    {{!-- SHEET HEADER --}}
+    <header class="sheet-header flexrow">
+        <img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="120" width="120"/>
+        <div class="header-fields flexcol">
+            <h1 class="charname">
+                <input name="name" type="text" value="{{actor.name}}" placeholder="NPC Name"/>
+            </h1>
+            {{!-- Optional: Inject NPC quick-edit or summary partial here --}}
+            {{> "systems/trinity/templates/actor/partials-npc/npc-edit.html"}}
+        </div>
     </header>
 
-    {{!-- Advanced Data Grid --}}
-    <section class="trinity-grid trinity-grid-2col p-2 gap-10">
-        
-        {{!-- Faction Info --}}
-        <div class="trinity-flexcol border p-1">
-            <h4 class="border-bottom pb-1 mb-1">Affiliation</h4>
-            <div class="trinity-flexcol p-1">
-                <label class="small-label">Faction</label>
-                <input name="system.details.faction" type="text" value="{{system.details.faction}}" class="w-100"/>
-            </div>
-            <div class="trinity-flexcol p-1">
-                <label class="small-label">Rank / Title</label>
-                <input name="system.details.rank" type="text" value="{{system.details.rank}}" class="w-100"/>
+    {{!-- TAB NAVIGATION --}}
+    <nav class="sheet-tabs tabs" data-group="primary">
+        <a class="item" data-tab="main">Main Info</a>
+        <a class="item" data-tab="stats">Stats & Combat</a>
+        <a class="item" data-tab="lore">Faction & Lore</a>
+    </nav>
+
+    {{!-- SHEET BODY --}}
+    <section class="sheet-body">
+
+        {{!-- Main Info Tab --}}
+        <div class="tab main" data-group="primary" data-tab="main">
+            {{> "systems/trinity/templates/actor/partials-npc/npc-main.html"}}
+        </div>
+
+        {{!-- Stats & Combat Tab --}}
+        <div class="tab stats" data-group="primary" data-tab="stats">
+            <div class="grid grid-2col">
+                <div>{{> "systems/trinity/templates/actor/partials-npc/npc-attributes.html"}}</div>
+                <div>{{> "systems/trinity/templates/actor/partials-npc/npc-stats.html"}}</div>
             </div>
         </div>
 
-        {{!-- Behavioral Notes --}}
-        <div class="trinity-flexcol border p-1">
-            <h4 class="border-bottom pb-1 mb-1">Behavior</h4>
-            <div class="trinity-flexrow trinity-flex-between p-1">
-                <label class="small">Aggressive</label>
-                <input type="checkbox" name="system.behavior.aggressive" {{checked system.behavior.aggressive}}/>
-            </div>
-            <div class="trinity-flexrow trinity-flex-between p-1">
-                <label class="small">Uses Cover</label>
-                <input type="checkbox" name="system.behavior.usesCover" {{checked system.behavior.usesCover}}/>
-            </div>
+        {{!-- Faction & Lore Tab (The code you provided goes here!) --}}
+        <div class="tab lore" data-group="primary" data-tab="lore">
+            <header class="flexrow p-2 border-bottom">
+                <h3 class="m-0">Faction & Lore</h3>
+            </header>
+
+            <section class="grid grid-2col p-2 gap-10">
+                {{!-- Faction Info --}}
+                <div class="flexcol border p-1">
+                    <h4 class="border-bottom pb-1 mb-1">Affiliation</h4>
+                    <div class="flexcol p-1">
+                        <label class="small-label">Faction</label>
+                        <input name="system.details.faction" type="text" value="{{system.details.faction}}" class="w-100"/>
+                    </div>
+                    <div class="flexcol p-1">
+                        <label class="small-label">Rank / Title</label>
+                        <input name="system.details.rank" type="text" value="{{system.details.rank}}" class="w-100"/>
+                    </div>
+                </div>
+
+                {{!-- Behavioral Notes --}}
+                <div class="flexcol border p-1">
+                    <h4 class="border-bottom pb-1 mb-1">Behavior</h4>
+                    <div class="flexrow flex-between p-1">
+                        <label class="small">Aggressive</label>
+                        <input type="checkbox" name="system.behavior.aggressive" {{checked system.behavior.aggressive}}/>
+                    </div>
+                    <div class="flexrow flex-between p-1">
+                        <label class="small">Uses Cover</label>
+                        <input type="checkbox" name="system.behavior.usesCover" {{checked system.behavior.usesCover}}/>
+                    </div>
+                </div>
+            </section>
+
+            {{!-- Detailed Description Area --}}
+            <section class="p-2">
+                <label class="small-label font-weight-bold">Background Lore</label>
+                {{editor enrichedLore target="system.lore" button=true owner=owner editable=editable engine="prosemirror"}}
+            </section>
         </div>
-    </section>
 
-    {{!-- Detailed Description Area --}}
-    <section class="p-2">
-        <label class="small-label font-weight-bold">Background Lore</label>
-        {{editor enrichedLore target="system.lore" button=true owner=owner editable=editable engine="prosemirror"}}
     </section>
-
 </form>
