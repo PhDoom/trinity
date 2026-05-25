@@ -7,16 +7,15 @@
             <h1 class="charname">
                 <input name="name" type="text" value="{{actor.name}}" placeholder="Character Name"/>
             </h1>
-            {{!-- You can inject a top-level partial here if you have one, like healthboxes --}}
             {{> "systems/trinity/templates/actor/partials/healthboxes.html"}}
         </div>
     </header>
 
-    {{!-- TAB NAVIGATION --}}
-    {{!-- The 'data-group' must match the 'tabs' setup in your trinity-actor-sheet.js defaultOptions --}}
+    {{!-- TAB NAVIGATION (Notice the new Powers tab!) --}}
     <nav class="sheet-tabs tabs" data-group="primary">
         <a class="item" data-tab="character">Character</a>
         <a class="item" data-tab="attributes">Stats & Skills</a>
+        <a class="item" data-tab="powers">Powers</a> 
         <a class="item" data-tab="combat">Combat</a>
         <a class="item" data-tab="inventory">Inventory</a>
         <a class="item" data-tab="bio">Biography</a>
@@ -38,6 +37,38 @@
             </div>
             {{> "systems/trinity/templates/actor/partials/edges.html"}}
             {{> "systems/trinity/templates/actor/partials/paths.html"}}
+        </div>
+
+        {{!-- Powers & Paradigm Tab (Dynamic Content) --}}
+        <div class="tab powers" data-group="primary" data-tab="powers">
+            
+            {{#if (eq system.details.characterType "human")}}
+                <div class="flex-center p-2" style="color: #666;">
+                    <em>Baseline Humans do not have access to Quantum, Psi, or Gifts.</em>
+                </div>
+            {{/if}}
+
+            {{#if (eq system.details.characterType "talent")}}
+                {{> "systems/trinity/templates/actor/partials/talent.html"}}
+                <div class="grid grid-2col mt-1">
+                    <div>{{> "systems/trinity/templates/actor/partials/gifts.html"}}</div>
+                    <div>{{> "systems/trinity/templates/actor/partials/facets.html"}}</div>
+                </div>
+                {{> "systems/trinity/templates/actor/partials/inspiration.html"}}
+            {{/if}}
+
+            {{#if (eq system.details.characterType "nova")}}
+                {{> "systems/trinity/templates/actor/partials/nova.html"}}
+            {{/if}}
+
+            {{#if (eq system.details.characterType "psion")}}
+                {{> "systems/trinity/templates/actor/partials/psi.html"}}
+            {{/if}}
+
+            {{#if (eq system.details.characterType "mage")}}
+                {{> "systems/trinity/templates/actor/partials/mage.html"}}
+                {{> "systems/trinity/templates/actor/partials/quintessence-paradox.html"}}
+            {{/if}}
         </div>
 
         {{!-- Combat Tab --}}
