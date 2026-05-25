@@ -158,7 +158,14 @@
     },
     "gear": { "templates": ["baseItem"], "quantity": 1 },
     "item": { "templates": ["baseItem"], "quantity": 1 },
-    "weapon": { "templates": ["baseItem"], "damage": 0, "range": "", "tags": "" },
+    "weapon": { 
+      "templates": ["baseItem"], 
+      "enhancement": 0,
+      "damage": 0,
+      "damageType": "",
+      "range": "", 
+      "tags": "" 
+    },
     "armor": { "templates": ["baseItem"], "soak": 0, "tags": "" },
     "edge": { 
       "templates": ["baseItem"], 
