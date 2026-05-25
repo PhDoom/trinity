@@ -1,30 +1,81 @@
-{{!-- PC Attributes Partial - Foundry V13 Compliant --}}
 <div class="attributes-section">
   <h3 class="header">Attributes</h3>
   
-  <div class="attributes-grid grid grid-3col gap-10">
-    {{!-- Loop directly through system.attributes --}}
-    {{#each system.attributes as |attr key|}}
-    <div class="attribute flexcol flex-group-center mb-1 p-1 border" style="border-radius: 5px;">
-      
-      {{!-- BASE ATTRIBUTE --}}
-      <label for="system.attributes.{{key}}.value" class="attribute-label rollable" data-attribute="{{key}}" title="Select {{localize attr.label}}">
-        <a class="font-weight-bold">{{localize attr.label}}</a>
-      </label>
-      <input type="number" class="attribute-input" name="system.attributes.{{key}}.value" value="{{attr.value}}" data-dtype="Number" />
-             
-      {{!-- CONDITIONAL MEGA-ATTRIBUTE (Only renders for Novas) --}}
-      {{#if (eq @root.system.details.characterType "nova")}}
-      <div class="mega-attribute flexcol flex-center border-top pt-1 mt-1 w-100">
-         <label for="system.attributes.{{key}}.mega" class="attribute-label rollable" data-attribute="mega-{{key}}" title="Roll Mega {{localize attr.label}}">
-           <a class="text-blue font-weight-bold">Mega {{localize attr.label}}</a>
-         </label>
-         <input type="number" class="attribute-input mega-input" name="system.attributes.{{key}}.mega" value="{{attr.mega}}" data-dtype="Number" min="0" />
-      </div>
-      {{/if}}
-
+  <div class="grid grid-4col gap-5 align-center mb-1">
+    
+    {{!-- Row 1: FORCE --}}
+    <div class="flexcol flex-center">
+      <label><input type="checkbox" name="system.favored.force" {{checked system.favored.force}}> Force</label>
     </div>
-    {{/each}}
-  </div>
+    
+    {{!-- Intellect (Mental) --}}
+    <div class="flexcol flex-center p-1 border">
+      <label class="attribute-label rollable font-weight-bold" data-attribute="intellect">Intellect</label>
+      <div class="pip-container" data-name="system.attributes.intellect.value" data-value="{{system.attributes.intellect.value}}">
+        <i class="pip {{#if (gt system.attributes.intellect.value 0)}}fas{{else}}far{{/if}} fa-circle" data-index="1"></i>
+        <i class="pip {{#if (gt system.attributes.intellect.value 1)}}fas{{else}}far{{/if}} fa-circle" data-index="2"></i>
+        <i class="pip {{#if (gt system.attributes.intellect.value 2)}}fas{{else}}far{{/if}} fa-circle" data-index="3"></i>
+        <i class="pip {{#if (gt system.attributes.intellect.value 3)}}fas{{else}}far{{/if}} fa-circle" data-index="4"></i>
+        <i class="pip {{#if (gt system.attributes.intellect.value 4)}}fas{{else}}far{{/if}} fa-circle" data-index="5"></i>
+      </div>
+      {{!-- Optional Mega-Attribute block --}}
+      {{#if (eq @root.system.details.characterType "nova")}}
+        <label class="attribute-label rollable text-blue font-weight-bold mt-1" data-attribute="mega-intellect">Mega Intellect</label>
+        <div class="pip-container" data-name="system.attributes.intellect.mega" data-value="{{system.attributes.intellect.mega}}">
+          <i class="pip {{#if (gt system.attributes.intellect.mega 0)}}fas{{else}}far{{/if}} fa-circle" data-index="1"></i>
+          <i class="pip {{#if (gt system.attributes.intellect.mega 1)}}fas{{else}}far{{/if}} fa-circle" data-index="2"></i>
+          <i class="pip {{#if (gt system.attributes.intellect.mega 2)}}fas{{else}}far{{/if}} fa-circle" data-index="3"></i>
+          <i class="pip {{#if (gt system.attributes.intellect.mega 3)}}fas{{else}}far{{/if}} fa-circle" data-index="4"></i>
+          <i class="pip {{#if (gt system.attributes.intellect.mega 4)}}fas{{else}}far{{/if}} fa-circle" data-index="5"></i>
+        </div>
+      {{/if}}
+    </div>
 
+    {{!-- Might (Physical) --}}
+    <div class="flexcol flex-center p-1 border">
+      <label class="attribute-label rollable font-weight-bold" data-attribute="might">Might</label>
+      <div class="pip-container" data-name="system.attributes.might.value" data-value="{{system.attributes.might.value}}">
+        <i class="pip {{#if (gt system.attributes.might.value 0)}}fas{{else}}far{{/if}} fa-circle" data-index="1"></i>
+        <i class="pip {{#if (gt system.attributes.might.value 1)}}fas{{else}}far{{/if}} fa-circle" data-index="2"></i>
+        <i class="pip {{#if (gt system.attributes.might.value 2)}}fas{{else}}far{{/if}} fa-circle" data-index="3"></i>
+        <i class="pip {{#if (gt system.attributes.might.value 3)}}fas{{else}}far{{/if}} fa-circle" data-index="4"></i>
+        <i class="pip {{#if (gt system.attributes.might.value 4)}}fas{{else}}far{{/if}} fa-circle" data-index="5"></i>
+      </div>
+      {{#if (eq @root.system.details.characterType "nova")}}
+        <label class="attribute-label rollable text-blue font-weight-bold mt-1" data-attribute="mega-might">Mega Might</label>
+        <div class="pip-container" data-name="system.attributes.might.mega" data-value="{{system.attributes.might.mega}}">
+          <i class="pip {{#if (gt system.attributes.might.mega 0)}}fas{{else}}far{{/if}} fa-circle" data-index="1"></i>
+          <i class="pip {{#if (gt system.attributes.might.mega 1)}}fas{{else}}far{{/if}} fa-circle" data-index="2"></i>
+          <i class="pip {{#if (gt system.attributes.might.mega 2)}}fas{{else}}far{{/if}} fa-circle" data-index="3"></i>
+          <i class="pip {{#if (gt system.attributes.might.mega 4)}}fas{{else}}far{{/if}} fa-circle" data-index="5"></i>
+        </div>
+      {{/if}}
+    </div>
+
+    {{!-- Presence (Social) --}}
+    <div class="flexcol flex-center p-1 border">
+      <label class="attribute-label rollable font-weight-bold" data-attribute="presence">Presence</label>
+      <div class="pip-container" data-name="system.attributes.presence.value" data-value="{{system.attributes.presence.value}}">
+        <i class="pip {{#if (gt system.attributes.presence.value 0)}}fas{{else}}far{{/if}} fa-circle" data-index="1"></i>
+        <i class="pip {{#if (gt system.attributes.presence.value 1)}}fas{{else}}far{{/if}} fa-circle" data-index="2"></i>
+        <i class="pip {{#if (gt system.attributes.presence.value 2)}}fas{{else}}far{{/if}} fa-circle" data-index="3"></i>
+        <i class="pip {{#if (gt system.attributes.presence.value 3)}}fas{{else}}far{{/if}} fa-circle" data-index="4"></i>
+        <i class="pip {{#if (gt system.attributes.presence.value 4)}}fas{{else}}far{{/if}} fa-circle" data-index="5"></i>
+      </div>
+      {{#if (eq @root.system.details.characterType "nova")}}
+        <label class="attribute-label rollable text-blue font-weight-bold mt-1" data-attribute="mega-presence">Mega Presence</label>
+        <div class="pip-container" data-name="system.attributes.presence.mega" data-value="{{system.attributes.presence.mega}}">
+          <i class="pip {{#if (gt system.attributes.presence.mega 0)}}fas{{else}}far{{/if}} fa-circle" data-index="1"></i>
+          <i class="pip {{#if (gt system.attributes.presence.mega 1)}}fas{{else}}far{{/if}} fa-circle" data-index="2"></i>
+          <i class="pip {{#if (gt system.attributes.presence.mega 2)}}fas{{else}}far{{/if}} fa-circle" data-index="3"></i>
+          <i class="pip {{#if (gt system.attributes.presence.mega 3)}}fas{{else}}far{{/if}} fa-circle" data-index="4"></i>
+          <i class="pip {{#if (gt system.attributes.presence.mega 4)}}fas{{else}}far{{/if}} fa-circle" data-index="5"></i>
+        </div>
+      {{/if}}
+    </div>
+    
+    {{!-- Repeat this pattern for Row 2 (Finesse) and Row 3 (Resilience) --}}
+    {{!-- Since the logic is identical, you will swap out Intellect/Might/Presence for Cunning/Dexterity/Manipulation, etc. --}}
+    
+  </div>
 </div>
