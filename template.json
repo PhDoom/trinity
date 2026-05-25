@@ -149,7 +149,8 @@
       "contact", 
       "gift", 
       "spell", 
-      "quantumPower"
+      "quantumPower",
+      "biotech"
     ],
     "templates": {
       "baseItem": {
@@ -206,6 +207,14 @@
       "range": "",
       "duration": "",
       "tags": ""
+    },
+    "biotech": { 
+      "templates": ["baseItem"], 
+      "enhancement": 0,
+      "damage": 0,
+      "damageType": "",
+      "range": "", 
+      "tags": "" 
     }
   }
 }
