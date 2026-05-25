@@ -1,33 +1,28 @@
 {{!-- PC Attributes Partial - Foundry V13 Compliant --}}
 <div class="attributes-section">
-  
   <h3 class="header">Attributes</h3>
   
-  <div class="attributes-grid grid grid-3col">
-    {{!-- V13: Loop directly through system.attributes, bypassing legacy data.data --}}
+  <div class="attributes-grid grid grid-3col gap-10">
+    {{!-- Loop directly through system.attributes --}}
     {{#each system.attributes as |attr key|}}
-    <div class="attribute flexcol flex-group-center mb-1">
+    <div class="attribute flexcol flex-group-center mb-1 p-1 border" style="border-radius: 5px;">
       
-      {{!-- 
-        Rollable Label: 
-        The 'rollable' class and 'data-attribute' hook securely into your 
-        asynchronous V13 TrinityRollPrompt logic.
-      --}}
+      {{!-- BASE ATTRIBUTE --}}
       <label for="system.attributes.{{key}}.value" class="attribute-label rollable" data-attribute="{{key}}" title="Select {{localize attr.label}}">
-        <a>{{localize attr.label}}</a>
+        <a class="font-weight-bold">{{localize attr.label}}</a>
       </label>
-      
-      {{!-- 
-        V13 Data Binding: 
-        name="system.attributes.{{key}}.value" tells the server exactly 
-        where to save this integer in the document schema.
-      --}}
-      <input type="number" 
-             class="attribute-input" 
-             name="system.attributes.{{key}}.value" 
-             value="{{attr.value}}" 
-             data-dtype="Number" />
+      <input type="number" class="attribute-input" name="system.attributes.{{key}}.value" value="{{attr.value}}" data-dtype="Number" />
              
+      {{!-- CONDITIONAL MEGA-ATTRIBUTE (Only renders for Novas) --}}
+      {{#if (eq @root.system.details.characterType "nova")}}
+      <div class="mega-attribute flexcol flex-center border-top pt-1 mt-1 w-100">
+         <label for="system.attributes.{{key}}.mega" class="attribute-label rollable" data-attribute="mega-{{key}}" title="Roll Mega {{localize attr.label}}">
+           <a class="text-blue font-weight-bold">Mega {{localize attr.label}}</a>
+         </label>
+         <input type="number" class="attribute-input mega-input" name="system.attributes.{{key}}.mega" value="{{attr.mega}}" data-dtype="Number" min="0" />
+      </div>
+      {{/if}}
+
     </div>
     {{/each}}
   </div>
