@@ -7,17 +7,15 @@
     <div class="details-col flexcol">
       <h3 class="header">Character Details</h3>
       
-      {{!-- NEW: Character Paradigm Dropdown --}}
+      {{!-- FIXED: Character Paradigm Dropdown (V13 Safe) --}}
       <div class="form-group">
         <label class="resource-label font-weight-bold">Paradigm</label>
         <select name="system.details.characterType">
-          {{#select system.details.characterType}}
-          <option value="human">Baseline Human</option>
-          <option value="talent">Talent</option>
-          <option value="nova">Nova</option>
-          <option value="psion">Psion</option>
-          <option value="mage">Mage</option>
-          {{/select}}
+          <option value="human" {{#if (eq system.details.characterType "human")}}selected{{/if}}>Baseline Human</option>
+          <option value="talent" {{#if (eq system.details.characterType "talent")}}selected{{/if}}>Talent</option>
+          <option value="nova" {{#if (eq system.details.characterType "nova")}}selected{{/if}}>Nova</option>
+          <option value="psion" {{#if (eq system.details.characterType "psion")}}selected{{/if}}>Psion</option>
+          <option value="mage" {{#if (eq system.details.characterType "mage")}}selected{{/if}}>Mage</option>
         </select>
       </div>
       
