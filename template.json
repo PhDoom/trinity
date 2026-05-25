@@ -153,7 +153,11 @@
       "prerequisite": "" 
     },
     "path": { "templates": ["baseItem"], "rating": 1, "type": "" },
-    "power": { "templates": ["baseItem"], "dicePool": "", "cost": "" },
+    "power": { 
+      "templates": ["baseItem"], 
+      "value": 0, 
+      "cost": "" 
+    },
     "action": { "templates": ["baseItem"], "dicePool": "", "cost": "" },
     "condition": { "templates": ["baseItem"], "resolution": "", "effect": "" },
     "bond": { "templates": ["baseItem"], "rating": 1 },
