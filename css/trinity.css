@@ -1,117 +1,123 @@
-/* --- Core System Styles --- */
-.trinity {
+/* ================================================================== */
+/* NAMESPACE WRAPPER                                                  */
+/* Everything inside this block will ONLY affect the Trinity sheets   */
+/* ================================================================== */
+.trinity-app {
+    
+    /* --- Core System Styles --- */
     --trinity-blue: #2a4c6e;
     --trinity-red: #8b0000;
     --trinity-green: #2d5a27;
     --trinity-purple: #4b0082;
     --trinity-grey: #e0e0e0;
-}
 
-/* Window & General Layout */
-.trinity.window-app .window-content {
-    background: #fdfdfd;
-    color: #333;
-    font-family: "Signika", "Palatino Linotype", serif;
-}
+    /* Window & General Layout */
+    &.window-app .window-content,
+    .window-content {
+        background: #fdfdfd;
+        color: #333;
+        font-family: "Signika", "Palatino Linotype", serif;
+    }
 
-/* --- Layout Helpers (Modern V13) --- */
-.flexrow { display: flex; flex-direction: row; flex-wrap: nowrap; gap: 5px; }
-.flexcol { display: flex; flex-direction: column; flex-wrap: nowrap; gap: 5px; }
-.flex-center { align-items: center; justify-content: center; }
-.flex-between { justify-content: space-between; }
-.flex-group-left { justify-content: flex-start; }
+    /* --- Layout Helpers (Modern V13) --- */
+    .flexrow { display: flex; flex-direction: row; flex-wrap: nowrap; gap: 5px; }
+    .flexcol { display: flex; flex-direction: column; flex-wrap: nowrap; gap: 5px; }
+    .flex-center { align-items: center; justify-content: center; }
+    .flex-between { justify-content: space-between; }
+    .flex-group-left { justify-content: flex-start; }
 
-.grid { display: grid; gap: 10px; }
-.grid-2col { grid-template-columns: repeat(2, 1fr); }
-.grid-3col { grid-template-columns: repeat(3, 1fr); }
+    .grid { display: grid; gap: 10px; }
+    .grid-2col { grid-template-columns: repeat(2, 1fr); }
+    .grid-3col { grid-template-columns: repeat(3, 1fr); }
 
-/* --- Forms & Inputs --- */
-.form-group { margin-bottom: 5px; }
-.form-group label { font-weight: bold; }
+    /* --- Forms & Inputs --- */
+    .form-group { margin-bottom: 5px; }
+    .form-group label { font-weight: bold; }
 
-input[type="number"], 
-input[type="text"] {
-    background: rgba(0, 0, 0, 0.05);
-    border: 1px solid #7a7971;
-    border-radius: 3px;
-}
+    input[type="number"], 
+    input[type="text"] {
+        background: rgba(0, 0, 0, 0.05);
+        border: 1px solid #7a7971;
+        border-radius: 3px;
+    }
 
-input[type="number"]:focus, 
-input[type="text"]:focus {
-    box-shadow: 0 0 5px var(--trinity-blue);
-}
+    input[type="number"]:focus, 
+    input[type="text"]:focus {
+        box-shadow: 0 0 5px var(--trinity-blue);
+    }
 
-/* --- Item & Actor Sheets --- */
-.sheet-header {
-    background: linear-gradient(to right, #eee, transparent);
-    padding: 10px;
-    border-radius: 5px;
-}
+    /* --- Item & Actor Sheets --- */
+    .sheet-header {
+        background: linear-gradient(to right, #eee, transparent);
+        padding: 10px;
+        border-radius: 5px;
+    }
 
-.profile-img {
-    border: 2px solid #333;
-    border-radius: 5px;
-    background: #fff;
-}
+    .profile-img {
+        border: 2px solid #333;
+        border-radius: 5px;
+        background: #fff;
+    }
 
-/* --- Tabs --- */
-.tabs {
-    border-bottom: 2px solid var(--trinity-blue);
-    margin-bottom: 10px;
-}
+    /* --- Tabs --- */
+    .tabs {
+        border-bottom: 2px solid var(--trinity-blue);
+        margin-bottom: 10px;
+    }
 
-.tabs .item {
-    padding: 5px 10px;
-    cursor: pointer;
-    border: 1px solid transparent;
-}
+    .tabs .item {
+        padding: 5px 10px;
+        cursor: pointer;
+        border: 1px solid transparent;
+    }
 
-.tabs .item.active {
-    background: var(--trinity-blue);
-    color: white;
-    border-radius: 5px 5px 0 0;
-}
+    .tabs .item.active {
+        background: var(--trinity-blue);
+        color: white;
+        border-radius: 5px 5px 0 0;
+    }
 
-/* --- Roll Overlays & Success Indicators --- */
-.success-glow {
-    background: rgba(45, 90, 39, 0.1);
-    border: 2px solid var(--trinity-green);
-    box-shadow: 0 0 10px rgba(45, 90, 39, 0.3);
-}
+    /* --- Roll Overlays & Success Indicators --- */
+    .success-glow {
+        background: rgba(45, 90, 39, 0.1);
+        border: 2px solid var(--trinity-green);
+        box-shadow: 0 0 10px rgba(45, 90, 39, 0.3);
+    }
 
-.failure-dim {
-    background: rgba(139, 0, 0, 0.05);
-    border: 2px solid var(--trinity-red);
-}
+    .failure-dim {
+        background: rgba(139, 0, 0, 0.05);
+        border: 2px solid var(--trinity-red);
+    }
 
-.text-green { color: var(--trinity-green); font-weight: bold; }
-.text-red { color: var(--trinity-red); font-weight: bold; }
-.text-blue { color: var(--trinity-blue); font-weight: bold; }
-.text-purple { color: var(--trinity-purple); font-weight: bold; }
+    .text-green { color: var(--trinity-green); font-weight: bold; }
+    .text-red { color: var(--trinity-red); font-weight: bold; }
+    .text-blue { color: var(--trinity-blue); font-weight: bold; }
+    .text-purple { color: var(--trinity-purple); font-weight: bold; }
 
-/* --- Dialogs & Pickers --- */
-.trinity-dialog .clickable:hover {
-    background: rgba(0, 0, 0, 0.05);
-    cursor: pointer;
-}
+    /* --- Dialogs & Pickers --- */
+    .trinity-dialog .clickable:hover {
+        background: rgba(0, 0, 0, 0.05);
+        cursor: pointer;
+    }
 
-.trinity-dialog .arena-group h4 {
-    background: #333;
-    color: #fff;
-    margin: 0;
-    padding: 2px;
-}
+    .trinity-dialog .arena-group h4 {
+        background: #333;
+        color: #fff;
+        margin: 0;
+        padding: 2px;
+    }
 
-/* --- Tags --- */
-.tag {
-    background: #f0f0f0;
-    border-radius: 10px;
-    white-space: nowrap;
-    border: 1px solid #ccc;
-}
+    /* --- Tags --- */
+    .tag {
+        background: #f0f0f0;
+        border-radius: 10px;
+        white-space: nowrap;
+        border: 1px solid #ccc;
+    }
 
-/* --- Resources --- */
-.vital-value {
-    font-size: 1.2em;
-    font-weight: bold;
+    /* --- Resources --- */
+    .vital-value {
+        font-size: 1.2em;
+        font-weight: bold;
+    }
 }
