@@ -155,6 +155,15 @@
     "contact": { "templates": ["baseItem"], "affiliation": "", "rating": 1 },
     "gift": { "templates": ["baseItem"], "dicePool": "", "cost": "" },
     "spell": { "templates": ["baseItem"], "dicePool": "", "cost": "" },
-    "quantumPower": { "templates": ["baseItem"], "dicePool": "", "cost": "" }
+    "quantumPower": { 
+      "templates": ["baseItem"], 
+      "value": 0,
+      "action": "",
+      "cost": "",
+      "dicePool": "", 
+      "range": "",
+      "duration": "",
+      "tags": ""
+    }
   }
 }
