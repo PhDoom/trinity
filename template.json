@@ -31,7 +31,8 @@
         "initiative": { "value": 0 },
         "armor": { "value": 0 },
         "biography": "",
-        "gmNotes": ""
+        "gmNotes": "",
+        "playerNotes": ""
       }
     },
     "character": {
