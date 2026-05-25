@@ -1,53 +1,44 @@
-{{!-- Health Boxes Partial - Foundry V13 Compliant --}}
-<div class="health-section mb-2">
-    <h3 class="header">Health & Damage</h3>
+<div class="injury-conditions-section p-1 border">
+  <h3 class="header">Injury Conditions</h3>
+  
+  <div class="flexcol gap-5">
     
-    <div class="grid grid-4col flex-group-center border p-1">
-        
-        {{!-- Max Health (Wounds) --}}
-        <div class="resource flexcol">
-            <label class="resource-label">Max Wounds</label>
-            <input type="number" 
-                   name="system.health.max" 
-                   value="{{system.health.max}}" 
-                   data-dtype="Number" />
-        </div>
-
-        {{!-- Bashing Damage --}}
-        <div class="resource flexcol">
-            <label class="resource-label">Bashing</label>
-            <input type="number" 
-                   name="system.health.bashing" 
-                   value="{{system.health.bashing}}" 
-                   data-dtype="Number" />
-        </div>
-
-        {{!-- Lethal Damage --}}
-        <div class="resource flexcol">
-            <label class="resource-label">Lethal</label>
-            <input type="number" 
-                   name="system.health.lethal" 
-                   value="{{system.health.lethal}}" 
-                   data-dtype="Number" />
-        </div>
-
-        {{!-- Aggravated Damage --}}
-        <div class="resource flexcol">
-            <label class="resource-label">Aggravated</label>
-            <input type="number" 
-                   name="system.health.aggravated" 
-                   value="{{system.health.aggravated}}" 
-                   data-dtype="Number" />
-        </div>
-
+    {{!-- BRUISED TRACK --}}
+    <div class="flexrow flex-between align-center border-bottom pb-1">
+      <div class="flexrow align-center">
+        <label class="font-weight-bold mr-1">Bruised (+1)</label>
+        <a class="add-health-box text-blue" data-type="bruised" title="Left-click to add, Right-click to remove"><i class="fas fa-plus"></i></a>
+      </div>
+      <div class="health-checkboxes flexrow gap-5">
+        {{!-- Number input hidden visually, represented by a pip/counter if needed, or simply checkboxes --}}
+        <input type="number" name="system.health.bruised.value" value="{{system.health.bruised.value}}" min="0" max="{{system.health.bruised.max}}" class="w-25 text-center">
+        <span class="align-self-center">/ {{system.health.bruised.max}}</span>
+      </div>
     </div>
 
-    {{!-- Optional: Visual Health Bar --}}
-    <div class="health-bar-container mt-1">
-        <div class="resource-label">Current Status: {{system.health.value}} / {{system.health.max}}</div>
-        {{!-- 
-            If you have a CSS class for a health bar, 
-            you can bind the width here using a percentage calculation 
-        --}}
+    {{!-- INJURED TRACK --}}
+    <div class="flexrow flex-between align-center border-bottom pb-1">
+      <div class="flexrow align-center">
+        <label class="font-weight-bold mr-1">Injured (+2)</label>
+        <a class="add-health-box text-blue" data-type="injured" title="Left-click to add, Right-click to remove"><i class="fas fa-plus"></i></a>
+      </div>
+      <div class="health-checkboxes flexrow gap-5">
+        <input type="number" name="system.health.injured.value" value="{{system.health.injured.value}}" min="0" max="{{system.health.injured.max}}" class="w-25 text-center">
+        <span class="align-self-center">/ {{system.health.injured.max}}</span>
+      </div>
     </div>
+
+    {{!-- MAIMED --}}
+    <div class="flexrow flex-between align-center border-bottom pb-1">
+      <label class="font-weight-bold">Maimed (+4)</label>
+      <input type="checkbox" name="system.health.maimed.value" {{checked system.health.maimed.value}}>
+    </div>
+
+    {{!-- TAKEN OUT --}}
+    <div class="flexrow flex-between align-center">
+      <label class="font-weight-bold text-red">Taken Out</label>
+      <input type="checkbox" name="system.health.takenOut.value" {{checked system.health.takenOut.value}}>
+    </div>
+
+  </div>
 </div>
