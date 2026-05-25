@@ -1,40 +1,74 @@
-{{!-- Nova Resource Partial - Foundry V13 Compliant --}}
-<div class="nova-section mb-2">
+{{!-- Nova Paradigm Partial --}}
+<div class="paradigm-section">
+  <h3 class="header">Nova Traits</h3>
   
-  {{!-- Only render if the actor is a Nova --}}
-  {{#if (eq system.subType "nova")}}
-  <div class="grid grid-2col flex-group-center border p-1">
+  {{!-- Core Nova Stats Grid --}}
+  <div class="grid grid-2col mb-1">
     
-    {{!-- Quantum (Static Rating) --}}
-    <div class="resource flexcol flex-center">
-      <label class="resource-label rollable" data-roll-type="quantum" title="Roll Quantum">Quantum</label>
-      <input type="number" 
-             name="system.nova.quantum.value" 
-             value="{{system.nova.quantum.value}}" 
-             data-dtype="Number" 
-             style="max-width: 3rem; text-align: center;" />
-    </div>
-
-    {{!-- Flux (Resource/Risk Pool) --}}
-    <div class="resource flexcol flex-center">
-      <label class="resource-label">Flux</label>
-      <div class="flexrow flex-center">
-        <input type="number" 
-               name="system.nova.flux.value" 
-               value="{{system.nova.flux.value}}" 
-               data-dtype="Number" 
-               style="max-width: 3rem; text-align: center;" />
-        {{!-- Max Flux is usually 10 or derived, but included here for consistency --}}
-        <span class="px-1"> / </span>
-        <input type="number" 
-               name="system.nova.flux.max" 
-               value="{{system.nova.flux.max}}" 
-               data-dtype="Number" 
-               style="max-width: 3rem; text-align: center;" />
+    <div class="flexrow">
+      <div class="flexcol flex-center w-50">
+        <label class="resource-label rollable" data-attribute="quantum">Quantum</label>
+        <input type="number" name="system.quantum.value" value="{{system.quantum.value}}" min="0" max="10" data-dtype="Number"/>
+      </div>
+      
+      <div class="flexcol flex-center w-50">
+        <label class="resource-label">Quantum Points</label>
+        <div class="flexrow flex-center">
+          <input class="w-50 text-center" type="number" name="system.quantumPoints.value" value="{{system.quantumPoints.value}}" data-dtype="Number"/>
+          <span class="px-1">/</span>
+          <input class="w-50 text-center" type="number" name="system.quantumPoints.max" value="{{system.quantumPoints.max}}" data-dtype="Number"/>
+        </div>
       </div>
     </div>
 
-  </div>
-  {{/if}}
+    <div class="flexrow">
+      <div class="flexcol flex-center w-50">
+        <label class="resource-label rollable" data-attribute="transcendence">Transcendence</label>
+        <input type="number" name="system.transcendence.value" value="{{system.transcendence.value}}" min="0" max="10" data-dtype="Number"/>
+      </div>
 
+      <div class="flexcol flex-center w-50">
+        <label class="resource-label rollable" data-attribute="flux">Flux</label>
+        <input type="number" name="system.flux.value" value="{{system.flux.value}}" min="0" max="10" data-dtype="Number"/>
+      </div>
+    </div>
+    
+  </div>
+
+  {{!-- Transformations Area --}}
+  <div class="form-group flexcol mb-1">
+    <label for="system.transformations" class="resource-label font-weight-bold">Transformations</label>
+    <textarea name="system.transformations" rows="3" placeholder="Describe any physical or psychological transformations here...">{{system.transformations}}</textarea>
+  </div>
+
+  <hr>
+
+  {{!-- Quantum Powers List --}}
+  <div class="flexrow flex-between header p-1 mt-1">
+    <h3 class="m-0">Quantum Powers</h3>
+    <a class="item-create" data-type="power" title="Add Power"><i class="fas fa-plus"></i> Add</a>
+  </div>
+  
+  <div class="power-list p-1 border">
+    {{!-- 
+      If you have pre-filtered your items in the JS (e.g., items.power), 
+      this loop will render them. Otherwise, it will safely show the empty state.
+    --}}
+    {{#if items.power.length}}
+        {{#each items.power as |item id|}}
+        <div class="item flexrow flex-between p-1 border-bottom" data-item-id="{{item._id}}">
+            <div class="item-name flexrow flex-center">
+                <div class="item-image" style="background-image: url('{{item.img}}'); width: 24px; height: 24px; background-size: cover; margin-right: 5px;"></div>
+                <h4 class="m-0 rollable" data-roll-type="item">{{item.name}}</h4>
+            </div>
+            <div class="item-controls flexrow flex-center">
+                <a class="item-control item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>
+                <a class="item-control item-delete" title="Delete Item"><i class="fas fa-trash"></i></a>
+            </div>
+        </div>
+        {{/each}}
+    {{else}}
+        <em style="color: #666;">Drag and drop Quantum Powers from the items sidebar here, or click the '+' button above to create a new one.</em>
+    {{/if}}
+  </div>
 </div>
