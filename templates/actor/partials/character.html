@@ -29,7 +29,7 @@
       </div>
     </div>
 
-    {{!-- Experience Tracking (Now Shrink-Fitted) --}}
+    {{!-- Experience Tracking (Shrink-Fitted) --}}
     <div class="xp-col flexcol">
       <h3 class="header">Experience (XP)</h3>
       
@@ -48,9 +48,21 @@
 
   </div>
 
+  {{!-- NEW: Inspiration Details Block --}}
+  <div class="grid grid-2col mb-1 gap-10">
+      <div class="form-group flexcol">
+          <label class="resource-label font-weight-bold text-blue">Inspired Type</label>
+          <input type="text" name="system.inspiredType" value="{{system.inspiredType}}" placeholder="e.g. Daredevil, Visionary..."/>
+      </div>
+      <div class="form-group flexcol">
+          <label class="resource-label font-weight-bold text-purple">Moment of Inspiration</label>
+          <input type="text" name="system.momentOfInspiration" value="{{system.momentOfInspiration}}" placeholder="e.g. Survived a falling building..."/>
+      </div>
+  </div>
+
   <hr>
 
-  {{!-- NEW: Hardcoded Paths Section --}}
+  {{!-- Hardcoded Paths Section --}}
   <div class="paths-section mt-1 mb-2">
     <h3 class="header">Paths</h3>
     <div class="grid grid-3col gap-10">
