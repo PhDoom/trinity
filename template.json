@@ -157,7 +157,11 @@
         "description": ""
       }
     },
-    "gear": { "templates": ["baseItem"], "quantity": 1 },
+    "gear": { 
+      "templates": ["baseItem"], 
+      "enhancement": 0,
+      "tags": "" 
+    },
     "item": { "templates": ["baseItem"], "quantity": 1 },
     "weapon": { 
       "templates": ["baseItem"], 
