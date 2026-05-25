@@ -1,33 +1,39 @@
-{{!-- Inspiration Partial - Foundry V13 Compliant --}}
-<div class="inspiration-section mb-2">
-  
-  {{!-- Check if character is a Talent --}}
-  {{#if (eq system.subType "talent")}}
-  <div class="resource flexrow flex-group-center p-1 border">
+<div class="inspiration-section mt-1 mb-2">
+    <h3 class="header text-center" style="background: linear-gradient(to right, #d32f2f, #ff6600); color: white; border-radius: 3px; padding: 5px; letter-spacing: 2px;">INSPIRATION</h3>
     
-    <label class="resource-label rollable" data-roll-type="inspiration" title="Roll Inspiration">
-      Inspiration
-    </label>
+    <div class="flexcol flex-center p-1 border" style="border-radius: 5px; background: rgba(0,0,0,0.02);">
+        
+        {{!-- Current Inspiration (Circles) --}}
+        <div class="flexrow mb-1 align-center" title="Current Inspiration">
+            <div class="pip-container" data-name="system.talent.inspiration.value" data-value="{{system.talent.inspiration.value}}">
+                <i class="pip {{#if (gt system.talent.inspiration.value 0)}}fas{{else}}far{{/if}} fa-circle fa-lg" data-index="1"></i>
+                <i class="pip {{#if (gt system.talent.inspiration.value 1)}}fas{{else}}far{{/if}} fa-circle fa-lg" data-index="2"></i>
+                <i class="pip {{#if (gt system.talent.inspiration.value 2)}}fas{{else}}far{{/if}} fa-circle fa-lg" data-index="3"></i>
+                <i class="pip {{#if (gt system.talent.inspiration.value 3)}}fas{{else}}far{{/if}} fa-circle fa-lg" data-index="4"></i>
+                <i class="pip {{#if (gt system.talent.inspiration.value 4)}}fas{{else}}far{{/if}} fa-circle fa-lg" data-index="5"></i>
+                <i class="pip {{#if (gt system.talent.inspiration.value 5)}}fas{{else}}far{{/if}} fa-circle fa-lg" data-index="6"></i>
+                <i class="pip {{#if (gt system.talent.inspiration.value 6)}}fas{{else}}far{{/if}} fa-circle fa-lg" data-index="7"></i>
+                <i class="pip {{#if (gt system.talent.inspiration.value 7)}}fas{{else}}far{{/if}} fa-circle fa-lg" data-index="8"></i>
+                <i class="pip {{#if (gt system.talent.inspiration.value 8)}}fas{{else}}far{{/if}} fa-circle fa-lg" data-index="9"></i>
+                <i class="pip {{#if (gt system.talent.inspiration.value 9)}}fas{{else}}far{{/if}} fa-circle fa-lg" data-index="10"></i>
+            </div>
+        </div>
 
-    <div class="resource-content flexrow flex-center">
-      {{!-- Current Inspiration --}}
-      <input type="number" 
-             name="system.talent.inspiration.value" 
-             value="{{system.talent.inspiration.value}}" 
-             data-dtype="Number" 
-             style="max-width: 3rem; text-align: center;" />
-      
-      <span class="px-1"> / </span>
-      
-      {{!-- Max Inspiration --}}
-      <input type="number" 
-             name="system.talent.inspiration.max" 
-             value="{{system.talent.inspiration.max}}" 
-             data-dtype="Number" 
-             style="max-width: 3rem; text-align: center;" />
+        {{!-- Max Inspiration (Squares) --}}
+        <div class="flexrow align-center" title="Maximum Inspiration">
+            <div class="pip-container" data-name="system.talent.inspiration.max" data-value="{{system.talent.inspiration.max}}">
+                <i class="pip {{#if (gt system.talent.inspiration.max 0)}}fas{{else}}far{{/if}} fa-square fa-lg" data-index="1"></i>
+                <i class="pip {{#if (gt system.talent.inspiration.max 1)}}fas{{else}}far{{/if}} fa-square fa-lg" data-index="2"></i>
+                <i class="pip {{#if (gt system.talent.inspiration.max 2)}}fas{{else}}far{{/if}} fa-square fa-lg" data-index="3"></i>
+                <i class="pip {{#if (gt system.talent.inspiration.max 3)}}fas{{else}}far{{/if}} fa-square fa-lg" data-index="4"></i>
+                <i class="pip {{#if (gt system.talent.inspiration.max 4)}}fas{{else}}far{{/if}} fa-square fa-lg" data-index="5"></i>
+                <i class="pip {{#if (gt system.talent.inspiration.max 5)}}fas{{else}}far{{/if}} fa-square fa-lg" data-index="6"></i>
+                <i class="pip {{#if (gt system.talent.inspiration.max 6)}}fas{{else}}far{{/if}} fa-square fa-lg" data-index="7"></i>
+                <i class="pip {{#if (gt system.talent.inspiration.max 7)}}fas{{else}}far{{/if}} fa-square fa-lg" data-index="8"></i>
+                <i class="pip {{#if (gt system.talent.inspiration.max 8)}}fas{{else}}far{{/if}} fa-square fa-lg" data-index="9"></i>
+                <i class="pip {{#if (gt system.talent.inspiration.max 9)}}fas{{else}}far{{/if}} fa-square fa-lg" data-index="10"></i>
+            </div>
+        </div>
+
     </div>
-
-  </div>
-  {{/if}}
-
 </div>
