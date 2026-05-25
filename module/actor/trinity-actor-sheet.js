@@ -44,6 +44,13 @@ export class TrinityActorSheet extends ActorSheet {
       rollData: this.actor.getRollData()
     });
 
+    // NEW: Render the Player Notes rich text editor
+    context.enrichedPlayerNotes = await TextEditor.enrichHTML(context.system.playerNotes || "", {
+      async: true,
+      secrets: this.actor.isOwner,
+      rollData: this.actor.getRollData()
+    });
+
     if (actorData.type === 'character' || actorData.type === 'npc') {
       this._prepareItems(context);
     }
@@ -116,13 +123,8 @@ export class TrinityActorSheet extends ActorSheet {
     html.find('.rollable').click(this._onRoll.bind(this));
     html.find('.roll-power').click(this._onItemRoll.bind(this));
 
-    // Listen for clicks on the visual pips/dots
     html.find('.pip').click(this._onPipClick.bind(this));
-
-    // Listen for clicks to add Health Boxes
     html.find('.add-health-box').click(this._onAddHealthBox.bind(this));
-    
-    // Listen for clicks to remove Health Boxes (Right-click)
     html.find('.add-health-box').contextmenu(this._onRemoveHealthBox.bind(this));
   }
 
@@ -165,7 +167,6 @@ export class TrinityActorSheet extends ActorSheet {
     }
   }
 
-  /** Handle clicking on a pip/dot to set the value */
   _onPipClick(event) {
     event.preventDefault();
     const element = event.currentTarget;
@@ -173,13 +174,11 @@ export class TrinityActorSheet extends ActorSheet {
     const currentValue = Number(element.parentElement.dataset.value);
     const clickedIndex = Number(element.dataset.index);
 
-    // If clicking the current value, reduce it by 1 (allows setting to 0)
     const newValue = (currentValue === clickedIndex) ? clickedIndex - 1 : clickedIndex;
     
     return this.document.update({ [field]: newValue });
   }
 
-  /** Handle adding an extra Bruised or Injured box (Left-click) */
   _onAddHealthBox(event) {
     event.preventDefault();
     const type = event.currentTarget.dataset.type; 
@@ -187,12 +186,10 @@ export class TrinityActorSheet extends ActorSheet {
     return this.document.update({ [`system.health.${type}.max`]: currentMax + 1 });
   }
 
-  /** Handle removing an extra Health box (Right-click) */
   _onRemoveHealthBox(event) {
     event.preventDefault();
     const type = event.currentTarget.dataset.type;
     const currentMax = this.document.system.health[type].max;
-    // Don't allow it to go below 0 max boxes
     if (currentMax > 0) {
       return this.document.update({ [`system.health.${type}.max`]: currentMax - 1 });
     }
