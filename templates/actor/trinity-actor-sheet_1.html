@@ -2,12 +2,10 @@
 
     {{!-- SHEET HEADER --}}
     <header class="sheet-header flexrow">
-        <img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="120" width="120"/>
-        
-        {{!-- The healthboxes partial has been removed from here! --}}
-        <div class="header-fields flexcol" style="justify-content: center;">
-            <h1 class="charname">
-                <input name="name" type="text" value="{{actor.name}}" placeholder="Character Name"/>
+        {{!-- Portrait moved to Biography Tab --}}
+        <div class="header-fields flexcol" style="justify-content: center; width: 100%;">
+            <h1 class="charname" style="margin: 0;">
+                <input name="name" type="text" value="{{actor.name}}" placeholder="Character Name" style="font-size: 1.5em; text-align: center;"/>
             </h1>
         </div>
     </header>
@@ -18,7 +16,8 @@
         <a class="item" data-tab="attributes">Stats & Skills</a>
         <a class="item" data-tab="powers">Powers</a> 
         <a class="item" data-tab="combat">Combat</a>
-        <a class="item" data-tab="health">Health</a> <a class="item" data-tab="inventory">Inventory</a>
+        <a class="item" data-tab="health">Health</a>
+        <a class="item" data-tab="inventory">Inventory</a>
         <a class="item" data-tab="bio">Biography</a>
     </nav>
 
@@ -40,15 +39,13 @@
             {{> "systems/trinity/templates/actor/partials/paths.html"}}
         </div>
 
-        {{!-- Powers & Paradigm Tab (Dynamic Content) --}}
+        {{!-- Powers & Paradigm Tab --}}
         <div class="tab powers" data-group="primary" data-tab="powers">
-            
             {{#if (eq system.details.characterType "human")}}
                 <div class="flex-center p-2" style="color: #666;">
                     <em>Baseline Humans do not have access to Quantum, Psi, or Gifts.</em>
                 </div>
             {{/if}}
-
             {{#if (eq system.details.characterType "talent")}}
                 {{> "systems/trinity/templates/actor/partials/talent.html"}}
                 <div class="grid grid-2col mt-1">
@@ -57,15 +54,12 @@
                 </div>
                 {{> "systems/trinity/templates/actor/partials/inspiration.html"}}
             {{/if}}
-
             {{#if (eq system.details.characterType "nova")}}
                 {{> "systems/trinity/templates/actor/partials/nova.html"}}
             {{/if}}
-
             {{#if (eq system.details.characterType "psion")}}
                 {{> "systems/trinity/templates/actor/partials/psi.html"}}
             {{/if}}
-
             {{#if (eq system.details.characterType "mage")}}
                 {{> "systems/trinity/templates/actor/partials/mage.html"}}
                 {{> "systems/trinity/templates/actor/partials/quintessence-paradox.html"}}
@@ -79,7 +73,7 @@
             {{> "systems/trinity/templates/actor/partials/initiative.html"}}
         </div>
 
-        {{!-- NEW: Health Tab --}}
+        {{!-- Health Tab --}}
         <div class="tab health" data-group="primary" data-tab="health">
             {{> "systems/trinity/templates/actor/partials/healthboxes.html"}}
         </div>
