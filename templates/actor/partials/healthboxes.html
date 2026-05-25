@@ -1,43 +1,89 @@
 <div class="injury-conditions-section p-1 border">
-  <h3 class="header">Injury Conditions</h3>
+  <h3 class="header mb-1">Injury Conditions</h3>
   
   <div class="flexcol gap-5">
     
-    {{!-- BRUISED TRACK --}}
-    <div class="flexrow flex-between align-center border-bottom pb-1">
-      <div class="flexrow align-center">
-        <label class="font-weight-bold mr-1">Bruised (+1)</label>
-        <a class="add-health-box text-blue" data-type="bruised" title="Left-click to add, Right-click to remove"><i class="fas fa-plus"></i></a>
-      </div>
-      <div class="health-checkboxes flexrow gap-5">
-        {{!-- Number input hidden visually, represented by a pip/counter if needed, or simply checkboxes --}}
-        <input type="number" name="system.health.bruised.value" value="{{system.health.bruised.value}}" min="0" max="{{system.health.bruised.max}}" class="w-25 text-center">
-        <span class="align-self-center">/ {{system.health.bruised.max}}</span>
-      </div>
+    {{!-- 11 BRUISED BOXES (+1) --}}
+    <div class="flexrow align-center pb-1">
+      <input type="checkbox" name="system.health.bruised1.active" {{checked system.health.bruised1.active}}>
+      <label class="font-weight-bold mx-1" style="min-width: 90px;">Bruised (+1)</label>
+      <input type="text" name="system.health.bruised1.desc" value="{{system.health.bruised1.desc}}" placeholder="Injury description..." class="w-100">
+    </div>
+    <div class="flexrow align-center pb-1">
+      <input type="checkbox" name="system.health.bruised2.active" {{checked system.health.bruised2.active}}>
+      <label class="font-weight-bold mx-1" style="min-width: 90px;">Bruised (+1)</label>
+      <input type="text" name="system.health.bruised2.desc" value="{{system.health.bruised2.desc}}" placeholder="Injury description..." class="w-100">
+    </div>
+    <div class="flexrow align-center pb-1">
+      <input type="checkbox" name="system.health.bruised3.active" {{checked system.health.bruised3.active}}>
+      <label class="font-weight-bold mx-1" style="min-width: 90px;">Bruised (+1)</label>
+      <input type="text" name="system.health.bruised3.desc" value="{{system.health.bruised3.desc}}" placeholder="Injury description..." class="w-100">
+    </div>
+    <div class="flexrow align-center pb-1">
+      <input type="checkbox" name="system.health.bruised4.active" {{checked system.health.bruised4.active}}>
+      <label class="font-weight-bold mx-1" style="min-width: 90px;">Bruised (+1)</label>
+      <input type="text" name="system.health.bruised4.desc" value="{{system.health.bruised4.desc}}" placeholder="Injury description..." class="w-100">
+    </div>
+    <div class="flexrow align-center pb-1">
+      <input type="checkbox" name="system.health.bruised5.active" {{checked system.health.bruised5.active}}>
+      <label class="font-weight-bold mx-1" style="min-width: 90px;">Bruised (+1)</label>
+      <input type="text" name="system.health.bruised5.desc" value="{{system.health.bruised5.desc}}" placeholder="Injury description..." class="w-100">
+    </div>
+    <div class="flexrow align-center pb-1">
+      <input type="checkbox" name="system.health.bruised6.active" {{checked system.health.bruised6.active}}>
+      <label class="font-weight-bold mx-1" style="min-width: 90px;">Bruised (+1)</label>
+      <input type="text" name="system.health.bruised6.desc" value="{{system.health.bruised6.desc}}" placeholder="Injury description..." class="w-100">
+    </div>
+    <div class="flexrow align-center pb-1">
+      <input type="checkbox" name="system.health.bruised7.active" {{checked system.health.bruised7.active}}>
+      <label class="font-weight-bold mx-1" style="min-width: 90px;">Bruised (+1)</label>
+      <input type="text" name="system.health.bruised7.desc" value="{{system.health.bruised7.desc}}" placeholder="Injury description..." class="w-100">
+    </div>
+    <div class="flexrow align-center pb-1">
+      <input type="checkbox" name="system.health.bruised8.active" {{checked system.health.bruised8.active}}>
+      <label class="font-weight-bold mx-1" style="min-width: 90px;">Bruised (+1)</label>
+      <input type="text" name="system.health.bruised8.desc" value="{{system.health.bruised8.desc}}" placeholder="Injury description..." class="w-100">
+    </div>
+    <div class="flexrow align-center pb-1">
+      <input type="checkbox" name="system.health.bruised9.active" {{checked system.health.bruised9.active}}>
+      <label class="font-weight-bold mx-1" style="min-width: 90px;">Bruised (+1)</label>
+      <input type="text" name="system.health.bruised9.desc" value="{{system.health.bruised9.desc}}" placeholder="Injury description..." class="w-100">
+    </div>
+    <div class="flexrow align-center pb-1">
+      <input type="checkbox" name="system.health.bruised10.active" {{checked system.health.bruised10.active}}>
+      <label class="font-weight-bold mx-1" style="min-width: 90px;">Bruised (+1)</label>
+      <input type="text" name="system.health.bruised10.desc" value="{{system.health.bruised10.desc}}" placeholder="Injury description..." class="w-100">
+    </div>
+    <div class="flexrow align-center pb-1">
+      <input type="checkbox" name="system.health.bruised11.active" {{checked system.health.bruised11.active}}>
+      <label class="font-weight-bold mx-1" style="min-width: 90px;">Bruised (+1)</label>
+      <input type="text" name="system.health.bruised11.desc" value="{{system.health.bruised11.desc}}" placeholder="Injury description..." class="w-100">
     </div>
 
-    {{!-- INJURED TRACK --}}
-    <div class="flexrow flex-between align-center border-bottom pb-1">
-      <div class="flexrow align-center">
-        <label class="font-weight-bold mr-1">Injured (+2)</label>
-        <a class="add-health-box text-blue" data-type="injured" title="Left-click to add, Right-click to remove"><i class="fas fa-plus"></i></a>
-      </div>
-      <div class="health-checkboxes flexrow gap-5">
-        <input type="number" name="system.health.injured.value" value="{{system.health.injured.value}}" min="0" max="{{system.health.injured.max}}" class="w-25 text-center">
-        <span class="align-self-center">/ {{system.health.injured.max}}</span>
-      </div>
+    {{!-- 2 INJURED BOXES (+2) --}}
+    <div class="flexrow align-center pb-1 mt-1 border-top pt-1">
+      <input type="checkbox" name="system.health.injured1.active" {{checked system.health.injured1.active}}>
+      <label class="font-weight-bold mx-1" style="min-width: 90px;">Injured (+2)</label>
+      <input type="text" name="system.health.injured1.desc" value="{{system.health.injured1.desc}}" placeholder="Injury description..." class="w-100">
+    </div>
+    <div class="flexrow align-center pb-1">
+      <input type="checkbox" name="system.health.injured2.active" {{checked system.health.injured2.active}}>
+      <label class="font-weight-bold mx-1" style="min-width: 90px;">Injured (+2)</label>
+      <input type="text" name="system.health.injured2.desc" value="{{system.health.injured2.desc}}" placeholder="Injury description..." class="w-100">
     </div>
 
-    {{!-- MAIMED --}}
-    <div class="flexrow flex-between align-center border-bottom pb-1">
-      <label class="font-weight-bold">Maimed (+4)</label>
-      <input type="checkbox" name="system.health.maimed.value" {{checked system.health.maimed.value}}>
+    {{!-- 1 MAIMED BOX (+4) --}}
+    <div class="flexrow align-center pb-1 mt-1 border-top pt-1">
+      <input type="checkbox" name="system.health.maimed.active" {{checked system.health.maimed.active}}>
+      <label class="font-weight-bold mx-1" style="min-width: 90px;">Maimed (+4)</label>
+      <input type="text" name="system.health.maimed.desc" value="{{system.health.maimed.desc}}" placeholder="Injury description..." class="w-100">
     </div>
 
     {{!-- TAKEN OUT --}}
-    <div class="flexrow flex-between align-center">
-      <label class="font-weight-bold text-red">Taken Out</label>
-      <input type="checkbox" name="system.health.takenOut.value" {{checked system.health.takenOut.value}}>
+    <div class="flexrow align-center mt-1 border-top pt-1">
+      <input type="checkbox" name="system.health.takenOut.active" {{checked system.health.takenOut.active}}>
+      <label class="font-weight-bold text-red mx-1" style="min-width: 90px;">Taken Out</label>
+      <span class="w-100"></span>
     </div>
 
   </div>
