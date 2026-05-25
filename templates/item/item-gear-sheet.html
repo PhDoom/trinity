@@ -1,0 +1,44 @@
+<form class="trinity-app {{cssClass}} flexcol" autocomplete="off">
+
+    {{!-- ITEM HEADER --}}
+    <header class="sheet-header flexrow p-1 border-bottom align-center">
+        <img class="profile-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" height="64" width="64" style="object-fit: cover; flex: 0 0 auto;"/>
+        <div class="header-fields flexcol w-100 mx-1">
+            <h1 class="charname m-0">
+                <input name="name" type="text" value="{{item.name}}" placeholder="Gear Name"/>
+            </h1>
+        </div>
+    </header>
+
+    {{!-- ITEM TABS --}}
+    <nav class="sheet-tabs tabs mt-1" data-group="primary">
+        <a class="item" data-tab="details">Gear Details</a>
+        <a class="item" data-tab="description">Description</a>
+    </nav>
+
+    {{!-- ITEM BODY --}}
+    <section class="sheet-body p-1" style="flex: 1 1 auto; overflow-y: auto;">
+
+        {{!-- Details Tab --}}
+        <div class="tab details h-100 flexcol" data-group="primary" data-tab="details">
+            <div class="form-group flexcol mb-1">
+                <label class="font-weight-bold text-blue">Enhancement</label>
+                <input type="number" name="system.enhancement" value="{{system.enhancement}}" data-dtype="Number" placeholder="0"/>
+            </div>
+
+            {{!-- Resizable Text Area for Tags --}}
+            <div class="form-group flexcol h-100">
+                <label class="font-weight-bold text-blue">Tags & Special Rules</label>
+                <textarea name="system.tags" placeholder="Enter gear tags or special rules here..." style="min-height: 150px; resize: vertical; padding: 5px; font-family: inherit; border: 1px solid #7a7971; border-radius: 3px; background: rgba(0, 0, 0, 0.05);">{{system.tags}}</textarea>
+            </div>
+        </div>
+
+        {{!-- Description Tab (Rich Text Editor) --}}
+        <div class="tab description h-100" data-group="primary" data-tab="description">
+            <div class="p-1 border" style="background: rgba(0,0,0,0.02); min-height: 350px; height: 100%;">
+                {{editor enrichedDescription target="system.description" button=true owner=owner editable=editable engine="prosemirror"}}
+            </div>
+        </div>
+
+    </section>
+</form>
