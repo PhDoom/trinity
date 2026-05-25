@@ -1,6 +1,6 @@
 /**
  * Trinity Continuum Actor Sheet
- * Updated for Foundry V13 Compatibility & Gift Item Support
+ * Updated for Foundry V13 Compatibility, Gift Item Support, & Interactive Pips
  */
 
 export class TrinityActorSheet extends ActorSheet {
@@ -118,6 +118,16 @@ export class TrinityActorSheet extends ActorSheet {
 
     html.find('.rollable').click(this._onRoll.bind(this));
     html.find('.roll-power').click(this._onItemRoll.bind(this));
+
+    // --- NEW: INTERACTIVE DOTS & HEALTH LISTENERS ---
+    // Listen for clicks on the visual pips/dots
+    html.find('.pip').click(this._onPipClick.bind(this));
+
+    // Listen for clicks to add Health Boxes
+    html.find('.add-health-box').click(this._onAddHealthBox.bind(this));
+    
+    // Listen for clicks to remove Health Boxes (Right-click)
+    html.find('.add-health-box').contextmenu(this._onRemoveHealthBox.bind(this));
   }
 
   async _onItemCreate(event) {
@@ -158,4 +168,14 @@ export class TrinityActorSheet extends ActorSheet {
       await TrinityRollPrompt3.executeRoll(this.actor, config);
     }
   }
-}
+
+  // ==========================================
+  // --- NEW: INTERACTIVE DOTS & HEALTH LOGIC ---
+  // ==========================================
+
+  /** Handle clicking on a pip/dot to set the value */
+  _onPipClick(event) {
+    event.preventDefault();
+    const element = event.currentTarget;
+    const field = element.parentElement.dataset.name;
+    const
