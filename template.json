@@ -51,4 +51,145 @@
         "intuitive": { "name": "", "rating": 0 },
         "reflective": { "name": "", "rating": 0 }
       },
-      "experience": { "unspent": 0,
+      "experience": { "unspent": 0, "total": 0 },
+      "aspirations": {
+        "short1": "",
+        "short2": "",
+        "long": ""
+      },
+      "bonds": "",
+      "rollSettings": {
+        "targetNumber": { "value": 8 },
+        "doubleSuccess": { "value": 10 },
+        "explodeThreshold": { "value": 10 },
+        "successThreshold": { "value": 0 },
+        "failThreshold": { "value": 1 },
+        "bonusDice": { "value": 0 },
+        "difficulty": { "value": 0 },
+        "narrativeScale": { "value": 0 },
+        "dramaticScale": { "value": 0 }
+      },
+      "attributes": {
+        "intellect": { "value": 1, "mega": 0, "label": "Intellect" },
+        "cunning": { "value": 1, "mega": 0, "label": "Cunning" },
+        "resolve": { "value": 1, "mega": 0, "label": "Resolve" },
+        "might": { "value": 1, "mega": 0, "label": "Might" },
+        "dexterity": { "value": 1, "mega": 0, "label": "Dexterity" },
+        "stamina": { "value": 1, "mega": 0, "label": "Stamina" },
+        "presence": { "value": 1, "mega": 0, "label": "Presence" },
+        "manipulation": { "value": 1, "mega": 0, "label": "Manipulation" },
+        "composure": { "value": 1, "mega": 0, "label": "Composure" }
+      },
+      "skills": {
+        "aim": { "value": 0, "label": "Aim" },
+        "athletics": { "value": 0, "label": "Athletics" },
+        "closeCombat": { "value": 0, "label": "Close Combat" },
+        "command": { "value": 0, "label": "Command" },
+        "culture": { "value": 0, "label": "Culture" },
+        "empathy": { "value": 0, "label": "Empathy" },
+        "enigmas": { "value": 0, "label": "Enigmas" },
+        "humanities": { "value": 0, "label": "Humanities" },
+        "integrity": { "value": 0, "label": "Integrity" },
+        "larceny": { "value": 0, "label": "Larceny" },
+        "medicine": { "value": 0, "label": "Medicine" },
+        "persuasion": { "value": 0, "label": "Persuasion" },
+        "pilot": { "value": 0, "label": "Pilot" },
+        "science": { "value": 0, "label": "Science" },
+        "survival": { "value": 0, "label": "Survival" },
+        "technology": { "value": 0, "label": "Technology" }
+      },
+      "subType": "talent",
+      "talent": {
+        "inspiration": { "value": 1, "max": 10 }
+      },
+      "mage": {
+        "quintessence": { "value": 1, "max": 10 },
+        "arete": { "value": 1 }
+      },
+      "psion": {
+        "psi": { "value": 1, "max": 10 },
+        "tolerance": { "value": 1 }
+      },
+      "nova": {
+        "quantum": { "value": 1, "max": 10 },
+        "flux": { "value": 0, "max": 10 }
+      }
+    },
+    "npc": {
+      "templates": ["base"],
+      "threat": { "value": 1 },
+      "size": { "value": 1 },
+      "pools": {
+        "primary": { "value": 5 },
+        "secondary": { "value": 4 },
+        "desperation": { "value": 3 },
+        "attack": { "value": 0 },
+        "movement": { "value": 0 },
+        "social": { "value": 0 }
+      },
+      "attributes": {
+        "cunning": { "value": 1, "label": "Cunning" }
+      }
+    }
+  },
+  "Item": {
+    "types": [
+      "gear", 
+      "item", 
+      "weapon", 
+      "armor", 
+      "edge", 
+      "power", 
+      "action", 
+      "condition", 
+      "bond", 
+      "contact", 
+      "gift", 
+      "spell", 
+      "quantumPower"
+    ],
+    "templates": {
+      "baseItem": {
+        "description": ""
+      }
+    },
+    "gear": { "templates": ["baseItem"], "quantity": 1 },
+    "item": { "templates": ["baseItem"], "quantity": 1 },
+    "weapon": { "templates": ["baseItem"], "damage": 0, "range": "", "tags": "" },
+    "armor": { "templates": ["baseItem"], "soak": 0, "tags": "" },
+    "edge": { 
+      "templates": ["baseItem"], 
+      "rating": 0, 
+      "isMegaEdge": false, 
+      "prerequisite": "" 
+    },
+    "power": { 
+      "templates": ["baseItem"], 
+      "value": 0, 
+      "cost": "" 
+    },
+    "action": { "templates": ["baseItem"], "dicePool": "", "cost": "" },
+    "condition": { "templates": ["baseItem"], "resolution": "", "effect": "" },
+    "bond": { "templates": ["baseItem"], "rating": 1 },
+    "contact": { 
+      "templates": ["baseItem"], 
+      "rating": 0 
+    },
+    "gift": { 
+      "templates": ["baseItem"], 
+      "keywords": "", 
+      "prerequisite": "" 
+    },
+    "spell": { "templates": ["baseItem"], "dicePool": "", "cost": "" },
+    "quantumPower": { 
+      "templates": ["baseItem"], 
+      "value": 0,
+      "action": "",
+      "cost": "",
+      "dicePool": "", 
+      "range": "",
+      "duration": "",
+      "tags": ""
+    }
+  }
+}
