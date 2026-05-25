@@ -166,7 +166,13 @@
       "range": "", 
       "tags": "" 
     },
-    "armor": { "templates": ["baseItem"], "soak": 0, "tags": "" },
+    "armor": { 
+      "templates": ["baseItem"], 
+      "base": "",
+      "hard": 0,
+      "soft": 0,
+      "tags": "" 
+    },
     "edge": { 
       "templates": ["baseItem"], 
       "rating": 0, 
