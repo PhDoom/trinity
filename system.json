@@ -16,7 +16,9 @@
   "esmodules": [
     "module/trinity.js"
   ],
-  "styles": [],
+  "styles": [
+    "css/trinity.css"
+  ],
   "languages": [
     {
       "lang": "en",
