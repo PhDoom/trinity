@@ -23,6 +23,10 @@ export class TrinityItemSheet extends ItemSheet {
     context.system = itemData.system;
     context.flags = itemData.flags;
 
+    // NEW: Explicitly pass permissions so the Text Editor knows to unlock!
+    context.editable = this.isEditable;
+    context.owner = this.item.isOwner;
+
     context.enrichedDescription = await TextEditor.enrichHTML(context.system.description || "", {
       async: true,
       secrets: this.item.isOwner,
