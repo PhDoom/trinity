@@ -76,8 +76,8 @@
 
         {{!-- Description Tab (Rich Text Editor) --}}
         <div class="tab description h-100" data-group="primary" data-tab="description">
-            <div class="p-1 border h-100" style="background: rgba(0,0,0,0.02);">
-                {{editor enrichedDescription target="system.description" button=true owner=owner editable=editable}}
+            <div class="p-1 border" style="background: rgba(0,0,0,0.02); min-height: 350px; height: 100%;">
+                {{editor enrichedDescription target="system.description" button=true owner=owner editable=editable engine="prosemirror"}}
             </div>
         </div>
 
