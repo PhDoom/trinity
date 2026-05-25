@@ -1,40 +1,48 @@
 /* 1. Cascade Layer Definitions 
-   Define these first so the browser understands the priority hierarchy. */
-@layer trinity.libs, trinity.base, trinity.layout, trinity.items, trinity.resources, trinity.tabs;
+   CRITICAL: This MUST remain outside the wrapper at the very top! */
+@layer trinity.libs, trinity.base, trinity.layout, trinity.items, trinity.resources, trinity.tabs, trinity.forms;
 
-/* 2. External Libraries (Isolated in their own layer) */
-@layer trinity.libs {
-    @import "../lib/some-lib/some-lib.css";
-}
+/* ================================================================== */
+/* NAMESPACE WRAPPER                                                  */
+/* Everything inside this block will only affect the Trinity sheets   */
+/* ================================================================== */
+.trinity-app {
 
-/* 3. Global Utilities & Variables */
-@layer trinity.base {
-    @import "utils/variables";
-    @import "utils/colors";
-    @import "utils/typography";
-    @import "utils/mixins";
-}
+    /* 2. External Libraries (Isolated in their own layer) */
+    @layer trinity.libs {
+        @import "../lib/some-lib/some-lib.css";
+    }
 
-/* 4. Global Layout Engines */
-@layer trinity.layout {
-    @import "global/flex";
-    @import "global/grid";
-    @import "global/window";
-}
+    /* 3. Global Utilities & Variables */
+    @layer trinity.base {
+        @import "utils/variables";
+        @import "utils/colors";
+        @import "utils/typography";
+        @import "utils/mixins";
+    }
 
-/* 5. System Components */
-@layer trinity.items {
-    @import "components/items";
-}
+    /* 4. Global Layout Engines */
+    @layer trinity.layout {
+        @import "global/flex";
+        @import "global/grid";
+        @import "global/window";
+    }
 
-@layer trinity.resources {
-    @import "components/resource";
-}
+    /* 5. System Components */
+    @layer trinity.items {
+        @import "components/items";
+    }
 
-@layer trinity.tabs {
-    @import "components/tabs";
-}
+    @layer trinity.resources {
+        @import "components/resource";
+    }
 
-@layer trinity.forms {
-    @import "components/forms";
+    @layer trinity.tabs {
+        @import "components/tabs";
+    }
+
+    @layer trinity.forms {
+        @import "components/forms";
+    }
+    
 }
