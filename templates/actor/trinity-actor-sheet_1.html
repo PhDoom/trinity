@@ -3,21 +3,22 @@
     {{!-- SHEET HEADER --}}
     <header class="sheet-header flexrow">
         <img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="120" width="120"/>
-        <div class="header-fields flexcol">
+        
+        {{!-- The healthboxes partial has been removed from here! --}}
+        <div class="header-fields flexcol" style="justify-content: center;">
             <h1 class="charname">
                 <input name="name" type="text" value="{{actor.name}}" placeholder="Character Name"/>
             </h1>
-            {{> "systems/trinity/templates/actor/partials/healthboxes.html"}}
         </div>
     </header>
 
-    {{!-- TAB NAVIGATION (Notice the new Powers tab!) --}}
+    {{!-- TAB NAVIGATION --}}
     <nav class="sheet-tabs tabs" data-group="primary">
         <a class="item" data-tab="character">Character</a>
         <a class="item" data-tab="attributes">Stats & Skills</a>
         <a class="item" data-tab="powers">Powers</a> 
         <a class="item" data-tab="combat">Combat</a>
-        <a class="item" data-tab="inventory">Inventory</a>
+        <a class="item" data-tab="health">Health</a> <a class="item" data-tab="inventory">Inventory</a>
         <a class="item" data-tab="bio">Biography</a>
     </nav>
 
@@ -76,6 +77,11 @@
             {{> "systems/trinity/templates/actor/partials/combat.html"}}
             {{> "systems/trinity/templates/actor/partials/defense.html"}}
             {{> "systems/trinity/templates/actor/partials/initiative.html"}}
+        </div>
+
+        {{!-- NEW: Health Tab --}}
+        <div class="tab health" data-group="primary" data-tab="health">
+            {{> "systems/trinity/templates/actor/partials/healthboxes.html"}}
         </div>
 
         {{!-- Inventory Tab --}}
