@@ -28,7 +28,24 @@
       "bonds": "",
       "rollSettings": { "targetNumber": { "value": 8 }, "doubleSuccess": { "value": 10 }, "explodeThreshold": { "value": 10 }, "successThreshold": { "value": 0 }, "failThreshold": { "value": 1 }, "bonusDice": { "value": 0 }, "difficulty": { "value": 0 }, "narrativeScale": { "value": 0 }, "dramaticScale": { "value": 0 } },
       "attributes": { "intellect": { "value": 1, "mega": 0, "label": "Intellect" }, "cunning": { "value": 1, "mega": 0, "label": "Cunning" }, "resolve": { "value": 1, "mega": 0, "label": "Resolve" }, "might": { "value": 1, "mega": 0, "label": "Might" }, "dexterity": { "value": 1, "mega": 0, "label": "Dexterity" }, "stamina": { "value": 1, "mega": 0, "label": "Stamina" }, "presence": { "value": 1, "mega": 0, "label": "Presence" }, "manipulation": { "value": 1, "mega": 0, "label": "Manipulation" }, "composure": { "value": 1, "mega": 0, "label": "Composure" } },
-      "skills": { "aim": { "value": 0, "label": "Aim" }, "athletics": { "value": 0, "label": "Athletics" }, "closeCombat": { "value": 0, "label": "Close Combat" }, "command": { "value": 0, "label": "Command" }, "culture": { "value": 0, "label": "Culture" }, "empathy": { "value": 0, "label": "Empathy" }, "enigmas": { "value": 0, "label": "Enigmas" }, "humanities": { "value": 0, "label": "Humanities" }, "integrity": { "value": 0, "label": "Integrity" }, "larceny": { "value": 0, "label": "Larceny" }, "medicine": { "value": 0, "label": "Medicine" }, "persuasion": { "value": 0, "label": "Persuasion" }, "pilot": { "value": 0, "label": "Pilot" }, "science": { "value": 0, "label": "Science" }, "survival": { "value": 0, "label": "Survival" }, "technology": { "value": 0, "label": "Technology" } },
+      "skills": { 
+        "aim": { "value": 0, "label": "Aim", "specialty": "" }, 
+        "athletics": { "value": 0, "label": "Athletics", "specialty": "" }, 
+        "closeCombat": { "value": 0, "label": "Close Combat", "specialty": "" }, 
+        "command": { "value": 0, "label": "Command", "specialty": "" }, 
+        "culture": { "value": 0, "label": "Culture", "specialty": "" }, 
+        "empathy": { "value": 0, "label": "Empathy", "specialty": "" }, 
+        "enigmas": { "value": 0, "label": "Enigmas", "specialty": "" }, 
+        "humanities": { "value": 0, "label": "Humanities", "specialty": "" }, 
+        "integrity": { "value": 0, "label": "Integrity", "specialty": "" }, 
+        "larceny": { "value": 0, "label": "Larceny", "specialty": "" }, 
+        "medicine": { "value": 0, "label": "Medicine", "specialty": "" }, 
+        "persuasion": { "value": 0, "label": "Persuasion", "specialty": "" }, 
+        "pilot": { "value": 0, "label": "Pilot", "specialty": "" }, 
+        "science": { "value": 0, "label": "Science", "specialty": "" }, 
+        "survival": { "value": 0, "label": "Survival", "specialty": "" }, 
+        "technology": { "value": 0, "label": "Technology", "specialty": "" } 
+      },
       "subType": "talent",
       "talent": { "inspiration": { "value": 1, "max": 10 } },
       "mage": { "quintessence": { "value": 1, "max": 10 }, "arete": { "value": 1 } },
@@ -62,9 +79,6 @@
     "quantumPower": { "templates": ["baseItem"], "value": 0, "action": "", "cost": "", "dicePool": "", "range": "", "duration": "", "tags": "" },
     "biotech": { "templates": ["baseItem"], "enhancement": 0, "damage": 0, "damageType": "", "range": "", "tags": "" },
     "vehicle": { "templates": ["baseItem"], "size": 0, "handling": 0, "speed": 0, "weapons": "", "tags": "" },
-    "skillTrick": { 
-      "templates": ["baseItem"], 
-      "skill": "" 
-    }
+    "skillTrick": { "templates": ["baseItem"], "skill": "" }
   }
 }
