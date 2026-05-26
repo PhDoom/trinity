@@ -7,7 +7,8 @@
             
             {{!-- Top Row: Label and Pips --}}
             <div class="flexrow flex-between align-center">
-                <span class="skill-name rollable font-weight-bold" data-attribute="{{key}}" style="cursor: pointer; flex: 1;">{{skill.label}}</span>
+                {{!-- FIXED: Changed data-attribute to data-skill for the unified roller --}}
+                <span class="skill-name rollable font-weight-bold" data-skill="{{key}}" style="cursor: pointer; flex: 1;">{{skill.label}}</span>
                 
                 <div class="pip-container" data-name="system.skills.{{key}}.value" data-value="{{skill.value}}">
                     <i class="pip {{#if (gt skill.value 0)}}fas{{else}}far{{/if}} fa-circle" data-index="1"></i>
