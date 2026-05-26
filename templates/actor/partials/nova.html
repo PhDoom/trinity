@@ -4,7 +4,8 @@
         
         {{!-- Quantum --}}
         <div class="form-group flexcol flex-center border p-1" style="border-radius: 5px; background: rgba(0,0,0,0.02);">
-            <label class="font-weight-bold text-blue mb-1">Quantum</label>
+            {{!-- FIXED: Made Quantum label clickable for the dice roller --}}
+            <label class="font-weight-bold text-blue mb-1 rollable" style="cursor: pointer;" data-trait-name="Quantum" data-trait-value="{{system.nova.quantum.value}}">Quantum</label>
             <div class="pip-container" data-name="system.nova.quantum.value" data-value="{{system.nova.quantum.value}}">
                 <i class="pip {{#if (gt system.nova.quantum.value 0)}}fas{{else}}far{{/if}} fa-circle" data-index="1"></i>
                 <i class="pip {{#if (gt system.nova.quantum.value 1)}}fas{{else}}far{{/if}} fa-circle" data-index="2"></i>
