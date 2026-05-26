@@ -1,0 +1,21 @@
+<div class="settings-section mt-1">
+    <h3 class="header text-blue">Dice & Roll Settings</h3>
+    
+    <div class="grid grid-2col gap-10">
+        
+        {{!-- Target Number --}}
+        <div class="form-group flexcol border p-1" style="border-radius: 5px; background: rgba(0,0,0,0.02);">
+            <label class="font-weight-bold text-blue mb-1" style="font-size: 1.1em;">Target Number</label>
+            <p style="font-size: 0.85em; color: #666; flex: 1;">The face value required on a d10 to count as a single success. The standard Trinity Continuum default is 8.</p>
+            <input type="number" name="system.rollSettings.targetNumber.value" value="{{system.rollSettings.targetNumber.value}}" data-dtype="Number" style="text-align: center; font-size: 1.5em; height: 40px;"/>
+        </div>
+
+        {{!-- Double Success Threshold --}}
+        <div class="form-group flexcol border p-1" style="border-radius: 5px; background: rgba(0,0,0,0.02);">
+            <label class="font-weight-bold text-blue mb-1" style="font-size: 1.1em;">Double Success</label>
+            <p style="font-size: 0.85em; color: #666; flex: 1;">The face value required on a d10 to count as TWO successes. The standard Trinity Continuum default is 10.</p>
+            <input type="number" name="system.rollSettings.doubleSuccess.value" value="{{system.rollSettings.doubleSuccess.value}}" data-dtype="Number" style="text-align: center; font-size: 1.5em; height: 40px;"/>
+        </div>
+
+    </div>
+</div>
