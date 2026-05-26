@@ -66,10 +66,11 @@ export class TrinityActorSheet extends ActorSheet {
     const contacts = [];
     const gifts = [];
     
-    // NEW: Containers for our recently created item types
+    // Containers for our recently created item types
     const quantumPowers = [];
     const biotech = [];
     const vehicles = [];
+    const skillTricks = []; // NEW: Skill Tricks container
 
     for (let i of context.items) {
       i.img = i.img || DEFAULT_TOKEN; 
@@ -85,10 +86,11 @@ export class TrinityActorSheet extends ActorSheet {
       else if (i.type === 'contact') contacts.push(i);
       else if (i.type === 'gift') gifts.push(i);
       
-      // NEW: Sorting logic for new item types
+      // Sorting logic for new item types
       else if (i.type === 'quantumPower') quantumPowers.push(i);
       else if (i.type === 'biotech') biotech.push(i);
       else if (i.type === 'vehicle') vehicles.push(i);
+      else if (i.type === 'skillTrick') skillTricks.push(i); // NEW: Sorting logic for Skill Tricks
     }
 
     context.gear = gear;
@@ -102,10 +104,11 @@ export class TrinityActorSheet extends ActorSheet {
     context.contacts = contacts;
     context.gifts = gifts;
     
-    // NEW: Assigned back to context so HTML can loop through them
+    // Assigned back to context so HTML can loop through them
     context.quantumPowers = quantumPowers;
     context.biotech = biotech;
     context.vehicles = vehicles;
+    context.skillTricks = skillTricks; // NEW: Assigned to context
   }
 
   /** @override */
@@ -130,7 +133,7 @@ export class TrinityActorSheet extends ActorSheet {
     html.find('.rollable').click(this._onRoll.bind(this));
     html.find('.roll-power').click(this._onItemRoll.bind(this));
     
-    // NEW: Listen for clicks on the visual pips/dots directly on the Actor sheet
+    // Listen for clicks on the visual pips/dots directly on the Actor sheet
     html.find('.pip').click(this._onPipClick.bind(this));
   }
 
