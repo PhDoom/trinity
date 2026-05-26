@@ -1,43 +1,65 @@
-{{!-- Gear Partial - Foundry V13 Compliant --}}
+{{!-- Gear & Vehicles Partial - Foundry V13 Compliant --}}
 <div class="items-category gear-section mb-2">
   
+  {{!-- GEAR SECTION --}}
   <h3 class="header">Gear & Equipment</h3>
   
   <ol class="item-list">
-    {{!-- List Header --}}
     <li class="item flexrow item-header">
       <div class="item-image"></div>
       <div class="item-name">Item Name</div>
       <div class="item-detail" style="flex: 0 0 50px; text-align: center;">Qty</div>
       <div class="item-controls">
-        {{!-- V13 Item Creation Hook --}}
         <a class="item-control item-create" title="Add Gear" data-type="gear">
           <i class="fas fa-plus"></i> Add
         </a>
       </div>
     </li>
 
-    {{!-- V13 Array Iteration - Loops through the 'gear' array from prepareItems --}}
     {{#each gear as |item id|}}
     <li class="item flexrow" data-item-id="{{item._id}}">
-      
       <div class="item-name flexrow">
         <div class="item-image" style="background-image: url('{{item.img}}')"></div>
         <h4>{{item.name}}</h4>
       </div>
-      
-      {{!-- V13 Data Path: Accessing quantity defined in template.json --}}
       <div class="item-detail" style="flex: 0 0 50px; text-align: center;">
         {{item.system.quantity}}
       </div>
-      
       <div class="item-controls">
         <a class="item-control item-edit" title="Edit Gear"><i class="fas fa-edit"></i></a>
         <a class="item-control item-delete" title="Delete Gear"><i class="fas fa-trash"></i></a>
       </div>
-      
     </li>
     {{/each}}
   </ol>
+</div>
 
+{{!-- VEHICLE SECTION --}}
+<div class="items-category vehicle-section mb-2">
+  <h3 class="header">Vehicles</h3>
+  
+  <ol class="item-list">
+    <li class="item flexrow item-header">
+      <div class="item-image"></div>
+      <div class="item-name">Vehicle Name</div>
+      <div class="item-controls">
+        <a class="item-control item-create" title="Add Vehicle" data-type="vehicle">
+          <i class="fas fa-plus"></i> Add
+        </a>
+      </div>
+    </li>
+
+    {{#each vehicles as |item id|}}
+    <li class="item flexrow" data-item-id="{{item._id}}">
+      <div class="item-name flexrow">
+        <div class="item-image" style="background-image: url('{{item.img}}')"></div>
+        <h4>{{item.name}}</h4>
+      </div>
+      <div class="item-controls">
+        <a class="item-control item-edit" title="Edit Vehicle"><i class="fas fa-edit"></i></a>
+        <a class="item-control item-delete" title="Delete Vehicle"><i class="fas fa-trash"></i></a>
+      </div>
+    </li>
+    {{/each}}
+  </ol>
 </div>
