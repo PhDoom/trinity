@@ -151,22 +151,28 @@ export class TrinityActorSheet extends ActorSheet {
     return this.document.update({ [field]: newValue });
   }
 
+  /** FIXED: Strict V13 Item Creation */
   async _onItemCreate(event) {
     event.preventDefault();
     const header = event.currentTarget;
     let type = header.dataset.type;
 
-    // FIXED: Manually correct the lowercase bug caused by HTML data tags
+    // 1. Manually correct HTML lowercase flattening for camelCase items
     if (type === "quantumpower") type = "quantumPower";
     if (type === "skilltrick") type = "skillTrick";
 
-    const data = foundry.utils.duplicate(header.dataset);
-    const name = `New ${type.capitalize()}`;
-    const itemData = { name: name, type: type, system: data };
+    // 2. Create a clean, capitalized name (e.g. "New Power")
+    const name = `New ${type.charAt(0).toUpperCase() + type.slice(1)}`;
+
+    // 3. Build a clean data object to bypass V13 strict validation failures
+    const itemData = {
+      name: name,
+      type: type,
+      system: {} // Starts empty so random HTML tags don't crash the database
+    };
     
-    delete itemData.system["type"];
-    
-    return await Item.create(itemData, {parent: this.actor});
+    // 4. Use the modern V13 Embedded Document creation method
+    return await this.actor.createEmbeddedDocuments("Item", [itemData]);
   }
 
   /** Unified Roll Method handling Attributes, Skills, Items, and Traits */
