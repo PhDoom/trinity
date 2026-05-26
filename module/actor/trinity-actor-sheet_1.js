@@ -59,7 +59,7 @@ export class TrinityActorSheet extends ActorSheet {
     const weapons = [];
     const armor = [];
     const edges = [];
-    const paths = []; // Legacy paths (kept safe just in case old items exist)
+    const paths = []; 
     const powers = [];
     const conditions = [];
     const bonds = [];
@@ -70,7 +70,7 @@ export class TrinityActorSheet extends ActorSheet {
     const quantumPowers = [];
     const biotech = [];
     const vehicles = [];
-    const skillTricks = []; // NEW: Skill Tricks container
+    const skillTricks = []; 
 
     for (let i of context.items) {
       i.img = i.img || DEFAULT_TOKEN; 
@@ -90,7 +90,7 @@ export class TrinityActorSheet extends ActorSheet {
       else if (i.type === 'quantumPower') quantumPowers.push(i);
       else if (i.type === 'biotech') biotech.push(i);
       else if (i.type === 'vehicle') vehicles.push(i);
-      else if (i.type === 'skillTrick') skillTricks.push(i); // Sorting logic for Skill Tricks
+      else if (i.type === 'skillTrick') skillTricks.push(i); 
     }
 
     context.gear = gear;
@@ -108,7 +108,7 @@ export class TrinityActorSheet extends ActorSheet {
     context.quantumPowers = quantumPowers;
     context.biotech = biotech;
     context.vehicles = vehicles;
-    context.skillTricks = skillTricks; // Assigned to context
+    context.skillTricks = skillTricks; 
   }
 
   /** @override */
@@ -154,7 +154,12 @@ export class TrinityActorSheet extends ActorSheet {
   async _onItemCreate(event) {
     event.preventDefault();
     const header = event.currentTarget;
-    const type = header.dataset.type;
+    let type = header.dataset.type;
+
+    // FIXED: Manually correct the lowercase bug caused by HTML data tags
+    if (type === "quantumpower") type = "quantumPower";
+    if (type === "skilltrick") type = "skillTrick";
+
     const data = foundry.utils.duplicate(header.dataset);
     const name = `New ${type.capitalize()}`;
     const itemData = { name: name, type: type, system: data };
