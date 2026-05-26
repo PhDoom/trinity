@@ -1,58 +1,36 @@
 <form class="trinity-app {{cssClass}} flexcol" autocomplete="off">
-
-    {{!-- ITEM HEADER --}}
     <header class="sheet-header flexrow p-1 border-bottom align-center">
-        <img class="profile-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" height="64" width="64" style="object-fit: cover; flex: 0 0 auto;"/>
+        <img class="profile-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" height="64" width="64" style="object-fit: cover; flex: 0 0 auto; border-radius: 3px;"/>
         <div class="header-fields flexcol w-100 mx-1">
             <h1 class="charname m-0">
-                <input name="name" type="text" value="{{item.name}}" placeholder="PSI Power Name"/>
+                <input name="name" type="text" value="{{item.name}}" placeholder="Power Name"/>
             </h1>
-            
-            {{!-- 0-10 Pip Tracker for the Psi Power's Rating --}}
-            <div class="flexrow align-center mt-1">
-                <label class="font-weight-bold mr-1 text-blue">Rating</label>
+        </div>
+    </header>
+
+    <section class="sheet-body p-1 flexcol" style="flex: 1 1 auto; overflow-y: auto;">
+        <div class="grid grid-2col gap-10 mb-1 align-center">
+            <div class="form-group flexrow align-center border p-1" style="border-radius: 5px; background: rgba(0,0,0,0.02);">
+                <label class="font-weight-bold text-blue mr-1">Rating</label>
                 <div class="pip-container" data-name="system.value" data-value="{{system.value}}">
                     <i class="pip {{#if (gt system.value 0)}}fas{{else}}far{{/if}} fa-circle" data-index="1"></i>
                     <i class="pip {{#if (gt system.value 1)}}fas{{else}}far{{/if}} fa-circle" data-index="2"></i>
                     <i class="pip {{#if (gt system.value 2)}}fas{{else}}far{{/if}} fa-circle" data-index="3"></i>
                     <i class="pip {{#if (gt system.value 3)}}fas{{else}}far{{/if}} fa-circle" data-index="4"></i>
                     <i class="pip {{#if (gt system.value 4)}}fas{{else}}far{{/if}} fa-circle" data-index="5"></i>
-                    <i class="pip {{#if (gt system.value 5)}}fas{{else}}far{{/if}} fa-circle" data-index="6"></i>
-                    <i class="pip {{#if (gt system.value 6)}}fas{{else}}far{{/if}} fa-circle" data-index="7"></i>
-                    <i class="pip {{#if (gt system.value 7)}}fas{{else}}far{{/if}} fa-circle" data-index="8"></i>
-                    <i class="pip {{#if (gt system.value 8)}}fas{{else}}far{{/if}} fa-circle" data-index="9"></i>
-                    <i class="pip {{#if (gt system.value 9)}}fas{{else}}far{{/if}} fa-circle" data-index="10"></i>
                 </div>
             </div>
-            
-        </div>
-    </header>
-
-    {{!-- ITEM TABS --}}
-    <nav class="sheet-tabs tabs mt-1" data-group="primary">
-        <a class="item" data-tab="details">Power Details</a>
-        <a class="item" data-tab="description">Description</a>
-    </nav>
-
-    {{!-- ITEM BODY --}}
-    <section class="sheet-body p-1" style="flex: 1 1 auto; overflow-y: auto;">
-
-        {{!-- Details Tab --}}
-        <div class="tab details h-100" data-group="primary" data-tab="details">
-            <div class="grid grid-2col gap-10">
-                <div class="form-group flexcol">
-                    <label class="font-weight-bold text-blue">Cost</label>
-                    <input type="text" name="system.cost" value="{{system.cost}}" placeholder="e.g. 1 Psi..."/>
-                </div>
+            <div class="form-group flexcol border p-1" style="border-radius: 5px; background: rgba(0,0,0,0.02);">
+                <label class="font-weight-bold text-blue">Cost</label>
+                <input type="text" name="system.cost" value="{{system.cost}}" placeholder="e.g. 1 Psi..."/>
             </div>
         </div>
 
-        {{!-- Description Tab (Rich Text Editor) --}}
-        <div class="tab description h-100" data-group="primary" data-tab="description">
-            <div class="p-1 border" style="background: rgba(0,0,0,0.02); min-height: 350px; height: 100%;">
-                {{editor enrichedDescription target="system.description" button=true owner=owner editable=editable engine="prosemirror"}}
+        <div class="form-group flexcol h-100 mt-1">
+            <label class="font-weight-bold text-blue mb-1">Description</label>
+            <div class="p-1 border" style="background: rgba(0,0,0,0.02); min-height: 200px; height: 100%;">
+                {{editor system.description target="system.description" button=true editable=true engine="prosemirror"}}
             </div>
         </div>
-
     </section>
 </form>
