@@ -1,6 +1,6 @@
 /**
  * Trinity Continuum Actor Sheet (Variant 1)
- * Updated for Foundry V13 Compatibility & Gift Item Support
+ * Updated for Foundry V13 Compatibility, New Items & Interactive Pips
  */
 
 export class TrinityActorSheet extends ActorSheet {
@@ -59,12 +59,17 @@ export class TrinityActorSheet extends ActorSheet {
     const weapons = [];
     const armor = [];
     const edges = [];
-    const paths = [];
+    const paths = []; // Legacy paths (kept safe just in case old items exist)
     const powers = [];
     const conditions = [];
     const bonds = [];
     const contacts = [];
-    const gifts = []; // Initialized Gifts container
+    const gifts = [];
+    
+    // NEW: Containers for our recently created item types
+    const quantumPowers = [];
+    const biotech = [];
+    const vehicles = [];
 
     for (let i of context.items) {
       i.img = i.img || DEFAULT_TOKEN; 
@@ -78,7 +83,12 @@ export class TrinityActorSheet extends ActorSheet {
       else if (i.type === 'condition') conditions.push(i);
       else if (i.type === 'bond') bonds.push(i);
       else if (i.type === 'contact') contacts.push(i);
-      else if (i.type === 'gift') gifts.push(i); // Sorting logic for Gifts
+      else if (i.type === 'gift') gifts.push(i);
+      
+      // NEW: Sorting logic for new item types
+      else if (i.type === 'quantumPower') quantumPowers.push(i);
+      else if (i.type === 'biotech') biotech.push(i);
+      else if (i.type === 'vehicle') vehicles.push(i);
     }
 
     context.gear = gear;
@@ -90,7 +100,12 @@ export class TrinityActorSheet extends ActorSheet {
     context.conditions = conditions;
     context.bonds = bonds;
     context.contacts = contacts;
-    context.gifts = gifts; // Assigned to context
+    context.gifts = gifts;
+    
+    // NEW: Assigned back to context so HTML can loop through them
+    context.quantumPowers = quantumPowers;
+    context.biotech = biotech;
+    context.vehicles = vehicles;
   }
 
   /** @override */
@@ -114,6 +129,23 @@ export class TrinityActorSheet extends ActorSheet {
 
     html.find('.rollable').click(this._onRoll.bind(this));
     html.find('.roll-power').click(this._onItemRoll.bind(this));
+    
+    // NEW: Listen for clicks on the visual pips/dots directly on the Actor sheet
+    html.find('.pip').click(this._onPipClick.bind(this));
+  }
+
+  /** Handle clicking on a pip/dot to set the actor's values */
+  _onPipClick(event) {
+    event.preventDefault();
+    const element = event.currentTarget;
+    const field = element.parentElement.dataset.name;
+    const currentValue = Number(element.parentElement.dataset.value);
+    const clickedIndex = Number(element.dataset.index);
+
+    // If clicking the current value, reduce it by 1 (allows setting to 0)
+    const newValue = (currentValue === clickedIndex) ? clickedIndex - 1 : clickedIndex;
+    
+    return this.document.update({ [field]: newValue });
   }
 
   async _onItemCreate(event) {
