@@ -1,0 +1,31 @@
+<div class="skill-tricks-section mt-1 mb-2">
+    <div class="flexrow flex-between header p-1 border-bottom">
+        <h3 class="m-0 text-blue">Skill Tricks</h3>
+        <a class="item-create text-blue" data-type="skillTrick" title="Add Skill Trick"><i class="fas fa-plus"></i> Add</a>
+    </div>
+    
+    <div class="item-list p-1 border" style="border-radius: 5px;">
+        {{#if skillTricks.length}}
+            {{#each skillTricks as |item id|}}
+            <div class="item flexrow flex-between p-1 border-bottom align-center" data-item-id="{{item._id}}">
+                
+                <div class="item-name flexrow align-center">
+                    <div class="item-image" style="background-image: url('{{item.img}}'); width: 28px; height: 28px; background-size: cover; margin-right: 10px; border-radius: 3px;"></div>
+                    <h4 class="m-0 rollable" data-roll-type="item">{{item.name}}</h4>
+                </div>
+
+                <div class="flexrow align-center">
+                    <span class="tag mx-1" style="padding: 2px 8px; font-weight: bold; background: rgba(0,0,0,0.05);">Skill: {{item.system.skill}}</span>
+                    <div class="item-controls flexrow flex-center ml-1">
+                        <a class="item-control item-edit mx-1" title="Edit"><i class="fas fa-edit"></i></a>
+                        <a class="item-control item-delete text-red" title="Delete"><i class="fas fa-trash"></i></a>
+                    </div>
+                </div>
+
+            </div>
+            {{/each}}
+        {{else}}
+            <em style="color: #666;">Drag and drop Skill Tricks here, or click '+ Add'.</em>
+        {{/if}}
+    </div>
+</div>
