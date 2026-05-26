@@ -16,7 +16,6 @@
         
         {{!-- PSI Rating --}}
         <div class="form-group flexcol flex-center border p-1" style="border-radius: 5px; background: rgba(0,0,0,0.02);">
-            {{!-- FIXED: Made PSI Rating label clickable for the dice roller --}}
             <label class="font-weight-bold text-blue mb-1 rollable" style="cursor: pointer;" data-trait-name="PSI Rating" data-trait-value="{{system.psion.psi.value}}">PSI Rating</label>
             <div class="pip-container" data-name="system.psion.psi.value" data-value="{{system.psion.psi.value}}">
                 <i class="pip {{#if (gt system.psion.psi.value 0)}}fas{{else}}far{{/if}} fa-circle" data-index="1"></i>
@@ -61,8 +60,8 @@
                     <i class="pip {{#if (gt system.psion.psiPoints.max 5)}}fas{{else}}far{{/if}} fa-square" data-index="6"></i>
                     <i class="pip {{#if (gt system.psion.psiPoints.max 6)}}fas{{else}}far{{/if}} fa-square" data-index="7"></i>
                     <i class="pip {{#if (gt system.psion.psiPoints.max 7)}}fas{{else}}far{{/if}} fa-square" data-index="8"></i>
-                    <i class="pip {{#if (gt system.psion.psiPoints.max 8)}}fas{{else}}far{{/if}} fa-square" data-index="9"></i>
-                    <i class="pip {{#if (gt system.psion.psiPoints.max 9)}}fas{{else}}far{{/if}} fa-square" data-index="10"></i>
+                    <i class="pip {{#if (gt system.psion.psiPoints.max 9)}}fas{{else}}far{{/if}} fa-square" data-index="9"></i>
+                    <i class="pip {{#if (gt system.psion.psiPoints.max 10)}}fas{{else}}far{{/if}} fa-square" data-index="10"></i>
                 </div>
             </div>
 
@@ -94,4 +93,28 @@
             <a class="item-create text-blue" data-type="power" title="Create New Power"><i class="fas fa-plus"></i> Add</a>
         </div>
         
-        <div class="power-list
+        <div class="power-list p-1 border">
+            {{#if powers.length}}
+                {{#each powers as |item id|}}
+                <div class="item flexrow flex-between p-1 border-bottom align-center" data-item-id="{{item._id}}">
+                    
+                    <div class="item-name flexrow align-center">
+                        <div class="item-image" style="background-image: url('{{item.img}}'); width: 28px; height: 28px; background-size: cover; margin-right: 10px; border-radius: 3px;"></div>
+                        <h4 class="m-0 rollable" data-roll-type="item">{{item.name}}</h4>
+                    </div>
+
+                    <div class="flexrow align-center">
+                        <span class="tag mx-1" style="padding: 2px 8px;">Cost: {{item.system.cost}}</span>
+                        <div class="item-controls flexrow flex-center ml-1">
+                            <a class="item-control item-edit mx-1" title="Edit Item"><i class="fas fa-edit"></i></a>
+                            <a class="item-control item-delete text-red" title="Delete Item"><i class="fas fa-trash"></i></a>
+                        </div>
+                    </div>
+                </div>
+                {{/each}}
+            {{else}}
+                <em style="color: #666;">Drag and drop PSI Powers here, or click '+ Add'.</em>
+            {{/if}}
+        </div>
+    </div>
+</div>
