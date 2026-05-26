@@ -44,6 +44,8 @@ export const preloadHandlebarsTemplates = async function() {
     "systems/trinity/templates/actor/partials/saved-rolls_1.html",
     "systems/trinity/templates/actor/partials/saved-rolls_2.html",
     "systems/trinity/templates/actor/partials/saved-rolls_3.html",
+    "systems/trinity/templates/actor/partials/settings.html", // NEW: Settings Tab
+    "systems/trinity/templates/actor/partials/skill-tricks.html", // NEW: Skill Tricks Section
     "systems/trinity/templates/actor/partials/skills.html",
     "systems/trinity/templates/actor/partials/specialties.html",
     "systems/trinity/templates/actor/partials/stunts.html",
