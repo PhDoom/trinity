@@ -18,6 +18,7 @@
         <a class="item" data-tab="health">Health</a>
         <a class="item" data-tab="inventory">Inventory</a>
         <a class="item" data-tab="bio">Biography</a>
+        <a class="item" data-tab="settings"><i class="fas fa-cog"></i> Settings</a>
     </nav>
 
     {{!-- SHEET BODY --}}
@@ -35,9 +36,8 @@
                 <div>{{> "systems/trinity/templates/actor/partials/skills.html"}}</div>
             </div>
             
-            {{!-- Facets explicitly placed under Attributes & Skills --}}
             {{> "systems/trinity/templates/actor/partials/facets.html"}}
-            
+            {{> "systems/trinity/templates/actor/partials/skill-tricks.html"}}
             {{> "systems/trinity/templates/actor/partials/edges.html"}}
         </div>
 
@@ -50,9 +50,7 @@
             {{/if}}
             
             {{#if (eq system.details.characterType "talent")}}
-                {{!-- Inspiration moved to the top! The redundant talent.html partial was removed from here. --}}
                 {{> "systems/trinity/templates/actor/partials/inspiration.html"}}
-                
                 <div class="mt-1">
                     {{> "systems/trinity/templates/actor/partials/gifts.html"}}
                 </div>
@@ -94,6 +92,11 @@
         {{!-- Biography Tab --}}
         <div class="tab bio" data-group="primary" data-tab="bio">
             {{> "systems/trinity/templates/actor/partials/bio.html"}}
+        </div>
+
+        {{!-- Settings Tab --}}
+        <div class="tab settings" data-group="primary" data-tab="settings">
+            {{> "systems/trinity/templates/actor/partials/settings.html"}}
         </div>
 
     </section>
