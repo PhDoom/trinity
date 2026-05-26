@@ -1,22 +1,27 @@
 <div class="skills-section">
-  <h3 class="header">Skills</h3>
-  
-  <div class="grid grid-2col gap-5">
-    {{!-- Loop directly through system.skills --}}
-    {{#each system.skills as |skill key|}}
-    <div class="flexrow flex-between align-center border-bottom p-1">
-      <label class="attribute-label rollable font-weight-bold" data-attribute="{{key}}">{{localize skill.label}}</label>
-      
-      {{!-- The universal pip-container logic built in JS handles this perfectly! --}}
-      <div class="pip-container" data-name="system.skills.{{key}}.value" data-value="{{skill.value}}">
-        <i class="pip {{#if (gt skill.value 0)}}fas{{else}}far{{/if}} fa-circle" data-index="1"></i>
-        <i class="pip {{#if (gt skill.value 1)}}fas{{else}}far{{/if}} fa-circle" data-index="2"></i>
-        <i class="pip {{#if (gt skill.value 2)}}fas{{else}}far{{/if}} fa-circle" data-index="3"></i>
-        <i class="pip {{#if (gt skill.value 3)}}fas{{else}}far{{/if}} fa-circle" data-index="4"></i>
-        <i class="pip {{#if (gt skill.value 4)}}fas{{else}}far{{/if}} fa-circle" data-index="5"></i>
-      </div>
+    <h3 class="header m-0 mb-1 border-bottom">Skills</h3>
+    
+    <div class="grid grid-2col gap-10">
+        {{#each system.skills as |skill key|}}
+        <div class="skill-item flexcol" style="margin-bottom: 6px;">
+            
+            {{!-- Top Row: Label and Pips --}}
+            <div class="flexrow flex-between align-center">
+                <span class="skill-name rollable font-weight-bold" data-attribute="{{key}}" style="cursor: pointer; flex: 1;">{{skill.label}}</span>
+                
+                <div class="pip-container" data-name="system.skills.{{key}}.value" data-value="{{skill.value}}">
+                    <i class="pip {{#if (gt skill.value 0)}}fas{{else}}far{{/if}} fa-circle" data-index="1"></i>
+                    <i class="pip {{#if (gt skill.value 1)}}fas{{else}}far{{/if}} fa-circle" data-index="2"></i>
+                    <i class="pip {{#if (gt skill.value 2)}}fas{{else}}far{{/if}} fa-circle" data-index="3"></i>
+                    <i class="pip {{#if (gt skill.value 3)}}fas{{else}}far{{/if}} fa-circle" data-index="4"></i>
+                    <i class="pip {{#if (gt skill.value 4)}}fas{{else}}far{{/if}} fa-circle" data-index="5"></i>
+                </div>
+            </div>
+            
+            {{!-- Bottom Row: Tight Specialty Input --}}
+            <input type="text" name="system.skills.{{key}}.specialty" value="{{skill.specialty}}" placeholder="Specialty..." style="height: 22px; font-size: 0.85em; padding: 0 4px; background: rgba(0,0,0,0.03); border: none; border-bottom: 1px dotted #a8a8a8; border-radius: 0; margin-top: 2px;" title="Skill Specialty"/>
+            
+        </div>
+        {{/each}}
     </div>
-    {{/each}}
-  </div>
-
 </div>
