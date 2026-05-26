@@ -1,0 +1,38 @@
+<form class="trinity-app {{cssClass}} flexcol" autocomplete="off">
+
+    {{!-- ITEM HEADER --}}
+    <header class="sheet-header flexrow p-1 border-bottom align-center">
+        <img class="profile-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" height="64" width="64" style="object-fit: cover; flex: 0 0 auto;"/>
+        <div class="header-fields flexcol w-100 mx-1">
+            <h1 class="charname m-0">
+                <input name="name" type="text" value="{{item.name}}" placeholder="Skill Trick Name"/>
+            </h1>
+        </div>
+    </header>
+
+    {{!-- ITEM TABS --}}
+    <nav class="sheet-tabs tabs mt-1" data-group="primary">
+        <a class="item" data-tab="details">Trick Details</a>
+        <a class="item" data-tab="description">Description</a>
+    </nav>
+
+    {{!-- ITEM BODY --}}
+    <section class="sheet-body p-1" style="flex: 1 1 auto; overflow-y: auto;">
+
+        {{!-- Details Tab --}}
+        <div class="tab details h-100 flexcol" data-group="primary" data-tab="details">
+            <div class="form-group flexcol mb-1">
+                <label class="font-weight-bold text-blue">Associated Skill</label>
+                <input type="text" name="system.skill" value="{{system.skill}}" placeholder="e.g. Athletics, Aim, Science..."/>
+            </div>
+        </div>
+
+        {{!-- Description Tab (Rich Text Editor) --}}
+        <div class="tab description h-100" data-group="primary" data-tab="description">
+            <div class="p-1 border" style="background: rgba(0,0,0,0.02); min-height: 350px; height: 100%;">
+                {{editor enrichedDescription target="system.description" button=true owner=owner editable=editable engine="prosemirror"}}
+            </div>
+        </div>
+
+    </section>
+</form>
