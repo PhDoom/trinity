@@ -1,72 +1,30 @@
-{{!-- Item Path Sheet - Foundry V13 Compliant --}}
-<form class="{{cssClass}} flexcol" autocomplete="off">
-
-  {{!-- Item Sheet Header --}}
-  <header class="sheet-header flexrow border-bottom pb-2 mb-2">
-    <img class="profile-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" height="100" width="100"/>
-    <div class="header-details flexcol">
-      <h1 class="charname">
-        <input name="name" type="text" value="{{item.name}}" placeholder="Path Name"/>
-      </h1>
-      
-      <div class="item-subtitle flexrow flex-between">
-        {{!-- V13 Path: system.subType (Origin, Role, Society) --}}
-        <div class="flex-group-left">
-          <input type="text" name="system.subType" value="{{system.subType}}" placeholder="Path Type (e.g. Origin)"/>
+<form class="trinity-app {{cssClass}} flexcol" autocomplete="off">
+    <header class="sheet-header flexrow p-1 border-bottom align-center">
+        <img class="profile-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" height="64" width="64" style="object-fit: cover; flex: 0 0 auto; border-radius: 3px;"/>
+        <div class="header-fields flexcol w-100 mx-1">
+            <h1 class="charname m-0">
+                <input name="name" type="text" value="{{item.name}}" placeholder="Path Name"/>
+            </h1>
         </div>
-        
-        {{!-- V13 Path: system.value (Path Dots) --}}
-        <div class="item-rating flexrow flex-center" style="max-width: 120px;">
-          <label class="px-1 font-weight-bold text-uppercase small">Dots</label>
-          <input type="number" name="system.value" value="{{system.value}}" data-dtype="Number" style="width: 45px; text-align: center;"/>
-        </div>
-      </div>
-    </div>
-  </header>
+    </header>
 
-  {{!-- Sheet Tab Navigation --}}
-  <nav class="sheet-tabs tabs border-bottom mb-2" data-group="primary">
-    <a class="item" data-tab="description">Description</a>
-    <a class="item" data-tab="details">Details</a>
-  </nav>
-
-  {{!-- Sheet Body --}}
-  <section class="sheet-body">
-
-    {{!-- Description Tab --}}
-    <div class="tab" data-group="primary" data-tab="description">
-      {{!-- V13 ProseMirror Editor --}}
-      {{editor system.description target="system.description" button=true owner=owner editable=editable engine="prosemirror"}}
-    </div>
-
-    {{!-- Details Tab --}}
-    <div class="tab details" data-group="primary" data-tab="details">
-      
-      {{!-- Meta Data Partial --}}
-      {{> "systems/trinity/templates/item/partials/top-traits.html"}}
-
-      <div class="mechanics-group border p-2 mt-2">
-        <h3 class="header border-bottom mb-2">Path Properties</h3>
-        
-        <div class="form-group mb-1">
-            <label class="font-weight-bold">Associated Skills</label>
-            <input type="text" name="system.skills" value="{{system.skills}}" placeholder="e.g. Athletics, Integrity, Persuasion"/>
+    <section class="sheet-body p-1 flexcol" style="flex: 1 1 auto; overflow-y: auto;">
+        <div class="form-group flexrow align-center border p-1 mb-1" style="border-radius: 5px; background: rgba(0,0,0,0.02);">
+            <label class="font-weight-bold text-blue mr-1">Rating</label>
+            <div class="pip-container" data-name="system.rating" data-value="{{system.rating}}">
+                <i class="pip {{#if (gt system.rating 0)}}fas{{else}}far{{/if}} fa-circle" data-index="1"></i>
+                <i class="pip {{#if (gt system.rating 1)}}fas{{else}}far{{/if}} fa-circle" data-index="2"></i>
+                <i class="pip {{#if (gt system.rating 2)}}fas{{else}}far{{/if}} fa-circle" data-index="3"></i>
+                <i class="pip {{#if (gt system.rating 3)}}fas{{else}}far{{/if}} fa-circle" data-index="4"></i>
+                <i class="pip {{#if (gt system.rating 4)}}fas{{else}}far{{/if}} fa-circle" data-index="5"></i>
+            </div>
         </div>
 
-        <div class="form-group mb-1">
-            <label class="font-weight-bold">Path Connections</label>
-            <input type="text" name="system.connections" value="{{system.connections}}" placeholder="e.g. The underworld, local media"/>
+        <div class="form-group flexcol h-100 mt-1">
+            <label class="font-weight-bold text-blue mb-1">Description</label>
+            <div class="p-1 border" style="background: rgba(0,0,0,0.02); min-height: 200px; height: 100%;">
+                {{editor system.description target="system.description" button=true editable=true engine="prosemirror"}}
+            </div>
         </div>
-
-        {{!-- Path-specific mechanical flags --}}
-        {{> "systems/trinity/templates/item/partials/dots-flag.html"}}
-      </div>
-
-      <p class="notes mt-2 italic small">
-        Paths provide the foundation for your character's skills, specialties, and connections.
-      </p>
-
-    </div>
-
-  </section>
+    </section>
 </form>
