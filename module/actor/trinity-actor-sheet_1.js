@@ -90,7 +90,7 @@ export class TrinityActorSheet extends ActorSheet {
       else if (i.type === 'quantumPower') quantumPowers.push(i);
       else if (i.type === 'biotech') biotech.push(i);
       else if (i.type === 'vehicle') vehicles.push(i);
-      else if (i.type === 'skillTrick') skillTricks.push(i); // NEW: Sorting logic for Skill Tricks
+      else if (i.type === 'skillTrick') skillTricks.push(i); // Sorting logic for Skill Tricks
     }
 
     context.gear = gear;
@@ -108,7 +108,7 @@ export class TrinityActorSheet extends ActorSheet {
     context.quantumPowers = quantumPowers;
     context.biotech = biotech;
     context.vehicles = vehicles;
-    context.skillTricks = skillTricks; // NEW: Assigned to context
+    context.skillTricks = skillTricks; // Assigned to context
   }
 
   /** @override */
@@ -130,8 +130,8 @@ export class TrinityActorSheet extends ActorSheet {
       li.slideUp(200, () => this.render(false));
     });
 
+    // UNIFIED ROLL LISTENER
     html.find('.rollable').click(this._onRoll.bind(this));
-    html.find('.roll-power').click(this._onItemRoll.bind(this));
     
     // Listen for clicks on the visual pips/dots directly on the Actor sheet
     html.find('.pip').click(this._onPipClick.bind(this));
@@ -164,29 +164,42 @@ export class TrinityActorSheet extends ActorSheet {
     return await Item.create(itemData, {parent: this.actor});
   }
 
+  /** Unified Roll Method handling Attributes, Skills, Items, and Traits */
   async _onRoll(event) {
     event.preventDefault();
     const element = event.currentTarget;
     const dataset = element.dataset;
     const { TrinityRollPrompt } = await import("../dice/trinity-roll-prompt.js");
 
-    if (dataset.attribute) {
-      const val = this.actor.system.attributes[dataset.attribute]?.value || 0;
-      const config = await TrinityRollPrompt.confirmRoll(this.actor, { name: dataset.attribute });
-      await TrinityRollPrompt.executeRoll(this.actor, val, config);
-    }
-  }
+    let rollName = "Action Roll";
+    let defaultPool = 1;
 
-  async _onItemRoll(event) {
-    event.preventDefault();
-    const li = $(event.currentTarget).parents(".item");
-    const item = this.actor.items.get(li.data("itemId"));
-    
-    if (item) {
-      const { TrinityRollPrompt3 } = await import("../dice/trinity-roll-prompt3.js");
-      const pool = item.system.dicePool || 0;
-      const config = await TrinityRollPrompt3.confirmRoll(this.actor, { pool: pool, name: item.name });
-      await TrinityRollPrompt3.executeRoll(this.actor, config);
+    // 1. Check if an Item (like a Psi Power or Quantum Power) was clicked
+    if (dataset.rollType === "item") {
+      const li = $(element).parents(".item");
+      const item = this.actor.items.get(li.data("itemId"));
+      if (item) {
+        rollName = item.name;
+        defaultPool = parseInt(item.system.dicePool) || parseInt(item.system.value) || 1;
+      }
     }
+    // 2. Check if an Attribute was clicked
+    else if (dataset.attribute) {
+      rollName = this.actor.system.attributes[dataset.attribute]?.label || dataset.attribute.capitalize();
+      defaultPool = this.actor.system.attributes[dataset.attribute]?.value || 1;
+    } 
+    // 3. Check if a Skill was clicked
+    else if (dataset.skill) {
+      rollName = this.actor.system.skills[dataset.skill]?.label || dataset.skill.capitalize();
+      defaultPool = this.actor.system.skills[dataset.skill]?.value || 0;
+    }
+    // 4. Check if a generic Trait (Quantum, PSI Rating) was clicked
+    else if (dataset.traitName) {
+      rollName = dataset.traitName;
+      defaultPool = parseInt(dataset.traitValue) || 1;
+    }
+
+    const config = await TrinityRollPrompt.confirmRoll(this.actor, { name: rollName, defaultPool: defaultPool });
+    await TrinityRollPrompt.executeRoll(this.actor, config);
   }
 }
