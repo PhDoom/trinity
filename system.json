@@ -2,7 +2,7 @@
   "id": "trinity",
   "title": "Trinity",
   "name": "trinity",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A modernized Trinity system for Foundry V13.",
   "authors": [
     {
