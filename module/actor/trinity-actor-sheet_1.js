@@ -92,11 +92,11 @@ export class TrinityActorSheet extends ActorSheet {
       else if (i.type === 'contact') contacts.push(i);
       else if (i.type === 'gift') gifts.push(i);
       
-      // Sorting logic for new item types
-      else if (i.type === 'quantumPower') quantumPowers.push(i);
+      // Sorting logic utilizing strict lowercase types!
+      else if (i.type === 'quantumpower') quantumPowers.push(i);
       else if (i.type === 'biotech') biotech.push(i);
       else if (i.type === 'vehicle') vehicles.push(i);
-      else if (i.type === 'skillTrick') skillTricks.push(i); 
+      else if (i.type === 'skilltrick') skillTricks.push(i); 
     }
 
     context.gear = gear;
@@ -159,12 +159,12 @@ export class TrinityActorSheet extends ActorSheet {
   async _onItemCreate(event) {
     event.preventDefault();
     const header = event.currentTarget;
-    let type = header.dataset.type;
+    const type = header.dataset.type;
 
-    if (type === "quantumpower") type = "quantumPower";
-    if (type === "skilltrick") type = "skillTrick";
-
-    const name = `New ${type.charAt(0).toUpperCase() + type.slice(1)}`;
+    // Build a pretty display name for the new item
+    let name = `New ${type.charAt(0).toUpperCase() + type.slice(1)}`;
+    if (type === "quantumpower") name = "New Quantum Power";
+    if (type === "skilltrick") name = "New Skill Trick";
 
     const itemData = {
       name: name,
@@ -172,7 +172,7 @@ export class TrinityActorSheet extends ActorSheet {
       system: {} 
     };
     
-    // 4. Create the item AND force the sheet to pop open immediately
+    // Create the item AND force the sheet to pop open immediately
     return await this.actor.createEmbeddedDocuments("Item", [itemData], { renderSheet: true });
   }
 
@@ -211,7 +211,7 @@ export class TrinityActorSheet extends ActorSheet {
       rollName = dataset.traitName;
       defaultPool = parseInt(dataset.traitValue) || 1;
     }
-    // 5. NEW: Check if the custom Initiative button was clicked
+    // 5. Check if the custom Initiative button was clicked
     else if (dataset.rollType === "initiative") {
       rollName = "Initiative";
       const sys = this.actor.system;
