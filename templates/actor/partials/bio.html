@@ -10,20 +10,26 @@
         {{!-- Biography Text Editor --}}
         <div class="flexcol w-100 p-1 border">
             <h3 class="header m-0 mb-1">Character Biography</h3>
-            {{editor enrichedBiography target="system.biography" button=true owner=owner editable=editable}}
+            <div class="editor">
+                {{editor enrichedBiography target="system.biography" button=true owner=owner editable=editable engine="prosemirror"}}
+            </div>
         </div>
     </div>
 
-    {{!-- NEW: Player Notes Text Editor --}}
+    {{!-- Player Notes Text Editor --}}
     <div class="flexcol w-100 p-1 border mb-1">
         <h3 class="header m-0 mb-1">Player Notes</h3>
-        {{editor enrichedPlayerNotes target="system.playerNotes" button=true owner=owner editable=editable}}
+        <div class="editor">
+            {{editor enrichedPlayerNotes target="system.playerNotes" button=true owner=owner editable=editable engine="prosemirror"}}
+        </div>
     </div>
 
     {{!-- GM Notes Text Editor (Only visible to GMs) --}}
     <div class="flexcol w-100 p-1 border">
         <h3 class="header m-0 mb-1">GM Notes <span style="font-size: 0.8em; font-weight: normal; color: #666;">(Hidden from Players)</span></h3>
-        {{editor enrichedNotes target="system.gmNotes" button=true owner=owner editable=editable}}
+        <div class="editor">
+            {{editor enrichedNotes target="system.gmNotes" button=true owner=owner editable=editable engine="prosemirror"}}
+        </div>
     </div>
 
 </div>
