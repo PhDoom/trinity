@@ -37,6 +37,12 @@ export class TrinityActorSheet extends ActorSheet {
       relativeTo: this.actor
     });
 
+    context.enrichedPlayerNotes = await TextEditor.enrichHTML(context.system.playerNotes || "", {
+      async: true,
+      secrets: this.actor.isOwner,
+      relativeTo: this.actor
+    });
+
     context.enrichedNotes = await TextEditor.enrichHTML(context.system.gmNotes || "", {
       async: true,
       secrets: this.actor.isOwner,
@@ -104,7 +110,6 @@ export class TrinityActorSheet extends ActorSheet {
     context.contacts = contacts;
     context.gifts = gifts;
     
-    // Assigned back to context so HTML can loop through them
     context.quantumPowers = quantumPowers;
     context.biotech = biotech;
     context.vehicles = vehicles;
@@ -145,7 +150,6 @@ export class TrinityActorSheet extends ActorSheet {
     const currentValue = Number(element.parentElement.dataset.value);
     const clickedIndex = Number(element.dataset.index);
 
-    // If clicking the current value, reduce it by 1 (allows setting to 0)
     const newValue = (currentValue === clickedIndex) ? clickedIndex - 1 : clickedIndex;
     
     return this.document.update({ [field]: newValue });
@@ -157,25 +161,21 @@ export class TrinityActorSheet extends ActorSheet {
     const header = event.currentTarget;
     let type = header.dataset.type;
 
-    // 1. Manually correct HTML lowercase flattening for camelCase items
     if (type === "quantumpower") type = "quantumPower";
     if (type === "skilltrick") type = "skillTrick";
 
-    // 2. Create a clean, capitalized name (e.g. "New Power")
     const name = `New ${type.charAt(0).toUpperCase() + type.slice(1)}`;
 
-    // 3. Build a clean data object to bypass V13 strict validation failures
     const itemData = {
       name: name,
       type: type,
-      system: {} // Starts empty so random HTML tags don't crash the database
+      system: {} 
     };
     
-    // 4. Use the modern V13 Embedded Document creation method
     return await this.actor.createEmbeddedDocuments("Item", [itemData]);
   }
 
-  /** Unified Roll Method handling Attributes, Skills, Items, and Traits */
+  /** Unified Roll Method handling Attributes, Skills, Items, Traits, and Initiative */
   async _onRoll(event) {
     event.preventDefault();
     const element = event.currentTarget;
@@ -184,8 +184,9 @@ export class TrinityActorSheet extends ActorSheet {
 
     let rollName = "Action Roll";
     let defaultPool = 1;
+    let enhancement = 0;
 
-    // 1. Check if an Item (like a Psi Power or Quantum Power) was clicked
+    // 1. Check if an Item was clicked
     if (dataset.rollType === "item") {
       const li = $(element).parents(".item");
       const item = this.actor.items.get(li.data("itemId"));
@@ -204,13 +205,35 @@ export class TrinityActorSheet extends ActorSheet {
       rollName = this.actor.system.skills[dataset.skill]?.label || dataset.skill.capitalize();
       defaultPool = this.actor.system.skills[dataset.skill]?.value || 0;
     }
-    // 4. Check if a generic Trait (Quantum, PSI Rating) was clicked
+    // 4. Check if a generic Trait was clicked
     else if (dataset.traitName) {
       rollName = dataset.traitName;
       defaultPool = parseInt(dataset.traitValue) || 1;
     }
+    // 5. NEW: Check if the custom Initiative button was clicked
+    else if (dataset.rollType === "initiative") {
+      rollName = "Initiative";
+      const sys = this.actor.system;
 
-    const config = await TrinityRollPrompt.confirmRoll(this.actor, { name: rollName, defaultPool: defaultPool });
+      // Calculate Option A: Athletics + Cunning
+      const poolA = (sys.skills?.athletics?.value || 0) + (sys.attributes?.cunning?.value || 1);
+      
+      // Calculate Option B: Empathy + Dexterity
+      const poolB = (sys.skills?.empathy?.value || 0) + (sys.attributes?.dexterity?.value || 1);
+
+      // Take the lower of the two pools
+      defaultPool = Math.min(poolA, poolB);
+      
+      // Grab the player-entered enhancement value
+      enhancement = parseInt(sys.initiative?.enhancement) || 0;
+    }
+
+    // Pass the calculated pool (and enhancement) into your custom roll prompt
+    const config = await TrinityRollPrompt.confirmRoll(this.actor, { 
+        name: rollName, 
+        defaultPool: defaultPool,
+        enhancement: enhancement 
+    });
     await TrinityRollPrompt.executeRoll(this.actor, config);
   }
 }
