@@ -15,7 +15,7 @@
           "takenOut": { "active": false }
         },
         "defense": { "value": 0 }, "resilience": { "value": 0 }, "speed": { "value": 0 },
-        "initiative": { "value": 0 }, "armor": { "value": 0 }, "biography": "",
+        "initiative": { "value": 0, "enhancement": 0 }, "armor": { "soft": 0, "hard": 0 }, "biography": "",
         "gmNotes": "", "playerNotes": ""
       }
     },
