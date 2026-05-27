@@ -155,7 +155,7 @@ export class TrinityActorSheet extends ActorSheet {
     return this.document.update({ [field]: newValue });
   }
 
-  /** FIXED: Strict V13 Item Creation */
+  /** FIXED: Strict V13 Item Creation with Auto-Render */
   async _onItemCreate(event) {
     event.preventDefault();
     const header = event.currentTarget;
@@ -172,7 +172,8 @@ export class TrinityActorSheet extends ActorSheet {
       system: {} 
     };
     
-    return await this.actor.createEmbeddedDocuments("Item", [itemData]);
+    // 4. Create the item AND force the sheet to pop open immediately
+    return await this.actor.createEmbeddedDocuments("Item", [itemData], { renderSheet: true });
   }
 
   /** Unified Roll Method handling Attributes, Skills, Items, Traits, and Initiative */
