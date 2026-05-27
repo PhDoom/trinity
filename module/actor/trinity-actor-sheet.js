@@ -1,6 +1,6 @@
 /**
- * Trinity Continuum Actor Sheet
- * Updated for Foundry V13 Compatibility, Gift Item Support, & Interactive Pips
+ * Trinity Continuum Actor Sheet (Base)
+ * Updated for Foundry V13 Compatibility, Lowercase Schema & Interactive Pips
  */
 
 export class TrinityActorSheet extends ActorSheet {
@@ -8,8 +8,8 @@ export class TrinityActorSheet extends ActorSheet {
   /** @override */
   static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
-      classes: ["trinity-app", "sheet", "actor"], 
-      template: "systems/trinity/templates/actor/trinity-actor-sheet_1.html",
+      classes: ["trinity", "sheet", "actor"],
+      template: "systems/trinity/templates/actor/trinity-actor-sheet.html",
       width: 800,
       height: 800,
       tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "character" }]
@@ -19,36 +19,35 @@ export class TrinityActorSheet extends ActorSheet {
   /** @override */
   get template() {
     if (this.actor.type === "npc") {
-      return "systems/trinity/templates/actor/trinity-actor-sheet-npc_1.html";
+      return "systems/trinity/templates/actor/trinity-actor-sheet-npc.html";
     }
-    return "systems/trinity/templates/actor/trinity-actor-sheet_1.html";
+    return "systems/trinity/templates/actor/trinity-actor-sheet.html";
   }
 
   /** @override */
   async getData(options) {
     const context = await super.getData(options);
-    
-    const actorData = this.actor.toObject(false);
+    const actorData = context.actor;
     context.system = actorData.system;
     context.flags = actorData.flags;
 
+    // V13 Asynchronous ProseMirror Data
     context.enrichedBiography = await TextEditor.enrichHTML(context.system.biography || "", {
       async: true,
       secrets: this.actor.isOwner,
-      rollData: this.actor.getRollData()
+      relativeTo: this.actor
+    });
+
+    context.enrichedPlayerNotes = await TextEditor.enrichHTML(context.system.playerNotes || "", {
+      async: true,
+      secrets: this.actor.isOwner,
+      relativeTo: this.actor
     });
 
     context.enrichedNotes = await TextEditor.enrichHTML(context.system.gmNotes || "", {
       async: true,
       secrets: this.actor.isOwner,
-      rollData: this.actor.getRollData()
-    });
-
-    // NEW: Render the Player Notes rich text editor
-    context.enrichedPlayerNotes = await TextEditor.enrichHTML(context.system.playerNotes || "", {
-      async: true,
-      secrets: this.actor.isOwner,
-      rollData: this.actor.getRollData()
+      relativeTo: this.actor
     });
 
     if (actorData.type === 'character' || actorData.type === 'npc') {
@@ -67,12 +66,18 @@ export class TrinityActorSheet extends ActorSheet {
     const weapons = [];
     const armor = [];
     const edges = [];
-    const paths = [];
+    const paths = []; 
     const powers = [];
     const conditions = [];
     const bonds = [];
     const contacts = [];
-    const gifts = []; 
+    const gifts = [];
+    
+    // Containers for our lowercase item types
+    const quantumPowers = [];
+    const biotech = [];
+    const vehicles = [];
+    const skillTricks = []; 
 
     for (let i of context.items) {
       i.img = i.img || DEFAULT_TOKEN; 
@@ -86,7 +91,13 @@ export class TrinityActorSheet extends ActorSheet {
       else if (i.type === 'condition') conditions.push(i);
       else if (i.type === 'bond') bonds.push(i);
       else if (i.type === 'contact') contacts.push(i);
-      else if (i.type === 'gift') gifts.push(i); 
+      else if (i.type === 'gift') gifts.push(i);
+      
+      // Strict lowercase sorting to match the database!
+      else if (i.type === 'quantumpower') quantumPowers.push(i);
+      else if (i.type === 'biotech') biotech.push(i);
+      else if (i.type === 'vehicle') vehicles.push(i);
+      else if (i.type === 'skilltrick') skillTricks.push(i); 
     }
 
     context.gear = gear;
@@ -98,7 +109,12 @@ export class TrinityActorSheet extends ActorSheet {
     context.conditions = conditions;
     context.bonds = bonds;
     context.contacts = contacts;
-    context.gifts = gifts; 
+    context.gifts = gifts;
+    
+    context.quantumPowers = quantumPowers;
+    context.biotech = biotech;
+    context.vehicles = vehicles;
+    context.skillTricks = skillTricks; 
   }
 
   /** @override */
@@ -121,52 +137,10 @@ export class TrinityActorSheet extends ActorSheet {
     });
 
     html.find('.rollable').click(this._onRoll.bind(this));
-    html.find('.roll-power').click(this._onItemRoll.bind(this));
-
     html.find('.pip').click(this._onPipClick.bind(this));
-    html.find('.add-health-box').click(this._onAddHealthBox.bind(this));
-    html.find('.add-health-box').contextmenu(this._onRemoveHealthBox.bind(this));
   }
 
-  async _onItemCreate(event) {
-    event.preventDefault();
-    const header = event.currentTarget;
-    const type = header.dataset.type;
-    const data = foundry.utils.duplicate(header.dataset);
-    const name = `New ${type.capitalize()}`;
-    const itemData = { name: name, type: type, system: data };
-    
-    delete itemData.system["type"];
-    
-    return await Item.create(itemData, {parent: this.actor});
-  }
-
-  async _onRoll(event) {
-    event.preventDefault();
-    const element = event.currentTarget;
-    const dataset = element.dataset;
-    const { TrinityRollPrompt } = await import("../dice/trinity-roll-prompt.js");
-
-    if (dataset.attribute) {
-      const val = this.actor.system.attributes[dataset.attribute]?.value || 0;
-      const config = await TrinityRollPrompt.confirmRoll(this.actor, { name: dataset.attribute });
-      await TrinityRollPrompt.executeRoll(this.actor, val, config);
-    }
-  }
-
-  async _onItemRoll(event) {
-    event.preventDefault();
-    const li = $(event.currentTarget).parents(".item");
-    const item = this.actor.items.get(li.data("itemId"));
-    
-    if (item) {
-      const { TrinityRollPrompt3 } = await import("../dice/trinity-roll-prompt3.js");
-      const pool = item.system.dicePool || 0;
-      const config = await TrinityRollPrompt3.confirmRoll(this.actor, { pool: pool, name: item.name });
-      await TrinityRollPrompt3.executeRoll(this.actor, config);
-    }
-  }
-
+  /** Handle clicking on a pip/dot to set the actor's values */
   _onPipClick(event) {
     event.preventDefault();
     const element = event.currentTarget;
@@ -179,19 +153,71 @@ export class TrinityActorSheet extends ActorSheet {
     return this.document.update({ [field]: newValue });
   }
 
-  _onAddHealthBox(event) {
+  /** FIXED: Strict V13 Item Creation with Auto-Render */
+  async _onItemCreate(event) {
     event.preventDefault();
-    const type = event.currentTarget.dataset.type; 
-    const currentMax = this.document.system.health[type].max;
-    return this.document.update({ [`system.health.${type}.max`]: currentMax + 1 });
+    const header = event.currentTarget;
+    const type = header.dataset.type;
+
+    // Build a pretty display name for the new item
+    let name = `New ${type.charAt(0).toUpperCase() + type.slice(1)}`;
+    if (type === "quantumpower") name = "New Quantum Power";
+    if (type === "skilltrick") name = "New Skill Trick";
+
+    const itemData = {
+      name: name,
+      type: type,
+      system: {} 
+    };
+    
+    return await this.actor.createEmbeddedDocuments("Item", [itemData], { renderSheet: true });
   }
 
-  _onRemoveHealthBox(event) {
+  /** Unified Roll Method */
+  async _onRoll(event) {
     event.preventDefault();
-    const type = event.currentTarget.dataset.type;
-    const currentMax = this.document.system.health[type].max;
-    if (currentMax > 0) {
-      return this.document.update({ [`system.health.${type}.max`]: currentMax - 1 });
+    const element = event.currentTarget;
+    const dataset = element.dataset;
+    const { TrinityRollPrompt } = await import("../dice/trinity-roll-prompt.js");
+
+    let rollName = "Action Roll";
+    let defaultPool = 1;
+    let enhancement = 0;
+
+    if (dataset.rollType === "item") {
+      const li = $(element).parents(".item");
+      const item = this.actor.items.get(li.data("itemId"));
+      if (item) {
+        rollName = item.name;
+        defaultPool = parseInt(item.system.dicePool) || parseInt(item.system.value) || 1;
+      }
     }
+    else if (dataset.attribute) {
+      rollName = this.actor.system.attributes[dataset.attribute]?.label || dataset.attribute.capitalize();
+      defaultPool = this.actor.system.attributes[dataset.attribute]?.value || 1;
+    } 
+    else if (dataset.skill) {
+      rollName = this.actor.system.skills[dataset.skill]?.label || dataset.skill.capitalize();
+      defaultPool = this.actor.system.skills[dataset.skill]?.value || 0;
+    }
+    else if (dataset.traitName) {
+      rollName = dataset.traitName;
+      defaultPool = parseInt(dataset.traitValue) || 1;
+    }
+    else if (dataset.rollType === "initiative") {
+      rollName = "Initiative";
+      const sys = this.actor.system;
+      const poolA = (sys.skills?.athletics?.value || 0) + (sys.attributes?.cunning?.value || 1);
+      const poolB = (sys.skills?.empathy?.value || 0) + (sys.attributes?.dexterity?.value || 1);
+      defaultPool = Math.min(poolA, poolB);
+      enhancement = parseInt(sys.initiative?.enhancement) || 0;
+    }
+
+    const config = await TrinityRollPrompt.confirmRoll(this.actor, { 
+        name: rollName, 
+        defaultPool: defaultPool,
+        enhancement: enhancement 
+    });
+    await TrinityRollPrompt.executeRoll(this.actor, config);
   }
 }
