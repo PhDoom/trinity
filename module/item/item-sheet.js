@@ -6,28 +6,24 @@ export class TrinityItemSheet extends ItemSheet {
       classes: ["trinity-app", "sheet", "item"],
       width: 520,
       height: 520
-      // TABS REMOVED: Items are now a clean, single-page layout
     });
   }
 
   /** @override */
   get template() {
-    // This dynamically fetches the HTML file based on the exact item type
     return `systems/trinity/templates/item/item-${this.item.type}-sheet.html`;
   }
 
   /** @override */
   async getData(options) {
+    // 1. Grab the default Foundry context (this automatically handles editable/owner states!)
     const context = await super.getData(options);
-    const itemData = this.item.toObject(false);
     
-    context.system = itemData.system;
-    context.flags = itemData.flags;
+    // 2. Map system data cleanly
+    context.system = context.item.system;
+    context.flags = context.item.flags;
 
-    // Explicitly pass permissions so the Text Editor knows to unlock
-    context.editable = this.isEditable;
-    context.owner = this.item.isOwner;
-
+    // 3. Process the Rich Text Editor safely for V13
     context.enrichedDescription = await TextEditor.enrichHTML(context.system.description || "", {
       async: true,
       secrets: this.item.isOwner,
@@ -54,7 +50,6 @@ export class TrinityItemSheet extends ItemSheet {
     const currentValue = Number(element.parentElement.dataset.value);
     const clickedIndex = Number(element.dataset.index);
 
-    // If clicking the current value, reduce it by 1 (allows setting to 0)
     const newValue = (currentValue === clickedIndex) ? clickedIndex - 1 : clickedIndex;
     
     return this.document.update({ [field]: newValue });
