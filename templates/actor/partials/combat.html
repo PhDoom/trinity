@@ -1,47 +1,37 @@
-{{!-- Combat Stats Partial - Foundry V13 Compliant --}}
-<div class="combat-section">
+<div class="combat-section p-1">
+    <div class="grid grid-3col gap-10 align-center">
+        
+        {{!-- Initiative Box --}}
+        <div class="form-group flexcol border p-1" style="border-radius: 5px; background: rgba(0,0,0,0.02); height: 100%; justify-content: center;">
+            <button type="button" class="rollable mb-1" data-roll-type="initiative" style="cursor: pointer; background: #1a202c; color: white; border: none; border-radius: 3px; padding: 5px;">
+                <i class="fas fa-dice"></i> Roll Initiative
+            </button>
+            <div class="flexrow align-center mt-1">
+                <label class="font-weight-bold text-blue" style="flex: 1; font-size: 0.9em;">Enhancement</label>
+                <input type="number" name="system.initiative.enhancement" value="{{system.initiative.enhancement}}" data-dtype="Number" style="flex: 0 0 40px; text-align: center;"/>
+            </div>
+        </div>
 
-  <h3 class="header">Combat Statistics</h3>
+        {{!-- Defense Box --}}
+        <div class="form-group flexcol border p-1 flex-center" style="border-radius: 5px; background: rgba(0,0,0,0.02); height: 100%;">
+            <label class="font-weight-bold text-blue mb-1">Defense</label>
+            <input type="number" name="system.defense.value" value="{{system.defense.value}}" data-dtype="Number" style="width: 60px; text-align: center; font-size: 1.5em;"/>
+        </div>
 
-  <div class="grid grid-3col mb-2">
-    
-    {{!-- Initiative --}}
-    <div class="resource flex-group-center">
-      {{!-- The 'rollable' class hooks into the async _onRoll listener --}}
-      <label for="system.initiative.value" class="resource-label rollable" data-attribute="initiative" title="Roll Initiative">
-        <a>Initiative</a>
-      </label>
-      <input type="number" name="system.initiative.value" value="{{system.initiative.value}}" data-dtype="Number"/>
+        {{!-- Armor Box --}}
+        <div class="form-group flexcol border p-1" style="border-radius: 5px; background: rgba(0,0,0,0.02); height: 100%;">
+            <label class="font-weight-bold text-blue mb-1" style="text-align: center;">Armor</label>
+            <div class="flexrow gap-5">
+                <div class="flexcol flex-center">
+                    <label style="font-size: 0.8em; color: #666;">Soft</label>
+                    <input type="number" name="system.armor.soft" value="{{system.armor.soft}}" data-dtype="Number" style="width: 100%; text-align: center; font-size: 1.2em;"/>
+                </div>
+                <div class="flexcol flex-center">
+                    <label style="font-size: 0.8em; color: #666;">Hard</label>
+                    <input type="number" name="system.armor.hard" value="{{system.armor.hard}}" data-dtype="Number" style="width: 100%; text-align: center; font-size: 1.2em;"/>
+                </div>
+            </div>
+        </div>
+
     </div>
-
-    {{!-- Defense --}}
-    <div class="resource flex-group-center">
-      <label for="system.defense.value" class="resource-label">Defense</label>
-      <input type="number" name="system.defense.value" value="{{system.defense.value}}" data-dtype="Number"/>
-    </div>
-
-    {{!-- Armor / Soak --}}
-    <div class="resource flex-group-center">
-      <label for="system.armor.value" class="resource-label">Armor / Soak</label>
-      <input type="number" name="system.armor.value" value="{{system.armor.value}}" data-dtype="Number"/>
-    </div>
-
-  </div>
-
-  <div class="grid grid-2col mb-2">
-    
-    {{!-- Speed / Movement --}}
-    <div class="resource flex-group-center">
-      <label for="system.speed.value" class="resource-label">Speed</label>
-      <input type="number" name="system.speed.value" value="{{system.speed.value}}" data-dtype="Number"/>
-    </div>
-
-    {{!-- Resilience --}}
-    <div class="resource flex-group-center">
-      <label for="system.resilience.value" class="resource-label">Resilience</label>
-      <input type="number" name="system.resilience.value" value="{{system.resilience.value}}" data-dtype="Number"/>
-    </div>
-
-  </div>
-
 </div>
