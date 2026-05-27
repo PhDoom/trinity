@@ -5,13 +5,14 @@ export class TrinityItemSheet extends ItemSheet {
     return foundry.utils.mergeObject(super.defaultOptions, {
       classes: ["trinity-app", "sheet", "item"],
       width: 520,
-      height: 520,
-      tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "details" }]
+      height: 520
+      // TABS REMOVED: Items are now a clean, single-page layout
     });
   }
 
   /** @override */
   get template() {
+    // This dynamically fetches the HTML file based on the exact item type
     return `systems/trinity/templates/item/item-${this.item.type}-sheet.html`;
   }
 
@@ -23,7 +24,7 @@ export class TrinityItemSheet extends ItemSheet {
     context.system = itemData.system;
     context.flags = itemData.flags;
 
-    // NEW: Explicitly pass permissions so the Text Editor knows to unlock!
+    // Explicitly pass permissions so the Text Editor knows to unlock
     context.editable = this.isEditable;
     context.owner = this.item.isOwner;
 
