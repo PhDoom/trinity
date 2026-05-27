@@ -1,6 +1,6 @@
 <form class="trinity-app {{cssClass}} flexcol" autocomplete="off">
     <header class="sheet-header flexrow p-1 border-bottom align-center">
-        <img class="profile-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" height="64" width="64" style="object-fit: cover; flex: 0 0 auto; border-radius: 3px;"/>
+        <img class="profile-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" style="width: 48px; height: 48px; min-width: 48px; max-width: 48px; flex: 0 0 48px; object-fit: cover; border-radius: 3px; border: 1px solid #ccc;"/>
         <div class="header-fields flexcol w-100 mx-1">
             <h1 class="charname m-0">
                 <input name="name" type="text" value="{{item.name}}" placeholder="Skill Trick Name"/>
@@ -17,9 +17,7 @@
         <div class="form-group flexcol mt-1" style="flex: 1;">
             <label class="font-weight-bold text-blue mb-1">Description</label>
             <div class="editor border p-1" style="background: rgba(0,0,0,0.02); min-height: 200px; height: 100%; border-radius: 5px;">
-                <prose-mirror name="system.description" value="{{system.description}}" toggled="true" collaborate="false">
-                    {{{enrichedDescription}}}
-                </prose-mirror>
+                {{editor enrichedDescription target="system.description" button=true owner=owner editable=editable engine="prosemirror"}}
             </div>
         </div>
     </section>
