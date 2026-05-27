@@ -61,7 +61,7 @@
   "Item": {
     "types": [
       "gear", "item", "weapon", "armor", "edge", "power", "action", "condition", "bond", "contact", 
-      "gift", "spell", "quantumPower", "biotech", "vehicle", "skillTrick"
+      "gift", "spell", "quantumpower", "biotech", "vehicle", "skilltrick"
     ],
     "templates": { "baseItem": { "description": "" } },
     "gear": { "templates": ["baseItem"], "enhancement": 0, "tags": "" },
@@ -76,9 +76,9 @@
     "contact": { "templates": ["baseItem"], "rating": 0 },
     "gift": { "templates": ["baseItem"], "keywords": "", "prerequisite": "" },
     "spell": { "templates": ["baseItem"], "dicePool": "", "cost": "" },
-    "quantumPower": { "templates": ["baseItem"], "value": 0, "action": "", "cost": "", "dicePool": "", "range": "", "duration": "", "tags": "" },
+    "quantumpower": { "templates": ["baseItem"], "value": 0, "action": "", "cost": "", "dicePool": "", "range": "", "duration": "", "tags": "" },
     "biotech": { "templates": ["baseItem"], "enhancement": 0, "damage": 0, "damageType": "", "range": "", "tags": "" },
     "vehicle": { "templates": ["baseItem"], "size": 0, "handling": 0, "speed": 0, "weapons": "", "tags": "" },
-    "skillTrick": { "templates": ["baseItem"], "skill": "" }
+    "skilltrick": { "templates": ["baseItem"], "skill": "" }
   }
 }
