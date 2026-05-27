@@ -9,7 +9,7 @@ export class TrinityActorSheet extends ActorSheet {
   static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
       classes: ["trinity", "sheet", "actor"],
-      template: "systems/trinity/templates/actor/trinity-actor-sheet.html",
+      template: "systems/trinity/templates/actor/trinity-actor-sheet_1.html",
       width: 800,
       height: 800,
       tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "character" }]
@@ -19,9 +19,9 @@ export class TrinityActorSheet extends ActorSheet {
   /** @override */
   get template() {
     if (this.actor.type === "npc") {
-      return "systems/trinity/templates/actor/trinity-actor-sheet-npc.html";
+      return "systems/trinity/templates/actor/trinity-actor-sheet-npc_1.html";
     }
-    return "systems/trinity/templates/actor/trinity-actor-sheet.html";
+    return "systems/trinity/templates/actor/trinity-actor-sheet_1.html";
   }
 
   /** @override */
