@@ -57,7 +57,8 @@ export const preloadHandlebarsTemplates = async function() {
     "systems/trinity/templates/actor/partials/weapons.html",
 
     // Item Partials
-    "systems/trinity/templates/item/partials/top-traits.html"
+    "systems/trinity/templates/item/partials/top-traits.html",
+    "systems/trinity/templates/item/partials/tag-list.html"
   ];
 
   return loadTemplates(templatePaths);
