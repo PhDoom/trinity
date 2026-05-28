@@ -16,17 +16,20 @@ export class TrinityItemSheet extends ItemSheet {
 
   /** @override */
   async getData(options) {
-    // 1. Grab the default Foundry context (this automatically handles editable/owner states!)
     const context = await super.getData(options);
     
-    // 2. Map system data cleanly
+    // Map system data cleanly
     context.system = context.item.system;
     context.flags = context.item.flags;
 
-    // 3. Process the Rich Text Editor safely for V13
+    // EXPLICITLY pass permissions so the Pencil Icon renders!
+    context.editable = this.isEditable;
+    context.owner = this.document.isOwner;
+
+    // Process the Rich Text Editor safely for V13
     context.enrichedDescription = await TextEditor.enrichHTML(context.system.description || "", {
       async: true,
-      secrets: this.item.isOwner,
+      secrets: this.document.isOwner,
       rollData: this.item.getRollData()
     });
 
