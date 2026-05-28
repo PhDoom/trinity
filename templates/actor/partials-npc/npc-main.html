@@ -1,71 +1,68 @@
 {{!-- NPC Main Partial - Foundry V13 Compliant --}}
-<div class="npc-main">
+<div class="npc-main" style="padding: 10px; background-color: #ffffff;">
   
-  <div class="grid grid-2col mb-1">
+  <div class="grid grid-2col mb-1" style="gap: 15px;">
     {{!-- Core Combat Stats --}}
     <div class="combat-stats flexcol">
-      <h3 class="header">Combat Stats</h3>
+      <h3 class="header text-blue">Combat Stats</h3>
       
-      <div class="resource flex-group-center">
-        {{!-- 'rollable' class hooks into your TrinityRollPrompt --}}
-        <label for="system.initiative.value" class="resource-label rollable" data-attribute="initiative">Initiative</label>
-        <input type="number" name="system.initiative.value" value="{{system.initiative.value}}" data-dtype="Number"/>
+      <div class="resource flex-group-center mb-1">
+        <label for="system.initiative.value" class="resource-label rollable" data-attribute="initiative" style="font-weight: bold;">Initiative</label>
+        <input type="number" name="system.initiative.value" value="{{system.initiative.value}}" data-dtype="Number" style="width: 60px; text-align: center;"/>
       </div>
       
-      <div class="resource flex-group-center">
-        <label for="system.defense.value" class="resource-label">Defense</label>
-        <input type="number" name="system.defense.value" value="{{system.defense.value}}" data-dtype="Number"/>
+      <div class="resource flex-group-center mb-1">
+        <label for="system.defense.value" class="resource-label" style="font-weight: bold;">Defense</label>
+        <input type="number" name="system.defense.value" value="{{system.defense.value}}" data-dtype="Number" style="width: 60px; text-align: center;"/>
       </div>
       
-      <div class="resource flex-group-center">
-        <label for="system.health.value" class="resource-label">Health</label>
+      <div class="resource flex-group-center mb-1">
+        <label for="system.health.value" class="resource-label" style="font-weight: bold;">Health</label>
         <div class="flexrow flex-center">
-          <input type="number" name="system.health.value" value="{{system.health.value}}" data-dtype="Number"/>
-          <span> / </span>
-          <input type="number" name="system.health.max" value="{{system.health.max}}" data-dtype="Number"/>
+          <input type="number" name="system.health.value" value="{{system.health.value}}" data-dtype="Number" style="width: 50px; text-align: center;"/>
+          <span class="mx-1"> / </span>
+          <input type="number" name="system.health.max" value="{{system.health.max}}" data-dtype="Number" style="width: 50px; text-align: center;"/>
         </div>
       </div>
     </div>
 
     {{!-- Simplified NPC Quick Pools --}}
     <div class="quick-rolls flexcol">
-      <h3 class="header">Quick Action Pools</h3>
+      <h3 class="header text-blue">Quick Action Pools</h3>
       
-      <div class="resource flex-group-center">
-        <label class="resource-label rollable" data-attribute="attack">Attack Pool</label>
-        <input type="number" name="system.pools.attack.value" value="{{system.pools.attack.value}}" data-dtype="Number" placeholder="e.g., 6"/>
+      <div class="resource flex-group-center mb-1">
+        <label class="resource-label rollable" data-attribute="attack" style="font-weight: bold;">Attack Pool</label>
+        <input type="number" name="system.pools.attack.value" value="{{system.pools.attack.value}}" data-dtype="Number" placeholder="e.g., 6" style="width: 60px; text-align: center;"/>
       </div>
 
-      <div class="resource flex-group-center">
-        <label class="resource-label rollable" data-attribute="movement">Movement / Athletics</label>
-        <input type="number" name="system.pools.movement.value" value="{{system.pools.movement.value}}" data-dtype="Number" placeholder="e.g., 4"/>
+      <div class="resource flex-group-center mb-1">
+        <label class="resource-label rollable" data-attribute="movement" style="font-weight: bold;">Movement</label>
+        <input type="number" name="system.pools.movement.value" value="{{system.pools.movement.value}}" data-dtype="Number" placeholder="e.g., 4" style="width: 60px; text-align: center;"/>
       </div>
 
-      <div class="resource flex-group-center">
-        <label class="resource-label rollable" data-attribute="social">Social / Influence</label>
-        <input type="number" name="system.pools.social.value" value="{{system.pools.social.value}}" data-dtype="Number" placeholder="e.g., 5"/>
+      <div class="resource flex-group-center mb-1">
+        <label class="resource-label rollable" data-attribute="social" style="font-weight: bold;">Social</label>
+        <input type="number" name="system.pools.social.value" value="{{system.pools.social.value}}" data-dtype="Number" placeholder="e.g., 5" style="width: 60px; text-align: center;"/>
       </div>
     </div>
   </div>
 
-  <hr>
+  <hr style="border: 0; border-top: 1px solid #ccc; margin: 15px 0;">
 
   {{!-- V13 Item Loop for NPC Actions & Weapons --}}
   <div class="npc-actions mt-2">
-    <h3>Actions, Weapons & Powers</h3>
-    <ol class="item-list">
-      {{!-- V13: Iterates over the context.items array prepared in actor-sheet.js --}}
+    <h3 class="text-blue">Actions, Weapons & Powers</h3>
+    <ol class="item-list" style="list-style: none; padding: 0;">
       {{#each items as |item id|}}
-      <li class="item flexrow" data-item-id="{{item._id}}">
-        <div class="item-name flexrow">
-          <div class="item-image" style="background-image: url('{{item.img}}')"></div>
-          <h4>{{item.name}}</h4>
+      <li class="item flexrow align-center p-1 border-bottom" data-item-id="{{item._id}}" style="padding: 5px 0;">
+        <div class="item-name flexrow align-center" style="flex: 1;">
+          <img src="{{item.img}}" style="width: 32px; height: 32px; margin-right: 10px; border-radius: 3px; border: 1px solid #ccc; object-fit: cover;"/>
+          <h4 class="m-0">{{item.name}}</h4>
         </div>
-        <div class="item-controls">
-          {{!-- 'roll-power' class triggers the async _onItemRoll method --}}
-          <a class="item-control roll-power" title="Roll Action"><i class="fas fa-dice-d10"></i></a>
-          <a class="item-control item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>
-          <a class="item-control item-delete" title="Delete Item"><i class="fas fa-trash"></i></a>
+        <div class="item-controls flexrow">
+          <a class="item-control roll-power mx-1" title="Roll Action"><i class="fas fa-dice-d10"></i></a>
+          <a class="item-control item-edit mx-1" title="Edit Item"><i class="fas fa-edit"></i></a>
+          <a class="item-control item-delete text-red mx-1" title="Delete Item"><i class="fas fa-trash"></i></a>
         </div>
       </li>
       {{/each}}
