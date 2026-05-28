@@ -27,6 +27,11 @@ export class TrinityActorSheet extends ActorSheet {
   /** @override */
   async getData(options) {
     const context = await super.getData(options);
+    
+    // REQUIRED: Pass these permissions to the template for the editor to function [cite: 1]
+    context.owner = this.document.isOwner;
+    context.editable = this.isEditable;
+    
     const actorData = context.actor;
     context.system = actorData.system;
     context.flags = actorData.flags;
