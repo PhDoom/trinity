@@ -1,3 +1,8 @@
+/**
+ * Trinity Continuum Item Sheet (Base)
+ * Updated for Foundry V13 Compatibility
+ */
+
 export class TrinityItemSheet extends ItemSheet {
 
   /** @override */
@@ -27,10 +32,12 @@ export class TrinityItemSheet extends ItemSheet {
     context.owner = this.document.isOwner;
 
     // Process the Rich Text Editor safely for V13
+    // Added relativeTo: this.document to ensure the editor links correctly
     context.enrichedDescription = await TextEditor.enrichHTML(context.system.description || "", {
       async: true,
       secrets: this.document.isOwner,
-      rollData: this.item.getRollData()
+      rollData: this.item.getRollData(),
+      relativeTo: this.document 
     });
 
     return context;
