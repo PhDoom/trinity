@@ -1,33 +1,33 @@
-<div class="bio-section flexcol h-100">
+<div class="bio-section flexcol h-100" style="padding: 10px; background-color: #ffffff;">
     
-    <div class="flexrow mb-1 gap-10">
+    <div class="flexrow mb-2" style="gap: 15px;">
         {{!-- Portrait --}}
-        <div class="flexcol flex-center p-1 border" style="flex: 0 0 auto;">
-            <img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="260" width="260" style="object-fit: cover; cursor: pointer;"/>
+        <div class="flexcol flex-center p-1 border" style="flex: 0 0 260px; border-radius: 3px; border: 1px solid #ccc;">
+            <img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" style="width: 260px; height: 260px; object-fit: cover; cursor: pointer; border-radius: 2px;"/>
             <em class="text-center mt-1" style="font-size: 0.8em; color: #666;">Click to edit image</em>
         </div>
 
         {{!-- Biography Text Editor --}}
-        <div class="flexcol w-100 p-1 border">
-            <h3 class="header m-0 mb-1">Character Biography</h3>
-            <div class="editor">
+        <div class="flexcol w-100 p-1 border" style="border-radius: 5px; background: rgba(0,0,0,0.02);">
+            <h3 class="header m-0 mb-1 text-blue">Character Biography</h3>
+            <div class="editor" style="min-height: 230px;">
                 {{editor enrichedBiography target="system.biography" button=true owner=owner editable=editable engine="prosemirror"}}
             </div>
         </div>
     </div>
 
     {{!-- Player Notes Text Editor --}}
-    <div class="flexcol w-100 p-1 border mb-1">
-        <h3 class="header m-0 mb-1">Player Notes</h3>
-        <div class="editor">
+    <div class="flexcol w-100 p-1 border mb-2" style="border-radius: 5px; background: rgba(0,0,0,0.02);">
+        <h3 class="header m-0 mb-1 text-blue">Player Notes</h3>
+        <div class="editor" style="min-height: 150px;">
             {{editor enrichedPlayerNotes target="system.playerNotes" button=true owner=owner editable=editable engine="prosemirror"}}
         </div>
     </div>
 
-    {{!-- GM Notes Text Editor (Only visible to GMs) --}}
-    <div class="flexcol w-100 p-1 border">
-        <h3 class="header m-0 mb-1">GM Notes <span style="font-size: 0.8em; font-weight: normal; color: #666;">(Hidden from Players)</span></h3>
-        <div class="editor">
+    {{!-- GM Notes Text Editor --}}
+    <div class="flexcol w-100 p-1 border" style="border-radius: 5px; background: rgba(0,0,0,0.02);">
+        <h3 class="header m-0 mb-1 text-blue">GM Notes <span style="font-size: 0.8em; font-weight: normal; color: #666;">(Hidden from Players)</span></h3>
+        <div class="editor" style="min-height: 150px;">
             {{editor enrichedNotes target="system.gmNotes" button=true owner=owner editable=editable engine="prosemirror"}}
         </div>
     </div>
