@@ -159,7 +159,6 @@ export class TrinityActorSheet extends ActorSheet {
     const header = event.currentTarget;
     const type = header.dataset.type;
 
-    // Build a pretty display name for the new item
     let name = `New ${type.charAt(0).toUpperCase() + type.slice(1)}`;
     if (type === "quantumpower") name = "New Quantum Power";
     if (type === "skilltrick") name = "New Skill Trick";
@@ -173,7 +172,7 @@ export class TrinityActorSheet extends ActorSheet {
     return await this.actor.createEmbeddedDocuments("Item", [itemData], { renderSheet: true });
   }
 
-  /** Unified Roll Method */
+  /** Unified Roll Method - Optimized for V13 Stability */
   async _onRoll(event) {
     event.preventDefault();
     const element = event.currentTarget;
@@ -184,21 +183,25 @@ export class TrinityActorSheet extends ActorSheet {
     let defaultPool = 1;
     let enhancement = 0;
 
+    const sys = this.actor.system || {};
+
     if (dataset.rollType === "item") {
       const li = $(element).parents(".item");
       const item = this.actor.items.get(li.data("itemId"));
       if (item) {
         rollName = item.name;
-        defaultPool = parseInt(item.system.dicePool) || parseInt(item.system.value) || 1;
+        defaultPool = parseInt(item.system?.dicePool) || parseInt(item.system?.value) || 1;
       }
     }
     else if (dataset.attribute) {
-      rollName = this.actor.system.attributes[dataset.attribute]?.label || dataset.attribute.capitalize();
-      defaultPool = this.actor.system.attributes[dataset.attribute]?.value || 1;
+      const attr = sys.attributes?.[dataset.attribute];
+      rollName = attr?.label || dataset.attribute.capitalize();
+      defaultPool = attr?.value || 1;
     } 
     else if (dataset.skill) {
-      rollName = this.actor.system.skills[dataset.skill]?.label || dataset.skill.capitalize();
-      defaultPool = this.actor.system.skills[dataset.skill]?.value || 0;
+      const skill = sys.skills?.[dataset.skill];
+      rollName = skill?.label || dataset.skill.capitalize();
+      defaultPool = skill?.value || 0;
     }
     else if (dataset.traitName) {
       rollName = dataset.traitName;
@@ -206,7 +209,6 @@ export class TrinityActorSheet extends ActorSheet {
     }
     else if (dataset.rollType === "initiative") {
       rollName = "Initiative";
-      const sys = this.actor.system;
       const poolA = (sys.skills?.athletics?.value || 0) + (sys.attributes?.cunning?.value || 1);
       const poolB = (sys.skills?.empathy?.value || 0) + (sys.attributes?.dexterity?.value || 1);
       defaultPool = Math.min(poolA, poolB);
@@ -218,6 +220,9 @@ export class TrinityActorSheet extends ActorSheet {
         defaultPool: defaultPool,
         enhancement: enhancement 
     });
-    await TrinityRollPrompt.executeRoll(this.actor, config);
+    
+    if (config) {
+        await TrinityRollPrompt.executeRoll(this.actor, config);
+    }
   }
 }
