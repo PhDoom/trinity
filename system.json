@@ -2,8 +2,8 @@
   "id": "trinity",
   "title": "Trinity",
   "name": "trinity",
-  "version": "1.0.2",
-  "description": "A modernized Trinity system for Foundry V13.",
+  "version": "1.0.3",
+  "description": "Storypath sytem for the Trinity Continuum games Aeon, Aberrant, Adventure, Aether, and Aegis for Foundry V13.",
   "authors": [
     {
       "name": "PhDoom"
