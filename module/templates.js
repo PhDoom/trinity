@@ -56,9 +56,22 @@ export const preloadHandlebarsTemplates = async function() {
     "systems/trinity/templates/actor/partials/vehicles.html",
     "systems/trinity/templates/actor/partials/weapons.html",
 
-    // Item Partials
-    "systems/trinity/templates/item/partials/top-traits.html",
-    "systems/trinity/templates/item/partials/tag-list.html"
+    // Item Partials (ALL files registered to prevent crashing)
+    "systems/trinity/templates/item/partials/attribute-settings.html",
+    "systems/trinity/templates/item/partials/complication-flag.html",
+    "systems/trinity/templates/item/partials/dots-flag.html",
+    "systems/trinity/templates/item/partials/enhancement-flag.html",
+    "systems/trinity/templates/item/partials/injury-flag.html",
+    "systems/trinity/templates/item/partials/item-flag.html",
+    "systems/trinity/templates/item/partials/power-list.html",
+    "systems/trinity/templates/item/partials/primary-value.html",
+    "systems/trinity/templates/item/partials/primary-value_1.html",
+    "systems/trinity/templates/item/partials/roll-flag.html",
+    "systems/trinity/templates/item/partials/stunt-data.html",
+    "systems/trinity/templates/item/partials/stunt-list.html",
+    "systems/trinity/templates/item/partials/stunt-list_1.html",
+    "systems/trinity/templates/item/partials/tag-list.html",
+    "systems/trinity/templates/item/partials/top-traits.html"
   ];
 
   return loadTemplates(templatePaths);
