@@ -30,10 +30,14 @@
         </div>
 
         <div class="form-group flexcol mt-1" style="flex: 1;">
-            <label class="font-weight-bold text-blue mb-1">Description <span style="color: red;">TEST - HELLO GMBROS!</span></label>
+            <label class="font-weight-bold text-blue mb-1">Description</label>
             
-            <div class="editor border p-1" style="background: rgba(0,0,0,0.02); min-height: 200px; height: 100%; border-radius: 5px;">
-                {{editor enrichedDescription target="system.description" button=true owner=owner editable=editable engine="prosemirror"}}
+            <!-- Fallback Textarea: Ensures you always have a way to edit data -->
+            <textarea name="system.description" placeholder="Type raw text here if the rich editor fails..." style="min-height: 80px; width: 100%; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 5px; padding: 5px; font-family: sans-serif;">{{system.description}}</textarea>
+
+            <!-- Simplified V13 Rich Text Editor -->
+            <div class="editor border p-1" style="background: rgba(0,0,0,0.02); min-height: 200px; border-radius: 5px;">
+                {{editor enrichedDescription target="system.description" button=true editable=editable}}
             </div>
         </div>
     </section>
