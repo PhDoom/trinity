@@ -22,7 +22,10 @@
       
       <div class="item-name flexrow align-center">
         <img src="{{item.img}}" title="Click to view {{item.name}}" class="item-edit" width="24" height="24" style="cursor: pointer; margin-right: 8px; border-radius: 3px; border: 1px solid #ccc; object-fit: cover; flex: 0 0 24px;"/>
-        <h4 class="m-0" style="line-height: 24px;">{{item.name}}</h4>
+        
+        <h4 class="m-0 rollable" data-roll-type="item" title="Roll {{item.name}}" style="line-height: 24px; cursor: pointer;">
+          <a>{{item.name}}</a>
+        </h4>
       </div>
       
       {{!-- V13 Data Path: Must use item.system --}}
