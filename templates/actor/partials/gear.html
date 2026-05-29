@@ -5,8 +5,7 @@
   <h3 class="header">Gear & Equipment</h3>
   
   <ol class="item-list">
-    <li class="item flexrow item-header">
-      <div class="item-image"></div>
+    <li class="item flexrow item-header align-center">
       <div class="item-name">Item Name</div>
       <div class="item-detail" style="flex: 0 0 50px; text-align: center;">Qty</div>
       <div class="item-controls">
@@ -17,16 +16,17 @@
     </li>
 
     {{#each gear as |item id|}}
-    <li class="item flexrow" data-item-id="{{item._id}}">
-      <div class="item-name flexrow">
-        <div class="item-image" style="background-image: url('{{item.img}}')"></div>
-        <h4>{{item.name}}</h4>
+    <li class="item flexrow align-center" data-item-id="{{item._id}}" style="padding: 3px 0;">
+      <div class="item-name flexrow align-center">
+        <!-- New Compact, Clickable Image -->
+        <img src="{{item.img}}" title="Click to view {{item.name}}" class="item-edit" width="24" height="24" style="cursor: pointer; margin-right: 8px; border-radius: 3px; border: 1px solid #ccc; object-fit: cover; flex: 0 0 24px;"/>
+        <h4 class="m-0" style="line-height: 24px;">{{item.name}}</h4>
       </div>
       <div class="item-detail" style="flex: 0 0 50px; text-align: center;">
         {{item.system.quantity}}
       </div>
       <div class="item-controls">
-        <a class="item-control item-edit" title="Edit Gear"><i class="fas fa-edit"></i></a>
+        <!-- Edit button removed (handled by image now) -->
         <a class="item-control item-delete" title="Delete Gear"><i class="fas fa-trash"></i></a>
       </div>
     </li>
@@ -39,8 +39,7 @@
   <h3 class="header">Vehicles</h3>
   
   <ol class="item-list">
-    <li class="item flexrow item-header">
-      <div class="item-image"></div>
+    <li class="item flexrow item-header align-center">
       <div class="item-name">Vehicle Name</div>
       <div class="item-controls">
         <a class="item-control item-create" title="Add Vehicle" data-type="vehicle">
@@ -50,13 +49,14 @@
     </li>
 
     {{#each vehicles as |item id|}}
-    <li class="item flexrow" data-item-id="{{item._id}}">
-      <div class="item-name flexrow">
-        <div class="item-image" style="background-image: url('{{item.img}}')"></div>
-        <h4>{{item.name}}</h4>
+    <li class="item flexrow align-center" data-item-id="{{item._id}}" style="padding: 3px 0;">
+      <div class="item-name flexrow align-center">
+        <!-- New Compact, Clickable Image -->
+        <img src="{{item.img}}" title="Click to view {{item.name}}" class="item-edit" width="24" height="24" style="cursor: pointer; margin-right: 8px; border-radius: 3px; border: 1px solid #ccc; object-fit: cover; flex: 0 0 24px;"/>
+        <h4 class="m-0" style="line-height: 24px;">{{item.name}}</h4>
       </div>
       <div class="item-controls">
-        <a class="item-control item-edit" title="Edit Vehicle"><i class="fas fa-edit"></i></a>
+        <!-- Edit button removed (handled by image now) -->
         <a class="item-control item-delete" title="Delete Vehicle"><i class="fas fa-trash"></i></a>
       </div>
     </li>
