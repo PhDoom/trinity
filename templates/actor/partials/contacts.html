@@ -21,9 +21,11 @@
     <li class="item flexrow align-center" data-item-id="{{item._id}}" style="padding: 3px 0;">
       
       <div class="item-name flexrow align-center">
-        <!-- New Compact, Clickable Image -->
         <img src="{{item.img}}" title="Click to view {{item.name}}" class="item-edit" width="24" height="24" style="cursor: pointer; margin-right: 8px; border-radius: 3px; border: 1px solid #ccc; object-fit: cover; flex: 0 0 24px;"/>
-        <h4 class="m-0" style="line-height: 24px;">{{item.name}}</h4>
+        
+        <h4 class="m-0 rollable" data-roll-type="item" title="Roll {{item.name}}" style="line-height: 24px; cursor: pointer;">
+          <a>{{item.name}}</a>
+        </h4>
       </div>
       
       {{!-- V13 Data Path: Access contact info via item.system --}}
@@ -32,7 +34,6 @@
       </div>
       
       <div class="item-controls">
-        <!-- Edit button removed (handled by image now) -->
         <a class="item-control item-delete" title="Delete Contact"><i class="fas fa-trash"></i></a>
       </div>
       
