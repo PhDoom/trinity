@@ -11,7 +11,7 @@
         <div class="flexcol w-100 p-1 border" style="border-radius: 5px; background: rgba(0,0,0,0.02);">
             <h3 class="header m-0 mb-1 text-blue">Character Biography</h3>
             <div class="editor" style="min-height: 230px;">
-                {{editor enrichedBiography target="system.biography" button=true owner=owner editable=editable engine="prosemirror"}}
+                {{editor enrichedBiography target="system.biography" button=false owner=owner editable=editable engine="prosemirror"}}
             </div>
         </div>
     </div>
@@ -20,7 +20,7 @@
     <div class="flexcol w-100 p-1 border mb-2" style="border-radius: 5px; background: rgba(0,0,0,0.02);">
         <h3 class="header m-0 mb-1 text-blue">Player Notes</h3>
         <div class="editor" style="min-height: 150px;">
-            {{editor enrichedPlayerNotes target="system.playerNotes" button=true owner=owner editable=editable engine="prosemirror"}}
+            {{editor enrichedPlayerNotes target="system.playerNotes" button=false owner=owner editable=editable engine="prosemirror"}}
         </div>
     </div>
 
@@ -28,7 +28,7 @@
     <div class="flexcol w-100 p-1 border" style="border-radius: 5px; background: rgba(0,0,0,0.02);">
         <h3 class="header m-0 mb-1 text-blue">GM Notes <span style="font-size: 0.8em; font-weight: normal; color: #666;">(Hidden from Players)</span></h3>
         <div class="editor" style="min-height: 150px;">
-            {{editor enrichedNotes target="system.gmNotes" button=true owner=owner editable=editable engine="prosemirror"}}
+            {{editor enrichedNotes target="system.gmNotes" button=false owner=owner editable=editable engine="prosemirror"}}
         </div>
     </div>
 
