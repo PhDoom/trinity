@@ -1,6 +1,5 @@
 <form class="trinity-app {{cssClass}} flexcol" autocomplete="off">
     <header class="sheet-header flexrow p-1 border-bottom align-center">
-        <!-- FIXED: Locked Image Size -->
         <img class="profile-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" style="width: 48px; height: 48px; min-width: 48px; max-width: 48px; flex: 0 0 48px; object-fit: cover; border-radius: 3px; border: 1px solid #ccc;"/>
         <div class="header-fields flexcol w-100 mx-1">
             <h1 class="charname m-0">
@@ -22,9 +21,9 @@
 
         <div class="form-group flexcol mt-1" style="flex: 1;">
             <label class="font-weight-bold text-blue mb-1">Description</label>
-            <div class="editor border p-1" style="background: rgba(0,0,0,0.02); min-height: 200px; height: 100%; border-radius: 5px;">
-                <!-- FIXED: Native Foundry Editor for Pencil Icon -->
-                {{editor enrichedDescription target="system.description" button=true owner=owner editable=editable engine="prosemirror"}}
+
+            <div class="editor border p-1" style="background: rgba(0,0,0,0.02); min-height: 200px; border-radius: 5px;">
+                {{editor enrichedDescription target="system.description" button=false owner=owner editable=editable engine="prosemirror"}}
             </div>
         </div>
     </section>
