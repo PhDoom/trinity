@@ -28,8 +28,10 @@
 
         <div class="form-group flexcol mt-1" style="flex: 1;">
             <label class="font-weight-bold text-blue mb-1">Description</label>
-            <div class="editor border p-1" style="background: rgba(0,0,0,0.02); min-height: 200px; height: 100%; border-radius: 5px;">
-                {{editor enrichedDescription target="system.description" button=true owner=owner editable=editable engine="prosemirror"}}
+
+            <!-- V13 Rich Text Editor (Always Open) -->
+            <div class="editor border p-1" style="background: rgba(0,0,0,0.02); min-height: 200px; border-radius: 5px;">
+                {{editor enrichedDescription target="system.description" button=false owner=owner editable=editable engine="prosemirror"}}
             </div>
         </div>
     </section>
