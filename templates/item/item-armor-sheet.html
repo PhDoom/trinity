@@ -31,16 +31,10 @@
 
         <div class="form-group flexcol mt-1" style="flex: 1;">
             <label class="font-weight-bold text-blue mb-1">Description</label>
-            
-            <!-- Fallback Textarea -->
-            <textarea name="system.description" placeholder="Type raw text here if the rich editor fails..." style="min-height: 80px; width: 100%; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 5px; padding: 5px; font-family: sans-serif;">{{system.description}}</textarea>
 
-            <!-- Debug Data: This will tell us if your item-sheet.js is working -->
-            <p style="font-size: 10px; color: gray;">DEBUG -> Editable: {{editable}} | Owner: {{owner}}</p>
-
-            <!-- Rich Text Editor Container (Removed 'class="editor"' to prevent conflicts) -->
-            <div class="trinity-text-box border p-1" style="background: rgba(0,0,0,0.02); min-height: 200px; border-radius: 5px;">
-                {{editor enrichedDescription target="system.description" button=true owner=owner editable=editable engine="prosemirror"}}
+            <!-- V13 Rich Text Editor (Always Open) -->
+            <div class="editor border p-1" style="background: rgba(0,0,0,0.02); min-height: 200px; border-radius: 5px;">
+                {{editor content=enrichedDescription target="system.description" button=false owner=owner editable=editable engine="prosemirror"}}
             </div>
         </div>
     </section>
