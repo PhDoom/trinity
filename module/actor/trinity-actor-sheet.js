@@ -28,7 +28,7 @@ export class TrinityActorSheet extends ActorSheet {
   async getData(options) {
     const context = await super.getData(options);
     
-    // REQUIRED: Pass these permissions to the template for the editor to function [cite: 1]
+    // REQUIRED: Pass these permissions to the template for the editor to function
     context.owner = this.document.isOwner;
     context.editable = this.isEditable;
     
@@ -50,6 +50,13 @@ export class TrinityActorSheet extends ActorSheet {
     });
 
     context.enrichedNotes = await TextEditor.enrichHTML(context.system.gmNotes || "", {
+      async: true,
+      secrets: this.actor.isOwner,
+      relativeTo: this.actor
+    });
+
+    // NEW: Enriched Bonds for the Character Tab
+    context.enrichedBonds = await TextEditor.enrichHTML(context.system.bonds || "", {
       async: true,
       secrets: this.actor.isOwner,
       relativeTo: this.actor
