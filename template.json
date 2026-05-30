@@ -50,7 +50,21 @@
       "talent": { "inspiration": { "value": 1, "max": 10 } },
       "mage": { "quintessence": { "value": 1, "max": 10 }, "arete": { "value": 1 } },
       "psion": { "psi": { "value": 1 }, "psiPoints": { "value": 1, "max": 10 }, "tolerance": { "value": 1 } },
-      "nova": { "quantum": { "value": 1 }, "quantumPoints": { "value": 1, "max": 10 }, "transcendence": { "value": 0 }, "flux": { "value": 0 } }
+      "nova": { "quantum": { "value": 1 }, "quantumPoints": { "value": 1, "max": 10 }, "transcendence": { "value": 0 }, "flux": { "value": 0 } },
+      "aethernaut": { "inspiration": { "value": 1, "max": 10 }, "divergence": { "value": 0 } },
+      "anima": {
+        "name": "", "controllingPlayer": "", "concept": "", "level": 0,
+        "hitPoints": { "value": 0, "max": 0 },
+        "stats": { "force": { "value": 0 }, "finesse": { "value": 0 }, "resilience": { "value": 0 } },
+        "paths": { "people": { "name": "", "rating": 0 }, "class": { "name": "", "rating": 0 }, "guild": { "name": "", "rating": 0 } },
+        "skills": {
+          "arcana": { "value": 0, "specialty": "" }, "athletics": { "value": 0, "specialty": "" },
+          "block": { "value": 0, "specialty": "" }, "crafting": { "value": 0, "specialty": "" },
+          "lore": { "value": 0, "specialty": "" }, "magicAttack": { "value": 0, "specialty": "" },
+          "persuasion": { "value": 0, "specialty": "" }, "physicalAttack": { "value": 0, "specialty": "" },
+          "stealth": { "value": 0, "specialty": "" }
+        }
+      }
     },
     "npc": {
       "templates": ["base"], "threat": { "value": 1 }, "size": { "value": 1 },
@@ -61,7 +75,7 @@
   "Item": {
     "types": [
       "gear", "item", "weapon", "armor", "edge", "power", "action", "condition", "bond", "contact", 
-      "gift", "spell", "quantumpower", "biotech", "vehicle", "skilltrick"
+      "gift", "spell", "quantumpower", "biotech", "vehicle", "skilltrick", "aspect", "buff"
     ],
     "templates": { "baseItem": { "description": "" } },
     "gear": { "templates": ["baseItem"], "enhancement": 0, "tags": "" },
@@ -74,11 +88,13 @@
     "condition": { "templates": ["baseItem"], "resolution": "", "effect": "" },
     "bond": { "templates": ["baseItem"], "rating": 1 },
     "contact": { "templates": ["baseItem"], "rating": 0 },
-    "gift": { "templates": ["baseItem"], "keywords": "", "prerequisite": "" },
+    "gift": { "templates": ["baseItem"], "keywords": "", "prerequisite": "", "dicePool": "", "cost": "" },
     "spell": { "templates": ["baseItem"], "dicePool": "", "cost": "" },
     "quantumpower": { "templates": ["baseItem"], "value": 0, "action": "", "cost": "", "dicePool": "", "range": "", "duration": "", "tags": "" },
     "biotech": { "templates": ["baseItem"], "enhancement": 0, "damage": 0, "damageType": "", "range": "", "tags": "" },
     "vehicle": { "templates": ["baseItem"], "size": 0, "handling": 0, "speed": 0, "weapons": "", "tags": "" },
-    "skilltrick": { "templates": ["baseItem"], "skill": "" }
+    "skilltrick": { "templates": ["baseItem"], "skill": "" },
+    "aspect": { "templates": ["baseItem"], "keywords": "", "prerequisite": "", "dicePool": "", "cost": "" },
+    "buff": { "templates": ["baseItem"], "rating": 0, "type": "", "relationship": "" }
   }
 }
