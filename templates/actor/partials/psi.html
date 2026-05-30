@@ -35,7 +35,8 @@
         <div class="form-group flexcol flex-center border p-1" style="border-radius: 5px; background: rgba(0,0,0,0.02);">
             <label class="font-weight-bold text-blue mb-1">PSI Points</label>
             
-            <div class="flexrow mb-1 align-center" title="Current PSI Points">
+            <div class="flexrow mb-1 align-center" style="gap: 10px;" title="Current PSI Points">
+                <span class="font-weight-bold text-blue" style="font-size: 0.85em; width: 65px; text-align: right; text-transform: uppercase;">Current</span>
                 <div class="pip-container" data-name="system.psion.psiPoints.value" data-value="{{system.psion.psiPoints.value}}">
                     <i class="pip {{#if (gt system.psion.psiPoints.value 0)}}fas{{else}}far{{/if}} fa-circle" data-index="1"></i>
                     <i class="pip {{#if (gt system.psion.psiPoints.value 1)}}fas{{else}}far{{/if}} fa-circle" data-index="2"></i>
@@ -50,7 +51,8 @@
                 </div>
             </div>
 
-            <div class="flexrow align-center" title="Maximum PSI Points">
+            <div class="flexrow align-center" style="gap: 10px;" title="Maximum PSI Points">
+                <span class="font-weight-bold text-blue" style="font-size: 0.85em; width: 65px; text-align: right; text-transform: uppercase;">Maximum</span>
                 <div class="pip-container" data-name="system.psion.psiPoints.max" data-value="{{system.psion.psiPoints.max}}">
                     <i class="pip {{#if (gt system.psion.psiPoints.max 0)}}fas{{else}}far{{/if}} fa-square" data-index="1"></i>
                     <i class="pip {{#if (gt system.psion.psiPoints.max 1)}}fas{{else}}far{{/if}} fa-square" data-index="2"></i>
