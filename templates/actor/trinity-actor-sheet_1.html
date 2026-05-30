@@ -49,8 +49,8 @@
                 </div>
             {{/if}}
             
-            {{!-- This renders the Inspiration/Gifts layout for Talents, Champions, Oracles, and Olympians --}}
-            {{#if (or (eq system.details.characterType "talent") (eq system.details.characterType "champions") (eq system.details.characterType "oracles") (eq system.details.characterType "olympians"))}}
+            {{!-- This renders the Inspiration/Gifts layout for Talents, Champions, Oracles, and Olympians (Singular Check) --}}
+            {{#if (or (eq system.details.characterType "talent") (eq system.details.characterType "champion") (eq system.details.characterType "oracle") (eq system.details.characterType "olympian"))}}
                 {{> "systems/trinity/templates/actor/partials/inspiration.html"}}
                 <div class="mt-1">
                     {{> "systems/trinity/templates/actor/partials/gifts.html"}}
@@ -65,7 +65,7 @@
                 {{> "systems/trinity/templates/actor/partials/psi.html"}}
             {{/if}}
 
-            {{!-- NEW AETHERNAUT PARADIGM --}}
+            {{!-- AETHERNAUT PARADIGM --}}
             {{#if (eq system.details.characterType "aethernaut")}}
                 {{> "systems/trinity/templates/actor/partials/aethernaut.html"}}
             {{/if}}
