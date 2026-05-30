@@ -55,7 +55,6 @@ export class TrinityActorSheet extends ActorSheet {
       relativeTo: this.actor
     });
 
-    // NEW: Enriched Bonds for the Character Tab
     context.enrichedBonds = await TextEditor.enrichHTML(context.system.bonds || "", {
       async: true,
       secrets: this.actor.isOwner,
@@ -91,6 +90,10 @@ export class TrinityActorSheet extends ActorSheet {
     const vehicles = [];
     const skillTricks = []; 
 
+    // NEW Containers for Anima items
+    const aspects = [];
+    const buffs = [];
+
     for (let i of context.items) {
       i.img = i.img || DEFAULT_TOKEN; 
       
@@ -110,6 +113,10 @@ export class TrinityActorSheet extends ActorSheet {
       else if (i.type === 'biotech') biotech.push(i);
       else if (i.type === 'vehicle') vehicles.push(i);
       else if (i.type === 'skilltrick') skillTricks.push(i); 
+
+      // Sort new Anima Items
+      else if (i.type === 'aspect') aspects.push(i);
+      else if (i.type === 'buff') buffs.push(i);
     }
 
     context.gear = gear;
@@ -127,6 +134,10 @@ export class TrinityActorSheet extends ActorSheet {
     context.biotech = biotech;
     context.vehicles = vehicles;
     context.skillTricks = skillTricks; 
+
+    // Assign sorted Anima items to the context
+    context.aspects = aspects;
+    context.buffs = buffs;
   }
 
   /** @override */
