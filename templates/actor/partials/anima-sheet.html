@@ -1,0 +1,217 @@
+{{!-- Anima Mini-Sheet Partial - Foundry V13 Compliant --}}
+<div class="anima-sheet-section p-2" style="border: 2px solid #4a5568; border-radius: 8px; background: #f7fafc;">
+    <h2 class="header text-center" style="color: #2d3748; border-bottom: 2px solid #cbd5e0;">Anima Virtual Avatar</h2>
+
+    {{!-- Header Info Row --}}
+    <div class="grid grid-3col gap-10 mb-2">
+        <div class="form-group flexcol">
+            <label class="font-weight-bold">Anima Name</label>
+            <input type="text" name="system.anima.name" value="{{system.anima.name}}" placeholder="Virtual Handle"/>
+        </div>
+        <div class="form-group flexcol">
+            <label class="font-weight-bold">Controlling Player</label>
+            <input type="text" name="system.anima.controllingPlayer" value="{{system.anima.controllingPlayer}}" placeholder="Player Name"/>
+        </div>
+        <div class="form-group flexcol">
+            <label class="font-weight-bold">Concept</label>
+            <input type="text" name="system.anima.concept" value="{{system.anima.concept}}" placeholder="Brief description..."/>
+        </div>
+    </div>
+
+    {{!-- Core Stats Row --}}
+    <div class="grid grid-5col gap-10 mb-2 align-center" style="background: rgba(0,0,0,0.05); padding: 5px; border-radius: 5px;">
+        {{!-- Level & HP --}}
+        <div class="form-group flexcol flex-center border-right">
+            <label class="font-weight-bold">Level</label>
+            <input type="number" name="system.anima.level" value="{{system.anima.level}}" data-dtype="Number" style="width: 40px; text-align: center;"/>
+        </div>
+        <div class="form-group flexcol flex-center border-right">
+            <label class="font-weight-bold text-red">Hit Points</label>
+            <div class="flexrow flex-center">
+                <input type="number" name="system.anima.hitPoints.value" value="{{system.anima.hitPoints.value}}" data-dtype="Number" style="width: 40px; text-align: center;"/>
+                <span class="mx-1">/</span>
+                <input type="number" name="system.anima.hitPoints.max" value="{{system.anima.hitPoints.max}}" data-dtype="Number" style="width: 40px; text-align: center;"/>
+            </div>
+        </div>
+
+        {{!-- Anima Attributes --}}
+        <div class="form-group flexcol flex-center">
+            <label class="font-weight-bold">Force</label>
+            <div class="pip-container" data-name="system.anima.stats.force.value" data-value="{{system.anima.stats.force.value}}" style="display: flex; gap: 2px;">
+                <i class="pip {{#if (gt system.anima.stats.force.value 0)}}fas{{else}}far{{/if}} fa-circle" data-index="1"></i>
+                <i class="pip {{#if (gt system.anima.stats.force.value 1)}}fas{{else}}far{{/if}} fa-circle" data-index="2"></i>
+                <i class="pip {{#if (gt system.anima.stats.force.value 2)}}fas{{else}}far{{/if}} fa-circle" data-index="3"></i>
+                <i class="pip {{#if (gt system.anima.stats.force.value 3)}}fas{{else}}far{{/if}} fa-circle" data-index="4"></i>
+                <i class="pip {{#if (gt system.anima.stats.force.value 4)}}fas{{else}}far{{/if}} fa-circle" data-index="5"></i>
+            </div>
+        </div>
+        <div class="form-group flexcol flex-center">
+            <label class="font-weight-bold">Finesse</label>
+            <div class="pip-container" data-name="system.anima.stats.finesse.value" data-value="{{system.anima.stats.finesse.value}}" style="display: flex; gap: 2px;">
+                <i class="pip {{#if (gt system.anima.stats.finesse.value 0)}}fas{{else}}far{{/if}} fa-circle" data-index="1"></i>
+                <i class="pip {{#if (gt system.anima.stats.finesse.value 1)}}fas{{else}}far{{/if}} fa-circle" data-index="2"></i>
+                <i class="pip {{#if (gt system.anima.stats.finesse.value 2)}}fas{{else}}far{{/if}} fa-circle" data-index="3"></i>
+                <i class="pip {{#if (gt system.anima.stats.finesse.value 3)}}fas{{else}}far{{/if}} fa-circle" data-index="4"></i>
+                <i class="pip {{#if (gt system.anima.stats.finesse.value 4)}}fas{{else}}far{{/if}} fa-circle" data-index="5"></i>
+            </div>
+        </div>
+        <div class="form-group flexcol flex-center">
+            <label class="font-weight-bold">Resilience</label>
+            <div class="pip-container" data-name="system.anima.stats.resilience.value" data-value="{{system.anima.stats.resilience.value}}" style="display: flex; gap: 2px;">
+                <i class="pip {{#if (gt system.anima.stats.resilience.value 0)}}fas{{else}}far{{/if}} fa-circle" data-index="1"></i>
+                <i class="pip {{#if (gt system.anima.stats.resilience.value 1)}}fas{{else}}far{{/if}} fa-circle" data-index="2"></i>
+                <i class="pip {{#if (gt system.anima.stats.resilience.value 2)}}fas{{else}}far{{/if}} fa-circle" data-index="3"></i>
+                <i class="pip {{#if (gt system.anima.stats.resilience.value 3)}}fas{{else}}far{{/if}} fa-circle" data-index="4"></i>
+                <i class="pip {{#if (gt system.anima.stats.resilience.value 4)}}fas{{else}}far{{/if}} fa-circle" data-index="5"></i>
+            </div>
+        </div>
+    </div>
+
+    {{!-- Paths Row --}}
+    <h3 class="header mb-1 mt-2">Anima Paths</h3>
+    <div class="grid grid-3col gap-10 mb-2">
+        {{#each (split "people class guild") as |pathName|}}
+        <div class="form-group flexcol border p-1" style="border-radius: 5px; background: #fff;">
+            <label class="font-weight-bold text-center capitalize">{{pathName}} Path</label>
+            <input type="text" name="system.anima.paths.{{pathName}}.name" value="{{lookup (lookup ../system.anima.paths pathName) 'name'}}" placeholder="Path Name..." class="mb-1"/>
+            <div class="flexrow flex-center">
+                <div class="pip-container" data-name="system.anima.paths.{{pathName}}.rating" data-value="{{lookup (lookup ../system.anima.paths pathName) 'rating'}}" style="display: flex; gap: 2px;">
+                    <i class="pip {{#if (gt (lookup (lookup ../system.anima.paths pathName) 'rating') 0)}}fas{{else}}far{{/if}} fa-circle" data-index="1"></i>
+                    <i class="pip {{#if (gt (lookup (lookup ../system.anima.paths pathName) 'rating') 1)}}fas{{else}}far{{/if}} fa-circle" data-index="2"></i>
+                    <i class="pip {{#if (gt (lookup (lookup ../system.anima.paths pathName) 'rating') 2)}}fas{{else}}far{{/if}} fa-circle" data-index="3"></i>
+                    <i class="pip {{#if (gt (lookup (lookup ../system.anima.paths pathName) 'rating') 3)}}fas{{else}}far{{/if}} fa-circle" data-index="4"></i>
+                    <i class="pip {{#if (gt (lookup (lookup ../system.anima.paths pathName) 'rating') 4)}}fas{{else}}far{{/if}} fa-circle" data-index="5"></i>
+                </div>
+            </div>
+        </div>
+        {{/each}}
+    </div>
+
+    {{!-- Skills Grid --}}
+    <h3 class="header mb-1 mt-2">Anima Skills</h3>
+    <div class="grid grid-3col gap-10 mb-2">
+        {{#each (split "arcana athletics block crafting lore magicAttack persuasion physicalAttack stealth") as |skillName|}}
+        <div class="form-group flexcol border p-1" style="border-radius: 5px; background: #fff;">
+            <div class="flexrow flex-between align-center mb-1">
+                <label class="font-weight-bold capitalize m-0">{{skillName}}</label>
+                <div class="pip-container" data-name="system.anima.skills.{{skillName}}.value" data-value="{{lookup (lookup ../system.anima.skills skillName) 'value'}}" style="display: flex; gap: 2px;">
+                    <i class="pip {{#if (gt (lookup (lookup ../system.anima.skills skillName) 'value') 0)}}fas{{else}}far{{/if}} fa-circle" data-index="1"></i>
+                    <i class="pip {{#if (gt (lookup (lookup ../system.anima.skills skillName) 'value') 1)}}fas{{else}}far{{/if}} fa-circle" data-index="2"></i>
+                    <i class="pip {{#if (gt (lookup (lookup ../system.anima.skills skillName) 'value') 2)}}fas{{else}}far{{/if}} fa-circle" data-index="3"></i>
+                    <i class="pip {{#if (gt (lookup (lookup ../system.anima.skills skillName) 'value') 3)}}fas{{else}}far{{/if}} fa-circle" data-index="4"></i>
+                    <i class="pip {{#if (gt (lookup (lookup ../system.anima.skills skillName) 'value') 4)}}fas{{else}}far{{/if}} fa-circle" data-index="5"></i>
+                </div>
+            </div>
+            <input type="text" name="system.anima.skills.{{skillName}}.specialty" value="{{lookup (lookup ../system.anima.skills skillName) 'specialty'}}" placeholder="Specialty..." style="font-size: 0.9em;"/>
+        </div>
+        {{/each}}
+    </div>
+
+    {{!-- Item Drag & Drop Areas --}}
+    <div class="grid grid-2col gap-10 mt-2">
+        
+        {{!-- Aspects Area --}}
+        <div class="powers-section flexcol">
+            <div class="flexrow flex-between header p-1 border-bottom">
+                <h3 class="m-0">Aspects</h3>
+                <a class="item-create text-blue" data-type="aspect" title="Create New Aspect"><i class="fas fa-plus"></i> Add</a>
+            </div>
+            <div class="power-list p-1 border" style="background: #fff; min-height: 100px;">
+                {{#if aspects.length}}
+                    {{#each aspects as |item id|}}
+                    <div class="item flexrow flex-between p-1 border-bottom align-center" data-item-id="{{item._id}}">
+                        <div class="item-name flexrow align-center">
+                            <img src="{{item.img}}" title="Click to view {{item.name}}" class="item-edit" width="24" height="24" style="cursor: pointer; margin-right: 8px;"/>
+                            <h4 class="m-0 rollable" data-roll-type="item"><a>{{item.name}}</a></h4>
+                        </div>
+                        <div class="item-controls">
+                            <a class="item-control item-delete text-red"><i class="fas fa-trash"></i></a>
+                        </div>
+                    </div>
+                    {{/each}}
+                {{else}}
+                    <em style="color: #a0aec0; font-size: 0.9em;">Drop Aspects here.</em>
+                {{/if}}
+            </div>
+        </div>
+
+        {{!-- Buffs Area --}}
+        <div class="powers-section flexcol">
+            <div class="flexrow flex-between header p-1 border-bottom">
+                <h3 class="m-0">Buffs</h3>
+                <a class="item-create text-blue" data-type="buff" title="Create New Buff"><i class="fas fa-plus"></i> Add</a>
+            </div>
+            <div class="power-list p-1 border" style="background: #fff; min-height: 100px;">
+                {{#if buffs.length}}
+                    {{#each buffs as |item id|}}
+                    <div class="item flexrow flex-between p-1 border-bottom align-center" data-item-id="{{item._id}}">
+                        <div class="item-name flexrow align-center">
+                            <img src="{{item.img}}" title="Click to view {{item.name}}" class="item-edit" width="24" height="24" style="cursor: pointer; margin-right: 8px;"/>
+                            <h4 class="m-0 rollable" data-roll-type="item"><a>{{item.name}}</a></h4>
+                        </div>
+                        <div class="flexrow align-center">
+                            <span class="tag mx-1" style="font-weight: bold;">Rating: {{item.system.rating}}</span>
+                            <div class="item-controls">
+                                <a class="item-control item-delete text-red"><i class="fas fa-trash"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    {{/each}}
+                {{else}}
+                    <em style="color: #a0aec0; font-size: 0.9em;">Drop Buffs here.</em>
+                {{/if}}
+            </div>
+        </div>
+
+        {{!-- Skill Tricks Area --}}
+        <div class="powers-section flexcol">
+            <div class="flexrow flex-between header p-1 border-bottom">
+                <h3 class="m-0">Skill Tricks</h3>
+                <a class="item-create text-blue" data-type="skilltrick" title="Create New Skill Trick"><i class="fas fa-plus"></i> Add</a>
+            </div>
+            <div class="power-list p-1 border" style="background: #fff; min-height: 100px;">
+                {{#if skillTricks.length}}
+                    {{#each skillTricks as |item id|}}
+                    <div class="item flexrow flex-between p-1 border-bottom align-center" data-item-id="{{item._id}}">
+                        <div class="item-name flexrow align-center">
+                            <img src="{{item.img}}" class="item-edit" width="24" height="24" style="cursor: pointer; margin-right: 8px;"/>
+                            <h4 class="m-0 rollable" data-roll-type="item"><a>{{item.name}}</a></h4>
+                        </div>
+                        <div class="item-controls">
+                            <a class="item-control item-delete text-red"><i class="fas fa-trash"></i></a>
+                        </div>
+                    </div>
+                    {{/each}}
+                {{else}}
+                    <em style="color: #a0aec0; font-size: 0.9em;">Drop Skill Tricks here.</em>
+                {{/if}}
+            </div>
+        </div>
+
+        {{!-- Equipment Area --}}
+        <div class="powers-section flexcol">
+            <div class="flexrow flex-between header p-1 border-bottom">
+                <h3 class="m-0">Equipment</h3>
+                <a class="item-create text-blue" data-type="gear" title="Create New Equipment"><i class="fas fa-plus"></i> Add</a>
+            </div>
+            <div class="power-list p-1 border" style="background: #fff; min-height: 100px;">
+                {{#if gear.length}}
+                    {{#each gear as |item id|}}
+                    <div class="item flexrow flex-between p-1 border-bottom align-center" data-item-id="{{item._id}}">
+                        <div class="item-name flexrow align-center">
+                            <img src="{{item.img}}" class="item-edit" width="24" height="24" style="cursor: pointer; margin-right: 8px;"/>
+                            <h4 class="m-0 rollable" data-roll-type="item"><a>{{item.name}}</a></h4>
+                        </div>
+                        <div class="item-controls">
+                            <a class="item-control item-delete text-red"><i class="fas fa-trash"></i></a>
+                        </div>
+                    </div>
+                    {{/each}}
+                {{else}}
+                    <em style="color: #a0aec0; font-size: 0.9em;">Drop Equipment here.</em>
+                {{/if}}
+            </div>
+        </div>
+
+    </div>
+</div>
