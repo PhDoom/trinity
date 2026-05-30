@@ -45,6 +45,56 @@
       {{!-- Standard Meta Data Partial --}}
       {{> "systems/trinity/templates/item/partials/top-traits.html"}}
 
+      {{!-- NEW: Aspect Specific Fields (Anima) --}}
+      {{#if (eq item.type "aspect")}}
+      <div class="mechanics-group border p-2 mt-2" style="background: rgba(46, 125, 50, 0.05); border-color: #a5d6a7; border-radius: 5px;">
+        <h3 class="header border-bottom mb-2" style="color: #2e7d32;">Aspect Details</h3>
+        
+        <div class="form-group">
+          <label class="font-weight-bold">Dice Pool</label>
+          <input type="text" name="system.dicePool" value="{{system.dicePool}}" placeholder="e.g. Force + Magic Attack"/>
+        </div>
+        
+        <div class="form-group">
+          <label class="font-weight-bold">Cost</label>
+          <input type="text" name="system.cost" value="{{system.cost}}" placeholder="e.g. 1 Inspiration"/>
+        </div>
+        
+        <div class="form-group">
+          <label class="font-weight-bold">Prerequisites</label>
+          <input type="text" name="system.prerequisite" value="{{system.prerequisite}}"/>
+        </div>
+        
+        <div class="form-group">
+          <label class="font-weight-bold">Keywords</label>
+          <input type="text" name="system.keywords" value="{{system.keywords}}" placeholder="e.g. Ranged, Fire..."/>
+        </div>
+      </div>
+      {{/if}}
+
+      {{!-- NEW: Buff Specific Fields (Anima) --}}
+      {{#if (eq item.type "buff")}}
+      <div class="mechanics-group border p-2 mt-2" style="background: rgba(46, 125, 50, 0.05); border-color: #a5d6a7; border-radius: 5px;">
+        <h3 class="header border-bottom mb-2" style="color: #2e7d32;">Buff Details</h3>
+        
+        <div class="form-group">
+          <label class="font-weight-bold">Buff Type</label>
+          <input type="text" name="system.type" value="{{system.type}}" placeholder="e.g. Blessing, Aura, Stance..."/>
+        </div>
+        
+        <div class="form-group">
+          <label class="font-weight-bold">Relationship / Source</label>
+          <input type="text" name="system.relationship" value="{{system.relationship}}" placeholder="e.g. Guild Guildmaster, Magic Item..."/>
+        </div>
+        
+        <div class="form-group">
+          <label class="font-weight-bold">Specific Rating</label>
+          <input type="number" name="system.rating" value="{{system.rating}}" data-dtype="Number" style="max-width: 60px; text-align: center;"/>
+        </div>
+      </div>
+      {{/if}}
+
+      {{!-- Generic Item Configuration for standard items --}}
       <div class="mechanics-group border p-2 mt-2">
         <h3 class="header border-bottom mb-2">Item Configuration</h3>
         
