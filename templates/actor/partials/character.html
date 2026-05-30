@@ -15,6 +15,12 @@
           <option value="nova" {{#if (eq system.details.characterType "nova")}}selected{{/if}}>Nova</option>
           <option value="psion" {{#if (eq system.details.characterType "psion")}}selected{{/if}}>Psion</option>
           <option value="mage" {{#if (eq system.details.characterType "mage")}}selected{{/if}}>Mage</option>
+          
+          {{!-- NEW PARADIGMS --}}
+          <option value="champions" {{#if (eq system.details.characterType "champions")}}selected{{/if}}>Champions</option>
+          <option value="oracles" {{#if (eq system.details.characterType "oracles")}}selected{{/if}}>Oracles</option>
+          <option value="olympians" {{#if (eq system.details.characterType "olympians")}}selected{{/if}}>Olympians</option>
+          {{!-- Add the 4th paradigm here using the same format when you're ready --}}
         </select>
       </div>
       
