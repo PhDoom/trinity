@@ -1,15 +1,15 @@
-{{!-- Inspiration & Facets Partial - Foundry V13 Compliant --}}
+{{!-- Inspiration Partial - Foundry V13 Compliant --}}
 <div class="talent-traits-section">
   
   <h3 class="header">Talent Traits</h3>
   
-  <div class="grid grid-2col gap-10 align-center mb-1">
+  <div class="flexcol mb-1">
     
     {{!-- Inspiration (Current/Max Pool) --}}
     <div class="form-group flexcol flex-center border p-1" style="border-radius: 5px; background: rgba(0,0,0,0.02);">
       <label class="font-weight-bold text-blue mb-1 rollable" data-roll-type="inspiration" title="Roll Inspiration" style="cursor: pointer;">Inspiration</label>
       
-      <div class="flexrow mb-1 align-center" style="gap: 10px;" title="Current Inspiration">
+      <div class="flexrow mb-1 align-center" style="gap: 10px; justify-content: center;" title="Current Inspiration">
         <span class="font-weight-bold text-blue" style="font-size: 0.85em; width: 65px; text-align: right; text-transform: uppercase;">Current</span>
         {{!-- Flex-wrap set to nowrap to prevent second-line wrapping --}}
         <div class="pip-container" data-name="system.talent.inspiration.value" data-value="{{system.talent.inspiration.value}}" style="display: flex; flex-wrap: nowrap; gap: 2px;">
@@ -26,7 +26,7 @@
         </div>
       </div>
 
-      <div class="flexrow align-center" style="gap: 10px;" title="Maximum Inspiration">
+      <div class="flexrow align-center" style="gap: 10px; justify-content: center;" title="Maximum Inspiration">
         <span class="font-weight-bold text-blue" style="font-size: 0.85em; width: 65px; text-align: right; text-transform: uppercase;">Maximum</span>
         {{!-- Flex-wrap set to nowrap to prevent second-line wrapping --}}
         <div class="pip-container" data-name="system.talent.inspiration.max" data-value="{{system.talent.inspiration.max}}" style="display: flex; flex-wrap: nowrap; gap: 2px;">
@@ -41,32 +41,6 @@
             <i class="pip {{#if (gt system.talent.inspiration.max 8)}}fas{{else}}far{{/if}} fa-square" data-index="9"></i>
             <i class="pip {{#if (gt system.talent.inspiration.max 9)}}fas{{else}}far{{/if}} fa-square" data-index="10"></i>
         </div>
-      </div>
-    </div>
-
-    {{!-- Facet Distribution --}}
-    <div class="form-group flexcol flex-center border p-1" style="border-radius: 5px; background: rgba(0,0,0,0.02);">
-      <label class="font-weight-bold text-blue mb-1">Facets</label>
-      <div class="flexrow flex-around w-100 px-2 mt-1">
-        
-        {{!-- Destructive --}}
-        <div class="flexcol flex-center" title="Destructive">
-          <label class="font-weight-bold mb-1" style="font-size: 0.85em;">Destructive</label>
-          <input type="number" name="system.talent.destructive" value="{{system.talent.destructive}}" data-dtype="Number" style="width: 40px; text-align: center; font-size: 1.1em;"/>
-        </div>
-
-        {{!-- Intuitive --}}
-        <div class="flexcol flex-center" title="Intuitive">
-          <label class="font-weight-bold mb-1" style="font-size: 0.85em;">Intuitive</label>
-          <input type="number" name="system.talent.intuitive" value="{{system.talent.intuitive}}" data-dtype="Number" style="width: 40px; text-align: center; font-size: 1.1em;"/>
-        </div>
-
-        {{!-- Reflective --}}
-        <div class="flexcol flex-center" title="Reflective">
-          <label class="font-weight-bold mb-1" style="font-size: 0.85em;">Reflective</label>
-          <input type="number" name="system.talent.reflective" value="{{system.talent.reflective}}" data-dtype="Number" style="width: 40px; text-align: center; font-size: 1.1em;"/>
-        </div>
-
       </div>
     </div>
 
