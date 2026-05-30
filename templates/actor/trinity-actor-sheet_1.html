@@ -17,7 +17,7 @@
         
         {{!-- Conditionally show the Anima Tab --}}
         {{#if (eq system.details.characterType "anima")}}
-            <a class="item" data-tab="anima" style="color: #4a5568; font-weight: bold;">Anima</a>
+            <a class="item" data-tab="anima">Anima</a>
         {{/if}}
 
         <a class="item" data-tab="combat">Combat</a>
@@ -55,12 +55,17 @@
                 </div>
             {{/if}}
             
-            {{!-- Added "anima" to the talent/champion logic so it shares this powers page! --}}
-            {{#if (or (eq system.details.characterType "talent") (eq system.details.characterType "champion") (eq system.details.characterType "oracle") (eq system.details.characterType "olympian") (eq system.details.characterType "anima"))}}
+            {{!-- Added "anima" and "assassin" to the talent/champion logic so they share this powers page! --}}
+            {{#if (or (eq system.details.characterType "talent") (eq system.details.characterType "champion") (eq system.details.characterType "oracle") (eq system.details.characterType "olympian") (eq system.details.characterType "anima") (eq system.details.characterType "assassin"))}}
                 {{> "systems/trinity/templates/actor/partials/inspiration.html"}}
                 <div class="mt-1">
                     {{> "systems/trinity/templates/actor/partials/gifts.html"}}
                 </div>
+            {{/if}}
+
+            {{!-- ASSASSIN SPECIFIC EXTRAS (Nemesis Path & Masteries) --}}
+            {{#if (eq system.details.characterType "assassin")}}
+                {{> "systems/trinity/templates/actor/partials/assassin-extras.html"}}
             {{/if}}
             
             {{#if (eq system.details.characterType "nova")}}
@@ -75,10 +80,6 @@
                 {{> "systems/trinity/templates/actor/partials/aethernaut.html"}}
             {{/if}}
             
-            {{#if (eq system.details.characterType "mage")}}
-                {{> "systems/trinity/templates/actor/partials/mage.html"}}
-                {{> "systems/trinity/templates/actor/partials/quintessence-paradox.html"}}
-            {{/if}}
         </div>
 
         {{!-- NEW ANIMA TAB --}}
