@@ -93,6 +93,7 @@ export class TrinityActorSheet extends ActorSheet {
     // NEW Containers for Anima items
     const aspects = [];
     const buffs = [];
+    const masteries = [];
 
     for (let i of context.items) {
       i.img = i.img || DEFAULT_TOKEN; 
@@ -114,9 +115,10 @@ export class TrinityActorSheet extends ActorSheet {
       else if (i.type === 'vehicle') vehicles.push(i);
       else if (i.type === 'skilltrick') skillTricks.push(i); 
 
-      // Sort new Anima Items
+      // Sort new Anima & Assassin Items
       else if (i.type === 'aspect') aspects.push(i);
       else if (i.type === 'buff') buffs.push(i);
+      else if (i.type === 'mastery') masteries.push(i);
     }
 
     context.gear = gear;
@@ -135,9 +137,10 @@ export class TrinityActorSheet extends ActorSheet {
     context.vehicles = vehicles;
     context.skillTricks = skillTricks; 
 
-    // Assign sorted Anima items to the context
+    // Assign sorted items to the context
     context.aspects = aspects;
     context.buffs = buffs;
+    context.masteries = masteries;
   }
 
   /** @override */
