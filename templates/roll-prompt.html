@@ -6,40 +6,55 @@
     <h3 class="m-0">Action Configuration</h3>
     <div class="pool-preview">
       <span class="small-label">Total Pool:</span> 
-      <span class="text-blue font-weight-bold">{{totalPool}}</span>
+      <span class="text-blue font-weight-bold" id="total-pool-display">{{totalPool}}</span>
     </div>
   </header>
 
-  {{!-- Configuration Grid --}}
-  <div class="trinity-grid trinity-grid-2col mb-2">
+  {{!-- Dice Pools Configuration --}}
+  <div class="trinity-flexrow trinity-flex-center mb-1" style="gap: 10px; align-items: center;">
     
-    {{!-- Attribute Selection --}}
-    <div class="trinity-flexcol trinity-flex-center border p-2">
-      <label class="small-label font-weight-bold">Attribute</label>
-      <span class="font-weight-bold">{{attrName}}</span>
-      <span class="small">({{attrVal}})</span>
+    {{!-- Pool 1 --}}
+    <div class="trinity-flexcol trinity-flex-center border p-2" style="flex: 1; border-radius: 5px; background: rgba(0,0,0,0.02);">
+      <label class="small-label font-weight-bold mb-1">Dice Pool 1</label>
+      <input type="number" name="pool1" value="{{pool1}}" data-dtype="Number" class="text-center w-50" style="font-size: 1.2em; font-weight: bold;"/>
+      <span class="small mt-1 text-muted text-center" id="pool1-name" style="min-height: 15px;">{{#if pool1Name}}{{pool1Name}}{{else}}None{{/if}}</span>
     </div>
 
-    {{!-- Skill Selection --}}
-    <div class="trinity-flexcol trinity-flex-center border p-2">
-      <label class="small-label font-weight-bold">Skill</label>
-      <span class="font-weight-bold">{{#if skillName}}{{skillName}}{{else}}None{{/if}}</span>
-      <span class="small">({{skillVal}})</span>
+    {{!-- Plus Sign --}}
+    <div class="font-weight-bold" style="font-size: 1.5em; color: #666;">+</div>
+
+    {{!-- Pool 2 --}}
+    <div class="trinity-flexcol trinity-flex-center border p-2" style="flex: 1; border-radius: 5px; background: rgba(0,0,0,0.02);">
+      <label class="small-label font-weight-bold mb-1">Dice Pool 2</label>
+      <input type="number" name="pool2" value="{{pool2}}" data-dtype="Number" class="text-center w-50" style="font-size: 1.2em; font-weight: bold;"/>
+      <span class="small mt-1 text-muted text-center" id="pool2-name" style="min-height: 15px;">{{#if pool2Name}}{{pool2Name}}{{else}}None{{/if}}</span>
     </div>
 
   </div>
 
+  {{!-- Pool Selection Button --}}
+  <div class="trinity-flexrow trinity-flex-center mb-2">
+    <button type="button" class="select-pools-btn text-blue font-weight-bold" style="width: 100%; border: 1px solid #3182ce; background: #ebf8ff;">
+      <i class="fas fa-list-check"></i> Pool Selection
+    </button>
+  </div>
+
   {{!-- Modifiers Section --}}
   <div class="modifiers-section border-top pt-2">
-    <div class="trinity-grid trinity-grid-2col">
+    <div class="trinity-grid trinity-grid-2col" style="gap: 15px;">
       
+      {{!-- Left Column: Enhancement & Bonus Dice --}}
       <div class="form-group trinity-flexcol trinity-flex-center">
-        <label class="small-label">Enhancement</label>
-        <input type="number" name="enhancement" value="{{enhancement}}" data-dtype="Number" class="text-center w-50"/>
+        <label class="small-label font-weight-bold">Enhancement</label>
+        <input type="number" name="enhancement" value="{{enhancement}}" data-dtype="Number" class="text-center w-50 mb-2"/>
+
+        <label class="small-label font-weight-bold text-blue">+/- Die</label>
+        <input type="number" name="bonusDice" value="{{bonusDice}}" data-dtype="Number" class="text-center w-50"/>
       </div>
 
+      {{!-- Right Column: Difficulty --}}
       <div class="form-group trinity-flexcol trinity-flex-center">
-        <label class="small-label">Difficulty</label>
+        <label class="small-label font-weight-bold">Difficulty</label>
         <input type="number" name="difficulty" value="{{difficulty}}" data-dtype="Number" class="text-center w-50"/>
       </div>
 
@@ -49,11 +64,11 @@
   {{!-- Resource Toggles --}}
   <div class="trinity-flexcol mt-2 border-top pt-2">
     <div class="trinity-flexrow trinity-flex-between p-1">
-      <label class="small">Specialty Bonus</label>
+      <label class="small font-weight-bold">Specialty Bonus (+1 Enhancement)</label>
       <input type="checkbox" name="useSpecialty" {{checked useSpecialty}}/>
     </div>
     <div class="trinity-flexrow trinity-flex-between p-1">
-      <label class="small">Spend Inspiration (+2 Dice)</label>
+      <label class="small font-weight-bold text-purple">Spend Inspiration (+2 Dice)</label>
       <input type="checkbox" name="spendInspiration" {{checked spendInspiration}}/>
     </div>
   </div>
