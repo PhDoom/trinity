@@ -150,8 +150,10 @@
               <div class="item flexrow flex-between p-1 border-bottom align-center" data-item-id="{{item._id}}" style="padding: 3px 0;">
                   
                   <div class="item-name flexrow align-center">
+                      <!-- Compact, Clickable Image (Opens Sheet) -->
                       <img src="{{item.img}}" title="Click to view {{item.name}}" class="item-edit" width="24" height="24" style="cursor: pointer; margin-right: 8px; border-radius: 3px; border: 1px solid #ccc; object-fit: cover; flex: 0 0 24px;"/>
                       
+                      <!-- Clickable Name (Rolls Item) -->
                       <h4 class="m-0 rollable" data-roll-type="item" title="Roll {{item.name}}" style="line-height: 24px; cursor: pointer;">
                           <a>{{item.name}}</a>
                       </h4>
@@ -160,6 +162,7 @@
                   <div class="flexrow align-center">
                       <span class="tag mx-1" style="padding: 2px 8px; font-weight: bold;">Rating: {{item.system.rating}}</span>
                       <div class="item-controls flexrow flex-center ml-1">
+                          <!-- Edit button removed (handled by image now) -->
                           <a class="item-control item-delete text-red" title="Delete Contact"><i class="fas fa-trash"></i></a>
                       </div>
                   </div>
@@ -169,6 +172,14 @@
           {{else}}
               <em style="color: #666;">Drag and drop Contact items from the sidebar here, or click the '+ Add' button above to create a new one.</em>
           {{/if}}
+      </div>
+  </div>
+
+  {{!-- Bonds Rich Text Editor --}}
+  <div class="bonds-section mt-2 flexcol w-100 p-1 border" style="border-radius: 5px; background: rgba(0,0,0,0.02);">
+      <h3 class="header m-0 mb-1">Bonds</h3>
+      <div class="editor" style="min-height: 100px;">
+          {{editor enrichedBonds target="system.bonds" button=false owner=owner editable=editable engine="prosemirror"}}
       </div>
   </div>
 
