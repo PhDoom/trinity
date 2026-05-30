@@ -13,7 +13,8 @@
       
       <div class="flexrow mb-1 align-center" style="gap: 10px;" title="Current Inspiration">
         <span class="font-weight-bold" style="font-size: 0.85em; width: 65px; text-align: right; text-transform: uppercase; color: #2e7d32;">Current</span>
-        <div class="pip-container" data-name="system.aethernaut.inspiration.value" data-value="{{system.aethernaut.inspiration.value}}">
+        {{!-- Added flex-wrap: nowrap to prevent the pips from dropping to a second line --}}
+        <div class="pip-container" data-name="system.aethernaut.inspiration.value" data-value="{{system.aethernaut.inspiration.value}}" style="display: flex; flex-wrap: nowrap; gap: 2px;">
             <i class="pip {{#if (gt system.aethernaut.inspiration.value 0)}}fas{{else}}far{{/if}} fa-circle" data-index="1"></i>
             <i class="pip {{#if (gt system.aethernaut.inspiration.value 1)}}fas{{else}}far{{/if}} fa-circle" data-index="2"></i>
             <i class="pip {{#if (gt system.aethernaut.inspiration.value 2)}}fas{{else}}far{{/if}} fa-circle" data-index="3"></i>
@@ -29,7 +30,7 @@
 
       <div class="flexrow align-center" style="gap: 10px;" title="Maximum Inspiration">
         <span class="font-weight-bold" style="font-size: 0.85em; width: 65px; text-align: right; text-transform: uppercase; color: #2e7d32;">Maximum</span>
-        <div class="pip-container" data-name="system.aethernaut.inspiration.max" data-value="{{system.aethernaut.inspiration.max}}">
+        <div class="pip-container" data-name="system.aethernaut.inspiration.max" data-value="{{system.aethernaut.inspiration.max}}" style="display: flex; flex-wrap: nowrap; gap: 2px;">
             <i class="pip {{#if (gt system.aethernaut.inspiration.max 0)}}fas{{else}}far{{/if}} fa-square" data-index="1"></i>
             <i class="pip {{#if (gt system.aethernaut.inspiration.max 1)}}fas{{else}}far{{/if}} fa-square" data-index="2"></i>
             <i class="pip {{#if (gt system.aethernaut.inspiration.max 2)}}fas{{else}}far{{/if}} fa-square" data-index="3"></i>
@@ -47,7 +48,7 @@
     {{!-- Divergence --}}
     <div class="form-group flexcol flex-center border p-1" style="border-radius: 5px; background: rgba(0,0,0,0.02); border-color: #a5d6a7;">
       <label class="font-weight-bold mb-1" style="color: #2e7d32;">Divergence</label>
-      <div class="pip-container" data-name="system.aethernaut.divergence.value" data-value="{{system.aethernaut.divergence.value}}">
+      <div class="pip-container" data-name="system.aethernaut.divergence.value" data-value="{{system.aethernaut.divergence.value}}" style="display: flex; flex-wrap: nowrap; gap: 2px;">
         <i class="pip {{#if (gt system.aethernaut.divergence.value 0)}}fas{{else}}far{{/if}} fa-circle" data-index="1"></i>
         <i class="pip {{#if (gt system.aethernaut.divergence.value 1)}}fas{{else}}far{{/if}} fa-circle" data-index="2"></i>
         <i class="pip {{#if (gt system.aethernaut.divergence.value 2)}}fas{{else}}far{{/if}} fa-circle" data-index="3"></i>
@@ -63,16 +64,18 @@
 
   </div>
 
-  {{!-- Aethernaut Powers/Gifts Drag-and-Drop Area --}}
+  {{!-- Aethernaut Gifts Drag-and-Drop Area --}}
   <div class="powers-section mt-1">
       <div class="flexrow flex-between header p-1 border-bottom" style="border-bottom-color: #2e7d32;">
-          <h3 class="m-0" style="color: #2e7d32;">Powers & Gifts</h3>
-          <a class="item-create" style="color: #2e7d32;" data-type="power" title="Create New Power"><i class="fas fa-plus"></i> Add</a>
+          <h3 class="m-0" style="color: #2e7d32;">Gifts</h3>
+          {{!-- Changed data-type to 'gift' --}}
+          <a class="item-create" style="color: #2e7d32; cursor: pointer;" data-type="gift" title="Create New Gift"><i class="fas fa-plus"></i> Add</a>
       </div>
       
       <div class="power-list p-1 border" style="border-color: #a5d6a7; border-radius: 5px;">
-          {{#if powers.length}}
-              {{#each powers as |item id|}}
+          {{!-- Changed iteration to look for 'gifts' instead of 'powers' --}}
+          {{#if gifts.length}}
+              {{#each gifts as |item id|}}
               <div class="item flexrow flex-between p-1 border-bottom align-center" data-item-id="{{item._id}}" style="padding: 3px 0;">
                   
                   <div class="item-name flexrow align-center">
@@ -92,7 +95,7 @@
               </div>
               {{/each}}
           {{else}}
-              <em style="color: #666;">Drag and drop Powers here, or click '+ Add'.</em>
+              <em style="color: #666;">Drag and drop Gifts here, or click '+ Add'.</em>
           {{/if}}
       </div>
   </div>
