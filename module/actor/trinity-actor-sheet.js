@@ -226,6 +226,23 @@ export class TrinityActorSheet extends ActorSheet {
       rollName = skill?.label || dataset.skill.capitalize();
       defaultPool = skill?.value || 0;
     }
+    // ---> NEW ANIMA ROLL LOGIC <---
+    else if (dataset.animaStat) {
+      const stat = sys.anima?.stats?.[dataset.animaStat];
+      rollName = "Anima " + dataset.animaStat.charAt(0).toUpperCase() + dataset.animaStat.slice(1);
+      defaultPool = stat?.value || 0;
+    }
+    else if (dataset.animaPath) {
+      const path = sys.anima?.paths?.[dataset.animaPath];
+      rollName = "Anima " + dataset.animaPath.charAt(0).toUpperCase() + dataset.animaPath.slice(1) + " Path";
+      defaultPool = path?.rating || 0;
+    }
+    else if (dataset.animaSkill) {
+      const skill = sys.anima?.skills?.[dataset.animaSkill];
+      rollName = "Anima " + dataset.animaSkill.charAt(0).toUpperCase() + dataset.animaSkill.slice(1);
+      defaultPool = skill?.value || 0;
+    }
+    // ---> END ANIMA ROLL LOGIC <---
     else if (dataset.traitName) {
       rollName = dataset.traitName;
       defaultPool = parseInt(dataset.traitValue) || 1;
