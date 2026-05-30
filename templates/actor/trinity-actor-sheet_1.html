@@ -14,6 +14,12 @@
         <a class="item" data-tab="character">Character</a>
         <a class="item" data-tab="attributes">Stats & Skills</a>
         <a class="item" data-tab="powers">Powers</a> 
+        
+        {{!-- Conditionally show the Anima Tab --}}
+        {{#if (eq system.details.characterType "anima")}}
+            <a class="item" data-tab="anima" style="color: #4a5568; font-weight: bold;">Anima</a>
+        {{/if}}
+
         <a class="item" data-tab="combat">Combat</a>
         <a class="item" data-tab="health">Health</a>
         <a class="item" data-tab="inventory">Inventory</a>
@@ -49,8 +55,8 @@
                 </div>
             {{/if}}
             
-            {{!-- This renders the Inspiration/Gifts layout for Talents, Champions, Oracles, and Olympians (Singular Check) --}}
-            {{#if (or (eq system.details.characterType "talent") (eq system.details.characterType "champion") (eq system.details.characterType "oracle") (eq system.details.characterType "olympian"))}}
+            {{!-- Added "anima" to the talent/champion logic so it shares this powers page! --}}
+            {{#if (or (eq system.details.characterType "talent") (eq system.details.characterType "champion") (eq system.details.characterType "oracle") (eq system.details.characterType "olympian") (eq system.details.characterType "anima"))}}
                 {{> "systems/trinity/templates/actor/partials/inspiration.html"}}
                 <div class="mt-1">
                     {{> "systems/trinity/templates/actor/partials/gifts.html"}}
@@ -65,7 +71,6 @@
                 {{> "systems/trinity/templates/actor/partials/psi.html"}}
             {{/if}}
 
-            {{!-- AETHERNAUT PARADIGM --}}
             {{#if (eq system.details.characterType "aethernaut")}}
                 {{> "systems/trinity/templates/actor/partials/aethernaut.html"}}
             {{/if}}
@@ -74,6 +79,11 @@
                 {{> "systems/trinity/templates/actor/partials/mage.html"}}
                 {{> "systems/trinity/templates/actor/partials/quintessence-paradox.html"}}
             {{/if}}
+        </div>
+
+        {{!-- NEW ANIMA TAB --}}
+        <div class="tab anima" data-group="primary" data-tab="anima">
+            {{> "systems/trinity/templates/actor/partials/anima-sheet.html"}}
         </div>
 
         {{!-- Combat Tab --}}
