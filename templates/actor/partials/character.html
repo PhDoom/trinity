@@ -20,7 +20,7 @@
           <option value="champions" {{#if (eq system.details.characterType "champions")}}selected{{/if}}>Champions</option>
           <option value="oracles" {{#if (eq system.details.characterType "oracles")}}selected{{/if}}>Oracles</option>
           <option value="olympians" {{#if (eq system.details.characterType "olympians")}}selected{{/if}}>Olympians</option>
-          {{!-- Add the 4th paradigm here using the same format when you're ready --}}
+          <option value="aethernaut" {{#if (eq system.details.characterType "aethernaut")}}selected{{/if}}>Aethernaut</option>
         </select>
       </div>
       
@@ -156,10 +156,8 @@
               <div class="item flexrow flex-between p-1 border-bottom align-center" data-item-id="{{item._id}}" style="padding: 3px 0;">
                   
                   <div class="item-name flexrow align-center">
-                      <!-- Compact, Clickable Image (Opens Sheet) -->
                       <img src="{{item.img}}" title="Click to view {{item.name}}" class="item-edit" width="24" height="24" style="cursor: pointer; margin-right: 8px; border-radius: 3px; border: 1px solid #ccc; object-fit: cover; flex: 0 0 24px;"/>
                       
-                      <!-- Clickable Name (Rolls Item) -->
                       <h4 class="m-0 rollable" data-roll-type="item" title="Roll {{item.name}}" style="line-height: 24px; cursor: pointer;">
                           <a>{{item.name}}</a>
                       </h4>
@@ -168,7 +166,6 @@
                   <div class="flexrow align-center">
                       <span class="tag mx-1" style="padding: 2px 8px; font-weight: bold;">Rating: {{item.system.rating}}</span>
                       <div class="item-controls flexrow flex-center ml-1">
-                          <!-- Edit button removed (handled by image now) -->
                           <a class="item-control item-delete text-red" title="Delete Contact"><i class="fas fa-trash"></i></a>
                       </div>
                   </div>
