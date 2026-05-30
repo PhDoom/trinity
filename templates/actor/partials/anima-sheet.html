@@ -36,7 +36,7 @@
 
         {{!-- Anima Attributes --}}
         <div class="form-group flexcol flex-center">
-            <label class="font-weight-bold">Force</label>
+            <label class="font-weight-bold rollable" data-anima-stat="force" style="cursor: pointer; color: #2b6cb0;">Force</label>
             <div class="pip-container" data-name="system.anima.stats.force.value" data-value="{{system.anima.stats.force.value}}" style="display: flex; gap: 2px;">
                 <i class="pip {{#if (gt system.anima.stats.force.value 0)}}fas{{else}}far{{/if}} fa-circle" data-index="1"></i>
                 <i class="pip {{#if (gt system.anima.stats.force.value 1)}}fas{{else}}far{{/if}} fa-circle" data-index="2"></i>
@@ -46,7 +46,7 @@
             </div>
         </div>
         <div class="form-group flexcol flex-center">
-            <label class="font-weight-bold">Finesse</label>
+            <label class="font-weight-bold rollable" data-anima-stat="finesse" style="cursor: pointer; color: #2b6cb0;">Finesse</label>
             <div class="pip-container" data-name="system.anima.stats.finesse.value" data-value="{{system.anima.stats.finesse.value}}" style="display: flex; gap: 2px;">
                 <i class="pip {{#if (gt system.anima.stats.finesse.value 0)}}fas{{else}}far{{/if}} fa-circle" data-index="1"></i>
                 <i class="pip {{#if (gt system.anima.stats.finesse.value 1)}}fas{{else}}far{{/if}} fa-circle" data-index="2"></i>
@@ -56,7 +56,7 @@
             </div>
         </div>
         <div class="form-group flexcol flex-center">
-            <label class="font-weight-bold">Resilience</label>
+            <label class="font-weight-bold rollable" data-anima-stat="resilience" style="cursor: pointer; color: #2b6cb0;">Resilience</label>
             <div class="pip-container" data-name="system.anima.stats.resilience.value" data-value="{{system.anima.stats.resilience.value}}" style="display: flex; gap: 2px;">
                 <i class="pip {{#if (gt system.anima.stats.resilience.value 0)}}fas{{else}}far{{/if}} fa-circle" data-index="1"></i>
                 <i class="pip {{#if (gt system.anima.stats.resilience.value 1)}}fas{{else}}far{{/if}} fa-circle" data-index="2"></i>
@@ -70,41 +70,191 @@
     {{!-- Paths Row --}}
     <h3 class="header mb-1 mt-2">Anima Paths</h3>
     <div class="grid grid-3col gap-10 mb-2">
-        {{#each (split "people class guild") as |pathName|}}
+        {{!-- People Path --}}
         <div class="form-group flexcol border p-1" style="border-radius: 5px; background: #fff;">
-            <label class="font-weight-bold text-center capitalize">{{pathName}} Path</label>
-            <input type="text" name="system.anima.paths.{{pathName}}.name" value="{{lookup (lookup ../system.anima.paths pathName) 'name'}}" placeholder="Path Name..." class="mb-1"/>
+            <label class="font-weight-bold text-center rollable" data-anima-path="people" style="cursor: pointer; color: #2b6cb0;">People Path</label>
+            <input type="text" name="system.anima.paths.people.name" value="{{system.anima.paths.people.name}}" placeholder="Path Name..." class="mb-1"/>
             <div class="flexrow flex-center">
-                <div class="pip-container" data-name="system.anima.paths.{{pathName}}.rating" data-value="{{lookup (lookup ../system.anima.paths pathName) 'rating'}}" style="display: flex; gap: 2px;">
-                    <i class="pip {{#if (gt (lookup (lookup ../system.anima.paths pathName) 'rating') 0)}}fas{{else}}far{{/if}} fa-circle" data-index="1"></i>
-                    <i class="pip {{#if (gt (lookup (lookup ../system.anima.paths pathName) 'rating') 1)}}fas{{else}}far{{/if}} fa-circle" data-index="2"></i>
-                    <i class="pip {{#if (gt (lookup (lookup ../system.anima.paths pathName) 'rating') 2)}}fas{{else}}far{{/if}} fa-circle" data-index="3"></i>
-                    <i class="pip {{#if (gt (lookup (lookup ../system.anima.paths pathName) 'rating') 3)}}fas{{else}}far{{/if}} fa-circle" data-index="4"></i>
-                    <i class="pip {{#if (gt (lookup (lookup ../system.anima.paths pathName) 'rating') 4)}}fas{{else}}far{{/if}} fa-circle" data-index="5"></i>
+                <div class="pip-container" data-name="system.anima.paths.people.rating" data-value="{{system.anima.paths.people.rating}}" style="display: flex; gap: 2px;">
+                    <i class="pip {{#if (gt system.anima.paths.people.rating 0)}}fas{{else}}far{{/if}} fa-circle" data-index="1"></i>
+                    <i class="pip {{#if (gt system.anima.paths.people.rating 1)}}fas{{else}}far{{/if}} fa-circle" data-index="2"></i>
+                    <i class="pip {{#if (gt system.anima.paths.people.rating 2)}}fas{{else}}far{{/if}} fa-circle" data-index="3"></i>
+                    <i class="pip {{#if (gt system.anima.paths.people.rating 3)}}fas{{else}}far{{/if}} fa-circle" data-index="4"></i>
+                    <i class="pip {{#if (gt system.anima.paths.people.rating 4)}}fas{{else}}far{{/if}} fa-circle" data-index="5"></i>
                 </div>
             </div>
         </div>
-        {{/each}}
+
+        {{!-- Class Path --}}
+        <div class="form-group flexcol border p-1" style="border-radius: 5px; background: #fff;">
+            <label class="font-weight-bold text-center rollable" data-anima-path="class" style="cursor: pointer; color: #2b6cb0;">Class Path</label>
+            <input type="text" name="system.anima.paths.class.name" value="{{system.anima.paths.class.name}}" placeholder="Path Name..." class="mb-1"/>
+            <div class="flexrow flex-center">
+                <div class="pip-container" data-name="system.anima.paths.class.rating" data-value="{{system.anima.paths.class.rating}}" style="display: flex; gap: 2px;">
+                    <i class="pip {{#if (gt system.anima.paths.class.rating 0)}}fas{{else}}far{{/if}} fa-circle" data-index="1"></i>
+                    <i class="pip {{#if (gt system.anima.paths.class.rating 1)}}fas{{else}}far{{/if}} fa-circle" data-index="2"></i>
+                    <i class="pip {{#if (gt system.anima.paths.class.rating 2)}}fas{{else}}far{{/if}} fa-circle" data-index="3"></i>
+                    <i class="pip {{#if (gt system.anima.paths.class.rating 3)}}fas{{else}}far{{/if}} fa-circle" data-index="4"></i>
+                    <i class="pip {{#if (gt system.anima.paths.class.rating 4)}}fas{{else}}far{{/if}} fa-circle" data-index="5"></i>
+                </div>
+            </div>
+        </div>
+
+        {{!-- Guild Path --}}
+        <div class="form-group flexcol border p-1" style="border-radius: 5px; background: #fff;">
+            <label class="font-weight-bold text-center rollable" data-anima-path="guild" style="cursor: pointer; color: #2b6cb0;">Guild Path</label>
+            <input type="text" name="system.anima.paths.guild.name" value="{{system.anima.paths.guild.name}}" placeholder="Path Name..." class="mb-1"/>
+            <div class="flexrow flex-center">
+                <div class="pip-container" data-name="system.anima.paths.guild.rating" data-value="{{system.anima.paths.guild.rating}}" style="display: flex; gap: 2px;">
+                    <i class="pip {{#if (gt system.anima.paths.guild.rating 0)}}fas{{else}}far{{/if}} fa-circle" data-index="1"></i>
+                    <i class="pip {{#if (gt system.anima.paths.guild.rating 1)}}fas{{else}}far{{/if}} fa-circle" data-index="2"></i>
+                    <i class="pip {{#if (gt system.anima.paths.guild.rating 2)}}fas{{else}}far{{/if}} fa-circle" data-index="3"></i>
+                    <i class="pip {{#if (gt system.anima.paths.guild.rating 3)}}fas{{else}}far{{/if}} fa-circle" data-index="4"></i>
+                    <i class="pip {{#if (gt system.anima.paths.guild.rating 4)}}fas{{else}}far{{/if}} fa-circle" data-index="5"></i>
+                </div>
+            </div>
+        </div>
     </div>
 
     {{!-- Skills Grid --}}
     <h3 class="header mb-1 mt-2">Anima Skills</h3>
     <div class="grid grid-3col gap-10 mb-2">
-        {{#each (split "arcana athletics block crafting lore magicAttack persuasion physicalAttack stealth") as |skillName|}}
+        
+        {{!-- Arcana --}}
         <div class="form-group flexcol border p-1" style="border-radius: 5px; background: #fff;">
             <div class="flexrow flex-between align-center mb-1">
-                <label class="font-weight-bold capitalize m-0">{{skillName}}</label>
-                <div class="pip-container" data-name="system.anima.skills.{{skillName}}.value" data-value="{{lookup (lookup ../system.anima.skills skillName) 'value'}}" style="display: flex; gap: 2px;">
-                    <i class="pip {{#if (gt (lookup (lookup ../system.anima.skills skillName) 'value') 0)}}fas{{else}}far{{/if}} fa-circle" data-index="1"></i>
-                    <i class="pip {{#if (gt (lookup (lookup ../system.anima.skills skillName) 'value') 1)}}fas{{else}}far{{/if}} fa-circle" data-index="2"></i>
-                    <i class="pip {{#if (gt (lookup (lookup ../system.anima.skills skillName) 'value') 2)}}fas{{else}}far{{/if}} fa-circle" data-index="3"></i>
-                    <i class="pip {{#if (gt (lookup (lookup ../system.anima.skills skillName) 'value') 3)}}fas{{else}}far{{/if}} fa-circle" data-index="4"></i>
-                    <i class="pip {{#if (gt (lookup (lookup ../system.anima.skills skillName) 'value') 4)}}fas{{else}}far{{/if}} fa-circle" data-index="5"></i>
+                <label class="font-weight-bold m-0 rollable" data-anima-skill="arcana" style="cursor: pointer; color: #2b6cb0;">Arcana</label>
+                <div class="pip-container" data-name="system.anima.skills.arcana.value" data-value="{{system.anima.skills.arcana.value}}" style="display: flex; gap: 2px;">
+                    <i class="pip {{#if (gt system.anima.skills.arcana.value 0)}}fas{{else}}far{{/if}} fa-circle" data-index="1"></i>
+                    <i class="pip {{#if (gt system.anima.skills.arcana.value 1)}}fas{{else}}far{{/if}} fa-circle" data-index="2"></i>
+                    <i class="pip {{#if (gt system.anima.skills.arcana.value 2)}}fas{{else}}far{{/if}} fa-circle" data-index="3"></i>
+                    <i class="pip {{#if (gt system.anima.skills.arcana.value 3)}}fas{{else}}far{{/if}} fa-circle" data-index="4"></i>
+                    <i class="pip {{#if (gt system.anima.skills.arcana.value 4)}}fas{{else}}far{{/if}} fa-circle" data-index="5"></i>
                 </div>
             </div>
-            <input type="text" name="system.anima.skills.{{skillName}}.specialty" value="{{lookup (lookup ../system.anima.skills skillName) 'specialty'}}" placeholder="Specialty..." style="font-size: 0.9em;"/>
+            <input type="text" name="system.anima.skills.arcana.specialty" value="{{system.anima.skills.arcana.specialty}}" placeholder="Specialty..." style="font-size: 0.9em;"/>
         </div>
-        {{/each}}
+
+        {{!-- Athletics --}}
+        <div class="form-group flexcol border p-1" style="border-radius: 5px; background: #fff;">
+            <div class="flexrow flex-between align-center mb-1">
+                <label class="font-weight-bold m-0 rollable" data-anima-skill="athletics" style="cursor: pointer; color: #2b6cb0;">Athletics</label>
+                <div class="pip-container" data-name="system.anima.skills.athletics.value" data-value="{{system.anima.skills.athletics.value}}" style="display: flex; gap: 2px;">
+                    <i class="pip {{#if (gt system.anima.skills.athletics.value 0)}}fas{{else}}far{{/if}} fa-circle" data-index="1"></i>
+                    <i class="pip {{#if (gt system.anima.skills.athletics.value 1)}}fas{{else}}far{{/if}} fa-circle" data-index="2"></i>
+                    <i class="pip {{#if (gt system.anima.skills.athletics.value 2)}}fas{{else}}far{{/if}} fa-circle" data-index="3"></i>
+                    <i class="pip {{#if (gt system.anima.skills.athletics.value 3)}}fas{{else}}far{{/if}} fa-circle" data-index="4"></i>
+                    <i class="pip {{#if (gt system.anima.skills.athletics.value 4)}}fas{{else}}far{{/if}} fa-circle" data-index="5"></i>
+                </div>
+            </div>
+            <input type="text" name="system.anima.skills.athletics.specialty" value="{{system.anima.skills.athletics.specialty}}" placeholder="Specialty..." style="font-size: 0.9em;"/>
+        </div>
+
+        {{!-- Block --}}
+        <div class="form-group flexcol border p-1" style="border-radius: 5px; background: #fff;">
+            <div class="flexrow flex-between align-center mb-1">
+                <label class="font-weight-bold m-0 rollable" data-anima-skill="block" style="cursor: pointer; color: #2b6cb0;">Block</label>
+                <div class="pip-container" data-name="system.anima.skills.block.value" data-value="{{system.anima.skills.block.value}}" style="display: flex; gap: 2px;">
+                    <i class="pip {{#if (gt system.anima.skills.block.value 0)}}fas{{else}}far{{/if}} fa-circle" data-index="1"></i>
+                    <i class="pip {{#if (gt system.anima.skills.block.value 1)}}fas{{else}}far{{/if}} fa-circle" data-index="2"></i>
+                    <i class="pip {{#if (gt system.anima.skills.block.value 2)}}fas{{else}}far{{/if}} fa-circle" data-index="3"></i>
+                    <i class="pip {{#if (gt system.anima.skills.block.value 3)}}fas{{else}}far{{/if}} fa-circle" data-index="4"></i>
+                    <i class="pip {{#if (gt system.anima.skills.block.value 4)}}fas{{else}}far{{/if}} fa-circle" data-index="5"></i>
+                </div>
+            </div>
+            <input type="text" name="system.anima.skills.block.specialty" value="{{system.anima.skills.block.specialty}}" placeholder="Specialty..." style="font-size: 0.9em;"/>
+        </div>
+
+        {{!-- Crafting --}}
+        <div class="form-group flexcol border p-1" style="border-radius: 5px; background: #fff;">
+            <div class="flexrow flex-between align-center mb-1">
+                <label class="font-weight-bold m-0 rollable" data-anima-skill="crafting" style="cursor: pointer; color: #2b6cb0;">Crafting</label>
+                <div class="pip-container" data-name="system.anima.skills.crafting.value" data-value="{{system.anima.skills.crafting.value}}" style="display: flex; gap: 2px;">
+                    <i class="pip {{#if (gt system.anima.skills.crafting.value 0)}}fas{{else}}far{{/if}} fa-circle" data-index="1"></i>
+                    <i class="pip {{#if (gt system.anima.skills.crafting.value 1)}}fas{{else}}far{{/if}} fa-circle" data-index="2"></i>
+                    <i class="pip {{#if (gt system.anima.skills.crafting.value 2)}}fas{{else}}far{{/if}} fa-circle" data-index="3"></i>
+                    <i class="pip {{#if (gt system.anima.skills.crafting.value 3)}}fas{{else}}far{{/if}} fa-circle" data-index="4"></i>
+                    <i class="pip {{#if (gt system.anima.skills.crafting.value 4)}}fas{{else}}far{{/if}} fa-circle" data-index="5"></i>
+                </div>
+            </div>
+            <input type="text" name="system.anima.skills.crafting.specialty" value="{{system.anima.skills.crafting.specialty}}" placeholder="Specialty..." style="font-size: 0.9em;"/>
+        </div>
+
+        {{!-- Lore --}}
+        <div class="form-group flexcol border p-1" style="border-radius: 5px; background: #fff;">
+            <div class="flexrow flex-between align-center mb-1">
+                <label class="font-weight-bold m-0 rollable" data-anima-skill="lore" style="cursor: pointer; color: #2b6cb0;">Lore</label>
+                <div class="pip-container" data-name="system.anima.skills.lore.value" data-value="{{system.anima.skills.lore.value}}" style="display: flex; gap: 2px;">
+                    <i class="pip {{#if (gt system.anima.skills.lore.value 0)}}fas{{else}}far{{/if}} fa-circle" data-index="1"></i>
+                    <i class="pip {{#if (gt system.anima.skills.lore.value 1)}}fas{{else}}far{{/if}} fa-circle" data-index="2"></i>
+                    <i class="pip {{#if (gt system.anima.skills.lore.value 2)}}fas{{else}}far{{/if}} fa-circle" data-index="3"></i>
+                    <i class="pip {{#if (gt system.anima.skills.lore.value 3)}}fas{{else}}far{{/if}} fa-circle" data-index="4"></i>
+                    <i class="pip {{#if (gt system.anima.skills.lore.value 4)}}fas{{else}}far{{/if}} fa-circle" data-index="5"></i>
+                </div>
+            </div>
+            <input type="text" name="system.anima.skills.lore.specialty" value="{{system.anima.skills.lore.specialty}}" placeholder="Specialty..." style="font-size: 0.9em;"/>
+        </div>
+
+        {{!-- Magic Attack --}}
+        <div class="form-group flexcol border p-1" style="border-radius: 5px; background: #fff;">
+            <div class="flexrow flex-between align-center mb-1">
+                <label class="font-weight-bold m-0 rollable" data-anima-skill="magicAttack" style="cursor: pointer; color: #2b6cb0;">Magic Attack</label>
+                <div class="pip-container" data-name="system.anima.skills.magicAttack.value" data-value="{{system.anima.skills.magicAttack.value}}" style="display: flex; gap: 2px;">
+                    <i class="pip {{#if (gt system.anima.skills.magicAttack.value 0)}}fas{{else}}far{{/if}} fa-circle" data-index="1"></i>
+                    <i class="pip {{#if (gt system.anima.skills.magicAttack.value 1)}}fas{{else}}far{{/if}} fa-circle" data-index="2"></i>
+                    <i class="pip {{#if (gt system.anima.skills.magicAttack.value 2)}}fas{{else}}far{{/if}} fa-circle" data-index="3"></i>
+                    <i class="pip {{#if (gt system.anima.skills.magicAttack.value 3)}}fas{{else}}far{{/if}} fa-circle" data-index="4"></i>
+                    <i class="pip {{#if (gt system.anima.skills.magicAttack.value 4)}}fas{{else}}far{{/if}} fa-circle" data-index="5"></i>
+                </div>
+            </div>
+            <input type="text" name="system.anima.skills.magicAttack.specialty" value="{{system.anima.skills.magicAttack.specialty}}" placeholder="Specialty..." style="font-size: 0.9em;"/>
+        </div>
+
+        {{!-- Persuasion --}}
+        <div class="form-group flexcol border p-1" style="border-radius: 5px; background: #fff;">
+            <div class="flexrow flex-between align-center mb-1">
+                <label class="font-weight-bold m-0 rollable" data-anima-skill="persuasion" style="cursor: pointer; color: #2b6cb0;">Persuasion</label>
+                <div class="pip-container" data-name="system.anima.skills.persuasion.value" data-value="{{system.anima.skills.persuasion.value}}" style="display: flex; gap: 2px;">
+                    <i class="pip {{#if (gt system.anima.skills.persuasion.value 0)}}fas{{else}}far{{/if}} fa-circle" data-index="1"></i>
+                    <i class="pip {{#if (gt system.anima.skills.persuasion.value 1)}}fas{{else}}far{{/if}} fa-circle" data-index="2"></i>
+                    <i class="pip {{#if (gt system.anima.skills.persuasion.value 2)}}fas{{else}}far{{/if}} fa-circle" data-index="3"></i>
+                    <i class="pip {{#if (gt system.anima.skills.persuasion.value 3)}}fas{{else}}far{{/if}} fa-circle" data-index="4"></i>
+                    <i class="pip {{#if (gt system.anima.skills.persuasion.value 4)}}fas{{else}}far{{/if}} fa-circle" data-index="5"></i>
+                </div>
+            </div>
+            <input type="text" name="system.anima.skills.persuasion.specialty" value="{{system.anima.skills.persuasion.specialty}}" placeholder="Specialty..." style="font-size: 0.9em;"/>
+        </div>
+
+        {{!-- Physical Attack --}}
+        <div class="form-group flexcol border p-1" style="border-radius: 5px; background: #fff;">
+            <div class="flexrow flex-between align-center mb-1">
+                <label class="font-weight-bold m-0 rollable" data-anima-skill="physicalAttack" style="cursor: pointer; color: #2b6cb0;">Physical Attack</label>
+                <div class="pip-container" data-name="system.anima.skills.physicalAttack.value" data-value="{{system.anima.skills.physicalAttack.value}}" style="display: flex; gap: 2px;">
+                    <i class="pip {{#if (gt system.anima.skills.physicalAttack.value 0)}}fas{{else}}far{{/if}} fa-circle" data-index="1"></i>
+                    <i class="pip {{#if (gt system.anima.skills.physicalAttack.value 1)}}fas{{else}}far{{/if}} fa-circle" data-index="2"></i>
+                    <i class="pip {{#if (gt system.anima.skills.physicalAttack.value 2)}}fas{{else}}far{{/if}} fa-circle" data-index="3"></i>
+                    <i class="pip {{#if (gt system.anima.skills.physicalAttack.value 3)}}fas{{else}}far{{/if}} fa-circle" data-index="4"></i>
+                    <i class="pip {{#if (gt system.anima.skills.physicalAttack.value 4)}}fas{{else}}far{{/if}} fa-circle" data-index="5"></i>
+                </div>
+            </div>
+            <input type="text" name="system.anima.skills.physicalAttack.specialty" value="{{system.anima.skills.physicalAttack.specialty}}" placeholder="Specialty..." style="font-size: 0.9em;"/>
+        </div>
+
+        {{!-- Stealth --}}
+        <div class="form-group flexcol border p-1" style="border-radius: 5px; background: #fff;">
+            <div class="flexrow flex-between align-center mb-1">
+                <label class="font-weight-bold m-0 rollable" data-anima-skill="stealth" style="cursor: pointer; color: #2b6cb0;">Stealth</label>
+                <div class="pip-container" data-name="system.anima.skills.stealth.value" data-value="{{system.anima.skills.stealth.value}}" style="display: flex; gap: 2px;">
+                    <i class="pip {{#if (gt system.anima.skills.stealth.value 0)}}fas{{else}}far{{/if}} fa-circle" data-index="1"></i>
+                    <i class="pip {{#if (gt system.anima.skills.stealth.value 1)}}fas{{else}}far{{/if}} fa-circle" data-index="2"></i>
+                    <i class="pip {{#if (gt system.anima.skills.stealth.value 2)}}fas{{else}}far{{/if}} fa-circle" data-index="3"></i>
+                    <i class="pip {{#if (gt system.anima.skills.stealth.value 3)}}fas{{else}}far{{/if}} fa-circle" data-index="4"></i>
+                    <i class="pip {{#if (gt system.anima.skills.stealth.value 4)}}fas{{else}}far{{/if}} fa-circle" data-index="5"></i>
+                </div>
+            </div>
+            <input type="text" name="system.anima.skills.stealth.specialty" value="{{system.anima.skills.stealth.specialty}}" placeholder="Specialty..." style="font-size: 0.9em;"/>
+        </div>
+
     </div>
 
     {{!-- Item Drag & Drop Areas --}}
