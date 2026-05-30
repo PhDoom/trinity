@@ -10,6 +10,7 @@ export const preloadHandlebarsTemplates = async function() {
     "systems/trinity/templates/actor/partials/aethernaut.html",
     "systems/trinity/templates/actor/partials/actions.html",
     "systems/trinity/templates/actor/partials/all-items.html",
+    "systems/trinity/templates/actor/partials/anima-sheet.html",
     "systems/trinity/templates/actor/partials/armors.html",
     "systems/trinity/templates/actor/partials/attributes.html",
     "systems/trinity/templates/actor/partials/attributes_1.html",
