@@ -3,47 +3,68 @@
   
   {{!-- Only render if the actor is a Talent --}}
   {{#if (eq system.subType "talent")}}
-  <div class="grid grid-2col border p-1 mb-1">
+  <h3 class="header">Talent Traits</h3>
+  
+  <div class="grid grid-2col gap-10 align-center mb-1">
     
     {{!-- Inspiration (Current/Max Pool) --}}
-    <div class="resource flexcol flex-center border-right">
-      <label class="resource-label rollable" data-roll-type="inspiration" title="Roll Inspiration">Inspiration</label>
-      <div class="flexrow flex-center">
-        <input type="number" 
-               name="system.talent.inspiration.value" 
-               value="{{system.talent.inspiration.value}}" 
-               data-dtype="Number" 
-               style="max-width: 2.5rem; text-align: center;" />
-        <span class="px-1"> / </span>
-        <input type="number" 
-               name="system.talent.inspiration.max" 
-               value="{{system.talent.inspiration.max}}" 
-               data-dtype="Number" 
-               style="max-width: 2.5rem; text-align: center;" />
+    <div class="form-group flexcol flex-center border p-1" style="border-radius: 5px; background: rgba(0,0,0,0.02);">
+      <label class="font-weight-bold text-blue mb-1 rollable" data-roll-type="inspiration" title="Roll Inspiration" style="cursor: pointer;">Inspiration</label>
+      
+      <div class="flexrow mb-1 align-center" style="gap: 10px;" title="Current Inspiration">
+        <span class="font-weight-bold text-blue" style="font-size: 0.85em; width: 65px; text-align: right; text-transform: uppercase;">Current</span>
+        <div class="pip-container" data-name="system.talent.inspiration.value" data-value="{{system.talent.inspiration.value}}">
+            <i class="pip {{#if (gt system.talent.inspiration.value 0)}}fas{{else}}far{{/if}} fa-circle" data-index="1"></i>
+            <i class="pip {{#if (gt system.talent.inspiration.value 1)}}fas{{else}}far{{/if}} fa-circle" data-index="2"></i>
+            <i class="pip {{#if (gt system.talent.inspiration.value 2)}}fas{{else}}far{{/if}} fa-circle" data-index="3"></i>
+            <i class="pip {{#if (gt system.talent.inspiration.value 3)}}fas{{else}}far{{/if}} fa-circle" data-index="4"></i>
+            <i class="pip {{#if (gt system.talent.inspiration.value 4)}}fas{{else}}far{{/if}} fa-circle" data-index="5"></i>
+            <i class="pip {{#if (gt system.talent.inspiration.value 5)}}fas{{else}}far{{/if}} fa-circle" data-index="6"></i>
+            <i class="pip {{#if (gt system.talent.inspiration.value 6)}}fas{{else}}far{{/if}} fa-circle" data-index="7"></i>
+            <i class="pip {{#if (gt system.talent.inspiration.value 7)}}fas{{else}}far{{/if}} fa-circle" data-index="8"></i>
+            <i class="pip {{#if (gt system.talent.inspiration.value 8)}}fas{{else}}far{{/if}} fa-circle" data-index="9"></i>
+            <i class="pip {{#if (gt system.talent.inspiration.value 9)}}fas{{else}}far{{/if}} fa-circle" data-index="10"></i>
+        </div>
+      </div>
+
+      <div class="flexrow align-center" style="gap: 10px;" title="Maximum Inspiration">
+        <span class="font-weight-bold text-blue" style="font-size: 0.85em; width: 65px; text-align: right; text-transform: uppercase;">Maximum</span>
+        <div class="pip-container" data-name="system.talent.inspiration.max" data-value="{{system.talent.inspiration.max}}">
+            <i class="pip {{#if (gt system.talent.inspiration.max 0)}}fas{{else}}far{{/if}} fa-square" data-index="1"></i>
+            <i class="pip {{#if (gt system.talent.inspiration.max 1)}}fas{{else}}far{{/if}} fa-square" data-index="2"></i>
+            <i class="pip {{#if (gt system.talent.inspiration.max 2)}}fas{{else}}far{{/if}} fa-square" data-index="3"></i>
+            <i class="pip {{#if (gt system.talent.inspiration.max 3)}}fas{{else}}far{{/if}} fa-square" data-index="4"></i>
+            <i class="pip {{#if (gt system.talent.inspiration.max 4)}}fas{{else}}far{{/if}} fa-square" data-index="5"></i>
+            <i class="pip {{#if (gt system.talent.inspiration.max 5)}}fas{{else}}far{{/if}} fa-square" data-index="6"></i>
+            <i class="pip {{#if (gt system.talent.inspiration.max 6)}}fas{{else}}far{{/if}} fa-square" data-index="7"></i>
+            <i class="pip {{#if (gt system.talent.inspiration.max 7)}}fas{{else}}far{{/if}} fa-square" data-index="8"></i>
+            <i class="pip {{#if (gt system.talent.inspiration.max 8)}}fas{{else}}far{{/if}} fa-square" data-index="9"></i>
+            <i class="pip {{#if (gt system.talent.inspiration.max 9)}}fas{{else}}far{{/if}} fa-square" data-index="10"></i>
+        </div>
       </div>
     </div>
 
     {{!-- Facet Distribution --}}
-    <div class="resource flexcol flex-center">
-      <label class="resource-label">Facets</label>
-      <div class="flexrow flex-between px-2">
+    <div class="form-group flexcol flex-center border p-1" style="border-radius: 5px; background: rgba(0,0,0,0.02);">
+      <label class="font-weight-bold text-blue mb-1">Facets</label>
+      <div class="flexrow flex-around w-100 px-2 mt-1">
         
         {{!-- Destructive --}}
         <div class="flexcol flex-center" title="Destructive">
-          <span class="small-label">D</span>
-          <input type="number" name="system.talent.destructive" value="{{system.talent.destructive}}" data-dtype="Number" style="max-width: 1.5rem; text-align: center;"/>
+          <label class="font-weight-bold mb-1" style="font-size: 0.85em;">Destructive</label>
+          <input type="number" name="system.talent.destructive" value="{{system.talent.destructive}}" data-dtype="Number" style="width: 40px; text-align: center; font-size: 1.1em;"/>
         </div>
 
         {{!-- Intuitive --}}
         <div class="flexcol flex-center" title="Intuitive">
-          <span class="small-label">I</span>
-          <input type="number" name="system.talent.intuitive" value="{{system.talent.intuitive}}" data-dtype="Number" style="max-width: 1.5rem; text-align: center;"/>
+          <label class="font-weight-bold mb-1" style="font-size: 0.85em;">Intuitive</label>
+          <input type="number" name="system.talent.intuitive" value="{{system.talent.intuitive}}" data-dtype="Number" style="width: 40px; text-align: center; font-size: 1.1em;"/>
         </div>
 
         {{!-- Reflective --}}
         <div class="flexcol flex-center" title="Reflective">
-          <span class="small-label">R</span>
-          <input type="number" name="system.talent.reflective" value="{{system.talent.reflective}}" data-dtype="Number" style="max-width: 1.5rem; text-align: center;"/>
+          <label class="font-weight-bold mb-1" style="font-size: 0.85em;">Reflective</label>
+          <input type="number" name="system.talent.reflective" value="{{system.talent.reflective}}" data-dtype="Number" style="width: 40px; text-align: center; font-size: 1.1em;"/>
         </div>
 
       </div>
