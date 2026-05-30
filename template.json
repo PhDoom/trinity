@@ -52,6 +52,7 @@
       "psion": { "psi": { "value": 1 }, "psiPoints": { "value": 1, "max": 10 }, "tolerance": { "value": 1 } },
       "nova": { "quantum": { "value": 1 }, "quantumPoints": { "value": 1, "max": 10 }, "transcendence": { "value": 0 }, "flux": { "value": 0 } },
       "aethernaut": { "inspiration": { "value": 1, "max": 10 }, "divergence": { "value": 0 } },
+      "assassin": { "nemesisPath": { "name": "", "rating": 0 } },
       "anima": {
         "name": "", "controllingPlayer": "", "concept": "", "level": 0,
         "hitPoints": { "value": 0, "max": 0 },
@@ -75,7 +76,7 @@
   "Item": {
     "types": [
       "gear", "item", "weapon", "armor", "edge", "power", "action", "condition", "bond", "contact", 
-      "gift", "spell", "quantumpower", "biotech", "vehicle", "skilltrick", "aspect", "buff"
+      "gift", "spell", "quantumpower", "biotech", "vehicle", "skilltrick", "aspect", "buff", "mastery"
     ],
     "templates": { "baseItem": { "description": "" } },
     "gear": { "templates": ["baseItem"], "enhancement": 0, "tags": "" },
@@ -95,6 +96,7 @@
     "vehicle": { "templates": ["baseItem"], "size": 0, "handling": 0, "speed": 0, "weapons": "", "tags": "" },
     "skilltrick": { "templates": ["baseItem"], "skill": "" },
     "aspect": { "templates": ["baseItem"], "keywords": "", "prerequisite": "", "dicePool": "", "cost": "" },
-    "buff": { "templates": ["baseItem"], "rating": 0, "type": "", "relationship": "" }
+    "buff": { "templates": ["baseItem"], "rating": 0, "type": "", "relationship": "" },
+    "mastery": { "templates": ["baseItem"], "keywords": "", "prerequisite": "", "dicePool": "", "cost": "" }
   }
 }
