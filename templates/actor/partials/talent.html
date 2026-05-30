@@ -1,8 +1,8 @@
 {{!-- Talent Resource Partial - Foundry V13 Compliant --}}
 <div class="talent-section mb-2">
   
-  {{!-- Only render if the actor is a Talent --}}
-  {{#if (eq system.subType "talent")}}
+  {{!-- Render if the actor is a Talent, Champion, Oracle, or Olympian --}}
+  {{#if (or (eq system.details.characterType "talent") (eq system.details.characterType "champions") (eq system.details.characterType "oracles") (eq system.details.characterType "olympians"))}}
   <h3 class="header">Talent Traits</h3>
   
   <div class="grid grid-2col gap-10 align-center mb-1">
