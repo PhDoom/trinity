@@ -1,0 +1,58 @@
+{{!-- Assassin Specific Additions Partial --}}
+<div class="assassin-extras-section mt-2">
+    
+    {{!-- Nemesis Path --}}
+    <h3 class="header mb-1">Assassin Path</h3>
+    <div class="form-group flexcol border p-1 mb-2" style="border-radius: 5px; background: rgba(0,0,0,0.02); max-width: 33%;">
+        <label class="font-weight-bold text-blue text-center mb-1 rollable" data-trait-name="Nemesis Path" data-trait-value="{{system.assassin.nemesisPath.rating}}" style="cursor: pointer;">Nemesis Path</label>
+        <input type="text" name="system.assassin.nemesisPath.name" value="{{system.assassin.nemesisPath.name}}" placeholder="e.g. Rival Syndicate..." class="mb-1"/>
+        <div class="flexrow flex-center mt-1">
+            <div class="pip-container" data-name="system.assassin.nemesisPath.rating" data-value="{{system.assassin.nemesisPath.rating}}" style="display: flex; gap: 2px;">
+                <i class="pip {{#if (gt system.assassin.nemesisPath.rating 0)}}fas{{else}}far{{/if}} fa-circle" data-index="1"></i>
+                <i class="pip {{#if (gt system.assassin.nemesisPath.rating 1)}}fas{{else}}far{{/if}} fa-circle" data-index="2"></i>
+                <i class="pip {{#if (gt system.assassin.nemesisPath.rating 2)}}fas{{else}}far{{/if}} fa-circle" data-index="3"></i>
+                <i class="pip {{#if (gt system.assassin.nemesisPath.rating 3)}}fas{{else}}far{{/if}} fa-circle" data-index="4"></i>
+                <i class="pip {{#if (gt system.assassin.nemesisPath.rating 4)}}fas{{else}}far{{/if}} fa-circle" data-index="5"></i>
+            </div>
+        </div>
+    </div>
+
+    {{!-- Masteries Drag-and-Drop Area --}}
+    <div class="items-category masteries-section">
+        <div class="flexrow flex-between header p-1 border-bottom">
+            <h3 class="m-0">Masteries</h3>
+            <a class="item-create text-blue" data-type="mastery" title="Create New Mastery"><i class="fas fa-plus"></i> Add</a>
+        </div>
+        
+        <ol class="item-list mt-1">
+            <li class="item flexrow item-header align-center pb-1 border-bottom">
+                <div class="item-name">Mastery Name</div>
+                <div class="item-detail">Dice Pool</div>
+                <div class="item-detail">Cost</div>
+                <div class="item-controls"></div>
+            </li>
+
+            {{#if masteries.length}}
+                {{#each masteries as |item id|}}
+                <li class="item flexcol border-bottom" data-item-id="{{item._id}}" style="padding: 3px 0;">
+                    <div class="flexrow align-center">
+                        <div class="item-name flexrow align-center">
+                            <img src="{{item.img}}" title="Click to view {{item.name}}" class="item-edit" width="24" height="24" style="cursor: pointer; margin-right: 8px; border-radius: 3px; border: 1px solid #ccc; object-fit: cover; flex: 0 0 24px;"/>
+                            <h4 class="m-0 rollable" data-roll-type="item" title="Roll {{item.name}}" style="line-height: 24px; cursor: pointer;">
+                                <a>{{item.name}}</a>
+                            </h4>
+                        </div>
+                        <div class="item-detail">{{item.system.dicePool}}</div>
+                        <div class="item-detail">{{item.system.cost}}</div>
+                        <div class="item-controls">
+                            <a class="item-control item-delete text-red"><i class="fas fa-trash"></i></a>
+                        </div>
+                    </div>
+                </li>
+                {{/each}}
+            {{else}}
+                <div class="p-1"><em style="color: #666;">Drag and drop Masteries here, or click '+ Add'.</em></div>
+            {{/if}}
+        </ol>
+    </div>
+</div>
