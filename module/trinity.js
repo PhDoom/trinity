@@ -41,11 +41,19 @@ Hooks.once('init', async function() {
   Actors.unregisterSheet("core", ActorSheet);
   Items.unregisterSheet("core", ItemSheet);
 
-  // 2. Register Custom Actor Sheet
+  // 2. Register Custom Actor Sheets
+  // Main Character Sheet
   Actors.registerSheet("trinity", TrinityActorSheet, {
-      types: ["character", "npc"], 
+      types: ["character"], 
       makeDefault: true,
       label: "Trinity Modern Sheet"
+  });
+
+  // Dedicated NPC Sheet
+  Actors.registerSheet("trinity-npc", TrinityActorSheet, {
+      types: ["npc"], 
+      makeDefault: true,
+      label: "Trinity NPC Sheet"
   });
 
   // 3. Register Custom Item Sheet 
