@@ -1,0 +1,45 @@
+<form class="{{cssClass}} flexcol" autocomplete="off">
+  <header class="sheet-header flexrow border-bottom pb-2 mb-2">
+    <img class="profile-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" height="100" width="100"/>
+    <div class="header-details flexcol">
+      <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="Item Name"/></h1>
+    </div>
+  </header>
+
+  <nav class="sheet-tabs tabs border-bottom mb-2" data-group="primary">
+    <a class="item" data-tab="description">Description</a>
+    <a class="item" data-tab="details">Details</a>
+  </nav>
+
+  <section class="sheet-body">
+    <div class="tab" data-group="primary" data-tab="description">
+      {{editor enrichedDescription target="system.description" button=true owner=owner editable=editable engine="prosemirror"}}
+    </div>
+
+    <div class="tab details" data-group="primary" data-tab="details">
+      {{> "systems/trinity/templates/item/partials/top-traits.html"}}
+
+      <div class="mechanics-group border p-2 mt-2">
+        <h3 class="header border-bottom mb-2">Power Details</h3>
+        <div class="grid grid-2col gap-5">
+          <div class="form-group flexcol">
+            <label class="font-weight-bold">Keywords</label>
+            <input type="text" name="system.keywords" value="{{system.keywords}}"/>
+          </div>
+          <div class="form-group flexcol">
+            <label class="font-weight-bold">Prerequisite</label>
+            <input type="text" name="system.prerequisite" value="{{system.prerequisite}}"/>
+          </div>
+          <div class="form-group flexcol">
+            <label class="font-weight-bold">Dice Pool</label>
+            <input type="text" name="system.dicePool" value="{{system.dicePool}}"/>
+          </div>
+          <div class="form-group flexcol">
+            <label class="font-weight-bold">Cost</label>
+            <input type="text" name="system.cost" value="{{system.cost}}"/>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</form>
