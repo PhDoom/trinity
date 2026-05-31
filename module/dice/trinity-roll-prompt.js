@@ -1,11 +1,4 @@
-/**
- * Trinity Roll Class & Prompt Dialog
- * Extended for Foundry V13 - Handles custom Trinity d10 logic,
- * dual dice pools, dynamic trait selection, and difficulty margin.
- */
-
 export class TrinityRollPrompt {
-    
     static async confirmRoll(actor, options = {}) {
         const targetNumber = actor.system.rollSettings?.targetNumber?.value || 8;
         const doubleSuccess = actor.system.rollSettings?.doubleSuccess?.value || 10;
@@ -66,53 +59,70 @@ export class TrinityRollPrompt {
             new Dialog({
                 title: `Action Roll`,
                 content: template,
-                buttons: {
-                    roll: {
-                        icon: '<i class="fas fa-dice-d20"></i>',
-                        label: "Roll",
-                        callback: (html) => {
-                            const p1 = parseInt(html.find('[name="pool1"]').val()) || 0;
-                            const p2 = parseInt(html.find('[name="pool2"]').val()) || 0;
-                            const bd = parseInt(html.find('[name="bonusDice"]').val()) || 0;
-                            const enh = parseInt(html.find('[name="enhancement"]').val()) || 0;
-                            const diff = parseInt(html.find('[name="difficulty"]').val()) || 1;
-                            
-                            const finalPool = p1 + p2 + bd;
-                            const p1Name = html.find('#pool1-name').text();
-                            const p2Name = html.find('#pool2-name').text();
-                            
-                            let combinedName = options.name || "Action";
-                            if (p1Name !== "None" && p2Name !== "None") combinedName = `${p1Name} + ${p2Name}`;
-                            else if (p1Name !== "None") combinedName = p1Name;
+                render: (html) => {
+                    const updatePool = () => {
+                        const p1 = parseInt(html.find('[name="pool1"]').val()) || 0;
+                        const p2 = parseInt(html.find('[name="pool2"]').val()) || 0;
+                        const bd = parseInt(html.find('[name="bonusDice"]').val()) || 0;
+                        html.find('#total-pool-display').text(p1 + p2 + bd);
+                    };
 
-                            resolve({ pool: finalPool, enhancement: enh, difficulty: diff, targetNumber, doubleSuccess, name: combinedName });
-                        }
-                    }
+                    html.find('[name="pool1"], [name="pool2"], [name="bonusDice"]').on('change keyup', updatePool);
+
+                    html.find('.select-pools-btn').click(async (e) => {
+                        e.preventDefault();
+                        const currentP1Name = html.find('#pool1-name').text().toLowerCase();
+                        const currentP2Name = html.find('#pool2-name').text().toLowerCase();
+
+                        let traits = [];
+                        const sys = actor.system;
+                        if (sys.attributes) for (let [k, a] of Object.entries(sys.attributes)) traits.push({ name: a.label || k, value: a.value || 0 });
+                        if (sys.skills) for (let [k, s] of Object.entries(sys.skills)) traits.push({ name: s.label || k, value: s.value || 0 });
+                        
+                        actor.items.forEach(i => { if (i.type === 'buff' || i.type === 'quantumpower') traits.push({ name: i.name, value: i.system.rating || i.system.value || 0 }); });
+
+                        new Dialog({
+                            title: "Select Traits",
+                            content: `<div style="max-height: 300px; overflow-y: auto;">${traits.map(t => `<div style="padding: 5px;"><input type="checkbox" class="trait-cb" data-name="${t.name}" data-value="${t.value}" ${[currentP1Name, currentP2Name].includes(t.name.toLowerCase()) ? "checked" : ""}> ${t.name} (${t.value})</div>`).join('')}</div>`,
+                            buttons: { confirm: { label: "Confirm", callback: (inner) => {
+                                const selected = inner.find('.trait-cb:checked');
+                                html.find('[name="pool1"]').val(selected[0] ? $(selected[0]).data('value') : 0);
+                                html.find('#pool1-name').text(selected[0] ? $(selected[0]).data('name') : "None");
+                                html.find('[name="pool2"]').val(selected[1] ? $(selected[1]).data('value') : 0);
+                                html.find('#pool2-name').text(selected[1] ? $(selected[1]).data('name') : "None");
+                                updatePool();
+                            }}}
+                        }).render(true);
+                    });
                 },
-                default: "roll"
+                buttons: {
+                    roll: { label: "Roll", callback: (html) => {
+                        resolve({ 
+                            pool: (parseInt(html.find('[name="pool1"]').val()) || 0) + (parseInt(html.find('[name="pool2"]').val()) || 0) + (parseInt(html.find('[name="bonusDice"]').val()) || 0),
+                            enhancement: parseInt(html.find('[name="enhancement"]').val()) || 0,
+                            difficulty: parseInt(html.find('[name="difficulty"]').val()) || 1,
+                            name: html.find('#pool1-name').text() + (html.find('#pool2-name').text() !== "None" ? " + " + html.find('#pool2-name').text() : ""),
+                            targetNumber, doubleSuccess
+                        });
+                    }}
+                }
             }).render(true);
         });
     }
 
     static async executeRoll(actor, config) {
         if (!config) return;
-
-        const rollPool = Math.max(config.pool, 1);
-        const roll = new Roll(`${rollPool}d10`);
+        const roll = new Roll(`${Math.max(config.pool, 1)}d10`);
         await roll.evaluate();
-
-        const diceResults = roll.terms[0].results.map(r => r.result);
+        
         let naturalSuccesses = 0;
-        let ones = 0;
-
-        diceResults.forEach(d => {
-            if (d >= config.doubleSuccess) naturalSuccesses += 2;
-            else if (d >= config.targetNumber) naturalSuccesses += 1;
-            else if (d === 1) ones += 1;
+        roll.terms[0].results.forEach(r => {
+            if (r.result >= config.doubleSuccess) naturalSuccesses += 2;
+            else if (r.result >= config.targetNumber) naturalSuccesses += 1;
         });
 
-        let totalSuccesses = naturalSuccesses > 0 ? naturalSuccesses + config.enhancement : 0;
-        let extraSuccesses = Math.max(0, totalSuccesses - config.difficulty);
+        const totalSuccesses = naturalSuccesses > 0 ? naturalSuccesses + config.enhancement : 0;
+        const extraSuccesses = Math.max(0, totalSuccesses - config.difficulty);
 
         const chatContent = `
             <div style="border: 2px solid #333; padding: 10px; border-radius: 5px;">
@@ -120,16 +130,15 @@ export class TrinityRollPrompt {
                 <h3 style="text-align: center; color: ${totalSuccesses > 0 ? '#28a745' : '#dc3545'}; margin: 0;">
                     ${totalSuccesses} Success${totalSuccesses !== 1 ? 'es' : ''}
                 </h3>
-                <div style="text-align: center; border-top: 1px solid #ccc; margin-top: 10px; padding-top: 5px;">
-                    <strong>Extra Successes:</strong> ${extraSuccesses}
+                <div style="text-align: center; font-size: 0.85em; color: #666;">
+                    ${config.enhancement > 0 ? `Enhancement: +${config.enhancement} | ` : ''} Difficulty: ${config.difficulty}
+                </div>
+                <div style="text-align: center; border-top: 1px solid #ccc; margin-top: 10px; padding-top: 5px; font-weight: bold;">
+                    Extra Successes: ${extraSuccesses}
                 </div>
             </div>
         `;
 
-        ChatMessage.create({
-            speaker: ChatMessage.getSpeaker({ actor: actor }),
-            content: chatContent,
-            rolls: [roll]
-        });
+        ChatMessage.create({ speaker: ChatMessage.getSpeaker({ actor: actor }), content: chatContent, rolls: [roll] });
     }
 }
