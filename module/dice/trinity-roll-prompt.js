@@ -13,7 +13,7 @@ export class TrinityRollPrompt {
         const targetNumber = actor.system.rollSettings?.targetNumber?.value || 8;
         const doubleSuccess = actor.system.rollSettings?.doubleSuccess?.value || 10;
         
-        // Default initial pool values based on what was clicked
+        // Default initial pool values based on what was clicked on the character sheet
         const initialPool1 = options.defaultPool || 0;
         const initialName = options.name || "Action";
 
@@ -95,6 +95,10 @@ export class TrinityRollPrompt {
                     html.find('.select-pools-btn').click(async (e) => {
                         e.preventDefault();
                         
+                        // Grab whatever is currently sitting in Pool 1 and Pool 2
+                        const currentP1Name = html.find('#pool1-name').text().toLowerCase();
+                        const currentP2Name = html.find('#pool2-name').text().toLowerCase();
+
                         // Gather all relevant traits dynamically
                         let traits = [];
                         const sys = actor.system;
@@ -111,7 +115,7 @@ export class TrinityRollPrompt {
                                 traits.push({ name: skill.label || key.charAt(0).toUpperCase() + key.slice(1), value: skill.value || 0 });
                             }
                         }
-                        // 3. Paradigm Traits (Quantum, Psi, Inspiration) - explicitly omitting Flux/Transcendence/Divergence
+                        // 3. Paradigm Traits (Quantum, Psi, Inspiration) - omitting Flux/Transcendence/Divergence
                         if (sys.nova?.quantum) traits.push({ name: "Quantum", value: sys.nova.quantum.value || 0 });
                         if (sys.psion?.psi) traits.push({ name: "Psi", value: sys.psion.psi.value || 0 });
                         if (sys.talent?.inspiration) traits.push({ name: "Inspiration", value: sys.talent.inspiration.value || 0 });
@@ -151,9 +155,13 @@ export class TrinityRollPrompt {
                             <tbody>`;
                         
                         traits.forEach(t => {
+                            // SMART CHECK: Pre-check the box if it matches what is already in Pool 1 or Pool 2
+                            const traitNameLower = t.name.toLowerCase();
+                            const isChecked = (traitNameLower === currentP1Name || traitNameLower === currentP2Name) ? "checked" : "";
+                            
                             listHtml += `
                               <tr style="border-bottom: 1px solid #eee;">
-                                <td style="padding: 5px;"><input type="checkbox" class="trait-cb" data-name="${t.name}" data-value="${t.value}"></td>
+                                <td style="padding: 5px;"><input type="checkbox" class="trait-cb" data-name="${t.name}" data-value="${t.value}" ${isChecked}></td>
                                 <td style="padding: 5px;">${t.name}</td>
                                 <td style="padding: 5px; text-align: center; font-weight: bold;">${t.value}</td>
                               </tr>`;
