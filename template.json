@@ -76,7 +76,7 @@
   "Item": {
     "types": [
       "gear", "item", "weapon", "armor", "edge", "power", "action", "condition", "bond", "contact", 
-      "gift", "spell", "quantumpower", "biotech", "vehicle", "skilltrick", "aspect", "buff", "mastery"
+      "gift", "spell", "quantumpower", "biotech", "vehicle", "skilltrick", "aspect", "buff", "mastery", "deviation"
     ],
     "templates": { "baseItem": { "description": "" } },
     "gear": { "templates": ["baseItem"], "enhancement": 0, "tags": "" },
@@ -97,6 +97,7 @@
     "skilltrick": { "templates": ["baseItem"], "skill": "" },
     "aspect": { "templates": ["baseItem"], "keywords": "", "prerequisite": "", "dicePool": "", "cost": "" },
     "buff": { "templates": ["baseItem"], "rating": 0, "type": "", "relationship": "" },
-    "mastery": { "templates": ["baseItem"], "keywords": "", "prerequisite": "", "dicePool": "", "cost": "" }
+    "mastery": { "templates": ["baseItem"], "keywords": "", "prerequisite": "", "dicePool": "", "cost": "" },
+    "deviation": { "templates": ["baseItem"], "keywords": "", "prerequisite": "", "dicePool": "", "cost": "" }
   }
 }
