@@ -17,14 +17,6 @@ export class TrinityActorSheet extends ActorSheet {
   }
 
   /** @override */
-  get template() {
-    if (this.actor.type === "npc") {
-      return "systems/trinity/templates/actor/trinity-actor-sheet-npc_1.html";
-    }
-    return "systems/trinity/templates/actor/trinity-actor-sheet_1.html";
-  }
-
-  /** @override */
   async getData(options) {
     const context = await super.getData(options);
     
@@ -268,5 +260,21 @@ export class TrinityActorSheet extends ActorSheet {
     if (config) {
         await TrinityRollPrompt.executeRoll(this.actor, config);
     }
+  }
+}
+
+/**
+ * Dedicated NPC Sheet Class
+ * Inherits all logic from TrinityActorSheet, but explicitly points to the NPC HTML.
+ */
+export class TrinityNPCSheet extends TrinityActorSheet {
+  static get defaultOptions() {
+    return foundry.utils.mergeObject(super.defaultOptions, {
+      classes: ["trinity", "sheet", "actor", "npc"],
+      template: "systems/trinity/templates/actor/trinity-actor-sheet-npc_1.html",
+      width: 800,
+      height: 800,
+      tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "character" }]
+    });
   }
 }
