@@ -27,60 +27,69 @@
                 <h3 class="header m-0 mb-1 text-blue text-center">Quick Action Pools</h3>
                 
                 {{!-- Primary Pool --}}
-                <div class="flexrow align-center mb-1">
-                    <label class="font-weight-bold rollable" data-trait-name="Primary Pool" data-trait-value="{{system.pools.primary}}" style="flex: 0 0 120px;">Primary Pool</label>
-                    <div class="pip-container" data-name="system.pools.primary" data-value="{{system.pools.primary}}">
-                        <i class="pip {{#if (gt system.pools.primary 0)}}fas{{else}}far{{/if}} fa-circle" data-index="1"></i>
-                        <i class="pip {{#if (gt system.pools.primary 1)}}fas{{else}}far{{/if}} fa-circle" data-index="2"></i>
-                        <i class="pip {{#if (gt system.pools.primary 2)}}fas{{else}}far{{/if}} fa-circle" data-index="3"></i>
-                        <i class="pip {{#if (gt system.pools.primary 3)}}fas{{else}}far{{/if}} fa-circle" data-index="4"></i>
-                        <i class="pip {{#if (gt system.pools.primary 4)}}fas{{else}}far{{/if}} fa-circle" data-index="5"></i>
-                        <i class="pip {{#if (gt system.pools.primary 5)}}fas{{else}}far{{/if}} fa-circle" data-index="6"></i>
-                        <i class="pip {{#if (gt system.pools.primary 6)}}fas{{else}}far{{/if}} fa-circle" data-index="7"></i>
-                        <i class="pip {{#if (gt system.pools.primary 7)}}fas{{else}}far{{/if}} fa-circle" data-index="8"></i>
-                        <i class="pip {{#if (gt system.pools.primary 8)}}fas{{else}}far{{/if}} fa-circle" data-index="9"></i>
-                        <i class="pip {{#if (gt system.pools.primary 9)}}fas{{else}}far{{/if}} fa-circle" data-index="10"></i>
-                        <i class="pip {{#if (gt system.pools.primary 10)}}fas{{else}}far{{/if}} fa-circle" data-index="11"></i>
-                        <i class="pip {{#if (gt system.pools.primary 11)}}fas{{else}}far{{/if}} fa-circle" data-index="12"></i>
+                <div class="flexcol mb-1">
+                    <div class="flexrow align-center">
+                        <label class="font-weight-bold rollable" data-trait-name="Primary Pool" data-trait-value="{{system.pools.primary}}" style="flex: 0 0 120px; cursor: pointer;">Primary Pool</label>
+                        <div class="pip-container" data-name="system.pools.primary" data-value="{{system.pools.primary}}">
+                            <i class="pip {{#if (gt system.pools.primary 0)}}fas{{else}}far{{/if}} fa-circle" data-index="1"></i>
+                            <i class="pip {{#if (gt system.pools.primary 1)}}fas{{else}}far{{/if}} fa-circle" data-index="2"></i>
+                            <i class="pip {{#if (gt system.pools.primary 2)}}fas{{else}}far{{/if}} fa-circle" data-index="3"></i>
+                            <i class="pip {{#if (gt system.pools.primary 3)}}fas{{else}}far{{/if}} fa-circle" data-index="4"></i>
+                            <i class="pip {{#if (gt system.pools.primary 4)}}fas{{else}}far{{/if}} fa-circle" data-index="5"></i>
+                            <i class="pip {{#if (gt system.pools.primary 5)}}fas{{else}}far{{/if}} fa-circle" data-index="6"></i>
+                            <i class="pip {{#if (gt system.pools.primary 6)}}fas{{else}}far{{/if}} fa-circle" data-index="7"></i>
+                            <i class="pip {{#if (gt system.pools.primary 7)}}fas{{else}}far{{/if}} fa-circle" data-index="8"></i>
+                            <i class="pip {{#if (gt system.pools.primary 8)}}fas{{else}}far{{/if}} fa-circle" data-index="9"></i>
+                            <i class="pip {{#if (gt system.pools.primary 9)}}fas{{else}}far{{/if}} fa-circle" data-index="10"></i>
+                            <i class="pip {{#if (gt system.pools.primary 10)}}fas{{else}}far{{/if}} fa-circle" data-index="11"></i>
+                            <i class="pip {{#if (gt system.pools.primary 11)}}fas{{else}}far{{/if}} fa-circle" data-index="12"></i>
+                        </div>
                     </div>
+                    <input type="text" name="system.pools.primaryDesc" value="{{system.pools.primaryDesc}}" placeholder="e.g. Shooting, Driving..." class="w-100 mt-1" style="font-size: 0.9em; padding: 2px 5px; background: rgba(0,0,0,0.02); border: 1px solid #ddd; border-radius: 3px;"/>
                 </div>
 
                 {{!-- Secondary Pool --}}
-                <div class="flexrow align-center mb-1">
-                    <label class="font-weight-bold rollable" data-trait-name="Secondary Pool" data-trait-value="{{system.pools.secondary}}" style="flex: 0 0 120px;">Secondary Pool</label>
-                    <div class="pip-container" data-name="system.pools.secondary" data-value="{{system.pools.secondary}}">
-                        <i class="pip {{#if (gt system.pools.secondary 0)}}fas{{else}}far{{/if}} fa-circle" data-index="1"></i>
-                        <i class="pip {{#if (gt system.pools.secondary 1)}}fas{{else}}far{{/if}} fa-circle" data-index="2"></i>
-                        <i class="pip {{#if (gt system.pools.secondary 2)}}fas{{else}}far{{/if}} fa-circle" data-index="3"></i>
-                        <i class="pip {{#if (gt system.pools.secondary 3)}}fas{{else}}far{{/if}} fa-circle" data-index="4"></i>
-                        <i class="pip {{#if (gt system.pools.secondary 4)}}fas{{else}}far{{/if}} fa-circle" data-index="5"></i>
-                        <i class="pip {{#if (gt system.pools.secondary 5)}}fas{{else}}far{{/if}} fa-circle" data-index="6"></i>
-                        <i class="pip {{#if (gt system.pools.secondary 6)}}fas{{else}}far{{/if}} fa-circle" data-index="7"></i>
-                        <i class="pip {{#if (gt system.pools.secondary 7)}}fas{{else}}far{{/if}} fa-circle" data-index="8"></i>
-                        <i class="pip {{#if (gt system.pools.secondary 8)}}fas{{else}}far{{/if}} fa-circle" data-index="9"></i>
-                        <i class="pip {{#if (gt system.pools.secondary 9)}}fas{{else}}far{{/if}} fa-circle" data-index="10"></i>
-                        <i class="pip {{#if (gt system.pools.secondary 10)}}fas{{else}}far{{/if}} fa-circle" data-index="11"></i>
-                        <i class="pip {{#if (gt system.pools.secondary 11)}}fas{{else}}far{{/if}} fa-circle" data-index="12"></i>
+                <div class="flexcol mb-1">
+                    <div class="flexrow align-center">
+                        <label class="font-weight-bold rollable" data-trait-name="Secondary Pool" data-trait-value="{{system.pools.secondary}}" style="flex: 0 0 120px; cursor: pointer;">Secondary Pool</label>
+                        <div class="pip-container" data-name="system.pools.secondary" data-value="{{system.pools.secondary}}">
+                            <i class="pip {{#if (gt system.pools.secondary 0)}}fas{{else}}far{{/if}} fa-circle" data-index="1"></i>
+                            <i class="pip {{#if (gt system.pools.secondary 1)}}fas{{else}}far{{/if}} fa-circle" data-index="2"></i>
+                            <i class="pip {{#if (gt system.pools.secondary 2)}}fas{{else}}far{{/if}} fa-circle" data-index="3"></i>
+                            <i class="pip {{#if (gt system.pools.secondary 3)}}fas{{else}}far{{/if}} fa-circle" data-index="4"></i>
+                            <i class="pip {{#if (gt system.pools.secondary 4)}}fas{{else}}far{{/if}} fa-circle" data-index="5"></i>
+                            <i class="pip {{#if (gt system.pools.secondary 5)}}fas{{else}}far{{/if}} fa-circle" data-index="6"></i>
+                            <i class="pip {{#if (gt system.pools.secondary 6)}}fas{{else}}far{{/if}} fa-circle" data-index="7"></i>
+                            <i class="pip {{#if (gt system.pools.secondary 7)}}fas{{else}}far{{/if}} fa-circle" data-index="8"></i>
+                            <i class="pip {{#if (gt system.pools.secondary 8)}}fas{{else}}far{{/if}} fa-circle" data-index="9"></i>
+                            <i class="pip {{#if (gt system.pools.secondary 9)}}fas{{else}}far{{/if}} fa-circle" data-index="10"></i>
+                            <i class="pip {{#if (gt system.pools.secondary 10)}}fas{{else}}far{{/if}} fa-circle" data-index="11"></i>
+                            <i class="pip {{#if (gt system.pools.secondary 11)}}fas{{else}}far{{/if}} fa-circle" data-index="12"></i>
+                        </div>
                     </div>
+                    <input type="text" name="system.pools.secondaryDesc" value="{{system.pools.secondaryDesc}}" placeholder="e.g. Athletics, Stealth..." class="w-100 mt-1" style="font-size: 0.9em; padding: 2px 5px; background: rgba(0,0,0,0.02); border: 1px solid #ddd; border-radius: 3px;"/>
                 </div>
 
-                {{!-- Desperation Pool --}}
-                <div class="flexrow align-center mb-1">
-                    <label class="font-weight-bold rollable text-blue" data-trait-name="Desperation Pool" data-trait-value="{{system.pools.desperation}}" style="flex: 0 0 120px;">Desperation Pool</label>
-                    <div class="pip-container" data-name="system.pools.desperation" data-value="{{system.pools.desperation}}">
-                        <i class="pip {{#if (gt system.pools.desperation 0)}}fas{{else}}far{{/if}} fa-circle" data-index="1"></i>
-                        <i class="pip {{#if (gt system.pools.desperation 1)}}fas{{else}}far{{/if}} fa-circle" data-index="2"></i>
-                        <i class="pip {{#if (gt system.pools.desperation 2)}}fas{{else}}far{{/if}} fa-circle" data-index="3"></i>
-                        <i class="pip {{#if (gt system.pools.desperation 3)}}fas{{else}}far{{/if}} fa-circle" data-index="4"></i>
-                        <i class="pip {{#if (gt system.pools.desperation 4)}}fas{{else}}far{{/if}} fa-circle" data-index="5"></i>
-                        <i class="pip {{#if (gt system.pools.desperation 5)}}fas{{else}}far{{/if}} fa-circle" data-index="6"></i>
-                        <i class="pip {{#if (gt system.pools.desperation 6)}}fas{{else}}far{{/if}} fa-circle" data-index="7"></i>
-                        <i class="pip {{#if (gt system.pools.desperation 7)}}fas{{else}}far{{/if}} fa-circle" data-index="8"></i>
-                        <i class="pip {{#if (gt system.pools.desperation 8)}}fas{{else}}far{{/if}} fa-circle" data-index="9"></i>
-                        <i class="pip {{#if (gt system.pools.desperation 9)}}fas{{else}}far{{/if}} fa-circle" data-index="10"></i>
-                        <i class="pip {{#if (gt system.pools.desperation 10)}}fas{{else}}far{{/if}} fa-circle" data-index="11"></i>
-                        <i class="pip {{#if (gt system.pools.desperation 11)}}fas{{else}}far{{/if}} fa-circle" data-index="12"></i>
+                {{!-- Desperation Pool (Color fixed) --}}
+                <div class="flexcol mb-1">
+                    <div class="flexrow align-center">
+                        <label class="font-weight-bold rollable" data-trait-name="Desperation Pool" data-trait-value="{{system.pools.desperation}}" style="flex: 0 0 120px; cursor: pointer;">Desperation Pool</label>
+                        <div class="pip-container" data-name="system.pools.desperation" data-value="{{system.pools.desperation}}">
+                            <i class="pip {{#if (gt system.pools.desperation 0)}}fas{{else}}far{{/if}} fa-circle" data-index="1"></i>
+                            <i class="pip {{#if (gt system.pools.desperation 1)}}fas{{else}}far{{/if}} fa-circle" data-index="2"></i>
+                            <i class="pip {{#if (gt system.pools.desperation 2)}}fas{{else}}far{{/if}} fa-circle" data-index="3"></i>
+                            <i class="pip {{#if (gt system.pools.desperation 3)}}fas{{else}}far{{/if}} fa-circle" data-index="4"></i>
+                            <i class="pip {{#if (gt system.pools.desperation 4)}}fas{{else}}far{{/if}} fa-circle" data-index="5"></i>
+                            <i class="pip {{#if (gt system.pools.desperation 5)}}fas{{else}}far{{/if}} fa-circle" data-index="6"></i>
+                            <i class="pip {{#if (gt system.pools.desperation 6)}}fas{{else}}far{{/if}} fa-circle" data-index="7"></i>
+                            <i class="pip {{#if (gt system.pools.desperation 7)}}fas{{else}}far{{/if}} fa-circle" data-index="8"></i>
+                            <i class="pip {{#if (gt system.pools.desperation 8)}}fas{{else}}far{{/if}} fa-circle" data-index="9"></i>
+                            <i class="pip {{#if (gt system.pools.desperation 9)}}fas{{else}}far{{/if}} fa-circle" data-index="10"></i>
+                            <i class="pip {{#if (gt system.pools.desperation 10)}}fas{{else}}far{{/if}} fa-circle" data-index="11"></i>
+                            <i class="pip {{#if (gt system.pools.desperation 11)}}fas{{else}}far{{/if}} fa-circle" data-index="12"></i>
+                        </div>
                     </div>
+                    <input type="text" name="system.pools.desperationDesc" value="{{system.pools.desperationDesc}}" placeholder="e.g. Survival, Tactics..." class="w-100 mt-1" style="font-size: 0.9em; padding: 2px 5px; background: rgba(0,0,0,0.02); border: 1px solid #ddd; border-radius: 3px;"/>
                 </div>
             </div>
 
@@ -90,7 +99,7 @@
                 
                 {{!-- Melee Attack --}}
                 <div class="flexrow align-center mb-1">
-                    <label class="font-weight-bold rollable" data-trait-name="Melee Attack" data-trait-value="{{system.pools.melee}}" style="flex: 0 0 120px;">Melee Attack</label>
+                    <label class="font-weight-bold rollable" data-trait-name="Melee Attack" data-trait-value="{{system.pools.melee}}" style="flex: 0 0 120px; cursor: pointer;">Melee Attack</label>
                     <div class="pip-container" data-name="system.pools.melee" data-value="{{system.pools.melee}}">
                         <i class="pip {{#if (gt system.pools.melee 0)}}fas{{else}}far{{/if}} fa-circle" data-index="1"></i>
                         <i class="pip {{#if (gt system.pools.melee 1)}}fas{{else}}far{{/if}} fa-circle" data-index="2"></i>
@@ -107,7 +116,7 @@
 
                 {{!-- Ranged Attack --}}
                 <div class="flexrow align-center mb-1">
-                    <label class="font-weight-bold rollable" data-trait-name="Ranged Attack" data-trait-value="{{system.pools.ranged}}" style="flex: 0 0 120px;">Ranged Attack</label>
+                    <label class="font-weight-bold rollable" data-trait-name="Ranged Attack" data-trait-value="{{system.pools.ranged}}" style="flex: 0 0 120px; cursor: pointer;">Ranged Attack</label>
                     <div class="pip-container" data-name="system.pools.ranged" data-value="{{system.pools.ranged}}">
                         <i class="pip {{#if (gt system.pools.ranged 0)}}fas{{else}}far{{/if}} fa-circle" data-index="1"></i>
                         <i class="pip {{#if (gt system.pools.ranged 1)}}fas{{else}}far{{/if}} fa-circle" data-index="2"></i>
@@ -131,7 +140,8 @@
             
             <div class="grid grid-2col gap-5 text-center">
                 <div class="flexcol flex-center border p-1 bg-light">
-                    <label class="font-weight-bold">Initiative</label>
+                    {{!-- FIXED: Added rollable setup to Initiative --}}
+                    <label class="font-weight-bold rollable" data-roll-type="initiative" title="Roll Initiative" style="cursor: pointer;">Initiative</label>
                     <input type="number" name="system.initiative.value" value="{{#if system.initiative.value}}{{system.initiative.value}}{{else}}0{{/if}}" data-dtype="Number" class="text-center w-50"/>
                 </div>
                 
@@ -211,7 +221,7 @@
         </div>
     </div>
 
-    {{!-- Edges Section (Uses standard Trinity PC Partial to ensure Drag & Drop works) --}}
+    {{!-- Edges Section --}}
     <div class="mt-1">
         {{> "systems/trinity/templates/actor/partials/edges.html"}}
     </div>
