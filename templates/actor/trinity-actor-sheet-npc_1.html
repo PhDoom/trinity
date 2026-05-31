@@ -4,58 +4,60 @@
     <header class="sheet-header flexrow">
         <div class="header-fields flexcol" style="justify-content: center; width: 100%;">
             <h1 class="charname" style="margin: 0;">
-                <input name="name" type="text" value="{{actor.name}}" placeholder="Character Name" style="font-size: 1.5em; text-align: center;"/>
+                <input name="name" type="text" value="{{actor.name}}" placeholder="NPC Name" style="font-size: 1.5em; text-align: center;"/>
             </h1>
         </div>
     </header>
 
-    {{!-- TAB NAVIGATION --}}
+    {{!-- TAB NAVIGATION FOR NPCs --}}
     <nav class="sheet-tabs tabs" data-group="primary">
-        <a class="item" data-tab="character">Character</a>
-        <a class="item" data-tab="attributes">Stats & Skills</a>
-        <a class="item" data-tab="powers">Powers</a> 
-        
-        {{!-- Conditionally show the Anima Tab (Removed inline color styling) --}}
-        {{#if (eq system.details.characterType "anima")}}
-            <a class="item" data-tab="anima">Anima</a>
-        {{/if}}
-
-        <a class="item" data-tab="combat">Combat</a>
-        <a class="item" data-tab="health">Health</a>
+        <a class="item" data-tab="main">Main</a>
+        <a class="item" data-tab="stats">Stats & Attributes</a>
+        <a class="item" data-tab="powers">Powers</a>
         <a class="item" data-tab="inventory">Inventory</a>
-        <a class="item" data-tab="bio">Biography</a>
-        <a class="item" data-tab="settings"><i class="fas fa-cog"></i> Settings</a>
+        <a class="item" data-tab="notes">NPC Notes</a>
     </nav>
 
     {{!-- SHEET BODY --}}
-    <section class="sheet-body">
+    <section class="sheet-body" style="margin-top: 10px; height: 100%;">
 
-        {{!-- Character Tab --}}
-        <div class="tab character" data-group="primary" data-tab="character">
-            {{> "systems/trinity/templates/actor/partials/character.html"}}
-        </div>
-
-        {{!-- Stats & Skills Tab --}}
-        <div class="tab attributes" data-group="primary" data-tab="attributes">
-            <div class="grid grid-2col">
-                <div>{{> "systems/trinity/templates/actor/partials/attributes.html"}}</div>
-                <div>{{> "systems/trinity/templates/actor/partials/skills.html"}}</div>
+        {{!-- Main Tab --}}
+        <div class="tab main" data-group="primary" data-tab="main">
+            {{!-- Paradigm Selection --}}
+            <div class="flexrow align-center mb-1 p-1 border" style="background: rgba(0,0,0,0.05); border-radius: 5px;">
+                <label class="font-weight-bold text-blue" style="flex: 0 0 100px;">Paradigm:</label>
+                <select name="system.details.characterType" style="flex: 1;">
+                    <option value="human" {{#if (eq system.details.characterType "human")}}selected{{/if}}>Baseline Human</option>
+                    <option value="talent" {{#if (eq system.details.characterType "talent")}}selected{{/if}}>Talent</option>
+                    <option value="nova" {{#if (eq system.details.characterType "nova")}}selected{{/if}}>Nova</option>
+                    <option value="psion" {{#if (eq system.details.characterType "psion")}}selected{{/if}}>Psion</option>
+                    <option value="aethernaut" {{#if (eq system.details.characterType "aethernaut")}}selected{{/if}}>Aethernaut</option>
+                    <option value="mage" {{#if (eq system.details.characterType "mage")}}selected{{/if}}>Mage</option>
+                    <option value="champion" {{#if (eq system.details.characterType "champion")}}selected{{/if}}>Champion</option>
+                    <option value="oracle" {{#if (eq system.details.characterType "oracle")}}selected{{/if}}>Oracle</option>
+                    <option value="olympian" {{#if (eq system.details.characterType "olympian")}}selected{{/if}}>Olympian</option>
+                    <option value="anima" {{#if (eq system.details.characterType "anima")}}selected{{/if}}>Anima</option>
+                </select>
             </div>
             
-            {{> "systems/trinity/templates/actor/partials/facets.html"}}
-            {{> "systems/trinity/templates/actor/partials/skill-tricks.html"}}
-            {{> "systems/trinity/templates/actor/partials/edges.html"}}
+            {{> "systems/trinity/templates/actor/partials-npc/npc-main.html"}}
+            {{> "systems/trinity/templates/actor/partials-npc/npc-edit.html"}}
         </div>
 
-        {{!-- Powers & Paradigm Tab --}}
+        {{!-- Stats & Attributes Tab --}}
+        <div class="tab stats" data-group="primary" data-tab="stats">
+            {{> "systems/trinity/templates/actor/partials-npc/npc-attributes.html"}}
+            {{> "systems/trinity/templates/actor/partials-npc/npc-stats.html"}}
+        </div>
+
+        {{!-- Powers Tab (Dynamic Logic based on Paradigm) --}}
         <div class="tab powers" data-group="primary" data-tab="powers">
             {{#if (eq system.details.characterType "human")}}
-                <div class="flex-center p-2" style="color: #666;">
+                <div class="flex-center p-2" style="color: #666; text-align: center;">
                     <em>Baseline Humans do not have access to Quantum, Psi, or Gifts.</em>
                 </div>
             {{/if}}
             
-            {{!-- Added "anima" to the talent/champion logic so it shares this powers page! --}}
             {{#if (or (eq system.details.characterType "talent") (eq system.details.characterType "champion") (eq system.details.characterType "oracle") (eq system.details.characterType "olympian") (eq system.details.characterType "anima"))}}
                 {{> "systems/trinity/templates/actor/partials/inspiration.html"}}
                 <div class="mt-1">
@@ -71,7 +73,6 @@
                 {{> "systems/trinity/templates/actor/partials/psi.html"}}
             {{/if}}
 
-            {{!-- AETHERNAUT PARADIGM --}}
             {{#if (eq system.details.characterType "aethernaut")}}
                 {{> "systems/trinity/templates/actor/partials/aethernaut.html"}}
             {{/if}}
@@ -82,21 +83,6 @@
             {{/if}}
         </div>
 
-        {{!-- NEW ANIMA TAB --}}
-        <div class="tab anima" data-group="primary" data-tab="anima">
-            {{> "systems/trinity/templates/actor/partials/anima-sheet.html"}}
-        </div>
-
-        {{!-- Combat Tab --}}
-        <div class="tab combat" data-group="primary" data-tab="combat">
-            {{> "systems/trinity/templates/actor/partials/combat.html"}}
-        </div>
-
-        {{!-- Health Tab --}}
-        <div class="tab health" data-group="primary" data-tab="health">
-            {{> "systems/trinity/templates/actor/partials/healthboxes.html"}}
-        </div>
-
         {{!-- Inventory Tab --}}
         <div class="tab inventory" data-group="primary" data-tab="inventory">
             {{> "systems/trinity/templates/actor/partials/weapons.html"}}
@@ -104,14 +90,12 @@
             {{> "systems/trinity/templates/actor/partials/gear.html"}}
         </div>
 
-        {{!-- Biography Tab --}}
-        <div class="tab bio" data-group="primary" data-tab="bio">
-            {{> "systems/trinity/templates/actor/partials/bio.html"}}
-        </div>
-
-        {{!-- Settings Tab --}}
-        <div class="tab settings" data-group="primary" data-tab="settings">
-            {{> "systems/trinity/templates/actor/partials/settings.html"}}
+        {{!-- NPC Notes Tab (Replaces Biography) --}}
+        <div class="tab notes" data-group="primary" data-tab="notes" style="min-height: 400px;">
+            <div class="flexcol" style="height: 100%;">
+                <label class="font-weight-bold text-blue mb-1" style="font-size: 1.2em; border-bottom: 1px solid #ccc;">NPC Notes</label>
+                {{editor enrichedBiography target="system.biography" button=true owner=owner editable=editable}}
+            </div>
         </div>
 
     </section>
