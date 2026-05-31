@@ -14,9 +14,9 @@ export class TrinityItemSheet extends ItemSheet {
     });
   }
 
-  /** @override - Route ALL items to the unified Master Sheet */
+  /** @override - Route items dynamically based on their specific type! */
   get template() {
-    return "systems/trinity/templates/item/item-sheet.html";
+    return `systems/trinity/templates/item/item-${this.item.type}-sheet.html`;
   }
 
   /** @override */
@@ -32,7 +32,6 @@ export class TrinityItemSheet extends ItemSheet {
     context.owner = this.document.isOwner;
 
     // Process the Rich Text Editor safely for V13
-    // Added relativeTo: this.document to ensure the editor links correctly
     context.enrichedDescription = await TextEditor.enrichHTML(context.system.description || "", {
       async: true,
       secrets: this.document.isOwner,
