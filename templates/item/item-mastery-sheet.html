@@ -1,19 +1,8 @@
-<form class="{{cssClass}}" autocomplete="off">
+<form class="{{cssClass}} flexcol" autocomplete="off">
   <header class="sheet-header flexrow border-bottom pb-2 mb-2">
     <img class="profile-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" height="100" width="100"/>
     <div class="header-details flexcol">
-      <h1 class="charname">
-        <input name="name" type="text" value="{{item.name}}" placeholder="Item Name"/>
-      </h1>
-      <div class="item-subtitle flexrow flex-between">
-        <div class="flex-group-left">
-          <input type="text" name="system.subType" value="{{system.subType}}" placeholder="Item Type / Category"/>
-        </div>
-        <div class="item-rating flexrow flex-center" style="max-width: 120px;">
-          <label class="px-1 font-weight-bold text-uppercase small">Rating</label>
-          <input type="number" name="system.value" value="{{system.value}}" data-dtype="Number" style="width: 45px; text-align: center;"/>
-        </div>
-      </div>
+      <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="Item Name"/></h1>
     </div>
   </header>
 
@@ -24,44 +13,32 @@
 
   <section class="sheet-body">
     <div class="tab" data-group="primary" data-tab="description">
-      {{editor system.description target="system.description" button=true owner=owner editable=editable engine="prosemirror"}}
+      {{editor enrichedDescription target="system.description" button=true owner=owner editable=editable engine="prosemirror"}}
     </div>
 
     <div class="tab details" data-group="primary" data-tab="details">
       {{> "systems/trinity/templates/item/partials/top-traits.html"}}
 
       <div class="mechanics-group border p-2 mt-2">
-        <h3 class="header border-bottom mb-2">Mastery Details</h3>
-        <div class="grid grid-2col gap-10">
+        <h3 class="header border-bottom mb-2">Power Details</h3>
+        <div class="grid grid-2col gap-5">
           <div class="form-group flexcol">
             <label class="font-weight-bold">Keywords</label>
-            <input type="text" name="system.keywords" value="{{system.keywords}}" placeholder="e.g. Momentary, Action..."/>
+            <input type="text" name="system.keywords" value="{{system.keywords}}"/>
           </div>
           <div class="form-group flexcol">
             <label class="font-weight-bold">Prerequisite</label>
-            <input type="text" name="system.prerequisite" value="{{system.prerequisite}}" placeholder="e.g. Inspiration 2..."/>
+            <input type="text" name="system.prerequisite" value="{{system.prerequisite}}"/>
           </div>
           <div class="form-group flexcol">
             <label class="font-weight-bold">Dice Pool</label>
-            <input type="text" name="system.dicePool" value="{{system.dicePool}}" placeholder="e.g. Close Combat + Might"/>
+            <input type="text" name="system.dicePool" value="{{system.dicePool}}"/>
           </div>
           <div class="form-group flexcol">
             <label class="font-weight-bold">Cost</label>
-            <input type="text" name="system.cost" value="{{system.cost}}" placeholder="e.g. 1 Inspiration"/>
+            <input type="text" name="system.cost" value="{{system.cost}}"/>
           </div>
         </div>
-      </div>
-
-      <div class="mechanics-group border p-2 mt-2">
-        <h3 class="header border-bottom mb-2">Item Configuration</h3>
-        {{> "systems/trinity/templates/item/partials/roll-flag.html"}}
-        {{> "systems/trinity/templates/item/partials/enhancement-flag.html"}}
-        {{> "systems/trinity/templates/item/partials/dots-flag.html"}}
-      </div>
-
-      <div class="form-group mt-2">
-        <label class="font-weight-bold">Source Reference</label>
-        <input type="text" name="system.source" value="{{system.source}}" placeholder="Core Book, p. 123"/>
       </div>
     </div>
   </section>
