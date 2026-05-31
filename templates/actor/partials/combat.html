@@ -1,11 +1,42 @@
 <div class="combat-section p-1">
-    <div class="grid grid-3col gap-10 align-center">
+    {{!-- Changed align-center to align-stretch so the boxes stay the same height even though Initiative is taller now --}}
+    <div class="grid grid-3col gap-10 align-stretch">
         
         {{!-- Initiative Box --}}
-        <div class="form-group flexcol border p-1" style="border-radius: 5px; background: rgba(0,0,0,0.02); height: 100%; justify-content: center;">
-            <button type="button" class="rollable" data-roll-type="initiative" style="cursor: pointer; background: #1a202c; color: white; border: none; border-radius: 3px; padding: 5px;">
+        <div class="form-group flexcol border p-1" style="border-radius: 5px; background: rgba(0,0,0,0.02); height: 100%;">
+            <button type="button" class="rollable mb-1" data-roll-type="initiative" style="cursor: pointer; background: #1a202c; color: white; border: none; border-radius: 3px; padding: 5px;">
                 <i class="fas fa-dice"></i> Roll Initiative
             </button>
+            
+            <div class="text-center" style="font-size: 0.75em; color: #555; line-height: 1.2; margin-bottom: 5px; font-style: italic;">
+                Rolls dice pool using the lower of two Attribute-and-Skill pairings: Athletics + Cunning or Empathy + Dexterity.
+            </div>
+
+            <div class="flexcol gap-5 mt-1" style="font-size: 0.85em; background: rgba(255,255,255,0.6); padding: 5px; border-radius: 3px; border: 1px solid #eee;">
+                
+                {{!-- Pairing 1 --}}
+                <div class="flexrow flex-between align-center border-bottom pb-1">
+                    <span class="rollable font-weight-bold text-blue" data-skill="athletics" title="Roll Athletics">
+                        Athletics: {{#if system.skills.athletics.value}}{{system.skills.athletics.value}}{{else}}0{{/if}}
+                    </span>
+                    <span style="color: #999;">+</span>
+                    <span class="rollable font-weight-bold text-blue" data-attribute="cunning" title="Roll Cunning">
+                        Cunning: {{#if system.attributes.cunning.value}}{{system.attributes.cunning.value}}{{else}}1{{/if}}
+                    </span>
+                </div>
+                
+                {{!-- Pairing 2 --}}
+                <div class="flexrow flex-between align-center pt-1">
+                    <span class="rollable font-weight-bold text-blue" data-skill="empathy" title="Roll Empathy">
+                        Empathy: {{#if system.skills.empathy.value}}{{system.skills.empathy.value}}{{else}}0{{/if}}
+                    </span>
+                    <span style="color: #999;">+</span>
+                    <span class="rollable font-weight-bold text-blue" data-attribute="dexterity" title="Roll Dexterity">
+                        Dexterity: {{#if system.attributes.dexterity.value}}{{system.attributes.dexterity.value}}{{else}}1{{/if}}
+                    </span>
+                </div>
+
+            </div>
         </div>
 
         {{!-- Defense Box --}}
