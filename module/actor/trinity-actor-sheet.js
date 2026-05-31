@@ -90,7 +90,7 @@ export class TrinityActorSheet extends ActorSheet {
     const vehicles = [];
     const skillTricks = []; 
 
-    // NEW Containers for Anima items
+    // NEW Containers for Anima & Assassin items
     const aspects = [];
     const buffs = [];
     const masteries = [];
@@ -203,6 +203,8 @@ export class TrinityActorSheet extends ActorSheet {
     event.preventDefault();
     const element = event.currentTarget;
     const dataset = element.dataset;
+    
+    // Ensure TrinityRollPrompt is imported from the correct path
     const { TrinityRollPrompt } = await import("../dice/trinity-roll-prompt.js");
 
     let rollName = "Action Roll";
@@ -229,7 +231,6 @@ export class TrinityActorSheet extends ActorSheet {
       rollName = skill?.label || dataset.skill.capitalize();
       defaultPool = skill?.value || 0;
     }
-    // ---> NEW ANIMA ROLL LOGIC <---
     else if (dataset.animaStat) {
       const stat = sys.anima?.stats?.[dataset.animaStat];
       rollName = "Anima " + dataset.animaStat.charAt(0).toUpperCase() + dataset.animaStat.slice(1);
@@ -245,7 +246,6 @@ export class TrinityActorSheet extends ActorSheet {
       rollName = "Anima " + dataset.animaSkill.charAt(0).toUpperCase() + dataset.animaSkill.slice(1);
       defaultPool = skill?.value || 0;
     }
-    // ---> END ANIMA ROLL LOGIC <---
     else if (dataset.traitName) {
       rollName = dataset.traitName;
       defaultPool = parseInt(dataset.traitValue) || 1;
@@ -258,6 +258,7 @@ export class TrinityActorSheet extends ActorSheet {
       enhancement = parseInt(sys.initiative?.enhancement) || 0;
     }
 
+    // Explicitly pass this.actor so the Prompt can see the character data
     const config = await TrinityRollPrompt.confirmRoll(this.actor, { 
         name: rollName, 
         defaultPool: defaultPool,
