@@ -1,11 +1,10 @@
 // Import Modules
 import { TrinityActor } from "./actor/trinity-actor.js";
-import { TrinityActorSheet } from "./actor/trinity-actor-sheet.js";
+import { TrinityActorSheet, TrinityNPCSheet } from "./actor/trinity-actor-sheet.js";
 import { TrinityItem } from "./item/item.js";
-import { TrinityItemSheet } from "./item/item-sheet.js"; // Path is perfectly correct
+import { TrinityItemSheet } from "./item/item-sheet.js"; 
 import { TrinityRoll } from "./trinity-roll.js"; 
 import { extendPrototypes } from "./protos.js";
-// Added back the template preloader
 import { preloadHandlebarsTemplates } from "./templates.js"; 
 
 /* -------------------------------------------- */
@@ -42,6 +41,7 @@ Hooks.once('init', async function() {
   Items.unregisterSheet("core", ItemSheet);
 
   // 2. Register Custom Actor Sheets
+  
   // Main Character Sheet
   Actors.registerSheet("trinity", TrinityActorSheet, {
       types: ["character"], 
@@ -50,14 +50,13 @@ Hooks.once('init', async function() {
   });
 
   // Dedicated NPC Sheet
-  Actors.registerSheet("trinity-npc", TrinityActorSheet, {
+  Actors.registerSheet("trinity-npc", TrinityNPCSheet, {
       types: ["npc"], 
       makeDefault: true,
       label: "Trinity NPC Sheet"
   });
 
   // 3. Register Custom Item Sheet 
-  // (Removed the 'types' array so it applies to ALL items, including quantumPower!)
   Items.registerSheet("trinity", TrinityItemSheet, {
       makeDefault: true,
       label: "Trinity Item Sheet"
