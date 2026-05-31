@@ -1,4 +1,11 @@
+/**
+ * Trinity Roll Class & Prompt Dialog
+ * Extended for Foundry V13 - Handles custom Trinity d10 logic,
+ * dual dice pools, dynamic trait selection, and difficulty margin.
+ */
+
 export class TrinityRollPrompt {
+    
     static async confirmRoll(actor, options = {}) {
         const targetNumber = actor.system.rollSettings?.targetNumber?.value || 8;
         const doubleSuccess = actor.system.rollSettings?.doubleSuccess?.value || 10;
@@ -59,42 +66,6 @@ export class TrinityRollPrompt {
             new Dialog({
                 title: `Action Roll`,
                 content: template,
-                render: (html) => {
-                    const updatePool = () => {
-                        const p1 = parseInt(html.find('[name="pool1"]').val()) || 0;
-                        const p2 = parseInt(html.find('[name="pool2"]').val()) || 0;
-                        const bd = parseInt(html.find('[name="bonusDice"]').val()) || 0;
-                        html.find('#total-pool-display').text(p1 + p2 + bd);
-                    };
-
-                    html.find('[name="pool1"], [name="pool2"], [name="bonusDice"]').on('change keyup', updatePool);
-
-                    html.find('.select-pools-btn').click(async (e) => {
-                        e.preventDefault();
-                        const currentP1Name = html.find('#pool1-name').text().toLowerCase();
-                        const currentP2Name = html.find('#pool2-name').text().toLowerCase();
-
-                        let traits = [];
-                        const sys = actor.system;
-                        if (sys.attributes) for (let [k, a] of Object.entries(sys.attributes)) traits.push({ name: a.label || k, value: a.value || 0 });
-                        if (sys.skills) for (let [k, s] of Object.entries(sys.skills)) traits.push({ name: s.label || k, value: s.value || 0 });
-                        
-                        actor.items.forEach(i => { if (i.type === 'buff' || i.type === 'quantumpower') traits.push({ name: i.name, value: i.system.rating || i.system.value || 0 }); });
-
-                        new Dialog({
-                            title: "Select Traits",
-                            content: `<div style="max-height: 300px; overflow-y: auto;">${traits.map(t => `<div style="padding: 5px;"><input type="checkbox" class="trait-cb" data-name="${t.name}" data-value="${t.value}" ${[currentP1Name, currentP2Name].includes(t.name.toLowerCase()) ? "checked" : ""}> ${t.name} (${t.value})</div>`).join('')}</div>`,
-                            buttons: { confirm: { label: "Confirm", callback: (inner) => {
-                                const selected = inner.find('.trait-cb:checked');
-                                html.find('[name="pool1"]').val(selected[0] ? $(selected[0]).data('value') : 0);
-                                html.find('#pool1-name').text(selected[0] ? $(selected[0]).data('name') : "None");
-                                html.find('[name="pool2"]').val(selected[1] ? $(selected[1]).data('value') : 0);
-                                html.find('#pool2-name').text(selected[1] ? $(selected[1]).data('name') : "None");
-                                updatePool();
-                            }}}
-                        }).render(true);
-                    });
-                },
                 buttons: {
                     roll: { label: "Roll", callback: (html) => {
                         resolve({ 
@@ -116,17 +87,24 @@ export class TrinityRollPrompt {
         await roll.evaluate();
         
         let naturalSuccesses = 0;
+        let diceHTML = `<div style="display: flex; gap: 5px; flex-wrap: wrap; justify-content: center; margin-bottom: 10px;">`;
+        
         roll.terms[0].results.forEach(r => {
-            if (r.result >= config.doubleSuccess) naturalSuccesses += 2;
-            else if (r.result >= config.targetNumber) naturalSuccesses += 1;
+            let val = r.result;
+            let bgColor = "#eee";
+            if (val >= config.doubleSuccess) { naturalSuccesses += 2; bgColor = "#d4edda"; }
+            else if (val >= config.targetNumber) { naturalSuccesses += 1; bgColor = "#cce5ff"; }
+            diceHTML += `<div style="padding: 5px 10px; border: 1px solid #999; border-radius: 3px; background: ${bgColor}; font-weight: bold;">${val}</div>`;
         });
+        diceHTML += `</div>`;
 
         const totalSuccesses = naturalSuccesses > 0 ? naturalSuccesses + config.enhancement : 0;
         const extraSuccesses = Math.max(0, totalSuccesses - config.difficulty);
 
         const chatContent = `
-            <div style="border: 2px solid #333; padding: 10px; border-radius: 5px;">
+            <div style="border: 2px solid #333; padding: 10px; border-radius: 5px; background: #fff;">
                 <h2 style="text-align: center; margin: 0 0 10px 0;">${config.name}</h2>
+                ${diceHTML}
                 <h3 style="text-align: center; color: ${totalSuccesses > 0 ? '#28a745' : '#dc3545'}; margin: 0;">
                     ${totalSuccesses} Success${totalSuccesses !== 1 ? 'es' : ''}
                 </h3>
