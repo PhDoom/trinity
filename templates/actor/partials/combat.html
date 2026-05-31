@@ -3,13 +3,9 @@
         
         {{!-- Initiative Box --}}
         <div class="form-group flexcol border p-1" style="border-radius: 5px; background: rgba(0,0,0,0.02); height: 100%; justify-content: center;">
-            <button type="button" class="rollable mb-1" data-roll-type="initiative" style="cursor: pointer; background: #1a202c; color: white; border: none; border-radius: 3px; padding: 5px;">
+            <button type="button" class="rollable" data-roll-type="initiative" style="cursor: pointer; background: #1a202c; color: white; border: none; border-radius: 3px; padding: 5px;">
                 <i class="fas fa-dice"></i> Roll Initiative
             </button>
-            <div class="flexrow align-center mt-1">
-                <label class="font-weight-bold text-blue" style="flex: 1; font-size: 0.9em;">Enhancement</label>
-                <input type="number" name="system.initiative.enhancement" value="{{system.initiative.enhancement}}" data-dtype="Number" style="flex: 0 0 40px; text-align: center;"/>
-            </div>
         </div>
 
         {{!-- Defense Box --}}
