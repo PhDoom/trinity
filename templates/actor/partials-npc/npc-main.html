@@ -162,15 +162,35 @@
         </div>
     </div>
 
-    {{!-- Flux Block --}}
+    {{!-- Corruption and Flux Block --}}
     <div class="flexcol border p-1" style="border-radius: 5px;">
-        <h3 class="header m-0 mb-1 text-blue">Flux Metrics</h3>
-        <div class="flexrow align-center gap-10">
+        <h3 class="header m-0 mb-1 text-blue">Corruption and Flux</h3>
+        <div class="flexrow align-center gap-10 text-center">
+            
+            {{!-- Corruption (10 Pips) --}}
+            <div class="flexcol flex-center" style="flex: 1;">
+                <label class="font-weight-bold">Corruption</label>
+                <div class="pip-container mt-1" data-name="system.corruption.value" data-value="{{system.corruption.value}}">
+                    <i class="pip {{#if (gt system.corruption.value 0)}}fas{{else}}far{{/if}} fa-circle" data-index="1"></i>
+                    <i class="pip {{#if (gt system.corruption.value 1)}}fas{{else}}far{{/if}} fa-circle" data-index="2"></i>
+                    <i class="pip {{#if (gt system.corruption.value 2)}}fas{{else}}far{{/if}} fa-circle" data-index="3"></i>
+                    <i class="pip {{#if (gt system.corruption.value 3)}}fas{{else}}far{{/if}} fa-circle" data-index="4"></i>
+                    <i class="pip {{#if (gt system.corruption.value 4)}}fas{{else}}far{{/if}} fa-circle" data-index="5"></i>
+                    <i class="pip {{#if (gt system.corruption.value 5)}}fas{{else}}far{{/if}} fa-circle" data-index="6"></i>
+                    <i class="pip {{#if (gt system.corruption.value 6)}}fas{{else}}far{{/if}} fa-circle" data-index="7"></i>
+                    <i class="pip {{#if (gt system.corruption.value 7)}}fas{{else}}far{{/if}} fa-circle" data-index="8"></i>
+                    <i class="pip {{#if (gt system.corruption.value 8)}}fas{{else}}far{{/if}} fa-circle" data-index="9"></i>
+                    <i class="pip {{#if (gt system.corruption.value 9)}}fas{{else}}far{{/if}} fa-circle" data-index="10"></i>
+                </div>
+            </div>
+
+            {{!-- Flux Numeric --}}
             <div class="flexcol flex-center" style="flex: 0 0 100px;">
                 <label class="font-weight-bold">Flux</label>
                 <input type="number" name="system.flux.value" value="{{#if system.flux.value}}{{system.flux.value}}{{else}}0{{/if}}" data-dtype="Number" class="text-center w-50"/>
             </div>
             
+            {{!-- Flux Pool (12 Pips) --}}
             <div class="flexcol flex-center" style="flex: 1;">
                 <label class="font-weight-bold">Flux Pool</label>
                 <div class="pip-container mt-1" data-name="system.flux.pool" data-value="{{system.flux.pool}}">
