@@ -12,7 +12,6 @@
     {{!-- TAB NAVIGATION FOR NPCs --}}
     <nav class="sheet-tabs tabs" data-group="primary">
         <a class="item" data-tab="main">Main</a>
-        <a class="item" data-tab="stats">Stats & Attributes</a>
         <a class="item" data-tab="powers">Powers</a>
         <a class="item" data-tab="inventory">Inventory</a>
         <a class="item" data-tab="notes">NPC Notes</a>
@@ -23,31 +22,7 @@
 
         {{!-- Main Tab --}}
         <div class="tab main" data-group="primary" data-tab="main">
-            {{!-- Paradigm Selection --}}
-            <div class="flexrow align-center mb-1 p-1 border" style="background: rgba(0,0,0,0.05); border-radius: 5px;">
-                <label class="font-weight-bold text-blue" style="flex: 0 0 100px;">Paradigm:</label>
-                <select name="system.details.characterType" style="flex: 1;">
-                    <option value="human" {{#if (eq system.details.characterType "human")}}selected{{/if}}>Baseline Human</option>
-                    <option value="talent" {{#if (eq system.details.characterType "talent")}}selected{{/if}}>Talent</option>
-                    <option value="nova" {{#if (eq system.details.characterType "nova")}}selected{{/if}}>Nova</option>
-                    <option value="psion" {{#if (eq system.details.characterType "psion")}}selected{{/if}}>Psion</option>
-                    <option value="aethernaut" {{#if (eq system.details.characterType "aethernaut")}}selected{{/if}}>Aethernaut</option>
-                    <option value="mage" {{#if (eq system.details.characterType "mage")}}selected{{/if}}>Mage</option>
-                    <option value="champion" {{#if (eq system.details.characterType "champion")}}selected{{/if}}>Champion</option>
-                    <option value="oracle" {{#if (eq system.details.characterType "oracle")}}selected{{/if}}>Oracle</option>
-                    <option value="olympian" {{#if (eq system.details.characterType "olympian")}}selected{{/if}}>Olympian</option>
-                    <option value="anima" {{#if (eq system.details.characterType "anima")}}selected{{/if}}>Anima</option>
-                </select>
-            </div>
-            
             {{> "systems/trinity/templates/actor/partials-npc/npc-main.html"}}
-            {{> "systems/trinity/templates/actor/partials-npc/npc-edit.html"}}
-        </div>
-
-        {{!-- Stats & Attributes Tab --}}
-        <div class="tab stats" data-group="primary" data-tab="stats">
-            {{> "systems/trinity/templates/actor/partials-npc/npc-attributes.html"}}
-            {{> "systems/trinity/templates/actor/partials-npc/npc-stats.html"}}
         </div>
 
         {{!-- Powers Tab (Dynamic Logic based on Paradigm) --}}
@@ -90,11 +65,13 @@
             {{> "systems/trinity/templates/actor/partials/gear.html"}}
         </div>
 
-        {{!-- NPC Notes Tab (Replaces Biography) --}}
-        <div class="tab notes" data-group="primary" data-tab="notes" style="min-height: 400px;">
-            <div class="flexcol" style="height: 100%;">
-                <label class="font-weight-bold text-blue mb-1" style="font-size: 1.2em; border-bottom: 1px solid #ccc;">NPC Notes</label>
-                {{editor enrichedBiography target="system.biography" button=true owner=owner editable=editable}}
+        {{!-- NPC Notes Tab (FIXED EDITOR) --}}
+        <div class="tab notes" data-group="primary" data-tab="notes">
+            <div class="flexcol w-100 p-1 border" style="border-radius: 5px; background: rgba(0,0,0,0.02); height: 100%;">
+                <h3 class="header m-0 mb-1 text-blue">NPC Notes & Details</h3>
+                <div class="editor" style="min-height: 400px; padding: 5px; background: #fff; border: 1px solid #ccc;">
+                    {{editor enrichedBiography target="system.biography" button=false owner=owner editable=editable engine="prosemirror"}}
+                </div>
             </div>
         </div>
 
