@@ -1,5 +1,5 @@
 /**
- * Trinity Continuum Item Sheet (Base)
+ * Trinity Continuum Item Sheet (Master)
  * Updated for Foundry V13 Compatibility
  */
 
@@ -14,9 +14,9 @@ export class TrinityItemSheet extends ItemSheet {
     });
   }
 
-  /** @override */
+  /** @override - Route ALL items to the unified Master Sheet */
   get template() {
-    return `systems/trinity/templates/item/item-${this.item.type}-sheet.html`;
+    return "systems/trinity/templates/item/item-sheet.html";
   }
 
   /** @override */
