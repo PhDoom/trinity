@@ -1,53 +1,34 @@
-<form class="{{cssClass}} flexcol" autocomplete="off" style="padding: 10px; background: #ffffff;">
-  
-  <header class="sheet-header flexrow pb-1 mb-1" style="border-bottom: 2px solid #2c4a63;">
-    <img class="profile-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" style="width: 80px; height: 80px; border: 1px solid #ccc; border-radius: 5px; margin-right: 10px; object-fit: cover;"/>
-    <div class="header-details flexcol" style="justify-content: center;">
-      <h1 class="charname" style="margin: 0;">
-        <input name="name" type="text" value="{{item.name}}" placeholder="Mastery Name" style="font-size: 1.5em;"/>
-      </h1>
-      <span class="text-blue font-weight-bold mt-1" style="text-transform: uppercase;">Mastery Power</span>
-    </div>
-  </header>
-
-  <nav class="sheet-tabs tabs mb-1" data-group="primary" style="border-bottom: 1px solid #ccc; padding-bottom: 5px;">
-    <a class="item font-weight-bold" data-tab="description" style="cursor: pointer; margin-right: 15px;">Description</a>
-    <a class="item font-weight-bold" data-tab="details" style="cursor: pointer;">Details</a>
-  </nav>
-
-  <section class="sheet-body" style="height: 100%;">
-    
-    <div class="tab" data-group="primary" data-tab="description" style="height: 100%;">
-      <div class="editor" style="min-height: 300px; border: 1px solid #ccc; padding: 5px; background: #fafafa; border-radius: 3px;">
-        {{!-- FIXED: Using native system.description to bypass the JS crash --}}
-        {{editor system.description target="system.description" button=true owner=owner editable=editable engine="prosemirror"}}
-      </div>
-    </div>
-
-    <div class="tab details" data-group="primary" data-tab="details">
-      <div class="mechanics-group border p-1" style="border-radius: 5px; background: rgba(0,0,0,0.02);">
-        <h3 class="header m-0 mb-1 text-blue text-center" style="border-bottom: 1px solid #ccc;">Power Mechanics</h3>
-        
-        <div class="grid grid-2col gap-5 text-center mt-1">
-          <div class="form-group flexcol flex-center border p-1 bg-light" style="border-radius: 3px;">
-            <label class="font-weight-bold">Dice Pool</label>
-            <input type="text" name="system.dicePool" value="{{system.dicePool}}" class="text-center" placeholder="e.g. Intellect + Science"/>
-          </div>
-          <div class="form-group flexcol flex-center border p-1 bg-light" style="border-radius: 3px;">
-            <label class="font-weight-bold">Cost</label>
-            <input type="text" name="system.cost" value="{{system.cost}}" class="text-center" placeholder="e.g. 1 Quantum"/>
-          </div>
-          <div class="form-group flexcol flex-center border p-1 bg-light" style="border-radius: 3px;">
-            <label class="font-weight-bold">Keywords</label>
-            <input type="text" name="system.keywords" value="{{system.keywords}}" class="text-center" placeholder="e.g. Ranged, Lethal"/>
-          </div>
-          <div class="form-group flexcol flex-center border p-1 bg-light" style="border-radius: 3px;">
-            <label class="font-weight-bold">Prerequisite</label>
-            <input type="text" name="system.prerequisite" value="{{system.prerequisite}}" class="text-center" placeholder="e.g. Level 2"/>
-          </div>
+<form class="trinity-app {{cssClass}} flexcol" autocomplete="off">
+    <header class="sheet-header flexrow p-1 border-bottom align-center">
+        <img class="profile-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" style="width: 48px; height: 48px; min-width: 48px; max-width: 48px; flex: 0 0 48px; object-fit: cover; border-radius: 3px; border: 1px solid #ccc;"/>
+        <div class="header-fields flexcol w-100 mx-1">
+            <h1 class="charname m-0">
+                <input name="name" type="text" value="{{item.name}}" placeholder="Mastery Name"/>
+            </h1>
         </div>
-      </div>
-    </div>
+    </header>
 
-  </section>
+    <section class="sheet-body p-1 flexcol" style="flex: 1 1 auto; overflow-y: auto;">
+        
+        <div class="grid grid-2col gap-10 mb-1">
+            <div class="form-group flexcol border p-1" style="border-radius: 5px; background: rgba(0,0,0,0.02);">
+                <label class="font-weight-bold text-blue">Keywords</label>
+                <input type="text" name="system.keywords" value="{{system.keywords}}" placeholder="e.g. Area, Lethal"/>
+            </div>
+            <div class="form-group flexcol border p-1" style="border-radius: 5px; background: rgba(0,0,0,0.02);">
+                <label class="font-weight-bold text-blue">Prerequisite</label>
+                <input type="text" name="system.prerequisite" value="{{system.prerequisite}}" placeholder="e.g. Level 2"/>
+            </div>
+        </div>
+
+        <div class="form-group flexcol mt-1" style="flex: 1;">
+            <label class="font-weight-bold text-blue mb-1">Description</label>
+
+            <!-- V13 Rich Text Editor (Always Open) -->
+            <div class="editor border p-1" style="background: rgba(0,0,0,0.02); min-height: 200px; border-radius: 5px;">
+                {{editor enrichedDescription target="system.description" button=false owner=owner editable=editable engine="prosemirror"}}
+            </div>
+        </div>
+        
+    </section>
 </form>
