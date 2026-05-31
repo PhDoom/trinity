@@ -10,7 +10,8 @@ export class TrinityItemSheet extends ItemSheet {
     return foundry.utils.mergeObject(super.defaultOptions, {
       classes: ["trinity-app", "sheet", "item"],
       width: 520,
-      height: 520
+      height: 520,
+      tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "description" }]
     });
   }
 
@@ -27,17 +28,12 @@ export class TrinityItemSheet extends ItemSheet {
     context.system = context.item.system;
     context.flags = context.item.flags;
 
-    // EXPLICITLY pass permissions so the Pencil Icon renders!
+    // Pass permissions so the Pencil Icon renders
     context.editable = this.isEditable;
     context.owner = this.document.isOwner;
 
-    // Process the Rich Text Editor safely for V13
-    context.enrichedDescription = await TextEditor.enrichHTML(context.system.description || "", {
-      async: true,
-      secrets: this.document.isOwner,
-      rollData: this.item.getRollData(),
-      relativeTo: this.document 
-    });
+    // REMOVED: TextEditor.enrichHTML to fix the V13 deprecation crash.
+    // The Handlebars template will now handle enrichment natively.
 
     return context;
   }
@@ -47,7 +43,6 @@ export class TrinityItemSheet extends ItemSheet {
     super.activateListeners(html);
     if (!this.isEditable) return;
 
-    // Listen for clicks on the visual pips/dots inside the ITEM sheet
     html.find('.pip').click(this._onPipClick.bind(this));
   }
 
