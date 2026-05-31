@@ -1,91 +1,20 @@
-{{!-- Aethernaut Resource Partial - Foundry V13 Compliant --}}
-<div class="aethernaut-section mb-2">
-  
-  {{!-- Only render if the actor is an Aethernaut --}}
-  {{#if (eq system.details.characterType "aethernaut")}}
-  <h3 class="header" style="color: #2e7d32; border-bottom-color: #2e7d32;">Aethernaut Traits</h3>
-  
-  <div class="grid grid-2col gap-10 align-center mb-1">
-    
-    {{!-- Inspiration (Current/Max Pool) --}}
-    <div class="form-group flexcol flex-center border p-1" style="border-radius: 5px; background: rgba(0,0,0,0.02); border-color: #a5d6a7;">
-      <label class="font-weight-bold mb-1 rollable" data-roll-type="inspiration" title="Roll Inspiration" style="cursor: pointer; color: #2e7d32;">Inspiration</label>
-      
-      <div class="flexrow mb-1 align-center" style="gap: 10px;" title="Current Inspiration">
-        <span class="font-weight-bold" style="font-size: 0.85em; width: 65px; text-align: right; text-transform: uppercase; color: #2e7d32;">Current</span>
-        {{!-- Added flex-wrap: nowrap to prevent the pips from dropping to a second line --}}
-        <div class="pip-container" data-name="system.aethernaut.inspiration.value" data-value="{{system.aethernaut.inspiration.value}}" style="display: flex; flex-wrap: nowrap; gap: 2px;">
-            <i class="pip {{#if (gt system.aethernaut.inspiration.value 0)}}fas{{else}}far{{/if}} fa-circle" data-index="1"></i>
-            <i class="pip {{#if (gt system.aethernaut.inspiration.value 1)}}fas{{else}}far{{/if}} fa-circle" data-index="2"></i>
-            <i class="pip {{#if (gt system.aethernaut.inspiration.value 2)}}fas{{else}}far{{/if}} fa-circle" data-index="3"></i>
-            <i class="pip {{#if (gt system.aethernaut.inspiration.value 3)}}fas{{else}}far{{/if}} fa-circle" data-index="4"></i>
-            <i class="pip {{#if (gt system.aethernaut.inspiration.value 4)}}fas{{else}}far{{/if}} fa-circle" data-index="5"></i>
-            <i class="pip {{#if (gt system.aethernaut.inspiration.value 5)}}fas{{else}}far{{/if}} fa-circle" data-index="6"></i>
-            <i class="pip {{#if (gt system.aethernaut.inspiration.value 6)}}fas{{else}}far{{/if}} fa-circle" data-index="7"></i>
-            <i class="pip {{#if (gt system.aethernaut.inspiration.value 7)}}fas{{else}}far{{/if}} fa-circle" data-index="8"></i>
-            <i class="pip {{#if (gt system.aethernaut.inspiration.value 8)}}fas{{else}}far{{/if}} fa-circle" data-index="9"></i>
-            <i class="pip {{#if (gt system.aethernaut.inspiration.value 9)}}fas{{else}}far{{/if}} fa-circle" data-index="10"></i>
-        </div>
-      </div>
-
-      <div class="flexrow align-center" style="gap: 10px;" title="Maximum Inspiration">
-        <span class="font-weight-bold" style="font-size: 0.85em; width: 65px; text-align: right; text-transform: uppercase; color: #2e7d32;">Maximum</span>
-        <div class="pip-container" data-name="system.aethernaut.inspiration.max" data-value="{{system.aethernaut.inspiration.max}}" style="display: flex; flex-wrap: nowrap; gap: 2px;">
-            <i class="pip {{#if (gt system.aethernaut.inspiration.max 0)}}fas{{else}}far{{/if}} fa-square" data-index="1"></i>
-            <i class="pip {{#if (gt system.aethernaut.inspiration.max 1)}}fas{{else}}far{{/if}} fa-square" data-index="2"></i>
-            <i class="pip {{#if (gt system.aethernaut.inspiration.max 2)}}fas{{else}}far{{/if}} fa-square" data-index="3"></i>
-            <i class="pip {{#if (gt system.aethernaut.inspiration.max 3)}}fas{{else}}far{{/if}} fa-square" data-index="4"></i>
-            <i class="pip {{#if (gt system.aethernaut.inspiration.max 4)}}fas{{else}}far{{/if}} fa-square" data-index="5"></i>
-            <i class="pip {{#if (gt system.aethernaut.inspiration.max 5)}}fas{{else}}far{{/if}} fa-square" data-index="6"></i>
-            <i class="pip {{#if (gt system.aethernaut.inspiration.max 6)}}fas{{else}}far{{/if}} fa-square" data-index="7"></i>
-            <i class="pip {{#if (gt system.aethernaut.inspiration.max 7)}}fas{{else}}far{{/if}} fa-square" data-index="8"></i>
-            <i class="pip {{#if (gt system.aethernaut.inspiration.max 8)}}fas{{else}}far{{/if}} fa-square" data-index="9"></i>
-            <i class="pip {{#if (gt system.aethernaut.inspiration.max 9)}}fas{{else}}far{{/if}} fa-square" data-index="10"></i>
-        </div>
-      </div>
-    </div>
-
-    {{!-- Divergence --}}
-    <div class="form-group flexcol flex-center border p-1" style="border-radius: 5px; background: rgba(0,0,0,0.02); border-color: #a5d6a7;">
-      <label class="font-weight-bold mb-1" style="color: #2e7d32;">Divergence</label>
-      <div class="pip-container" data-name="system.aethernaut.divergence.value" data-value="{{system.aethernaut.divergence.value}}" style="display: flex; flex-wrap: nowrap; gap: 2px;">
-        <i class="pip {{#if (gt system.aethernaut.divergence.value 0)}}fas{{else}}far{{/if}} fa-circle" data-index="1"></i>
-        <i class="pip {{#if (gt system.aethernaut.divergence.value 1)}}fas{{else}}far{{/if}} fa-circle" data-index="2"></i>
-        <i class="pip {{#if (gt system.aethernaut.divergence.value 2)}}fas{{else}}far{{/if}} fa-circle" data-index="3"></i>
-        <i class="pip {{#if (gt system.aethernaut.divergence.value 3)}}fas{{else}}far{{/if}} fa-circle" data-index="4"></i>
-        <i class="pip {{#if (gt system.aethernaut.divergence.value 4)}}fas{{else}}far{{/if}} fa-circle" data-index="5"></i>
-        <i class="pip {{#if (gt system.aethernaut.divergence.value 5)}}fas{{else}}far{{/if}} fa-circle" data-index="6"></i>
-        <i class="pip {{#if (gt system.aethernaut.divergence.value 6)}}fas{{else}}far{{/if}} fa-circle" data-index="7"></i>
-        <i class="pip {{#if (gt system.aethernaut.divergence.value 7)}}fas{{else}}far{{/if}} fa-circle" data-index="8"></i>
-        <i class="pip {{#if (gt system.aethernaut.divergence.value 8)}}fas{{else}}far{{/if}} fa-circle" data-index="9"></i>
-        <i class="pip {{#if (gt system.aethernaut.divergence.value 9)}}fas{{else}}far{{/if}} fa-circle" data-index="10"></i>
-      </div>
-    </div>
-
-  </div>
-
-  {{!-- Aethernaut Gifts Drag-and-Drop Area --}}
-  <div class="powers-section mt-1">
+{{!-- Aethernaut Deviations Drag-and-Drop Area --}}
+  <div class="powers-section mt-2">
       <div class="flexrow flex-between header p-1 border-bottom" style="border-bottom-color: #2e7d32;">
-          <h3 class="m-0" style="color: #2e7d32;">Gifts</h3>
-          {{!-- Changed data-type to 'gift' --}}
-          <a class="item-create" style="color: #2e7d32; cursor: pointer;" data-type="gift" title="Create New Gift"><i class="fas fa-plus"></i> Add</a>
+          <h3 class="m-0" style="color: #2e7d32;">Deviations</h3>
+          <a class="item-create" style="color: #2e7d32; cursor: pointer;" data-type="deviation" title="Create New Deviation"><i class="fas fa-plus"></i> Add</a>
       </div>
       
       <div class="power-list p-1 border" style="border-color: #a5d6a7; border-radius: 5px;">
-          {{!-- Changed iteration to look for 'gifts' instead of 'powers' --}}
-          {{#if gifts.length}}
-              {{#each gifts as |item id|}}
+          {{#if deviations.length}}
+              {{#each deviations as |item id|}}
               <div class="item flexrow flex-between p-1 border-bottom align-center" data-item-id="{{item._id}}" style="padding: 3px 0;">
-                  
                   <div class="item-name flexrow align-center">
                       <img src="{{item.img}}" title="Click to view {{item.name}}" class="item-edit" width="24" height="24" style="cursor: pointer; margin-right: 8px; border-radius: 3px; border: 1px solid #ccc; object-fit: cover; flex: 0 0 24px;"/>
-                      
                       <h4 class="m-0 rollable" data-roll-type="item" title="Roll {{item.name}}" style="line-height: 24px; cursor: pointer;">
                           <a>{{item.name}}</a>
                       </h4>
                   </div>
-
                   <div class="flexrow align-center">
                       <span class="tag mx-1" style="padding: 2px 8px;">Cost: {{item.system.cost}}</span>
                       <div class="item-controls flexrow flex-center ml-1">
@@ -95,11 +24,7 @@
               </div>
               {{/each}}
           {{else}}
-              <em style="color: #666;">Drag and drop Gifts here, or click '+ Add'.</em>
+              <em style="color: #666;">Drag and drop Deviations here, or click '+ Add'.</em>
           {{/if}}
       </div>
   </div>
-
-  {{/if}}
-
-</div>
