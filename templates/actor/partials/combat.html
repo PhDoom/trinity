@@ -23,6 +23,8 @@
                     <span class="rollable font-weight-bold text-blue" data-attribute="cunning" title="Roll Cunning">
                         Cunning: {{#if system.attributes.cunning.value}}{{system.attributes.cunning.value}}{{else}}1{{/if}}
                     </span>
+                    <!-- ADDED: The math total for Pairing 1 -->
+                    <span class="font-weight-bold" style="color: #2d5a27; font-size: 1.1em;">= {{initPoolA}}</span>
                 </div>
                 
                 {{!-- Pairing 2 --}}
@@ -34,6 +36,8 @@
                     <span class="rollable font-weight-bold text-blue" data-attribute="dexterity" title="Roll Dexterity">
                         Dexterity: {{#if system.attributes.dexterity.value}}{{system.attributes.dexterity.value}}{{else}}1{{/if}}
                     </span>
+                    <!-- ADDED: The math total for Pairing 2 -->
+                    <span class="font-weight-bold" style="color: #2d5a27; font-size: 1.1em;">= {{initPoolB}}</span>
                 </div>
 
             </div>
