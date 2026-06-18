@@ -1,76 +1,33 @@
-<form class="{{cssClass}}" autocomplete="off">
-  
-  <header class="sheet-header flexrow border-bottom pb-2 mb-2">
-    <img class="profile-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" height="100" width="100"/>
-    <div class="header-details flexcol">
-      <h1 class="charname">
-        <input name="name" type="text" value="{{item.name}}" placeholder="Item Name"/>
-      </h1>
-      
-      <div class="item-subtitle flexrow flex-between">
-        <div class="flex-group-left">
-          <input type="text" name="system.subType" value="{{system.subType}}" placeholder="Item Type / Category"/>
+<form class="trinity-app {{cssClass}} flexcol" autocomplete="off">
+    <header class="sheet-header flexrow p-1 border-bottom align-center">
+        <img class="profile-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" style="width: 48px; height: 48px; min-width: 48px; max-width: 48px; flex: 0 0 48px; object-fit: cover; border-radius: 3px; border: 1px solid #ccc;"/>
+        <div class="header-fields flexcol w-100 mx-1">
+            <h1 class="charname m-0">
+                <input name="name" type="text" value="{{item.name}}" placeholder="Aspect Name"/>
+            </h1>
+        </div>
+    </header>
+
+    <section class="sheet-body p-1 flexcol" style="flex: 1 1 auto; overflow-y: auto;">
+        
+        <div class="grid grid-2col gap-10 mb-1">
+            <div class="form-group flexcol border p-1" style="border-radius: 5px; background: rgba(0,0,0,0.02);">
+                <label class="font-weight-bold text-blue">Keywords</label>
+                <input type="text" name="system.keywords" value="{{system.keywords}}" placeholder="e.g. Momentary, Action..."/>
+            </div>
+            <div class="form-group flexcol border p-1" style="border-radius: 5px; background: rgba(0,0,0,0.02);">
+                <label class="font-weight-bold text-blue">Prerequisite</label>
+                <input type="text" name="system.prerequisite" value="{{system.prerequisite}}" placeholder="e.g. Level 2..."/>
+            </div>
+        </div>
+
+        <div class="form-group flexcol mt-1" style="flex: 1;">
+            <label class="font-weight-bold text-blue mb-1">Description</label>
+
+            <div class="editor border p-1" style="background: rgba(0,0,0,0.02); min-height: 200px; border-radius: 5px;">
+                {{editor enrichedDescription target="system.description" button=false owner=owner editable=editable engine="prosemirror"}}
+            </div>
         </div>
         
-        <div class="item-rating flexrow flex-center" style="max-width: 120px;">
-          <label class="px-1 font-weight-bold text-uppercase small">Rating</label>
-          <input type="number" name="system.value" value="{{system.value}}" data-dtype="Number" style="width: 45px; text-align: center;"/>
-        </div>
-      </div>
-    </div>
-  </header>
-
-  <nav class="sheet-tabs tabs border-bottom mb-2" data-group="primary">
-    <a class="item" data-tab="description">Description</a>
-    <a class="item" data-tab="details">Details</a>
-  </nav>
-
-  <section class="sheet-body">
-
-    <div class="tab" data-group="primary" data-tab="description">
-      {{editor system.description target="system.description" button=true owner=owner editable=editable engine="prosemirror"}}
-    </div>
-
-    <div class="tab details" data-group="primary" data-tab="details">
-      
-      {{> "systems/trinity/templates/item/partials/top-traits.html"}}
-
-      <div class="mechanics-group border p-2 mt-2" style="background: rgba(46, 125, 50, 0.05); border-color: #a5d6a7; border-radius: 5px;">
-        <h3 class="header border-bottom mb-2" style="color: #2e7d32;">Aspect Details</h3>
-        
-        <div class="form-group">
-          <label class="font-weight-bold">Dice Pool</label>
-          <input type="text" name="system.dicePool" value="{{system.dicePool}}" placeholder="e.g. Force + Magic Attack"/>
-        </div>
-        
-        <div class="form-group">
-          <label class="font-weight-bold">Cost</label>
-          <input type="text" name="system.cost" value="{{system.cost}}" placeholder="e.g. 1 Inspiration"/>
-        </div>
-        
-        <div class="form-group">
-          <label class="font-weight-bold">Prerequisites</label>
-          <input type="text" name="system.prerequisite" value="{{system.prerequisite}}"/>
-        </div>
-        
-        <div class="form-group">
-          <label class="font-weight-bold">Keywords</label>
-          <input type="text" name="system.keywords" value="{{system.keywords}}" placeholder="e.g. Ranged, Fire..."/>
-        </div>
-      </div>
-
-      <div class="mechanics-group border p-2 mt-2">
-        <h3 class="header border-bottom mb-2">Item Configuration</h3>
-        {{> "systems/trinity/templates/item/partials/roll-flag.html"}}
-        {{> "systems/trinity/templates/item/partials/enhancement-flag.html"}}
-        {{> "systems/trinity/templates/item/partials/dots-flag.html"}}
-      </div>
-
-      <div class="form-group mt-2">
-        <label class="font-weight-bold">Source Reference</label>
-        <input type="text" name="system.source" value="{{system.source}}" placeholder="Core Book, p. 123"/>
-      </div>
-    </div>
-
-  </section>
+    </section>
 </form>
