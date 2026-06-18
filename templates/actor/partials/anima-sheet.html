@@ -20,7 +20,6 @@
 
     {{!-- Core Stats Row --}}
     <div class="grid grid-5col gap-10 mb-2 align-center" style="background: rgba(0,0,0,0.05); padding: 5px; border-radius: 5px;">
-        {{!-- Level & HP --}}
         <div class="form-group flexcol flex-center border-right">
             <label class="font-weight-bold">Level</label>
             <input type="number" name="system.anima.level" value="{{system.anima.level}}" data-dtype="Number" style="width: 40px; text-align: center;"/>
@@ -34,7 +33,6 @@
             </div>
         </div>
 
-        {{!-- Anima Attributes --}}
         <div class="form-group flexcol flex-center">
             <label class="font-weight-bold rollable" data-anima-stat="force" style="cursor: pointer; color: #2b6cb0;">Force</label>
             <div class="pip-container" data-name="system.anima.stats.force.value" data-value="{{system.anima.stats.force.value}}" style="display: flex; gap: 2px;">
@@ -70,7 +68,6 @@
     {{!-- Paths Row --}}
     <h3 class="header mb-1 mt-2">Anima Paths</h3>
     <div class="grid grid-3col gap-10 mb-2">
-        {{!-- People Path --}}
         <div class="form-group flexcol border p-1" style="border-radius: 5px; background: #fff;">
             <label class="font-weight-bold text-center rollable" data-anima-path="people" style="cursor: pointer; color: #2b6cb0;">People Path</label>
             <input type="text" name="system.anima.paths.people.name" value="{{system.anima.paths.people.name}}" placeholder="Path Name..." class="mb-1"/>
@@ -85,7 +82,6 @@
             </div>
         </div>
 
-        {{!-- Class Path --}}
         <div class="form-group flexcol border p-1" style="border-radius: 5px; background: #fff;">
             <label class="font-weight-bold text-center rollable" data-anima-path="class" style="cursor: pointer; color: #2b6cb0;">Class Path</label>
             <input type="text" name="system.anima.paths.class.name" value="{{system.anima.paths.class.name}}" placeholder="Path Name..." class="mb-1"/>
@@ -100,7 +96,6 @@
             </div>
         </div>
 
-        {{!-- Guild Path --}}
         <div class="form-group flexcol border p-1" style="border-radius: 5px; background: #fff;">
             <label class="font-weight-bold text-center rollable" data-anima-path="guild" style="cursor: pointer; color: #2b6cb0;">Guild Path</label>
             <input type="text" name="system.anima.paths.guild.name" value="{{system.anima.paths.guild.name}}" placeholder="Path Name..." class="mb-1"/>
@@ -119,8 +114,6 @@
     {{!-- Skills Grid --}}
     <h3 class="header mb-1 mt-2">Anima Skills</h3>
     <div class="grid grid-3col gap-10 mb-2">
-        
-        {{!-- Arcana --}}
         <div class="form-group flexcol border p-1" style="border-radius: 5px; background: #fff;">
             <div class="flexrow flex-between align-center mb-1">
                 <label class="font-weight-bold m-0 rollable" data-anima-skill="arcana" style="cursor: pointer; color: #2b6cb0;">Arcana</label>
@@ -135,7 +128,6 @@
             <input type="text" name="system.anima.skills.arcana.specialty" value="{{system.anima.skills.arcana.specialty}}" placeholder="Specialty..." style="font-size: 0.9em;"/>
         </div>
 
-        {{!-- Athletics --}}
         <div class="form-group flexcol border p-1" style="border-radius: 5px; background: #fff;">
             <div class="flexrow flex-between align-center mb-1">
                 <label class="font-weight-bold m-0 rollable" data-anima-skill="athletics" style="cursor: pointer; color: #2b6cb0;">Athletics</label>
@@ -150,7 +142,6 @@
             <input type="text" name="system.anima.skills.athletics.specialty" value="{{system.anima.skills.athletics.specialty}}" placeholder="Specialty..." style="font-size: 0.9em;"/>
         </div>
 
-        {{!-- Block --}}
         <div class="form-group flexcol border p-1" style="border-radius: 5px; background: #fff;">
             <div class="flexrow flex-between align-center mb-1">
                 <label class="font-weight-bold m-0 rollable" data-anima-skill="block" style="cursor: pointer; color: #2b6cb0;">Block</label>
@@ -165,7 +156,6 @@
             <input type="text" name="system.anima.skills.block.specialty" value="{{system.anima.skills.block.specialty}}" placeholder="Specialty..." style="font-size: 0.9em;"/>
         </div>
 
-        {{!-- Crafting --}}
         <div class="form-group flexcol border p-1" style="border-radius: 5px; background: #fff;">
             <div class="flexrow flex-between align-center mb-1">
                 <label class="font-weight-bold m-0 rollable" data-anima-skill="crafting" style="cursor: pointer; color: #2b6cb0;">Crafting</label>
@@ -180,7 +170,6 @@
             <input type="text" name="system.anima.skills.crafting.specialty" value="{{system.anima.skills.crafting.specialty}}" placeholder="Specialty..." style="font-size: 0.9em;"/>
         </div>
 
-        {{!-- Lore --}}
         <div class="form-group flexcol border p-1" style="border-radius: 5px; background: #fff;">
             <div class="flexrow flex-between align-center mb-1">
                 <label class="font-weight-bold m-0 rollable" data-anima-skill="lore" style="cursor: pointer; color: #2b6cb0;">Lore</label>
@@ -195,7 +184,6 @@
             <input type="text" name="system.anima.skills.lore.specialty" value="{{system.anima.skills.lore.specialty}}" placeholder="Specialty..." style="font-size: 0.9em;"/>
         </div>
 
-        {{!-- Magic Attack --}}
         <div class="form-group flexcol border p-1" style="border-radius: 5px; background: #fff;">
             <div class="flexrow flex-between align-center mb-1">
                 <label class="font-weight-bold m-0 rollable" data-anima-skill="magicAttack" style="cursor: pointer; color: #2b6cb0;">Magic Attack</label>
@@ -210,7 +198,6 @@
             <input type="text" name="system.anima.skills.magicAttack.specialty" value="{{system.anima.skills.magicAttack.specialty}}" placeholder="Specialty..." style="font-size: 0.9em;"/>
         </div>
 
-        {{!-- Persuasion --}}
         <div class="form-group flexcol border p-1" style="border-radius: 5px; background: #fff;">
             <div class="flexrow flex-between align-center mb-1">
                 <label class="font-weight-bold m-0 rollable" data-anima-skill="persuasion" style="cursor: pointer; color: #2b6cb0;">Persuasion</label>
@@ -225,7 +212,6 @@
             <input type="text" name="system.anima.skills.persuasion.specialty" value="{{system.anima.skills.persuasion.specialty}}" placeholder="Specialty..." style="font-size: 0.9em;"/>
         </div>
 
-        {{!-- Physical Attack --}}
         <div class="form-group flexcol border p-1" style="border-radius: 5px; background: #fff;">
             <div class="flexrow flex-between align-center mb-1">
                 <label class="font-weight-bold m-0 rollable" data-anima-skill="physicalAttack" style="cursor: pointer; color: #2b6cb0;">Physical Attack</label>
@@ -240,7 +226,6 @@
             <input type="text" name="system.anima.skills.physicalAttack.specialty" value="{{system.anima.skills.physicalAttack.specialty}}" placeholder="Specialty..." style="font-size: 0.9em;"/>
         </div>
 
-        {{!-- Stealth --}}
         <div class="form-group flexcol border p-1" style="border-radius: 5px; background: #fff;">
             <div class="flexrow flex-between align-center mb-1">
                 <label class="font-weight-bold m-0 rollable" data-anima-skill="stealth" style="cursor: pointer; color: #2b6cb0;">Stealth</label>
@@ -252,4 +237,64 @@
                     <i class="pip {{#if (gt system.anima.skills.stealth.value 4)}}fas{{else}}far{{/if}} fa-circle" data-index="5"></i>
                 </div>
             </div>
-            <input type="text" name="system.anima.skills.stealth.specialty" value="{{system.anima.skills.stealth.specialty}}" placeholder="Specialty..." style="font-size:
+            <input type="text" name="system.anima.skills.stealth.specialty" value="{{system.anima.skills.stealth.specialty}}" placeholder="Specialty..." style="font-size: 0.9em;"/>
+        </div>
+    </div>
+
+    {{!-- Item Drag & Drop Areas --}}
+    <div class="grid grid-2col gap-10 mt-2">
+        
+        <div class="powers-section flexcol">
+            <div class="flexrow flex-between header p-1 border-bottom">
+                <h3 class="m-0">Aspects</h3>
+                <a class="item-create text-blue" data-type="aspect" title="Create New Aspect"><i class="fas fa-plus"></i> Add</a>
+            </div>
+            <div class="item-list power-list p-1 border" style="background: #fff; min-height: 100px;">
+                {{#if aspects.length}}
+                    {{#each aspects as |item id|}}
+                    <div class="item flexrow flex-between p-1 border-bottom align-center" data-item-id="{{item._id}}">
+                        <div class="item-name flexrow align-center">
+                            <img src="{{item.img}}" title="Click to view {{item.name}}" class="item-edit" width="24" height="24" style="cursor: pointer; margin-right: 8px;"/>
+                            <h4 class="m-0 rollable" data-roll-type="item"><a>{{item.name}}</a></h4>
+                        </div>
+                        <div class="item-controls">
+                            <a class="item-control item-delete text-red"><i class="fas fa-trash"></i></a>
+                        </div>
+                    </div>
+                    {{/each}}
+                {{else}}
+                    <em style="color: #a0aec0; font-size: 0.9em;">Drop Aspects here.</em>
+                {{/if}}
+            </div>
+        </div>
+
+        <div class="powers-section flexcol">
+            <div class="flexrow flex-between header p-1 border-bottom">
+                <h3 class="m-0">Buffs</h3>
+                <a class="item-create text-blue" data-type="buff" title="Create New Buff"><i class="fas fa-plus"></i> Add</a>
+            </div>
+            <div class="item-list power-list p-1 border" style="background: #fff; min-height: 100px;">
+                {{#if buffs.length}}
+                    {{#each buffs as |item id|}}
+                    <div class="item flexrow flex-between p-1 border-bottom align-center" data-item-id="{{item._id}}">
+                        <div class="item-name flexrow align-center">
+                            <img src="{{item.img}}" title="Click to view {{item.name}}" class="item-edit" width="24" height="24" style="cursor: pointer; margin-right: 8px;"/>
+                            <h4 class="m-0 rollable" data-roll-type="item"><a>{{item.name}}</a></h4>
+                        </div>
+                        <div class="flexrow align-center">
+                            <span class="tag mx-1" style="font-weight: bold;">
+                                {{#if item.system.level}}Lvl {{item.system.level}}{{/if}} | Rating: {{item.system.rating}}
+                            </span>
+                            <div class="item-controls">
+                                <a class="item-control item-delete text-red"><i class="fas fa-trash"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    {{/each}}
+                {{else}}
+                    <em style="color: #a0aec0; font-size: 0.9em;">Drop Buffs here.</em>
+                {{/if}}
+            </div>
+        </div>
+    </div>
+</div>
