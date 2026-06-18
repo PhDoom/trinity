@@ -5,7 +5,6 @@
 
 export class TrinityItemSheet extends ItemSheet {
 
-  /** @override */
   static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
       classes: ["trinity-app", "sheet", "item"],
@@ -15,38 +14,31 @@ export class TrinityItemSheet extends ItemSheet {
     });
   }
 
-  /** @override - Route items dynamically based on their specific type! */
   get template() {
     return `systems/trinity/templates/item/item-${this.item.type}-sheet.html`;
   }
 
-  /** @override */
   async getData(options) {
     const context = await super.getData(options);
     
-    // Map system data cleanly
     context.system = context.item.system;
     context.flags = context.item.flags;
-
-    // Pass permissions so the Pencil Icon renders
     context.editable = this.isEditable;
     context.owner = this.document.isOwner;
 
-    // REMOVED: TextEditor.enrichHTML to fix the V13 deprecation crash.
-    // The Handlebars template will now handle enrichment natively.
+    // THE FIX: Feed the raw description to the V13 Handlebars editor helper.
+    // This restores the text box for all older item templates without crashing!
+    context.enrichedDescription = context.system.description || "";
 
     return context;
   }
 
-  /** @override */
   activateListeners(html) {
     super.activateListeners(html);
     if (!this.isEditable) return;
-
     html.find('.pip').click(this._onPipClick.bind(this));
   }
 
-  /** Handle clicking on a pip/dot to set the item's value */
   _onPipClick(event) {
     event.preventDefault();
     const element = event.currentTarget;
@@ -55,7 +47,6 @@ export class TrinityItemSheet extends ItemSheet {
     const clickedIndex = Number(element.dataset.index);
 
     const newValue = (currentValue === clickedIndex) ? clickedIndex - 1 : clickedIndex;
-    
     return this.document.update({ [field]: newValue });
   }
 }
