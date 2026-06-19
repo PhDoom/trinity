@@ -1,6 +1,6 @@
 /**
  * Trinity Continuum Item Sheet (Master)
- * Restored to perfect working order matching the Actor sheet logic
+ * Updated for Foundry V13 Compatibility
  */
 
 export class TrinityItemSheet extends ItemSheet {
@@ -11,7 +11,6 @@ export class TrinityItemSheet extends ItemSheet {
       classes: ["trinity-app", "sheet", "item"],
       width: 520,
       height: 520,
-      // RESTORED: The tabs array exactly as it was originally
       tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "description" }]
     });
   }
@@ -24,21 +23,17 @@ export class TrinityItemSheet extends ItemSheet {
   /** @override */
   async getData(options) {
     const context = await super.getData(options);
+    
+    // Map system data cleanly
+    context.system = context.item.system;
+    context.flags = context.item.flags;
 
-    // MATCHING THE ACTOR SHEET EXACTLY:
-    context.owner = this.document.isOwner;
+    // Pass permissions so the editor knows you are allowed to type in it
     context.editable = this.isEditable;
+    context.owner = this.document.isOwner;
 
-    const itemData = context.item;
-    context.system = itemData.system;
-    context.flags = itemData.flags;
-
-    // Using the exact same enrichment method that makes your Biography tab work
-    context.enrichedDescription = await TextEditor.enrichHTML(context.system.description || "", {
-      async: true,
-      secrets: this.document.isOwner,
-      relativeTo: this.document
-    });
+    // REMOVED: TextEditor.enrichHTML to fix the V13 deprecation crash.
+    // The Handlebars template will now handle enrichment natively.
 
     return context;
   }
