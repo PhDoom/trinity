@@ -34,13 +34,22 @@
         <div class="form-group flexcol mt-1" style="flex: 1;">
             <label class="font-weight-bold text-blue mb-1">Description</label>
 
-            <prose-mirror name="system.description" 
-                          data-document-uuid="{{item.uuid}}" 
-                          value="{{system.description}}" 
-                          toggled="true" 
-                          style="display: block; width: 100%; min-height: 250px; background: rgba(0,0,0,0.02); border: 1px solid #ccc; border-radius: 5px; padding: 5px; box-sizing: border-box;">
-                {{{enrichedDescription}}}
-            </prose-mirror>
+            <style>
+                .trinity-app prose-mirror {
+                    display: block;
+                    width: 100%;
+                    min-height: 250px;
+                    background: rgba(0,0,0,0.02);
+                    border: 1px solid #ccc;
+                    border-radius: 5px;
+                    padding: 5px;
+                    box-sizing: border-box;
+                }
+            </style>
+
+            <div class="editor" style="width: 100%;">
+                {{editor enrichedDescription target="system.description" button=false owner=owner editable=editable engine="prosemirror"}}
+            </div>
         </div>
     </section>
 </form>
