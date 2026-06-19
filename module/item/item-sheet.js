@@ -1,6 +1,6 @@
 /**
  * Trinity Continuum Item Sheet (Master)
- * Restored to Original Logic (Tabs removed to prevent V13 render crashes)
+ * Restored using Original Code + Actor Sheet Logic
  */
 
 export class TrinityItemSheet extends ItemSheet {
@@ -10,8 +10,10 @@ export class TrinityItemSheet extends ItemSheet {
     return foundry.utils.mergeObject(super.defaultOptions, {
       classes: ["trinity-app", "sheet", "item"],
       width: 520,
-      height: 520
-      // THE FIX: The crashing 'tabs' array has been completely removed from this block.
+      height: 520,
+      // RESTORED: The tabs array from your Original Code[cite: 1]
+      // This prevents the 'display: none' crash on item-sheet.html
+      tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "description" }]
     });
   }
 
@@ -24,12 +26,21 @@ export class TrinityItemSheet extends ItemSheet {
   async getData(options) {
     const context = await super.getData(options);
     
-    // Restored your original, perfectly working data mapping
+    // Map system data cleanly (From Original Code)[cite: 1]
     context.system = context.item.system;
     context.flags = context.item.flags;
 
+    // Pass permissions so the Pencil Icon renders (From Original Code)[cite: 1]
     context.editable = this.isEditable;
     context.owner = this.document.isOwner;
+
+    // THE FIX: Learning from the Biography tab!
+    // We restore TextEditor.enrichHTML to feed the exact variable your HTML files are looking for.
+    context.enrichedDescription = await TextEditor.enrichHTML(context.system.description || "", {
+      async: true,
+      secrets: this.document.isOwner,
+      relativeTo: this.document
+    });
 
     return context;
   }
