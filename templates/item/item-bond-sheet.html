@@ -1,5 +1,5 @@
-{{!-- Item Bond Sheet - Foundry V13 Compliant --}}
-<form class="{{cssClass}} flexcol" autocomplete="off">
+{{!-- Item Bond Sheet - Foundry V14 Compliant --}}
+<form class="trinity-app {{cssClass}} flexcol" autocomplete="off">
 
   {{!-- Item Sheet Header --}}
   <header class="sheet-header flexrow border-bottom pb-2 mb-2">
@@ -10,12 +10,12 @@
       </h1>
       
       <div class="item-subtitle flexrow flex-between">
-        {{!-- V13 Path: system.subType (Bond Category) --}}
+        {{!-- V14 Path: system.subType (Bond Category) --}}
         <div class="flex-group-left">
           <input type="text" name="system.subType" value="{{system.subType}}" placeholder="Bond Type (e.g. Mentor, Ally)"/>
         </div>
         
-        {{!-- V13 Path: system.value (Dots) --}}
+        {{!-- V14 Path: system.value (Dots) --}}
         <div class="item-rating flexrow flex-center" style="max-width: 120px;">
           <label class="px-1 font-weight-bold text-uppercase small">Rating</label>
           <input type="number" name="system.value" value="{{system.value}}" data-dtype="Number" style="width: 45px; text-align: center;"/>
@@ -35,8 +35,23 @@
 
     {{!-- Description Tab --}}
     <div class="tab" data-group="primary" data-tab="description">
-      {{!-- V13 ProseMirror Editor --}}
-      {{editor system.description target="system.description" button=true owner=owner editable=editable engine="prosemirror"}}
+        
+        <style>
+            .trinity-app prose-mirror {
+                display: block;
+                width: 100%;
+                min-height: 750px;
+                background: rgba(0,0,0,0.02);
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                padding: 5px;
+                box-sizing: border-box;
+            }
+        </style>
+
+        <div class="editor" style="width: 100%;">
+            {{editor enrichedDescription target="system.description" button=false owner=owner editable=editable engine="prosemirror"}}
+        </div>
     </div>
 
     {{!-- Details Tab --}}
