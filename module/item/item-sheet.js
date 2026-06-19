@@ -1,6 +1,6 @@
 /**
  * Trinity Continuum Item Sheet (Master)
- * Updated for Foundry V13 Compatibility - Text Editor Restored
+ * Restored to Original Logic (Tabs removed to prevent V13 render crashes)
  */
 
 export class TrinityItemSheet extends ItemSheet {
@@ -10,8 +10,8 @@ export class TrinityItemSheet extends ItemSheet {
     return foundry.utils.mergeObject(super.defaultOptions, {
       classes: ["trinity-app", "sheet", "item"],
       width: 520,
-      height: 520,
-      tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "description" }]
+      height: 520
+      // THE FIX: The crashing 'tabs' array has been completely removed from this block.
     });
   }
 
@@ -23,22 +23,13 @@ export class TrinityItemSheet extends ItemSheet {
   /** @override */
   async getData(options) {
     const context = await super.getData(options);
+    
+    // Restored your original, perfectly working data mapping
+    context.system = context.item.system;
+    context.flags = context.item.flags;
 
-    // REQUIRED: Pass these permissions to the template for the editor to function
-    context.owner = this.document.isOwner;
     context.editable = this.isEditable;
-
-    const itemData = context.item;
-    context.system = itemData.system;
-    context.flags = itemData.flags;
-
-    // V13 Asynchronous ProseMirror Data
-    // THE FIX: Exactly mirroring the Actor Sheet's working logic!
-    context.enrichedDescription = await TextEditor.enrichHTML(context.system.description || "", {
-      async: true,
-      secrets: this.item.isOwner,
-      relativeTo: this.item
-    });
+    context.owner = this.document.isOwner;
 
     return context;
   }
