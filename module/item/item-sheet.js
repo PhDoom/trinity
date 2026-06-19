@@ -1,6 +1,6 @@
 /**
  * Trinity Continuum Item Sheet (Master)
- * Restored with Raw String Injection to Bypass V13 ProseMirror Crashes
+ * V14 Compliant - Full Text Enrichment Restored
  */
 
 export class TrinityItemSheet extends ItemSheet {
@@ -11,7 +11,7 @@ export class TrinityItemSheet extends ItemSheet {
       classes: ["trinity-app", "sheet", "item"],
       width: 520,
       height: 520,
-      // RESTORED: Tabs array is required so item-sheet.html doesn't hide the editor[cite: 1]
+      // RESTORED: From Original Code to prevent display crashes on complex items[cite: 1]
       tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "description" }]
     });
   }
@@ -29,14 +29,17 @@ export class TrinityItemSheet extends ItemSheet {
     context.system = context.item.system;
     context.flags = context.item.flags;
 
-    // Ensure permissions allow the editor to open and accept text[cite: 1]
+    // Pass permissions so the editor knows it is allowed to open[cite: 1]
     context.editable = this.isEditable;
     context.owner = this.document.isOwner;
 
-    // THE FIX: Provide the raw description string instead of leaving it undefined.
-    // This feeds the "always open" editor exactly what it needs to mount the typing cursor 
-    // WITHOUT triggering the V13 async registry crash.
-    context.enrichedDescription = context.system.description || "";
+    // THE V14 FIX: Mirroring the working Actor sheet exactly!
+    // V14 requires explicitly enriched strings. This replaces the 'REMOVED' comment from the original code.
+    context.enrichedDescription = await TextEditor.enrichHTML(context.system.description || "", {
+      async: true,
+      secrets: this.document.isOwner,
+      relativeTo: this.document
+    });
 
     return context;
   }
