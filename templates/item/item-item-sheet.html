@@ -1,5 +1,5 @@
-{{!-- General Item/Gear Sheet - Foundry V13 Compliant --}}
-<form class="{{cssClass}} flexcol" autocomplete="off">
+{{!-- General Item/Gear Sheet - Foundry V14 Compliant --}}
+<form class="trinity-app {{cssClass}} flexcol" autocomplete="off">
 
   {{!-- Item Sheet Header --}}
   <header class="sheet-header flexrow border-bottom pb-2 mb-2">
@@ -10,12 +10,12 @@
       </h1>
       
       <div class="item-subtitle flexrow flex-between">
-        {{!-- V13 Path: system.subType (Gear Classification) --}}
+        {{!-- V14 Path: system.subType (Gear Classification) --}}
         <div class="flex-group-left">
           <input type="text" name="system.subType" value="{{system.subType}}" placeholder="Category (e.g. Tool, Medical)"/>
         </div>
         
-        {{!-- V13 Path: system.quantity --}}
+        {{!-- V14 Path: system.quantity --}}
         <div class="item-rating flexrow flex-center" style="max-width: 120px;">
           <label class="px-1 font-weight-bold text-uppercase small">Qty</label>
           <input type="number" name="system.quantity" value="{{system.quantity}}" data-dtype="Number" style="width: 45px; text-align: center;"/>
@@ -35,8 +35,25 @@
 
     {{!-- Description Tab --}}
     <div class="tab" data-group="primary" data-tab="description">
-      {{!-- V13 ProseMirror Editor --}}
-      {{editor system.description target="system.description" button=true owner=owner editable=editable engine="prosemirror"}}
+        
+        <!-- THE CSS FIX: Height set to 750px for a massive reading and typing area -->
+        <style>
+            .trinity-app prose-mirror {
+                display: block;
+                width: 100%;
+                min-height: 750px;
+                background: rgba(0,0,0,0.02);
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                padding: 5px;
+                box-sizing: border-box;
+            }
+        </style>
+
+        <!-- V14 Rich Text Editor (Always Open) -->
+        <div class="editor" style="width: 100%;">
+            {{editor enrichedDescription target="system.description" button=false owner=owner editable=editable engine="prosemirror"}}
+        </div>
     </div>
 
     {{!-- Details Tab --}}
@@ -49,12 +66,12 @@
         <h3 class="header border-bottom mb-2">Gear Statistics</h3>
         
         <div class="grid grid-2col mb-2">
-            {{!-- V13 Path: system.cost (Purchase Level) --}}
+            {{!-- V14 Path: system.cost (Purchase Level) --}}
             <div class="form-group flexcol p-1">
                 <label class="small-label font-weight-bold">Cost</label>
                 <input type="number" name="system.cost" value="{{system.cost}}" data-dtype="Number" placeholder="0"/>
             </div>
-            {{!-- V13 Path: system.weight --}}
+            {{!-- V14 Path: system.weight --}}
             <div class="form-group flexcol p-1">
                 <label class="small-label font-weight-bold">Weight/Size</label>
                 <input type="number" name="system.weight" value="{{system.weight}}" data-dtype="Number" placeholder="0"/>
