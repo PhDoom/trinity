@@ -1,6 +1,6 @@
 /**
  * Trinity Continuum Item Sheet (Master)
- * V14 Compliant - Full Text Enrichment Restored
+ * V14 Compliant - Expanded Auto-Scaling Editors (400px) and Restored Tabs
  */
 
 export class TrinityItemSheet extends ItemSheet {
@@ -10,8 +10,7 @@ export class TrinityItemSheet extends ItemSheet {
     return foundry.utils.mergeObject(super.defaultOptions, {
       classes: ["trinity-app", "sheet", "item"],
       width: 520,
-      height: 520,
-      // RESTORED: From Original Code to prevent display crashes on complex items[cite: 1]
+      height: 700, // <--- INCREASED: Taller default window to fit the larger text box
       tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "description" }]
     });
   }
@@ -25,16 +24,14 @@ export class TrinityItemSheet extends ItemSheet {
   async getData(options) {
     const context = await super.getData(options);
     
-    // Map system data cleanly[cite: 1]
+    // Map system data cleanly
     context.system = context.item.system;
     context.flags = context.item.flags;
 
-    // Pass permissions so the editor knows it is allowed to open[cite: 1]
     context.editable = this.isEditable;
     context.owner = this.document.isOwner;
 
-    // THE V14 FIX: Mirroring the working Actor sheet exactly!
-    // V14 requires explicitly enriched strings. This replaces the 'REMOVED' comment from the original code.
+    // V14 REQUIRES explicitly enriched strings. Mirroring the working Actor sheet!
     context.enrichedDescription = await TextEditor.enrichHTML(context.system.description || "", {
       async: true,
       secrets: this.document.isOwner,
@@ -47,6 +44,19 @@ export class TrinityItemSheet extends ItemSheet {
   /** @override */
   activateListeners(html) {
     super.activateListeners(html);
+    
+    // EXPANDED EDITOR FIX
+    // Dynamically applies the CSS directly to the editor from the Javascript.
+    // Prevents the 0-pixel collapse on new items and provides a larger 400px typing area.
+    html.find('prose-mirror, .editor-content').css({
+      'min-height': '400px', // <--- INCREASED: Doubled for easier reading and writing
+      'display': 'block',
+      'border': '1px solid #ccc',
+      'border-radius': '5px',
+      'padding': '5px',
+      'background': 'rgba(0,0,0,0.02)'
+    });
+
     if (!this.isEditable) return;
 
     html.find('.pip').click(this._onPipClick.bind(this));
