@@ -32,8 +32,8 @@ export class TrinityItemSheet extends ItemSheet {
     context.editable = this.isEditable;
     context.owner = this.item.isOwner;
 
-    // THE FIX: Use the native V13 TextEditor path to silence warnings 
-    // and restore the 'enrichedDescription' data your items are expecting!
+    // THE FIX: Use the native V13 TextEditor path the console requested
+    // This restores the 'enrichedDescription' data your items are expecting!
     const EditorClass = foundry.applications?.ui?.TextEditor?.Implementation || TextEditor;
     
     context.enrichedDescription = await EditorClass.enrichHTML(context.system.description || "", {
