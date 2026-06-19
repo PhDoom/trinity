@@ -184,10 +184,10 @@ export class TrinityActorSheet extends ActorSheet {
     if (type === "quantumpower") name = "New Quantum Power";
     if (type === "skilltrick") name = "New Skill Trick";
 
+    // REPAIRED: Removed the system override so template.json generates the description field
     const itemData = {
       name: name,
-      type: type,
-      system: {} 
+      type: type
     };
     
     return await this.actor.createEmbeddedDocuments("Item", [itemData], { renderSheet: true });
