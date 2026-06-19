@@ -1,6 +1,6 @@
 /**
  * Trinity Continuum Item Sheet (Master)
- * Restored using Original Code + Actor Sheet Logic
+ * Restored with Raw String Injection to Bypass V13 ProseMirror Crashes
  */
 
 export class TrinityItemSheet extends ItemSheet {
@@ -11,8 +11,7 @@ export class TrinityItemSheet extends ItemSheet {
       classes: ["trinity-app", "sheet", "item"],
       width: 520,
       height: 520,
-      // RESTORED: The tabs array from your Original Code[cite: 1]
-      // This prevents the 'display: none' crash on item-sheet.html
+      // RESTORED: Tabs array is required so item-sheet.html doesn't hide the editor[cite: 1]
       tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "description" }]
     });
   }
@@ -26,21 +25,18 @@ export class TrinityItemSheet extends ItemSheet {
   async getData(options) {
     const context = await super.getData(options);
     
-    // Map system data cleanly (From Original Code)[cite: 1]
+    // Map system data cleanly[cite: 1]
     context.system = context.item.system;
     context.flags = context.item.flags;
 
-    // Pass permissions so the Pencil Icon renders (From Original Code)[cite: 1]
+    // Ensure permissions allow the editor to open and accept text[cite: 1]
     context.editable = this.isEditable;
     context.owner = this.document.isOwner;
 
-    // THE FIX: Learning from the Biography tab!
-    // We restore TextEditor.enrichHTML to feed the exact variable your HTML files are looking for.
-    context.enrichedDescription = await TextEditor.enrichHTML(context.system.description || "", {
-      async: true,
-      secrets: this.document.isOwner,
-      relativeTo: this.document
-    });
+    // THE FIX: Provide the raw description string instead of leaving it undefined.
+    // This feeds the "always open" editor exactly what it needs to mount the typing cursor 
+    // WITHOUT triggering the V13 async registry crash.
+    context.enrichedDescription = context.system.description || "";
 
     return context;
   }
