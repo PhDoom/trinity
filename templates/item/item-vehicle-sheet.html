@@ -36,8 +36,20 @@
         <div class="form-group flexcol mt-1" style="flex: 1;">
             <label class="font-weight-bold text-blue mb-1">Description</label>
 
-            <!-- V13 Rich Text Editor (Always Open) -->
-            <div class="editor border p-1" style="background: rgba(0,0,0,0.02); min-height: 200px; border-radius: 5px;">
+            <style>
+                .trinity-app prose-mirror {
+                    display: block;
+                    width: 100%;
+                    min-height: 750px;
+                    background: rgba(0,0,0,0.02);
+                    border: 1px solid #ccc;
+                    border-radius: 5px;
+                    padding: 5px;
+                    box-sizing: border-box;
+                }
+            </style>
+
+            <div class="editor" style="width: 100%;">
                 {{editor enrichedDescription target="system.description" button=false owner=owner editable=editable engine="prosemirror"}}
             </div>
         </div>
