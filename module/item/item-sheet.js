@@ -1,6 +1,6 @@
 /**
  * Trinity Continuum Item Sheet (Master)
- * Restored to original working TextEditor configuration
+ * Restored to perfect working order with V13 Native Editor paths
  */
 
 export class TrinityItemSheet extends ItemSheet {
@@ -28,16 +28,19 @@ export class TrinityItemSheet extends ItemSheet {
     context.system = context.item.system;
     context.flags = context.item.flags;
 
-    // Pass permissions so the Pencil Icon renders
+    // Pass permissions so the editor knows you are allowed to type in it
     context.editable = this.isEditable;
-    context.owner = this.document.isOwner;
+    context.owner = this.item.isOwner;
 
-    // RESTORED: The original async enrichment that makes the text editor work!
-    context.enrichedDescription = await TextEditor.enrichHTML(context.system.description || "", {
+    // THE FIX: Use the native V13 TextEditor path to silence warnings 
+    // and restore the 'enrichedDescription' data your items are expecting!
+    const EditorClass = foundry.applications?.ui?.TextEditor?.Implementation || TextEditor;
+    
+    context.enrichedDescription = await EditorClass.enrichHTML(context.system.description || "", {
       async: true,
-      secrets: this.document.isOwner,
+      secrets: this.item.isOwner,
       rollData: this.item.getRollData(),
-      relativeTo: this.document 
+      relativeTo: this.item
     });
 
     return context;
@@ -61,6 +64,6 @@ export class TrinityItemSheet extends ItemSheet {
 
     const newValue = (currentValue === clickedIndex) ? clickedIndex - 1 : clickedIndex;
     
-    return this.document.update({ [field]: newValue });
+    return this.item.update({ [field]: newValue });
   }
 }
