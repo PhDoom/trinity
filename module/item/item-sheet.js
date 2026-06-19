@@ -1,6 +1,6 @@
 /**
  * Trinity Continuum Item Sheet (Master)
- * Updated for Foundry V13 Compatibility
+ * Updated for Foundry V13 Compatibility - Text Editor Restored
  */
 
 export class TrinityItemSheet extends ItemSheet {
@@ -23,17 +23,22 @@ export class TrinityItemSheet extends ItemSheet {
   /** @override */
   async getData(options) {
     const context = await super.getData(options);
-    
-    // Map system data cleanly
-    context.system = context.item.system;
-    context.flags = context.item.flags;
 
-    // Pass permissions so the editor knows you are allowed to type in it
-    context.editable = this.isEditable;
+    // REQUIRED: Pass these permissions to the template for the editor to function
     context.owner = this.document.isOwner;
+    context.editable = this.isEditable;
 
-    // REMOVED: TextEditor.enrichHTML to fix the V13 deprecation crash.
-    // The Handlebars template will now handle enrichment natively.
+    const itemData = context.item;
+    context.system = itemData.system;
+    context.flags = itemData.flags;
+
+    // V13 Asynchronous ProseMirror Data
+    // THE FIX: Exactly mirroring the Actor Sheet's working logic!
+    context.enrichedDescription = await TextEditor.enrichHTML(context.system.description || "", {
+      async: true,
+      secrets: this.item.isOwner,
+      relativeTo: this.item
+    });
 
     return context;
   }
