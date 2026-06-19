@@ -1,6 +1,6 @@
 /**
  * Trinity Continuum Item Sheet (Master)
- * V14 Compliant - Expanded Auto-Scaling Editors (400px) and Restored Tabs
+ * V14 Compliant - Cleaned for Native Handlebars Editor Support
  */
 
 export class TrinityItemSheet extends ItemSheet {
@@ -10,7 +10,7 @@ export class TrinityItemSheet extends ItemSheet {
     return foundry.utils.mergeObject(super.defaultOptions, {
       classes: ["trinity-app", "sheet", "item"],
       width: 520,
-      height: 700, // <--- INCREASED: Taller default window to fit the larger text box
+      height: 700, // Kept the taller window for typing comfort
       tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "description" }]
     });
   }
@@ -28,15 +28,13 @@ export class TrinityItemSheet extends ItemSheet {
     context.system = context.item.system;
     context.flags = context.item.flags;
 
+    // Pass permissions so the editor knows you are allowed to type
     context.editable = this.isEditable;
     context.owner = this.document.isOwner;
 
-    // V14 REQUIRES explicitly enriched strings. Mirroring the working Actor sheet!
-    context.enrichedDescription = await TextEditor.enrichHTML(context.system.description || "", {
-      async: true,
-      secrets: this.document.isOwner,
-      relativeTo: this.document
-    });
+    // THE FIX: TextEditor.enrichHTML has been entirely removed.
+    // By updating your HTML to use {{editor system.description...}}, 
+    // Foundry V14 natively handles the rendering without requiring JS hacks!
 
     return context;
   }
@@ -44,19 +42,6 @@ export class TrinityItemSheet extends ItemSheet {
   /** @override */
   activateListeners(html) {
     super.activateListeners(html);
-    
-    // EXPANDED EDITOR FIX
-    // Dynamically applies the CSS directly to the editor from the Javascript.
-    // Prevents the 0-pixel collapse on new items and provides a larger 400px typing area.
-    html.find('prose-mirror, .editor-content').css({
-      'min-height': '400px', // <--- INCREASED: Doubled for easier reading and writing
-      'display': 'block',
-      'border': '1px solid #ccc',
-      'border-radius': '5px',
-      'padding': '5px',
-      'background': 'rgba(0,0,0,0.02)'
-    });
-
     if (!this.isEditable) return;
 
     html.find('.pip').click(this._onPipClick.bind(this));
