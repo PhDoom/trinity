@@ -1,4 +1,4 @@
-{{!-- Anima Mini-Sheet Partial - Foundry V13 Compliant --}}
+{{!-- Anima Mini-Sheet Partial - Foundry V14 Compliant --}}
 <div class="anima-sheet-section p-2" style="border: 2px solid #4a5568; border-radius: 8px; background: #f7fafc;">
     <h2 class="header text-center" style="color: #2d3748; border-bottom: 2px solid #cbd5e0;">Anima Virtual Avatar</h2>
 
@@ -254,7 +254,8 @@
                     {{#each aspects as |item id|}}
                     <div class="item flexrow flex-between p-1 border-bottom align-center" data-item-id="{{item._id}}">
                         <div class="item-name flexrow align-center">
-                            <img src="{{item.img}}" title="Click to view {{item.name}}" class="item-edit" width="24" height="24" style="cursor: pointer; margin-right: 8px;"/>
+                            <!-- FIX APPLIED HERE: Image forced to 24x24 square -->
+                            <img src="{{item.img}}" title="Click to view {{item.name}}" class="item-edit" width="24" height="24" style="width: 24px; height: 24px; flex: 0 0 24px; object-fit: cover; border-radius: 3px; cursor: pointer; margin-right: 8px;"/>
                             <h4 class="m-0 rollable" data-roll-type="item"><a>{{item.name}}</a></h4>
                         </div>
                         <div class="item-controls">
@@ -278,7 +279,8 @@
                     {{#each buffs as |item id|}}
                     <div class="item flexrow flex-between p-1 border-bottom align-center" data-item-id="{{item._id}}">
                         <div class="item-name flexrow align-center">
-                            <img src="{{item.img}}" title="Click to view {{item.name}}" class="item-edit" width="24" height="24" style="cursor: pointer; margin-right: 8px;"/>
+                            <!-- FIX APPLIED HERE: Image forced to 24x24 square -->
+                            <img src="{{item.img}}" title="Click to view {{item.name}}" class="item-edit" width="24" height="24" style="width: 24px; height: 24px; flex: 0 0 24px; object-fit: cover; border-radius: 3px; cursor: pointer; margin-right: 8px;"/>
                             <h4 class="m-0 rollable" data-roll-type="item"><a>{{item.name}}</a></h4>
                         </div>
                         <div class="flexrow align-center">
