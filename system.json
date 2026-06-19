@@ -2,8 +2,8 @@
   "id": "trinity",
   "title": "Trinity",
   "name": "trinity",
-  "version": "1.6.3",
-  "description": "Storypath sytem for the Trinity Continuum games Aeon, Aberrant, Adventure, Aether, Anima, and Aegis for Foundry V14.",
+  "version": "1.6.4",
+  "description": "Storypath sytem for the Trinity Continuum games Aeon, Aberrant, Adventure, Aether, Anima, Aegis and Assassin for Foundry V14.",
   "authors": [
     {
       "name": "PhDoom"
