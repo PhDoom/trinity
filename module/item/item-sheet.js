@@ -1,45 +1,41 @@
 /**
  * Trinity Continuum Item Sheet (Master)
- * V14 Compliant - Cleaned for Native Handlebars Editor Support
+ * Built for V14 Native Web Component Architecture
  */
 
 export class TrinityItemSheet extends ItemSheet {
 
-  /** @override */
   static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
       classes: ["trinity-app", "sheet", "item"],
       width: 520,
-      height: 700, // Kept the taller window for typing comfort
+      height: 600, // Height expanded to accommodate the permanent editor
       tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "description" }]
     });
   }
 
-  /** @override - Route items dynamically based on their specific type! */
   get template() {
     return `systems/trinity/templates/item/item-${this.item.type}-sheet.html`;
   }
 
-  /** @override */
   async getData(options) {
     const context = await super.getData(options);
     
-    // Map system data cleanly
-    context.system = context.item.system;
-    context.flags = context.item.flags;
-
-    // Pass permissions so the editor knows you are allowed to type
+    context.system = this.item.system;
+    context.flags = this.item.flags;
     context.editable = this.isEditable;
-    context.owner = this.document.isOwner;
+    context.owner = this.item.isOwner;
 
-    // THE FIX: TextEditor.enrichHTML has been entirely removed.
-    // By updating your HTML to use {{editor system.description...}}, 
-    // Foundry V14 natively handles the rendering without requiring JS hacks!
+    // V14 Enrichment is required to initialize the ProseMirror Web Component properly
+    context.enrichedDescription = await TextEditor.enrichHTML(this.item.system.description || "", {
+      async: true,
+      secrets: this.item.isOwner,
+      relativeTo: this.item // Essential for parsing Drag-and-Drop UUID links
+    });
 
     return context;
   }
 
-  /** @override */
   activateListeners(html) {
     super.activateListeners(html);
     if (!this.isEditable) return;
@@ -47,7 +43,6 @@ export class TrinityItemSheet extends ItemSheet {
     html.find('.pip').click(this._onPipClick.bind(this));
   }
 
-  /** Handle clicking on a pip/dot to set the item's value */
   _onPipClick(event) {
     event.preventDefault();
     const element = event.currentTarget;
@@ -57,6 +52,6 @@ export class TrinityItemSheet extends ItemSheet {
 
     const newValue = (currentValue === clickedIndex) ? clickedIndex - 1 : clickedIndex;
     
-    return this.document.update({ [field]: newValue });
+    return this.item.update({ [field]: newValue });
   }
 }
