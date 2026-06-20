@@ -32,7 +32,7 @@ Some code was obtained from other sources:
 - Custom combat class adapted from a sample by Tommycore. (https://discordapp.com/channels/170995199584108546/670336275496042502/893041317637132288)
 - Combat elements adapted from Combat-Modify-Initiative by taMiF (https://github.com/taMiF/Combat-Modify-Initiative) and sample code from Rysarian. (https://discordapp.com/channels/170995199584108546/718281676333252660/939977489822933042)
 - And many, many more. Big thanks to the Discord community!
-- This system was modified from the system created by RandomCard: https://github.com/randomcard/trinity
+- This system was modified from the excellent system created by RandomCard: https://github.com/randomcard/trinity 
 
 Some graphics adapted from:
 - https://game-icons.net/. CC BY 3.0 License: http://creativecommons.org/licenses/by/3.0/.
