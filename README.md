@@ -4,7 +4,7 @@ Unofficial Foundry Virtual Tabletop implementation of the Trinity Continuum Core
 
 ## Info
 
-This system was built from RandomCards original system. I'm not a coder and used Gemini AI to update the system to Foundry v14 and expanded it.
+This system was built from RandomCards original system. Full disclosure and transparency as i know there are strong feelings towards AI. I'm not a coder and used Gemini AI to update the system to Foundry v14 and expanded it, meaning tha Gemini wrote the code.
 
 ## How to Use
 
