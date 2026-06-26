@@ -65,12 +65,18 @@
             {{> "systems/trinity/templates/actor/partials/gear.html"}}
         </div>
 
-        {{!-- NPC Notes Tab (FIXED EDITOR) --}}
+        {{!-- NPC Notes Tab (FIXED EDITOR WITH IMAGE FIELD) --}}
         <div class="tab notes" data-group="primary" data-tab="notes">
             <div class="flexcol w-100 p-1 border" style="border-radius: 5px; background: rgba(0,0,0,0.02); height: 100%;">
                 <h3 class="header m-0 mb-1 text-blue">NPC Notes & Details</h3>
                 <div class="editor" style="min-height: 400px; padding: 5px; background: #fff; border: 1px solid #ccc;">
                     {{editor enrichedBiography target="system.biography" button=false owner=owner editable=editable engine="prosemirror"}}
+                </div>
+                
+                {{!-- NPC Image Field --}}
+                <div class="npc-portrait-container flexcol" style="align-items: center; margin-top: 15px; padding: 5px;">
+                    <span style="font-weight: bold; margin-bottom: 5px; color: #191813;">NPC Portrait</span>
+                    <img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" style="max-width: 250px; max-height: 250px; border: 1px solid #ccc; border-radius: 5px; cursor: pointer; object-fit: contain; background-color: #eee;" />
                 </div>
             </div>
         </div>
